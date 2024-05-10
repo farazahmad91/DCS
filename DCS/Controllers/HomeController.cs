@@ -17,7 +17,12 @@ namespace SDClinic.Controllers
         {
             return View();
         }
-        [Route("Contact-us")]
+        [Route("APIViews")]
+		public IActionResult APIViews()
+		{
+			return View();
+		}
+		[Route("Contact-us")]
         public IActionResult Contact(string Name, string Address)
         {
             return View();
