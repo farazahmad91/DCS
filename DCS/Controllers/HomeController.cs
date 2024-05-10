@@ -12,8 +12,8 @@ namespace SDClinic.Controllers
         {
             _logger = logger;
         }
-        [Route("/")]
-        public IActionResult Index()
+        //[Route("/")]
+        public IActionResult Home()
         {
             return View();
         }

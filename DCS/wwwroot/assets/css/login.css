@@ -1,0 +1,109 @@
+/************************************************
+	************************************************
+				1. Importing Sass Variables
+	************************************************
+************************************************/
+/************************************************
+	************************************************
+				2. Importing Web Fonts
+	************************************************
+************************************************/
+@font-face {
+  font-family: "Rubik Mono One";
+  src: url("../fonts/rubik-mono/RubikMonoOne-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-style: normal;
+  font-display: swap;
+}
+.login-container {
+  background: #eaf3f0;
+  display: flex;
+  align-items: start;
+}
+
+.maintenance-page {
+  background: #eaf3f0;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+}
+
+/************* Login *************/
+.login-box {
+  background: #ffffff;
+  margin: 3rem auto 3rem auto;
+  width: 450px;
+  min-height: 320px;
+}
+.login-box .login-logo {
+  display: flex;
+}
+.login-box .login-logo img {
+  width: 180px;
+}
+.login-box .btn img.login-icon {
+  width: 30px;
+  height: 30px;
+}
+.login-box .login-form-footer {
+  border-top: 1px solid #ffffff;
+}
+
+@media (max-width: 576px) {
+  .login-box {
+    padding: 30px 20px 30px 20px;
+    width: auto;
+  }
+}
+/******** Maintenance Screen ********/
+.maintenance-screen {
+  background: #1c6148;
+  color: #ffffff;
+  background-attachment: fixed;
+  background-image: radial-gradient(92% 85% at 89% 80%, rgba(0, 0, 0, 0.23) 0%, transparent 86.18%), radial-gradient(60% 85% at 25% 20%, rgba(255, 255, 255, 0.41) 0%, rgba(255, 255, 255, 0) 69.79%, rgba(255, 255, 255, 0) 100%) !important;
+  box-shadow: 25 rgba(0, 0, 0, 0.2);
+}
+.maintenance-screen h1 {
+  font-size: 5rem;
+}
+.maintenance-screen .btn {
+  padding: 0.7rem 1.8rem;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  color: #ffffff;
+  background: transparent;
+  border: 2px solid #ffffff;
+}
+.maintenance-screen .btn:hover {
+  color: #1c6148;
+  background: #ffffff;
+  border: 2px solid #ffffff;
+}
+
+/************* Error Page *************/
+.error-screen {
+  background: #e22132;
+  color: #ffffff;
+  background-attachment: fixed;
+  background-image: radial-gradient(92% 85% at 89% 80%, rgba(0, 0, 0, 0.23) 0%, transparent 86.18%), radial-gradient(60% 85% at 25% 20%, rgba(255, 255, 255, 0.41) 0%, rgba(255, 255, 255, 0) 69.79%, rgba(255, 255, 255, 0) 100%) !important;
+  box-shadow: 25 rgba(0, 0, 0, 0.2);
+}
+.error-screen h1 {
+  font-family: Rubik Mono One;
+  font-size: 15rem;
+}
+.error-screen .btn {
+  padding: 0.7rem 1.8rem;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  color: #ffffff;
+  background: transparent;
+  border: 2px solid #ffffff;
+}
+.error-screen .btn:hover {
+  color: #e22132;
+  background: #ffffff;
+  border: 2px solid #ffffff;
+}
