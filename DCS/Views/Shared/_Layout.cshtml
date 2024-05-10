@@ -8,51 +8,433 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Meta -->
+	<meta name="description" content="@project.ProjectName" />
+    <meta name="author" content="Bootstrap Gallery" />
+    <link rel="canonical" href="https://www.bootstrap.gallery/">
+    <meta property="og:url" content="https://www.bootstrap.gallery">
+	<meta property="og:title" content="Admin @project.ProjectName">
+    <meta property="og:description" content="Marketplace for Bootstrap Admin Dashboards">
+    <meta property="og:type" content="Website">
+    <meta property="og:site_name" content="Bootstrap Gallery">
+    <link rel="shortcut icon" href="~/assets/images/favicon.svg" />
     <title>@project.ProjectName</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/DCS.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/assets/fonts/bootstrap/bootstrap-icons.css" />
+    <link rel="stylesheet" href="~/assets/css/main.min.css" />
+    <link rel="stylesheet" href="~/assets/vendor/overlay-scroll/OverlayScrollbars.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@project.ProjectName</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" value="" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+	<div class="page-wrapper">
+
+		<!-- Page header starts -->
+		<div class="page-header">
+
+			<div class="toggle-sidebar" id="toggle-sidebar">
+				<i class="bi bi-list"></i>
+			</div>
+
+			<!-- Header actions ccontainer start -->
+			<div class="header-actions-container">
+
+				<!-- Search container start -->
+				<div class="search-container me-4 d-xl-block d-lg-none">
+
+					<!-- Search input group start -->
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="Search" />
+						<button class="btn btn-outline-secondary" type="button">
+							<i class="bi bi-search"></i>
+						</button>
+					</div>
+					<!-- Search input group end -->
+
+				</div>
+				<!-- Search container end -->
+				<!-- Header actions start -->
+				<div class="header-actions d-xl-flex d-lg-none gap-4">
+					<div class="dropdown">
+						<a class="dropdown-toggle" href="#!" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							<i class="bi bi-chat-text fs-5 lh-1"></i>
+							<span class="count-label"></span>
+						</a>
+						</a>
+						<div class="dropdown-menu dropdown-menu-end shadow-lg">
+							<div class="dropdown-item">
+								<div class="d-flex py-2 border-bottom">
+									<img src="~/assets/images/user.png" class="img-3x me-3 rounded-3" alt="Admin Dashboards" />
+									<div class="m-0">
+										<h6 class="mb-1 fw-semibold">Araceli Barrera</h6>
+										<p class="mb-1">Membership has been ended.</p>
+										<p class="small m-0 text-secondary">Today, 07:30pm</p>
+									</div>
+								</div>
+							</div>
+							<div class="dropdown-item">
+								<div class="d-flex py-2 border-bottom">
+									<img src="~/assets/images/user2.png" class="img-3x me-3 rounded-3" alt="Admin Dashboards" />
+									<div class="m-0">
+										<h6 class="mb-1 fw-semibold">Hershel Nixon</h6>
+										<p class="mb-1">Congratulate, James for new job.</p>
+										<p class="small m-0 text-secondary">Today, 08:00pm</p>
+									</div>
+								</div>
+							</div>
+							<div class="dropdown-item">
+								<div class="d-flex py-2">
+									<img src="~/assets/images/user1.png" class="img-3x me-3 rounded-3" alt="Admin Dashboards" />
+									<div class="m-0">
+										<h6 class="mb-1 fw-semibold">Lottie Caldwell</h6>
+										<p class="mb-1">Lewis added new schedule release.</p>
+										<p class="small m-0 text-secondary">Today, 09:30pm</p>
+									</div>
+								</div>
+							</div>
+							<div class="d-grid mx-3 my-1">
+								<a href="javascript:void(0)" class="btn btn-primary">View all</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Header actions start -->
+				<!-- Header profile start -->
+				<div class="header-profile d-flex align-items-center">
+					<div class="dropdown">
+						<a href="#" id="userSettings" class="user-settings" data-toggle="dropdown" aria-haspopup="true">
+							<span class="user-name d-none d-md-block">Roslyn Jackson</span>
+							<span class="avatar">
+								<img src="~/assets/images/user4.png" alt="Admin Panel" />
+								<span class="status online"></span>
+							</span>
+						</a>
+						<div class="dropdown-menu dropdown-menu-end" aria-labelledby="userSettings">
+							<div class="header-profile-actions">
+								<a href="profile.html">Profile</a>
+								<a href="account-settings.html">Settings</a>
+								<a href="login.html">Logout</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Header profile end -->
+
+			</div>
+			<!-- Header actions ccontainer end -->
+
+		</div>
+		<!-- Page header ends -->
+		<!-- Main container start -->
+		<div class="main-container">
+
+			<!-- Sidebar wrapper start -->
+			<nav class="sidebar-wrapper">
+
+				<!-- Sidebar brand starts -->
+				<div class="brand">
+					<a href="index.html" class="logo">
+						<img src="~/assets/images/logo.svg" class="d-none d-md-block me-4" alt="DCS Admin Dashboard" />
+						<img src="~/assets/images/logo-sm.svg" class="d-block d-md-none me-4" alt="DCS Admin Dashboard" />
+					</a>
+				</div>
+				<!-- Sidebar brand ends -->
+				<!-- Sidebar quicklinks starts -->
+				<div class="sidebar-quick-links">
+					<h6 class="fw-light mt-5 mb-3 text-center text-white">
+						Quick Links
+					</h6>
+					<div class="quick-links">
+						<a href="profile.html" class="shade-primary" data-bs-toggle="tooltip" data-bs-title="Profile"
+						   data-bs-custom-class="custom-tooltip-red">
+							<i class="bi bi-trophy"></i>
+						</a>
+						<a href="account-settings.html" class="shade-primary" data-bs-toggle="tooltip" data-bs-title="Settings"
+						   data-bs-custom-class="custom-tooltip-red">
+							<i class="bi bi-nut"></i>
+						</a>
+						<a href="calendar.html" class="shade-red" data-bs-toggle="tooltip" data-bs-title="Calendar"
+						   data-bs-custom-class="custom-tooltip-red">
+							<i class="bi bi-calendar4"></i>
+						</a>
+					</div>
+				</div>
+				<!-- Sidebar quicklinks ends -->
+				<!-- Sidebar menu starts -->
+				<div class="sidebar-menu">
+					<div class="sidebarMenuScroll">
+						<ul>
+							<li class="active-page-link">
+								<a href="index.html">
+									<i class="bi bi-house"></i>
+									<span class="menu-text">Dashboard</span>
+								</a>
+							</li>
+							<li>
+								<a href="widgets.html">
+									<i class="bi bi-calendar-day-fill"></i>
+									<span class="menu-text">Appointment</span>
+								</a>
+							</li>
+							<li class="sidebar-dropdown">
+								<a href="#">
+									<i class="bi bi-person-fill"></i>
+									<span class="menu-text">Patient</span>
+									<span class="badge red">15</span>
+								</a>
+								<div class="sidebar-submenu">
+									<ul>
+										<li>
+											<a href="accordions.html">Patient</a>
+										</li>
+										<li>
+											<a href="alerts.html">PatientService</a>
+										</li>
+										<li>
+											<a href="buttons.html">MedicalHistory</a>
+										</li>
+									</ul>
+								</div>
+							</li>
+							<li class="sidebar-dropdown">
+								<a href="#">
+									<i class="fa fa-user-md"></i>
+									<span class="menu-text">Dentist</span>
+									<span class="badge red">15</span>
+								</a>
+								<div class="sidebar-submenu">
+									<ul>
+										<li>
+											<a href="accordions.html">Dentist</a>
+										</li>
+										@* <li>
+											<a href="alerts.html">PatientService</a>
+										</li>
+										<li>
+											<a href="buttons.html">MedicalHistory</a>
+										</li> *@
+									</ul>
+								</div>
+							</li>
+							<li>
+								<a href="data-tables.html">
+									<i class="bi bi-credit-card-fill"></i>
+									<span class="menu-text">Payment</span>
+								</a>
+							</li>
+							<li>
+								<a href="tables.html">
+									<i class="fa fa-medkit"></i>
+									<span class="menu-text">Treatment</span>
+								</a>
+							</li>
+							<li>
+								<a href="tables.html">
+									<i class="bi bi-wrench"></i>
+									<span class="menu-text">Services</span>
+								</a>
+							</li>
+						
+							<li class="sidebar-dropdown">
+								<a href="#">
+									<i class="bi bi-envelope-fill"></i>
+									<span class="menu-text"> Message Box</span>
+									<span class="badge green">15</span>
+								</a>
+								<div class="sidebar-submenu">
+									<ul>
+										<li>
+											<a href="apex.html">Inbox</a>
+										</li>
+										<li>
+											<a href="morris.html">Compose</a>
+										</li>
+										<li>
+											<a href="maps.html">Review</a>
+										</li>
+									</ul>
+								</div>
+							</li>
+							<li>
+								<a href="login.html">
+									<i class="bi bi-receipt"></i>
+									<span class="menu-text">Invoice</span>
+								</a>
+							</li>
+							
+							<li>
+								<a href="error.html">
+									<i class="bi bi-people-fill"></i>
+									<span class="menu-text">Manage Staff</span>
+								</a>
+							</li>
+							<li>
+								<a href="error.html">
+									<i class="fa fa-gift"></i>
+									<span class="menu-text">Offer</span>
+								</a>
+							</li>
+							<li>
+								<a href="signup.html">
+									<i class="fa fa-question-circle"></i>
+									<span class="menu-text">FAQ</span>
+								</a>
+							</li>
+							<li>
+								<a href="forgot-password.html">
+									<i class="bi bi-clock-fill"></i>
+									<span class="menu-text">Clinic Time</span>
+								</a>
+							</li>
+							<li class="sidebar-dropdown">
+								<a href="#">
+									<i class="bi bi-DCS-fill"></i>
+									<span class="menu-text">Master-Setting</span>
+									<span class="badge red">15</span>
+								</a>
+								<div class="sidebar-submenu">
+									<ul>
+										<li>
+											<a href="alerts.html">Manage Project</a>
+										</li>
+										 <li>
+											<a href="buttons.html">Manage Clients</a>
+										</li>
+										<li>
+											<a href="buttons.html">Policies</a>
+										</li>
+									</ul>
+								</div>
+								
+							</li>
+							<li class="sidebar-dropdown">
+								<a href="#">
+									<i class="bi bi-DCS-fill"></i>
+									<span class="menu-text">Setting</span>
+									<span class="badge red">15</span>
+								</a>
+								<div class="sidebar-submenu">
+									<ul>
+										<li>
+											<a href="buttons.html">Manage Users</a>
+										</li>
+
+										<li>
+											<a href="alerts.html">Banners</a>
+										</li>
+										<li>
+											<a href="buttons.html">Policies</a>
+										</li>
+									</ul>
+								</div>
+
+							</li>
+							<li>
+								<a href="maintenance.html">
+									<i class="bi bi-exclamation-octagon"></i>
+									<span class="menu-text">Maintenance</span>
+								</a>
+							</li>
+							<li>
+								<a href="support.html">
+									<i class="bi bi-code-square"></i>
+									<span class="menu-text">Support</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- Sidebar menu ends -->
+
+			</nav>
+			<!-- Sidebar wrapper end -->
+			<!-- Content wrapper scroll start -->
+			<div class="content-wrapper-scroll">
+
+				<!-- Main header starts -->
+				<div class="main-header">
+					<div class="d-flex align-items-center justify-content-center">
+						<div class="page-icon">
+							<i class="bi bi-house"></i>
+						</div>
+						<div class="page-title d-none d-md-block">
+							<h5>Welcome back, DCS</h5>
+						</div>
+					</div>
+					<!-- Live updates start -->
+					<ul class="updates d-flex align-items-end flex-column overflow-hidden" id="updates">
+						<li>
+							<a href="javascript:void(0)">
+								<i class="bi bi-envelope-paper text-primary font-1x me-2"></i>
+								<span>12 emails from DCS Michaiah.</span>
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)">
+								<i class="bi bi-bar-chart text-primary font-1x me-2"></i>
+								<span>15 new features updated successfully.</span>
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)">
+								<i class="bi bi-folder-check text-primary font-1x me-2"></i>
+								<span>The media folder is created successfully.</span>
+							</a>
+						</li>
+					</ul>
+					
+					<hr /><!-- Live updates end -->
+				</div>
+				
             @RenderBody()
-        </main>
-    </div>
+			</div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; @DateTime.Now.Year - @project.ProjectName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <div class="alert-container"></div>
+			<div class="app-footer">
+				<span>© Bootstrap Gallery 2023</span>
+			</div>
+			<!-- App footer end -->
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+		</div>
+		<!-- Main container end -->
+
+	</div>
+	<!-- Page wrapper end -->
+		<!-- *************
+			************ Required JavaScript Files *************
+		************* -->
+		<!-- Required jQuery first, then Bootstrap Bundle JS -->
+		<script src="~/assets/js/jquery.min.js"></script>
+		<script src="~/assets/js/bootstrap.bundle.min.js"></script>
+		<script src="~/assets/js/modernizr.js"></script>
+		<script src="~/assets/js/moment.js"></script>
+
+		<!-- *************
+			************ Vendor Js Files *************
+		************* -->
+		<!-- Overlay Scroll JS -->
+		<script src="~/assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+		<script src="~/assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+		<!-- News ticker -->
+		<script src="~/assets/vendor/newsticker/newsTicker.min.js"></script>
+		<script src="~/assets/vendor/newsticker/custom-newsTicker.js"></script>
+
+		<!-- Apex Charts -->
+		<script src="~/assets/vendor/apex/apexcharts.min.js"></script>
+		<script src="~/assets/vendor/apex/custom/dash1/sparkline.js"></script>
+		<script src="~/assets/vendor/apex/custom/dash1/projects.js"></script>
+		<script src="~/assets/vendor/apex/custom/dash1/visits.js"></script>
+		<script src="~/assets/vendor/apex/custom/dash1/analytics.js"></script>
+		<script src="~/assets/vendor/apex/custom/dash1/revenue.js"></script>
+		<script src="~/assets/vendor/apex/custom/dash1/leads.js"></script>
+		<script src="~/assets/vendor/apex/custom/dash1/sales.js"></script>
+		<script src="~/assets/vendor/apex/custom/dash1/transactions.js"></script>
+		<script src="~/assets/vendor/apex/custom/dash1/transactions2.js"></script>
+		<script src="~/assets/vendor/apex/custom/dash1/analytics-sparkline.js"></script>
+
+		<!-- Main Js Required -->
+		<script src="~/assets/js/main.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
