@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace SDClinic.Controllers
+namespace DCS.Controllers
 {
     public class AppointmentController : Controller
     {
-        [Route("/Appointment")]
+        
         public IActionResult Appointment()
         {
             return View();

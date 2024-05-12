@@ -1,4 +1,4 @@
-﻿namespace SDClinic.AppCode.Configuration
+﻿namespace DCS.AppCode.Configuration
 {
     public class ApplicationSetting
     {

@@ -1,5 +1,5 @@
-﻿@using SDClinic.AppCode.Configuration
-@using SDClinic.Layout
+﻿@using DCS.AppCode.Configuration
+@using DCS.Layout
 @model Project
 @{
     Project project = new Project();
@@ -172,7 +172,7 @@
 								</a>
 							</li>
 							<li>
-								<a href="/User">
+								<a href="/">
 									<i class="bi bi-calendar-day-fill"></i>
 									<span class="menu-text">Appointment</span>
 								</a>
@@ -396,7 +396,7 @@
 			</div>
 
 			<div class="app-footer">
-				<span>© Bootstrap Gallery 2023</span>
+				<span>&copy; @project.ProjectName All Rights Reserved. @DateTime.Now.Year</span>
 			</div>
 			<!-- App footer end -->
 

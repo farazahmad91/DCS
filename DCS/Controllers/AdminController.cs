@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace SDClinic.Controllers
+namespace DCS.Controllers
 {
     public class AdminController : Controller
     {

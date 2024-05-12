@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using SDClinic.Models;
+using DCS.Models;
 using System.Diagnostics;
 
-namespace SDClinic.Controllers
+namespace DCS.Controllers
 {
     public class HomeController : Controller
     {
@@ -12,7 +12,7 @@ namespace SDClinic.Controllers
         {
             _logger = logger;
         }
-        [Route("/User")]
+        [Route("/")]
         public IActionResult Index()
         {
             return View();
@@ -22,18 +22,52 @@ namespace SDClinic.Controllers
 		{
 			return View();
 		}
-		[Route("Contact-us")]
-        public IActionResult Contact(string Name, string Address)
+        [Route("appointment")]
+        public IActionResult Appointments()
         {
             return View();
         }
-        [Route("Privacy")]
+
+        [Route("contact-us")]
+        public IActionResult Contact()
+        {
+            return View();
+        }
+        [Route("about-us")]
+        public IActionResult aboutus()
+        {
+            return View();
+        }
+
+
+        [Route("privacy")]
         public IActionResult Privacy()
         {
             return View();
         }
 
-        
+        [Route("pricing-plan")]
+        public IActionResult PricingPlan()
+        {
+            return View();
+        }
+        [Route("service")]
+        public IActionResult Service()
+        {
+            return View();
+        }
+
+        [Route("dentist")]
+        public IActionResult Dentist()
+        {
+            return View();
+        }
+
+        [Route("testimonial")]
+        public IActionResult Testimonial()
+        {
+            return View();
+        }
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
