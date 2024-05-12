@@ -4,7 +4,7 @@ namespace DCS.Controllers
 {
     public class AppointmentController : Controller
     {
-        [Route("/Appointment")]
+        
         public IActionResult Appointment()
         {
             return View();

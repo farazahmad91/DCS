@@ -22,18 +22,52 @@ namespace DCS.Controllers
 		{
 			return View();
 		}
-		[Route("Contact-us")]
-        public IActionResult Contact(string Name, string Address)
+        [Route("appointment")]
+        public IActionResult Appointments()
         {
             return View();
         }
-        [Route("Privacy")]
+
+        [Route("contact-us")]
+        public IActionResult Contact()
+        {
+            return View();
+        }
+        [Route("about-us")]
+        public IActionResult aboutus()
+        {
+            return View();
+        }
+
+
+        [Route("privacy")]
         public IActionResult Privacy()
         {
             return View();
         }
 
-        
+        [Route("pricing-plan")]
+        public IActionResult PricingPlan()
+        {
+            return View();
+        }
+        [Route("service")]
+        public IActionResult Service()
+        {
+            return View();
+        }
+
+        [Route("dentist")]
+        public IActionResult Dentist()
+        {
+            return View();
+        }
+
+        [Route("testimonial")]
+        public IActionResult Testimonial()
+        {
+            return View();
+        }
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
