@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using SDClinic.Models;
+using DCS.Models;
 using System.Diagnostics;
 
-namespace SDClinic.Controllers
+namespace DCS.Controllers
 {
     public class HomeController : Controller
     {
@@ -12,7 +12,7 @@ namespace SDClinic.Controllers
         {
             _logger = logger;
         }
-        [Route("/User")]
+        [Route("/")]
         public IActionResult Index()
         {
             return View();

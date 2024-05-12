@@ -1,4 +1,4 @@
-namespace SDClinic.Models
+namespace DCS.Models
 {
     public class ErrorViewModel
     {

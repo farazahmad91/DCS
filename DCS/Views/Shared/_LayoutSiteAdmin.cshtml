@@ -1,9 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@using DCS.AppCode.Configuration
+@using DCS.Layout
+@model Project
+@{
+    Project project = new Project();
+}
+<!DOCTYPE html>
 
 <html>
 <head>
     <meta charset="utf-8">
-    <title>DentCare - Dental Clinic Website Template</title>
+    <title>@project.ProjectName</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
@@ -58,7 +64,7 @@
             <div class="col-md-6 text-center text-lg-end">
                 <div class="position-relative d-inline-flex align-items-center bg-primary text-white top-shape px-5">
                     <div class="me-3 pe-3 border-end py-2">
-                        <p class="m-0"><i class="fa fa-envelope-open me-2"></i>info@example.com</p>
+                        <p class="m-0"><i class="fa fa-envelope-open me-2"></i>@project.Email</p>
                     </div>
                     <div class="py-2">
                         <p class="m-0"><i class="fa fa-phone-alt me-2"></i>+012 345 6789</p>
@@ -73,7 +79,7 @@
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
         <a href="index.html" class="navbar-brand p-0">
-            <h1 class="m-0 text-primary"><i class="fa fa-tooth me-2"></i>DentCare</h1>
+            <h1 class="m-0 text-primary"><i class="fa fa-tooth me-2"></i>@project.ProjectName</h1>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -210,12 +216,11 @@
         <div class="container">
             <div class="row g-0">
                 <div class="col-md-6 text-center text-md-start">
-                    <p class="mb-md-0">&copy; <a class="text-white border-bottom" href="#">Your Site Name</a>. All Rights Reserved.</p>
+                    <p class="mb-md-0">&copy; <a class="text-white border-bottom" href="#">@project.ProjectName</a>. All Rights Reserved. @DateTime.Now.Year</p>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <p class="mb-0">
-                        Designed by <a class="text-white border-bottom" href="https://htmlcodex.com">HTML Codex</a><br>
-                        Distributed by <a class="text-white border-bottom" href="https://themewagon.com">ThemeWagon</a>
+                        Designed by <a class="text-white border-bottom">@project.ProjectName</a>
                     </p>
                 </div>
             </div>

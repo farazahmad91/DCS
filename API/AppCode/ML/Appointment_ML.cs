@@ -2,7 +2,7 @@
 using API.AppCode.IML;
 using API.AppCode.IService;
 using Entities;
-using SDClinic.Models;
+using DCS.Models;
 
 namespace API.AppCode.ML
 {

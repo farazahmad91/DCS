@@ -1,7 +1,7 @@
 ﻿using API.AppCode.IML;
 using Entities;
-using SDClinic.AppCode.Configuration;
-using SDClinic.Models;
+using DCS.AppCode.Configuration;
+using DCS.Models;
 
 namespace API.AppCode.DL
 {

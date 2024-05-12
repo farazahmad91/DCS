@@ -1,4 +1,4 @@
-﻿namespace SDClinic.Layout
+﻿namespace DCS.Layout
 {
 	public class Project
 	{
