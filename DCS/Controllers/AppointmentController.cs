@@ -4,8 +4,8 @@ namespace DCS.Controllers
 {
     public class AppointmentController : Controller
     {
-        
-        public IActionResult Appointment()
+        [Route("/A-Index")]
+        public IActionResult Index()
         {
             return View();
         }
