@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="~/assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/assets/fonts/bootstrap/bootstrap-icons.css" />
     <link rel="stylesheet" href="~/assets/css/main.min.css" />
+	<link rel="stylesheet" href="~/dcs/css/site.css" />
     <link rel="stylesheet" href="~/assets/vendor/overlay-scroll/OverlayScrollbars.min.css" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
 </head>
@@ -146,17 +147,17 @@
 						Quick Links
 					</h6>
 					<div class="quick-links">
-						<a href="profile.html" class="shade-primary" data-bs-toggle="tooltip" data-bs-title="Profile"
+						<a href="profile.html" class="shade-primary" data-bs-toggle="tooltip" data-bs-title="Account"
 						   data-bs-custom-class="custom-tooltip-red">
-							<i class="bi bi-trophy"></i>
+							<i class="bi bi-person-fill"></i>
 						</a>
-						<a href="account-settings.html" class="shade-primary" data-bs-toggle="tooltip" data-bs-title="Settings"
+						<a href="account-settings.html" class="shade-primary" data-bs-toggle="tooltip" data-bs-title="Master-Settings"
 						   data-bs-custom-class="custom-tooltip-red">
-							<i class="bi bi-nut"></i>
+							<i class="bi bi-DCS-fill"></i>
 						</a>
-						<a href="calendar.html" class="shade-red" data-bs-toggle="tooltip" data-bs-title="Calendar"
+						<a href="calendar.html" class="shade-red" data-bs-toggle="tooltip" data-bs-title="Setting"
 						   data-bs-custom-class="custom-tooltip-red">
-							<i class="bi bi-calendar4"></i>
+							<i class="bi bi-DCS-fill"></i>
 						</a>
 					</div>
 				</div>
@@ -440,6 +441,7 @@
 
 		<!-- Main Js Required -->
 		<script src="~/assets/js/main.js"></script>
+	<script src="~/dcs/js/common.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
