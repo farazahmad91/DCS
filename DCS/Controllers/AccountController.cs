@@ -267,7 +267,30 @@ namespace DCS.Controllers
                 throw;
             }
         }
+        [Route("ForgotPassword")]
+        [HttpGet]
+        public async Task<IActionResult> ForgotPassword()
+        {
 
+            return View();
+
+        }
+        [Route("ForgotPassword")]
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(int id)
+        {
+
+            return View();
+
+        }
+
+        [Route("ValidateOTP")]
+        public async Task<IActionResult> VerifyOTP(int id)
+        {
+
+            return View();
+
+        }
         //[Route("/Profile")]
         //public async Task<IActionResult> UserProfile()
         //{
