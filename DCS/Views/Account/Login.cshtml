@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Account.cshtml";
+}
+
+<!-- Login box start -->
+<div class="container d-flex justify-content-center">
+    <div class="row d-flex justify-content-center">
+        <div class="col-12 ">
+            <div class="login-box rounded-2 p-5">
+                <div class="login-form">
+                    <a href="index.html" class="login-logo mb-3">
+                        <img src="assets/images/logo-dark.svg" alt="Bootstrap Gallery" />
+                    </a>
+                    <h5 class="my-5">Login to Account.</h5>
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label class="form-label" for="Email">Your Email</label>
+                            <input type="email" id="Email" name="Email" class="form-control" placeholder="Enter your email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="Password">Your Password</label>
+                            <input type="password" id="Password" name="Password" class="form-control" placeholder="Enter your password" required>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="form-check m-0">
+                                <input class="form-check-input" type="checkbox" value="" id="rememberPassword">
+                                <label class="form-check-label" for="rememberPassword">Remember</label>
+                            </div>
+                            <a href="forgot-password.html" class="text-blue text-decoration-underline">Lost password?</a>
+                        </div>
+                        <div class="d-grid py-3">
+                            <button type="button" class="btn btn-lg btn-primary" onclick="loginUser()">
+                                Login
+                            </button>
+                        </div>
+                    </form>
+                    <div class="text-center py-3">or login with</div>
+                    <div class="d-flex gap-2 justify-content-center">
+                        <button type="button" class="btn btn-outline-light">
+                            <img src="assets/images/google.svg" class="login-icon" alt="Login with Google" />
+                        </button>
+                        <button type="button" class="btn btn-outline-light" onclick="loginWithFacebook()">
+                            <img src="assets/images/facebook.svg" class="login-icon" alt="Login with Facebook" />
+                        </button>
+                    </div>
+                    <div class="text-center pt-3">
+                        <span>Not registered?</span>
+                        <a href="signup.html" class="text-blue text-decoration-underline ms-2">
+                            Create an account
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    function loginUser() {
+        debugger;
+        var email = $("#Email").val();
+        var password = $("#Password").val();
+
+        var formData = {
+            Email: email,
+            Password: password
+        };
+
+        $.post("/Account/Login", formData).done(function (res) {
+           
+            window.location.href = `${res}`;
+            console.log(res);
+
+        }).fail(function () {
+            Hide_Loader();
+            showerrors("Something went wrong!!!");
+        });
+    }
+
+    function loginWithFacebook() {
+        // Implement Facebook login functionality
+    }
+</script>

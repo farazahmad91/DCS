@@ -13,7 +13,7 @@ namespace API.AppCode.DB
         private readonly string _ConStr;
         public DAL(IConfiguration config, ConnectionStrings conn, ILogger<DAL> logger)
         {
-            _ConStr = conn.DBCon;
+            _ConStr = conn.Default;
             _logger = logger;
         }
 

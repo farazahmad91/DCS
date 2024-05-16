@@ -1,5 +1,6 @@
 ﻿using API.AppCode.IML;
 using API.AppCode.Infrastructure;
+using API.Connection;
 using Dapper;
 using Entities;
 using System.Data;
@@ -15,9 +16,28 @@ namespace API.Data
         private readonly string Constr;
         public Dapper(ConnectionStrings conn)
         {
-            Constr = conn.DBCon;
+            Constr = conn.Default;
         }
-        public async Task<T> PostAsync<T>(string sp, object parms = null, CommandType commandType = CommandType.StoredProcedure)
+
+        public async Task<int> Insert(object entity, string storedProcedure)
+        {
+            using (var connection = new SqlConnection(Constr))
+            {
+                connection.Open();
+                return await connection.ExecuteAsync(storedProcedure, entity);
+            }
+        }
+
+        public int Delete(object id, string query)
+        {
+            using (var connection = new SqlConnection(Constr))
+            {
+                connection.Open();
+                return connection.Execute(query, id);
+            }
+        }
+
+        public async Task<T> GetAsync<T>(string sp, object parms = null, CommandType commandType = CommandType.StoredProcedure)
         {
             T result;
 
@@ -58,6 +78,15 @@ namespace API.Data
             {
                 connection.Open();
                 return connection.Query<T>(query);
+            }
+        }
+
+        public int Update(object entity, string storedProcedure)
+        {
+            using (var connection = new SqlConnection(Constr))
+            {
+                connection.Open();
+                return connection.Execute(storedProcedure, entity);
             }
         }
 

@@ -13,12 +13,12 @@
         </div>
     `);
     $('.alert-container').append(alertDiv);
-    alertDiv.fadeIn(1000);
+    alertDiv.fadeIn(2000);
     setTimeout(() => {
         alertDiv.fadeOut('slow', () => {
             alertDiv.remove();
         });
-    }, 500);
+    }, 1000);
 }
 
 function IsValidate(cls) {

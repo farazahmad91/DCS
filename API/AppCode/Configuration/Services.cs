@@ -9,10 +9,10 @@ namespace API.AppCode.Configuration
     {
         public static void AddService(this IServiceCollection service, IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("DBCon");
+            var connectionString = configuration.GetConnectionString("Default");
             var connectioConfig = new Infrastructure.ConnectionStrings
             {
-                DBCon = connectionString,
+                Default = connectionString,
             };
            
         }
