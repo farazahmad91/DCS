@@ -7,5 +7,11 @@ namespace API.Controllers
     [ApiController]
     public class AppointmentController : ControllerBase
     {
+        [HttpPost(nameof(SaveLogin))]
+        public IActionResult SaveLogin()
+        {
+       
+            return Ok();
+        }
     }
 }

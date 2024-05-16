@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+
+@using DCS.AppCode.Configuration
+@using DCS.Layout
+@model Project
+@{
+    Project project = new Project();
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Meta -->
+    <meta name="description" content="@project.ProjectName" />
+    <meta name="author" content="Bootstrap Gallery" />
+    <link rel="canonical" href="https://www.bootstrap.gallery/">
+    <meta property="og:url" content="https://www.bootstrap.gallery">
+    <meta property="og:title" content="Admin @project.ProjectName">
+    <meta property="og:description" content="Marketplace for Bootstrap Admin Dashboards">
+    <meta property="og:type" content="Website">
+    <meta property="og:site_name" content="Bootstrap Gallery">
+    <link rel="shortcut icon" href="~/assets/images/favicon.svg" />
+    <title>@project.ProjectName</title>
+	<link rel="stylesheet" href="~/assets/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/assets/fonts/bootstrap/bootstrap-icons.css" />
+	<link rel="stylesheet" href="~/assets/css/main.min.css" />
+	<link rel="stylesheet" href="~/assets/css/login.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+</head>
+<body class="login-container">
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>

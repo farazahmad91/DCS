@@ -2,6 +2,6 @@
 {
     public class ConnectionStrings
     {
-        public string DBCon { get; set; }
+        public string Default { get; set; }
     }
 }

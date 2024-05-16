@@ -1,19 +1,17 @@
 using API.AppCode.IML;
 using API.AppCode.IService;
 using API.AppCode.ML;
+using API.Extension;
+using API.Service;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("DBCon");
-var connectioConfig = new API.AppCode.Infrastructure.ConnectionStrings
-{
-    DBCon = connectionString,
-};
+var connectionString = builder.Configuration.GetConnectionString("Default");
+//var ConnectionString = builder.Configuration.GetConnectionString("Default");
 // Add services to the container.
-builder.Services.AddSingleton(connectioConfig);
-builder.Services.AddScoped<IAppointment, Appointment_ML>();
-builder.Services.TryAddScoped<IDapper, API.Data.Dapper>();
+//builder.Services.AddSingleton(connectioConfig);
+ServiceCollectionExtension.RegisterService(builder.Services, builder.Configuration);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

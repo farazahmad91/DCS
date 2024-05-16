@@ -1,8 +1,11 @@
 ﻿using System.Net;
+using System.Net.Mime;
 using System.Text;
+using API.DBContext.Response;
 using Entities;
+using Newtonsoft.Json;
 
-namespace API.AppCode.WebAPIRequest
+namespace API.AppCode.APIRequest
 {
     public class APIRequestML : IAPIRequest
     {
@@ -58,41 +61,124 @@ namespace API.AppCode.WebAPIRequest
 
         #region HttpPost
 
-        public async Task<HttpResponseMessage> PostAsync(string URL, string PostData = "", string AccessToken = "", string ContentType = "application/json", int timeout = 0)
+        public async Task<HttpsResponse> PostAsync(string URL, string PostData = "", string AccessToken = "", string ContentType = "application/json", int timeout = 0)
         {
-            using (HttpClient client = new HttpClient())
+            HttpsResponse httpResponse = new HttpsResponse();
+            HttpWebRequest http = (HttpWebRequest)WebRequest.Create(URL);
+            if (!string.IsNullOrEmpty(AccessToken))
             {
-                if (!string.IsNullOrEmpty(AccessToken))
-                {
-                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", AccessToken);
-                }
-                client.DefaultRequestHeaders.UserAgent.ParseAdd(UserAgent.Name);
-
-                HttpResponseMessage httpResponse = new HttpResponseMessage();
-
-                try
-                {
-                    HttpContent content = new StringContent(PostData ?? "", Encoding.UTF8, ContentType);
-
-                    HttpResponseMessage response = await client.PostAsync(URL, content).ConfigureAwait(false);
-                    httpResponse.StatusCode = response.StatusCode;
-                    httpResponse.Content = response.Content;
-                }
-                catch (HttpRequestException ex)
-                {
-                    throw new Exception("HTTP Request Error: " + ex.Message);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Error: " + ex.Message);
-                }
-
-                return httpResponse;
+                http.Headers.Add("Authorization", "Bearer " + AccessToken);
             }
+            http.Headers.Add("User-Agent", UserAgent.Name);
+            http.Timeout = timeout == 0 ? 5 * 60 * 1000 : timeout;
+            var data = Encoding.ASCII.GetBytes(PostData ?? "");
+            http.Method = "POST";
+            http.ContentType = ContentType;
+            http.ContentLength = data.Length;
+            using (Stream stream = await http.GetRequestStreamAsync().ConfigureAwait(false))
+            {
+                await stream.WriteAsync(data, 0, data.Length).ConfigureAwait(false);
+            }
+            try
+            {
+                WebResponse response = await http.GetResponseAsync().ConfigureAwait(false);
+                using (StreamReader sr = new StreamReader(response.GetResponseStream()))
+                {
+                    httpResponse.HttpStatusCode = HttpStatusCode.OK;
+                    httpResponse.Result = await sr.ReadToEndAsync().ConfigureAwait(false);
+                }
+            }
+            catch (UriFormatException ufx)
+            {
+                throw new Exception(ufx.Message);
+            }
+            catch (WebException wx)
+            {
+                if (wx.Response != null)
+                {
+                    using (var ErrorResponse = wx.Response)
+                    {
+                        using (StreamReader sr = new StreamReader(ErrorResponse.GetResponseStream()))
+                        {
+
+                            httpResponse.Result = await sr.ReadToEndAsync().ConfigureAwait(false);
+                            httpResponse.HttpMessage = wx.Message;
+                            httpResponse.HttpStatusCode = ((HttpWebResponse)wx.Response).StatusCode;
+                        }
+                    }
+                }
+                else
+                {
+                    throw new Exception(wx.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return httpResponse;
         }
-    
-    #endregion
-    
+        #endregion
+        //public async Task<string> PostJsonDataUsingHWRTLS(string URL, object PostData, IDictionary<string, string> headers)
+        //{
+        //    string result = "";
+        //    try
+        //    {
+        //        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+        //        HttpWebRequest http = (HttpWebRequest)System.Net.WebRequest.Create(URL);
+        //        http.Timeout = 3 * 60 * 1000;
+        //        var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(PostData));
+        //        http.Method = "POST";
+        //        http.Accept = ContentType.application_json;
+        //        http.ContentType = ContentType.application_json;
+        //        http.MediaType = ContentType.application_json;
+        //        http.ContentLength = data.Length;
+        //        http.Headers.Add("User-Agent", UserAgent.Name);
+        //        if (headers != null)
+        //        {
+        //            foreach (var item in headers)
+        //            {
+        //                http.Headers.Add(item.Key, item.Value);
+        //            }
+        //        }
+        //        using (Stream stream = http.GetRequestStream())
+        //        {
+        //            stream.Write(data, 0, data.Length);
+        //        }
+        //        WebResponse response = await http.GetResponseAsync().ConfigureAwait(false);
+
+        //        using (StreamReader sr = new StreamReader(response.GetResponseStream()))
+        //        {
+        //            result = await sr.ReadToEndAsync().ConfigureAwait(false);
+        //        }
+        //    }
+        //    catch (UriFormatException ufx)
+        //    {
+        //        throw new Exception(ufx.Message);
+        //    }
+        //    catch (WebException wx)
+        //    {
+        //        if (wx.Response != null)
+        //        {
+        //            using (var ErrorResponse = wx.Response)
+        //            {
+        //                using (StreamReader sr = new StreamReader(ErrorResponse.GetResponseStream()))
+        //                {
+        //                    result = await sr.ReadToEndAsync();
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            throw new Exception(wx.Message);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
+        //    return result;
+        //}
         public async Task<string> CallUsingHttpWebRequest_POSTAsync(string URL, string PostData, string ContentType = "application/x-www-form-urlencoded")
         {
             HttpWebRequest http = (HttpWebRequest)System.Net.WebRequest.Create(URL);
@@ -102,62 +188,107 @@ namespace API.AppCode.WebAPIRequest
             http.ContentType = ContentType;
             http.ContentLength = data.Length;
             http.Headers.Add("User-Agent", UserAgent.Name);
-
+            using (Stream stream = await http.GetRequestStreamAsync().ConfigureAwait(false))
+            {
+                await stream.WriteAsync(data, 0, data.Length).ConfigureAwait(false);
+            }
+            string result = "";
             try
             {
-                using (Stream stream = await http.GetRequestStreamAsync().ConfigureAwait(false))
-                {
-                    await stream.WriteAsync(data, 0, data.Length).ConfigureAwait(false);
-                }
-
-                string result;
-                using (WebResponse response = await http.GetResponseAsync().ConfigureAwait(false))
+                WebResponse response = await http.GetResponseAsync().ConfigureAwait(false);
                 using (StreamReader sr = new StreamReader(response.GetResponseStream()))
                 {
                     result = await sr.ReadToEndAsync().ConfigureAwait(false);
                 }
-
-                return result;
             }
             catch (UriFormatException ufx)
             {
-                throw new Exception("UriFormatException: " + ufx.Message);
+                throw new Exception(ufx.Message);
             }
             catch (WebException wx)
             {
                 if (wx.Response != null)
                 {
                     using (var ErrorResponse = wx.Response)
-                    using (StreamReader sr = new StreamReader(ErrorResponse.GetResponseStream()))
                     {
-                        return await sr.ReadToEndAsync().ConfigureAwait(false);
+                        using (StreamReader sr = new StreamReader(ErrorResponse.GetResponseStream()))
+                        {
+                            result = await sr.ReadToEndAsync().ConfigureAwait(false);
+                        }
                     }
                 }
                 else
                 {
-                    throw new Exception("WebException: " + wx.Message);
+                    throw new Exception(wx.Message);
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Unhandled Exception: " + ex.Message);
+                throw new Exception(ex.Message);
             }
+            return result;
         }
+        //public async Task<string> PostJsonDataUsingHWRTLS(string URL, object PostData)
+        //{
+        //    string result = "";
+        //    try
+        //    {
+        //        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+        //        HttpWebRequest http = (HttpWebRequest)System.Net.WebRequest.Create(URL);
+        //        var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(PostData, Newtonsoft.Json.Formatting.Indented));
+        //        http.Method = "POST";
+        //        http.Accept = ContentType.application_json;
+        //        http.ContentType = ContentType.application_json;
+        //        http.ContentLength = data.Length;
+        //        http.Headers.Add("User-Agent", UserAgent.Name);
+        //        using (Stream stream = http.GetRequestStream())
+        //        {
+        //            stream.Write(data, 0, data.Length);
+        //        }
+        //        WebResponse response = await http.GetResponseAsync().ConfigureAwait(false);
 
-
+        //        using (StreamReader sr = new StreamReader(response.GetResponseStream()))
+        //        {
+        //            result = await sr.ReadToEndAsync().ConfigureAwait(false);
+        //        }
+        //    }
+        //    catch (UriFormatException ufx)
+        //    {
+        //        throw new Exception(ufx.Message);
+        //    }
+        //    catch (WebException wx)
+        //    {
+        //        if (wx.Response != null)
+        //        {
+        //            using (var ErrorResponse = wx.Response)
+        //            {
+        //                using (StreamReader sr = new StreamReader(ErrorResponse.GetResponseStream()))
+        //                {
+        //                    result = await sr.ReadToEndAsync();
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            throw new Exception(wx.Message);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
+        //    return result;
+        //}
         public string CallUsingHttpWebRequest_POST(string URL, string PostData, IDictionary<string, string> headers = null, string ContentType = "application/x-www-form-urlencoded")
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-            var http = (HttpWebRequest)WebRequest.Create(URL);
+            var http = (HttpWebRequest)System.Net.WebRequest.Create(URL);
             var data = Encoding.ASCII.GetBytes(PostData);
-
-            http.Method = "POST";
+            http.Method = HttpMethod.Post.ToString();
             http.ContentType = ContentType;
             http.ContentLength = data.Length;
             http.Timeout = 5 * 60 * 1000;
             http.Headers.Add("User-Agent", UserAgent.Name);
-
             if (headers != null)
             {
                 foreach (var item in headers)
@@ -165,18 +296,14 @@ namespace API.AppCode.WebAPIRequest
                     http.Headers.Add(item.Key, item.Value);
                 }
             }
-
             using (Stream stream = http.GetRequestStream())
             {
                 stream.Write(data, 0, data.Length);
             }
-
             string result = "";
-
             try
             {
                 WebResponse response = http.GetResponse();
-
                 using (StreamReader sr = new StreamReader(response.GetResponseStream()))
                 {
                     result = sr.ReadToEnd();
@@ -187,24 +314,25 @@ namespace API.AppCode.WebAPIRequest
                 if (wx.Response != null)
                 {
                     using (var ErrorResponse = wx.Response)
-                    using (StreamReader sr = new StreamReader(ErrorResponse.GetResponseStream()))
                     {
-                        result = sr.ReadToEnd();
+                        using (StreamReader sr = new StreamReader(ErrorResponse.GetResponseStream()))
+                        {
+                            result = sr.ReadToEnd();
+                        }
                     }
                 }
                 else
                 {
-                    throw new Exception("WebException: " + wx.Message);
+                    throw new Exception(wx.Message);
                 }
             }
-            catch (Exception ex)
+            catch (Exception EX)
             {
-                throw new Exception("Unhandled Exception: " + ex.Message);
+                throw new Exception(EX.Message);
             }
 
             return result;
         }
-
         public async Task<string> PostMultipartUsingHttpClient(string URL, IDictionary<string, string> customHeaders, MultipartFormDataContent formData)
         {
             string result = string.Empty;
