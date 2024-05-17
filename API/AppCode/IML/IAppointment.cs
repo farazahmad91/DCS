@@ -1,5 +1,5 @@
-﻿using Entities;
-using DCS.Models;
+﻿using DCS.Models;
+using API.DBContext.Response;
 
 namespace API.AppCode.IML
 {

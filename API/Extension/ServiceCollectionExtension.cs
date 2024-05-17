@@ -11,6 +11,8 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using API.AppCode.Infrastructure;
 using API.AppCode.IML;
 using API.AppCode.ML;
+using API.SendEmail;
+using System.Configuration;
 
 namespace API.Extension
 {
@@ -27,6 +29,8 @@ namespace API.Extension
             services.AddScoped<IHashPassword, HashPassword>();
             services.AddScoped<API.Service.IUserService, API.Service.UserService>();
             services.AddSingleton<ConnectionStrings>(ch);
+            services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
+            services.AddTransient<Sendmail>();
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(ch.Default);

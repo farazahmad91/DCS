@@ -95,7 +95,7 @@
                 <input class="m-2 text-center form-control rounded" type="text" id="sixth" maxlength="1" />
             </div>
             <div class="mt-4">
-                <button class="btn btn-danger px-4 validate" id="btnhide2">Validate</button>
+                <button class="btn btn-danger px-4 validate" id="btnhide2" onclick="ValidatedOTP();">Validate</button>
                 <button class="btn btn-primary validate1" type="button" id="btnhide1" hidden>
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     Loading...
@@ -104,7 +104,7 @@
         </div>
     </div>
 </div>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function (event) {
         function OTPInput() {
@@ -146,5 +146,27 @@
             }, 2000); // Simulate 2 seconds delay for validation
         });
     });
+
+    function ValidatedOTP() {
+        debugger;
+        const otp = Array.from(document.querySelectorAll('#otp > *[id]'))
+            .map(input => input.value)
+            .join('');
+        var storedEmail = sessionStorage.getItem('email');
+        var param = {
+            otp: otp,
+            email: storedEmail
+        };
+        $.post('/Validate-OTP', param)
+            .done(function (response) {
+                console.log('Validation successful:', response);
+            })
+            .fail(function (error) {
+                // Handle failure
+                console.error('Validation failed:', error);
+                // Do something on failure if needed
+            });
+    }
+
 </script>
 

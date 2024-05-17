@@ -11,6 +11,9 @@ using System.Net;
 using System.Security.Claims;
 using DCS.Account;
 using API.AppCode.APIRequest;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity.Data;
+using Entities;
 
 namespace DCS.Controllers
 {
@@ -275,20 +278,68 @@ namespace DCS.Controllers
             return View();
 
         }
-        [Route("ForgotPassword")]
+
+        [Route("Validate-Email")]
         [HttpPost]
-        public async Task<IActionResult> ForgotPassword(int id)
+        public async Task<IActionResult> ValidateEmail(string useremail)
+        {
+            var res = new Response()
+            {
+                ResponseText="email not register",
+                StatusCode = ResponseStatus.FAILED
+            };
+
+            try
+            {
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Account/ValidateEmail/{useremail}", null, null);
+                if (apiRes.Result != null)
+                {
+                     res = JsonConvert.DeserializeObject<Response>(apiRes.Result);
+                    return Json(res);
+                }
+                return Json(res);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+        }
+
+        [Route("VerifyOTP")]
+        public async Task<IActionResult> VerifyOTP()
         {
 
             return View();
 
         }
-
-        [Route("ValidateOTP")]
-        public async Task<IActionResult> VerifyOTP(int id)
+        [Route("Validate-OTP")]
+        [HttpPost]
+        public async Task<IActionResult> ValidateOTP(ValidateEmail validateEmail)
         {
+            var res = new Response()
+            {
+                ResponseText="email not register",
+                StatusCode = ResponseStatus.FAILED
+            };
 
-            return View();
+            try
+            {
+
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Account/ValidateOTP", JsonConvert.SerializeObject(validateEmail), null);
+                if (apiRes.Result != null)
+                {
+                    res = JsonConvert.DeserializeObject<Response>(apiRes.Result);
+                    return Json(res);
+                }
+                return Json(res);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
 
         }
         //[Route("/Profile")]

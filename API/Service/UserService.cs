@@ -9,6 +9,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
+using API.SendEmail;
+using Microsoft.AspNetCore.Http;
+using static System.Net.WebRequestMethods;
+using Entities;
 
 namespace API.Service
 {
@@ -21,7 +25,8 @@ namespace API.Service
         private readonly IConfiguration configuration;
         private readonly IHashPassword _hashpass;
         private readonly IDapper _dapper;
-        public UserService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration,IHashPassword hashpass, IDapper dapper)
+        private readonly Sendmail _sendmail;
+        public UserService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration,IHashPassword hashpass, IDapper dapper, Sendmail sendmail)
         {
             _signInManager = signInManager;
             this.userManager = userManager;
@@ -29,6 +34,7 @@ namespace API.Service
             this.configuration = configuration;
             _hashpass=hashpass;
             _dapper=dapper;
+            _sendmail=sendmail;
         }
 
 
@@ -212,5 +218,94 @@ namespace API.Service
             return usersWithRoles.ToList();
         }
 
+
+        public async Task<Response> ValidateEmail(string email)
+        {
+            var response = new Response();
+
+            try
+            {
+                response.ResponseText = "An error has occurred. Please try again later!";
+                response.StatusCode = ResponseStatus.FAILED;
+                //response.Result = false;
+
+                var user = await userManager.FindByEmailAsync(email);
+
+                if (user == null || string.IsNullOrEmpty(user.Id))
+                {
+                    response.ResponseText = "Email not found!";
+                    return response;
+                }
+                else
+                { string otp = GenerateOTP(6);
+                    string sub  = "Testing";
+                    string body = $"Your OTP is {otp}";
+                    _sendmail.SendEmails(email, sub, body);
+                    var param = new {
+                        Email = email,
+                        OTP =otp
+                    };
+                   _dapper.Insert(param, "sp_Validate_Email");
+                    response.ResponseText = "OTP sent to your registered email!";
+                    response.StatusCode = ResponseStatus.SUCCESS;
+                    //response.Result = true;
+
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.WriteLine($"Exception occurred: {ex.Message}");
+
+                // Update response indicating failure
+                response.ResponseText = "An error has occurred. Please try again later!";
+                response.StatusCode = ResponseStatus.FAILED;
+                //response.Result = false;
+
+                return response;
+            }
+        }
+
+        public static string GenerateOTP(int length)
+        {
+            const string chars = "0123456789";
+            Random random = new Random();
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        public async Task<Response> VerifyOTP(ValidateEmail validateEmail)
+        {
+            var res = new Response()
+            {
+                ResponseText="Invalid OTP",
+                StatusCode = ResponseStatus.FAILED,
+           };
+            var sp = "sp_VerifyOTP";
+            try
+            {
+                var param = new
+                {
+                    Email= validateEmail.Email,
+                    OTP= validateEmail.OTP
+                };
+                var i = await _dapper.GetAsync<Response>(sp, param);
+                res = i;
+                return res;
+            }
+            catch (Exception ex)
+            {
+                var error = new ErrorLog
+                {
+                    ClassName = GetType().Name,
+                    FunctionName = "VerifyOTP",
+                    ResponseText = ex.Message,
+                    Proc_Name = sp,
+                };
+                var _ = new ErrorLog_ML(_dapper).Error(error);
+                return res;
+            }
+        }
     }
 }

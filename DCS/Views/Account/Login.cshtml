@@ -35,18 +35,9 @@
                             </button>
                         </div>
                     </form>
-                    <div class="text-center py-3">or login with</div>
-                    <div class="d-flex gap-2 justify-content-center">
-                        <button type="button" class="btn btn-outline-light">
-                            <img src="assets/images/google.svg" class="login-icon" alt="Login with Google" />
-                        </button>
-                        <button type="button" class="btn btn-outline-light" onclick="loginWithFacebook()">
-                            <img src="assets/images/facebook.svg" class="login-icon" alt="Login with Facebook" />
-                        </button>
-                    </div>
                     <div class="text-center pt-3">
                         <span>Not registered?</span>
-                        <a href="signup.html" class="text-blue text-decoration-underline ms-2">
+                        <a href="/Register" class="text-blue text-decoration-underline ms-2">
                             Create an account
                         </a>
                     </div>
@@ -75,7 +66,6 @@
             console.log(res);
 
         }).fail(function () {
-            Hide_Loader();
             showerrors("Something went wrong!!!");
         });
     }

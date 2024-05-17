@@ -1,7 +1,6 @@
 ﻿using API.Claims;
 using API.DBContext;
 using API.DBContext.Entities;
-using API.DBContext.Response;
 using API.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -13,6 +12,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using API.SendEmail;
+using Entities;
+
 
 namespace API.Controllers
 {
@@ -26,6 +27,7 @@ namespace API.Controllers
         private readonly IConfiguration configuration;
         private readonly IUserService _userservice;
         private readonly IHashPassword _hashpass;
+       
         public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IUserService userservice,  IHashPassword hashpass)
         {
             _signInManager = signInManager;
@@ -40,7 +42,6 @@ namespace API.Controllers
 
         public async Task<IActionResult> Registration(RegisterViewModel model)
         {
-            var response = new Response()
             {
                 ResponseText = "Failed To Register",
                 StatusCode = ResponseStatus.FAILED,
@@ -115,7 +116,7 @@ namespace API.Controllers
         [HttpPost(nameof(ForgetPassword))]
         public async Task<IActionResult> ForgetPassword(ForgotPasswordViewModel forgetPasswordReq)
         {
-            var response = new Response<bool>
+            var response = new DBContext.Response.Response<bool>
             {
                 ResponseText = "An error has ocurred try after sometime!",
                 StatusCode = ResponseStatus.SUCCESS
@@ -131,7 +132,7 @@ namespace API.Controllers
          
             response.ResponseText = "";
             response.StatusCode = response.StatusCode;
-            if (response.StatusCode == ResponseStatus.SUCCESS)
+            if (response.StatusCode == DBContext.Response.ResponseStatus.SUCCESS)
             {
                 if (string.IsNullOrEmpty(forgetPasswordReq.NewPassword))
                 {
@@ -143,7 +144,7 @@ namespace API.Controllers
                 var resetPassResult = await userManager.ResetPasswordAsync(user, token, forgetPasswordReq.NewPassword);
                 if (resetPassResult.Succeeded)
                 {
-                    response.StatusCode = ResponseStatus.SUCCESS;
+                    response.StatusCode = DBContext.Response.ResponseStatus.SUCCESS;
                     response.ResponseText = "Password changed successfully!";
                 }
                 else
@@ -173,5 +174,20 @@ namespace API.Controllers
             return Ok(i);
         }
 
+        [Route(nameof(ValidateEmail)+"/{email}")]
+        [HttpPost]
+        public async Task<IActionResult> ValidateEmail(string email)
+        {
+            var i = await _userservice.ValidateEmail(email);
+                return Ok(i);
+        }
+
+        [Route(nameof(VerifyOTP))]
+        [HttpPost]
+        public async Task<IActionResult> VerifyOTP(ValidateEmail validateEmail)
+        {
+            var i = await _userservice.VerifyOTP(validateEmail);
+            return Ok();
+        }
     }
 }
