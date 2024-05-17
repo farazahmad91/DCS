@@ -118,69 +118,12 @@ namespace API.AppCode.APIRequest
             }
             return httpResponse;
         }
-        #endregion
-        //public async Task<string> PostJsonDataUsingHWRTLS(string URL, object PostData, IDictionary<string, string> headers)
-        //{
-        //    string result = "";
-        //    try
-        //    {
-        //        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-        //        HttpWebRequest http = (HttpWebRequest)System.Net.WebRequest.Create(URL);
-        //        http.Timeout = 3 * 60 * 1000;
-        //        var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(PostData));
-        //        http.Method = "POST";
-        //        http.Accept = ContentType.application_json;
-        //        http.ContentType = ContentType.application_json;
-        //        http.MediaType = ContentType.application_json;
-        //        http.ContentLength = data.Length;
-        //        http.Headers.Add("User-Agent", UserAgent.Name);
-        //        if (headers != null)
-        //        {
-        //            foreach (var item in headers)
-        //            {
-        //                http.Headers.Add(item.Key, item.Value);
-        //            }
-        //        }
-        //        using (Stream stream = http.GetRequestStream())
-        //        {
-        //            stream.Write(data, 0, data.Length);
-        //        }
-        //        WebResponse response = await http.GetResponseAsync().ConfigureAwait(false);
 
-        //        using (StreamReader sr = new StreamReader(response.GetResponseStream()))
-        //        {
-        //            result = await sr.ReadToEndAsync().ConfigureAwait(false);
-        //        }
-        //    }
-        //    catch (UriFormatException ufx)
-        //    {
-        //        throw new Exception(ufx.Message);
-        //    }
-        //    catch (WebException wx)
-        //    {
-        //        if (wx.Response != null)
-        //        {
-        //            using (var ErrorResponse = wx.Response)
-        //            {
-        //                using (StreamReader sr = new StreamReader(ErrorResponse.GetResponseStream()))
-        //                {
-        //                    result = await sr.ReadToEndAsync();
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            throw new Exception(wx.Message);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message);
-        //    }
-        //    return result;
-        //}
-        public async Task<string> CallUsingHttpWebRequest_POSTAsync(string URL, string PostData, string ContentType = "application/x-www-form-urlencoded")
+        #endregion
+        
+        public async Task<HttpsResponse> CallUsingHttpWebRequest_POSTAsync(string URL, string PostData, string ContentType = "application/x-www-form-urlencoded")
         {
+            HttpsResponse httpResponse = new HttpsResponse();
             HttpWebRequest http = (HttpWebRequest)System.Net.WebRequest.Create(URL);
             http.Timeout = 5 * 60 * 1000;
             var data = Encoding.ASCII.GetBytes(PostData);
@@ -226,59 +169,9 @@ namespace API.AppCode.APIRequest
             {
                 throw new Exception(ex.Message);
             }
-            return result;
+            return httpResponse;
         }
-        //public async Task<string> PostJsonDataUsingHWRTLS(string URL, object PostData)
-        //{
-        //    string result = "";
-        //    try
-        //    {
-        //        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-        //        HttpWebRequest http = (HttpWebRequest)System.Net.WebRequest.Create(URL);
-        //        var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(PostData, Newtonsoft.Json.Formatting.Indented));
-        //        http.Method = "POST";
-        //        http.Accept = ContentType.application_json;
-        //        http.ContentType = ContentType.application_json;
-        //        http.ContentLength = data.Length;
-        //        http.Headers.Add("User-Agent", UserAgent.Name);
-        //        using (Stream stream = http.GetRequestStream())
-        //        {
-        //            stream.Write(data, 0, data.Length);
-        //        }
-        //        WebResponse response = await http.GetResponseAsync().ConfigureAwait(false);
-
-        //        using (StreamReader sr = new StreamReader(response.GetResponseStream()))
-        //        {
-        //            result = await sr.ReadToEndAsync().ConfigureAwait(false);
-        //        }
-        //    }
-        //    catch (UriFormatException ufx)
-        //    {
-        //        throw new Exception(ufx.Message);
-        //    }
-        //    catch (WebException wx)
-        //    {
-        //        if (wx.Response != null)
-        //        {
-        //            using (var ErrorResponse = wx.Response)
-        //            {
-        //                using (StreamReader sr = new StreamReader(ErrorResponse.GetResponseStream()))
-        //                {
-        //                    result = await sr.ReadToEndAsync();
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            throw new Exception(wx.Message);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message);
-        //    }
-        //    return result;
-        //}
+        
         public string CallUsingHttpWebRequest_POST(string URL, string PostData, IDictionary<string, string> headers = null, string ContentType = "application/x-www-form-urlencoded")
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
