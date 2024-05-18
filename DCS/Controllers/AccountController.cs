@@ -258,7 +258,7 @@ namespace DCS.Controllers
                 //var apiResponse = await _apirequest.GetData<Entities.Response>($"Reviews/CheckUserReview?email={email}");
 
                 // User has a review, redirect to login 
-                string returnUrl = "/Account/Login";
+                string returnUrl = "/Login";
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 HttpContext.Response.Cookies.Delete(".AspNetCore.Cookies");
                 HttpContext.Response.Cookies.Delete(".AspNetCore.Identity.Application");
@@ -272,7 +272,7 @@ namespace DCS.Controllers
         }
         [Route("ForgotPassword")]
         [HttpGet]
-        public async Task<IActionResult> ForgotPassword()
+        public async Task<IActionResult> ForgotPass()
         {
 
             return View();
@@ -327,7 +327,44 @@ namespace DCS.Controllers
             try
             {
 
-                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Account/ValidateOTP", JsonConvert.SerializeObject(validateEmail), null);
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Account/VerifyOTP", JsonConvert.SerializeObject(validateEmail), null);
+                if (apiRes.Result != null)
+                {
+                    res = JsonConvert.DeserializeObject<Response>(apiRes.Result);
+                    return Json(res);
+                }
+                return Json(res);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+        }
+        [Route("ResetPassword")]
+        [HttpGet]
+        public async Task<IActionResult> ResetPassword()
+        {
+
+            return View();
+
+        }
+        [Route("Reset-Password")]
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ForgotPasswordViewModel forgetPasswordReq)
+        {
+
+            var res = new Response()
+            {
+                ResponseText = "email not register",
+                StatusCode = ResponseStatus.FAILED
+            };
+
+            try
+            {
+
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Account/ForgetPassword", JsonConvert.SerializeObject(forgetPasswordReq), null);
                 if (apiRes.Result != null)
                 {
                     res = JsonConvert.DeserializeObject<Response>(apiRes.Result);

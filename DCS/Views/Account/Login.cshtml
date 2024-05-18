@@ -3,6 +3,28 @@
     Layout = "~/Views/Shared/_Account.cshtml";
 }
 
+<style>
+    .validate {
+        border-radius: 20px;
+        height: 40px;
+        background-color: red;
+        border: 1px solid red;
+        width: 140px
+    }
+
+    .validate1 {
+        border-radius: 20px;
+        height: 40px;
+        background-color: green;
+        border: 1px solid green;
+        width: 140px
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+        border: 2px solid red
+    }
+</style>
 <!-- Login box start -->
 <div class="container d-flex justify-content-center">
     <div class="row d-flex justify-content-center">
@@ -16,11 +38,11 @@
                     <form id="loginForm">
                         <div class="mb-3">
                             <label class="form-label" for="Email">Your Email</label>
-                            <input type="email" id="Email" name="Email" class="form-control" placeholder="Enter your email" required>
+                            <input type="email" id="Email" name="Email" class="form-control cls" placeholder="Enter your email" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="Password">Your Password</label>
-                            <input type="password" id="Password" name="Password" class="form-control" placeholder="Enter your password" required>
+                            <input type="password" id="Password" name="Password" class="form-control cls" placeholder="Enter your password" required>
                         </div>
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="form-check m-0">
@@ -30,8 +52,12 @@
                             <a href="/ForgotPassword" class="text-blue text-decoration-underline">Lost password?</a>
                         </div>
                         <div class="d-grid py-3">
-                            <button type="button" class="btn btn-lg btn-primary" onclick="loginUser()">
+                            <button type="button" class="btn btn-lg btn-primary btn-block" id="btnhide2" onclick="loginUser()">
                                 Login
+                            </button>
+                            <button class="btn btn-lg btn-primary btn-block" type="button" id="btnhide1" hidden>
+                                <span class="spinner-border spinner-border-sm spinner-1x" role="status" aria-hidden="true"></span>
+                                Loading...
                             </button>
                         </div>
                     </form>
@@ -51,23 +77,35 @@
 
 <script>
     function loginUser() {
-        debugger;
-        var email = $("#Email").val();
-        var password = $("#Password").val();
+        var className = "cls";
+        //var clss = document.querySelector("." + className);
 
-        var formData = {
-            Email: email,
-            Password: password
-        };
+        // Ensure the class exists before proceeding
+        if (IsValidate(className)) {
+            document.getElementById("btnhide2").hidden = true;
+            document.getElementById("btnhide1").hidden = false;
+            var email = $("#Email").val();
+            var password = $("#Password").val();
 
-        $.post("/Account/Login", formData).done(function (res) {
-           
-            window.location.href = `${res}`;
-            console.log(res);
+            var formData = {
+                Email: email,
+                Password: password
+            };
 
-        }).fail(function () {
-            showerrors("Something went wrong!!!");
-        });
+            $.post("/Account/Login", formData).done(function (res) {
+                setTimeout(function () {
+                    console.log(res);
+                    document.getElementById("btnhide1").hidden = true;
+                    document.getElementById("btnhide2").hidden = false;
+                    Info(1, 'Login successful');
+                    window.location.href = `${res}`;
+                }, 2000);
+
+
+            }).fail(function () {
+                showerrors("Something went wrong!!!");
+            });
+        }
     }
 
     function loginWithFacebook() {

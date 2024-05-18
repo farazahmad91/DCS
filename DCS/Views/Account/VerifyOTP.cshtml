@@ -87,12 +87,12 @@
             <h6>Please enter the one time password <br> to verify your account</h6>
             <div> <span>A code has been sent to</span> <small>*******shaikh@gmail.com</small> </div>
             <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
-                <input class="m-2 text-center form-control rounded" type="text" id="first" maxlength="1" />
-                <input class="m-2 text-center form-control rounded" type="text" id="second" maxlength="1" />
-                <input class="m-2 text-center form-control rounded" type="text" id="third" maxlength="1" />
-                <input class="m-2 text-center form-control rounded" type="text" id="fourth" maxlength="1" />
-                <input class="m-2 text-center form-control rounded" type="text" id="fifth" maxlength="1" />
-                <input class="m-2 text-center form-control rounded" type="text" id="sixth" maxlength="1" />
+                <input class="m-2 text-center form-control rounded cls" type="text" id="first" maxlength="1" />
+                <input class="m-2 text-center form-control rounded cls" type="text" id="second" maxlength="1" />
+                <input class="m-2 text-center form-control rounded cls" type="text" id="third" maxlength="1" />
+                <input class="m-2 text-center form-control rounded cls" type="text" id="fourth" maxlength="1" />
+                <input class="m-2 text-center form-control rounded cls" type="text" id="fifth" maxlength="1" />
+                <input class="m-2 text-center form-control rounded cls" type="text" id="sixth" maxlength="1" />
             </div>
             <div class="mt-4">
                 <button class="btn btn-danger px-4 validate" id="btnhide2" onclick="ValidatedOTP();">Validate</button>
@@ -134,38 +134,45 @@
                 .join('');
             console.log('Entered OTP:', otp);
 
-            // Switch button visibility
-            document.getElementById("btnhide2").hidden = true;
-            document.getElementById("btnhide1").hidden = false;
-
-            // Simulate validation process (remove this in production)
-            setTimeout(() => {
-                // After validation process, you can toggle buttons back if needed
-                document.getElementById("btnhide1").hidden = true;
-                document.getElementById("btnhide2").hidden = false;
-            }, 2000); // Simulate 2 seconds delay for validation
+            
         });
     });
 
     function ValidatedOTP() {
-        debugger;
-        const otp = Array.from(document.querySelectorAll('#otp > *[id]'))
-            .map(input => input.value)
-            .join('');
-        var storedEmail = sessionStorage.getItem('email');
-        var param = {
-            otp: otp,
-            email: storedEmail
-        };
-        $.post('/Validate-OTP', param)
-            .done(function (response) {
-                console.log('Validation successful:', response);
-            })
-            .fail(function (error) {
-                // Handle failure
-                console.error('Validation failed:', error);
-                // Do something on failure if needed
-            });
+        var className = "cls";
+        var clss = document.querySelector("." + className);
+        if (clss && IsValidate(className)) {
+            document.getElementById("btnhide2").hidden = true;
+            document.getElementById("btnhide1").hidden = false;
+            const otp = Array.from(document.querySelectorAll('#otp > *[id]'))
+                .map(input => input.value)
+                .join('');
+            var storedEmail = sessionStorage.getItem('email');
+            var param = {
+                otp: otp,
+                email: storedEmail
+            };
+            $.post('/Validate-OTP', param)
+                .done(function (res) {
+                    if(res.statusCode==1){
+                        setTimeout(function () {
+                            document.getElementById("btnhide1").hidden = true;
+                            document.getElementById("btnhide2").hidden = false;
+                            Info(res.statusCode, res.responseText);
+                            window.location.href = "/ResetPassword";
+                        }, 2000)
+                    }
+                    document.getElementById("btnhide1").hidden = true;
+                    document.getElementById("btnhide2").hidden = false;
+                    Info(res.statusCode, res.responseText);
+                   
+                })
+                .fail(function (error) {
+                    // Handle failure
+                    console.error('Validation failed:', error);
+                    // Do something on failure if needed
+                });
+        }
     }
 
 </script>

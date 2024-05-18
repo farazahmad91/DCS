@@ -29,7 +29,7 @@ function IsValidate(cls) {
             $(this).addClass("border border-2 border-danger");
             if ($(this).next('.error-message').length === 0) {
                 Info(-1, 'Please fill in the required field');
-                $(this).after('<span class="error-message">Please fill in the required field</span>');
+                //$(this).after('<span class="error-message">Please fill in the required field</span>');
             }
             isValid = false;
         } else {

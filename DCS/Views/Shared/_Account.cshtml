@@ -23,15 +23,25 @@
     <meta property="og:site_name" content="Bootstrap Gallery">
     <link rel="shortcut icon" href="~/assets/images/favicon.svg" />
     <title>@project.ProjectName</title>
-	<link rel="stylesheet" href="~/assets/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="~/assets/fonts/bootstrap/bootstrap-icons.css" />
-	<link rel="stylesheet" href="~/assets/css/main.min.css" />
-	<link rel="stylesheet" href="~/assets/css/login.css" />
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/assets/fonts/bootstrap/bootstrap-icons.css" />
+    <link rel="stylesheet" href="~/assets/css/main.min.css" />
+    <link rel="stylesheet" href="~/assets/css/login.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 </head>
 <body>
     <div>
         @RenderBody()
     </div>
+    <div class="alert-container" style="
+position: fixed;
+top: 65px;
+right: 4px;
+z-index: 1000"></div>
+    <script src="~/dcs/js/common.js"></script>
+    <script src="~/assets/js/jquery.min.js"></script>
+    <script src="~/assets/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+

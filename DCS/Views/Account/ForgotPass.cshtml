@@ -1,0 +1,238 @@
+﻿@{
+    ViewData["Title"] = "ForgotPassword";
+    Layout = "~/Views/Shared/_Account.cshtml";
+}
+
+<style>
+    .height-100 {
+        height: 100vh;
+    }
+
+    .card {
+        width: 400px;
+        border: none;
+        height: 300px;
+        box-shadow: 0px 5px 20px 0px #d2dae3;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card h6 {
+        color: red;
+        font-size: 20px;
+    }
+
+    .inputs input {
+        width: 40px;
+        height: 40px;
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        margin: 0;
+    }
+
+    .card-2 {
+        background-color: #fff;
+        padding: 10px;
+        width: 350px;
+        height: 100px;
+        bottom: -50px;
+        left: 20px;
+        position: absolute;
+        border-radius: 5px;
+    }
+
+    .card-2 .content {
+        margin-top: 50px;
+    }
+
+    .card-2 .content a {
+        color: red;
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+        border: 2px solid red;
+    }
+
+    .validate {
+        border-radius: 20px;
+        height: 40px;
+        background-color: red;
+        border: 1px solid red;
+        width: 140px;
+    }
+
+    .validate1 {
+        border-radius: 20px;
+        height: 40px;
+        background-color: green;
+        border: 1px solid green;
+        width: 140px;
+    }
+
+    .form-gap {
+        padding-top: 70px;
+        padding-left: 70px;
+    }
+</style>
+
+<div class="container hdndiv">
+    <div class="login-box rounded-2 p-5">
+        <div class="login-form">
+            <a href="index.html" class="login-logo mb-3">
+                <img src="assets/images/logo-dark.svg" alt="Bootstrap Gallery" />
+            </a>
+            <h6 class="fw-light mb-5">
+                In order to access your account, please enter the email id you
+                provided during the registration process.
+            </h6>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
+                    <input id="Email" name="Email" placeholder="email address" class="form-control cls" type="email">
+                </div>
+            </div>
+            <div class="d-grid pt-3">
+                <input onclick="sendEmail();" class="btn btn-lg btn-primary" id="btnhide2" value="Send OTP" type="submit">
+                <button class="btn btn-lg btn-primary btn-block" type="button" id="btnhide1" hidden>
+                    <span class="spinner-border spinner-border-sm spinner-1x" role="status" aria-hidden="true"></span>
+                    Sending...
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card-body">
+    <div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Enter OTP</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container d-flex justify-content-center align-items-center">
+                        <div class="position-relative">
+                            <div class="p-2 text-center">
+                                <h6>Please enter the one time password <br> to verify your account</h6>
+                                <div style="color:red;"><span>A code has been sent to</span> <small>*******shaikh@gmail.com</small></div>
+                                <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
+                                    <input class="m-2 text-center form-control rounded cls" type="text" id="first" maxlength="1" />
+                                    <input class="m-2 text-center form-control rounded cls" type="text" id="second" maxlength="1" />
+                                    <input class="m-2 text-center form-control rounded cls" type="text" id="third" maxlength="1" />
+                                    <input class="m-2 text-center form-control rounded cls" type="text" id="fourth" maxlength="1" />
+                                    <input class="m-2 text-center form-control rounded cls" type="text" id="fifth" maxlength="1" />
+                                    <input class="m-2 text-center form-control rounded cls" type="text" id="sixth" maxlength="1" />
+                                </div>
+                                <div class="mt-4">
+                                    <button class="btn btn-danger px-4 validate" id="btnhide2" onclick="validateOTP();">Validate</button>
+                                    <button class="btn btn-primary validate1" type="button" id="btnhide1" hidden>
+                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        Loading...
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    function sendEmail() {
+        var email = $("#Email").val();
+        if (validateEmail(email)) {
+            toggleLoading(true);
+            sessionStorage.setItem('email', email);
+            var formData = { useremail: email };
+
+            $.post("/Validate-Email", formData)
+                .done(function (res) {
+                    toggleLoading(false);
+                    if (res.statusCode === 1) {
+                        $("#exampleModal").modal("show");
+                        $(".hdndiv").addClass("invisible");
+                    } else {
+                        $("#btnhide2").val("Resend OTP");
+                        Info(res.statusCode,res.responseText);
+                    }
+                })
+                .fail(function () {
+                    toggleLoading(false);
+                    $("#btnhide2").val("Resend OTP");
+                    Info(-1,"Something went wrong!!!");
+                });
+        } else {
+            Info(-1, "Validation failed!");
+        }
+    }
+
+    function validateOTP() {
+        const otp = Array.from(document.querySelectorAll('#otp > *[id]')).map(input => input.value).join('');
+        const email = sessionStorage.getItem('email');
+
+        if (otp.length === 6) {
+            toggleLoading(true);
+            var formData = { otp: otp, email: email };
+
+            $.post('/Validate-OTP', formData)
+                .done(function (res) {
+                    toggleLoading(false);
+                    if (res.statusCode === 1) {
+                        window.location.href = "/ResetPassword";
+                    } else {
+                        Info(res.statusCode, res.responseText);
+                    }
+                })
+                .fail(function () {
+                    toggleLoading(false);
+                    Info(-1, "Validation failed!");
+                });
+        } else {
+            Info(-1, "Please enter a valid OTP");
+        }
+    }
+
+    function validateEmail(email) {
+        const re = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+        return re.test(email);
+    }
+
+    function toggleLoading(isLoading) {
+        document.getElementById("btnhide2").hidden = isLoading;
+        document.getElementById("btnhide1").hidden = !isLoading;
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        initializeOTPInputs();
+    });
+
+    function initializeOTPInputs() {
+        const inputs = document.querySelectorAll('#otp > *[id]');
+        inputs.forEach((input, index) => {
+            input.addEventListener('keydown', function (event) {
+                if (event.key === "Backspace") {
+                    input.value = '';
+                    if (index !== 0) inputs[index - 1].focus();
+                } else if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
+                    input.value = event.key;
+                    if (index !== inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                    event.preventDefault();
+                }
+            });
+        });
+    }
+</script>

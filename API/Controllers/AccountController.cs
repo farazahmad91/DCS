@@ -13,6 +13,7 @@ using System.Security.Claims;
 using System.Text;
 using API.SendEmail;
 using Entities;
+using API.DBContext.Response;
 
 
 namespace API.Controllers
@@ -42,6 +43,7 @@ namespace API.Controllers
 
         public async Task<IActionResult> Registration(RegisterViewModel model)
         {
+            var response = new Response()
             {
                 ResponseText = "Failed To Register",
                 StatusCode = ResponseStatus.FAILED,
@@ -187,7 +189,7 @@ namespace API.Controllers
         public async Task<IActionResult> VerifyOTP(ValidateEmail validateEmail)
         {
             var i = await _userservice.VerifyOTP(validateEmail);
-            return Ok();
+            return Ok(i);
         }
     }
 }

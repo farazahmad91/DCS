@@ -13,6 +13,7 @@ using API.SendEmail;
 using Microsoft.AspNetCore.Http;
 using static System.Net.WebRequestMethods;
 using Entities;
+using ErrorLog = API.DBContext.Response.ErrorLog;
 
 namespace API.Service
 {
@@ -89,7 +90,7 @@ namespace API.Service
             }
             catch (Exception ex)
             {
-                var error = new ErrorLog
+                var error = new DBContext.Response.ErrorLog
                 {
                     ClassName = GetType().Name,
                     FunctionName = "RegisterAsync",
@@ -291,6 +292,11 @@ namespace API.Service
                     OTP= validateEmail.OTP
                 };
                 var i = await _dapper.GetAsync<Response>(sp, param);
+                if (i.StatusCode==ResponseStatus.SUCCESS)
+                {
+                    res.ResponseText = "OTP Verified";
+                    res.StatusCode = ResponseStatus.SUCCESS;
+                }
                 res = i;
                 return res;
             }
