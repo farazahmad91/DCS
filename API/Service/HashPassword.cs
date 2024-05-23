@@ -6,9 +6,16 @@ namespace API.Service
 {
     public class HashPassword : IHashPassword
     {
+        private readonly IConfiguration _configuration;
+
+        public HashPassword(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+        public string EncryptionKey { get; set; }
         public  string EncodePasswordToBase64(string clearText)
         {
-            string encryptionKey = "MAKV2SPBNI99212";
+            string encryptionKey = _configuration["HashPassword:EncryptionKey"];/*"MAKV2SPBNI99212";*/
             byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
             using (Aes encryptor = Aes.Create())
             {
@@ -33,7 +40,7 @@ namespace API.Service
  
             public string DecodeFrom64(string cipherText)
             {
-                string encryptionKey = "MAKV2SPBNI99212";
+                string encryptionKey = _configuration["HashPassword:EncryptionKey"];
                 byte[] cipherBytes = Convert.FromBase64String(cipherText);
                 using (Aes encryptor = Aes.Create())
                 {
@@ -53,32 +60,6 @@ namespace API.Service
 
                 return cipherText;
             }
-
-        public void SendEmail(string email, string password)
-        {
-
-            try
-            {
-                using (MailMessage mail = new MailMessage())
-                using (SmtpClient smtpServer = new SmtpClient("smtp.gmail.com"))
-                {
-                    string fromAddress = "cozmotest91@gmail.com";
-                    mail.From = new MailAddress(fromAddress);
-                    mail.To.Add(email);
-                    mail.Subject = "New Register";
-                    mail.Body = "Dear Customer,\n\nThank you for your new registration. Your password is: " + password + ". If you have any questions or need assistance, please contact us immediately.\n\nThank you for your attention.\n\nBest regards,\nFaraz Shaikh";
-                    smtpServer.Port = 587;
-                    smtpServer.Credentials = new System.Net.NetworkCredential("cozmotest91@gmail.com", "cuncfbllgbiwwyax");
-                    smtpServer.EnableSsl = true;
-
-                    smtpServer.Send(mail);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error sending email", ex);
-            }
-        }
     }
     }
 
