@@ -1,6 +1,6 @@
 ﻿using API.Claims;
 using API.DBContext.Entities;
-using API.DBContext.Response;
+using Entities.Response;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;

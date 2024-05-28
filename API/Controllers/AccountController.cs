@@ -13,7 +13,7 @@ using System.Security.Claims;
 using System.Text;
 using API.SendEmail;
 using Entities;
-using API.DBContext.Response;
+using Entities.Response;
 
 
 namespace API.Controllers
@@ -118,7 +118,7 @@ namespace API.Controllers
         [HttpPost(nameof(ForgetPassword))]
         public async Task<IActionResult> ForgetPassword(ForgotPasswordViewModel forgetPasswordReq)
         {
-            var response = new DBContext.Response.Response<bool>
+            var response = new Entities.Response.Response<bool>
             {
                 ResponseText = "An error has ocurred try after sometime!",
                 StatusCode = ResponseStatus.SUCCESS
@@ -134,7 +134,7 @@ namespace API.Controllers
          
             response.ResponseText = "";
             response.StatusCode = response.StatusCode;
-            if (response.StatusCode == DBContext.Response.ResponseStatus.SUCCESS)
+            if (response.StatusCode == ResponseStatus.SUCCESS)
             {
                 if (string.IsNullOrEmpty(forgetPasswordReq.NewPassword))
                 {
@@ -146,7 +146,7 @@ namespace API.Controllers
                 var resetPassResult = await userManager.ResetPasswordAsync(user, token, forgetPasswordReq.NewPassword);
                 if (resetPassResult.Succeeded)
                 {
-                    response.StatusCode = DBContext.Response.ResponseStatus.SUCCESS;
+                    response.StatusCode = ResponseStatus.SUCCESS;
                     response.ResponseText = "Password changed successfully!";
                 }
                 else

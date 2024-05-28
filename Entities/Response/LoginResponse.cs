@@ -1,4 +1,4 @@
-﻿namespace API.DBContext.Response
+﻿namespace Entities.Response
 {
     public class LoginResponse
     {
