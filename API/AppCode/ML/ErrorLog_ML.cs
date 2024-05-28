@@ -1,5 +1,5 @@
 ﻿using API.AppCode.IML;
-using API.DBContext.Response;
+using Entities.Response;
 
 namespace API.AppCode.ML
 {

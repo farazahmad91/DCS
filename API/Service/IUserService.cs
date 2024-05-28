@@ -1,5 +1,5 @@
 ﻿using API.DBContext.Entities;
-using API.DBContext.Response;
+using Entities.Response;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 

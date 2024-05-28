@@ -2,7 +2,7 @@
 using API.AppCode.IML;
 using API.AppCode.IService;
 using DCS.Models;
-using API.DBContext.Response;
+using Entities.Response;
 
 namespace API.AppCode.ML
 {

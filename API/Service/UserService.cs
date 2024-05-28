@@ -1,5 +1,5 @@
 ﻿using API.DBContext.Entities;
-using API.DBContext.Response;
+using Entities.Response;
 using API.DBContext;
 using Microsoft.AspNetCore.Identity;
 using API.AppCode.IML;
@@ -13,7 +13,7 @@ using API.SendEmail;
 using Microsoft.AspNetCore.Http;
 using static System.Net.WebRequestMethods;
 using Entities;
-using ErrorLog = API.DBContext.Response.ErrorLog;
+using ErrorLog = Entities.Response.ErrorLog;
 
 namespace API.Service
 {
@@ -90,7 +90,7 @@ namespace API.Service
             }
             catch (Exception ex)
             {
-                var error = new DBContext.Response.ErrorLog
+                var error = new ErrorLog
                 {
                     ClassName = GetType().Name,
                     FunctionName = "RegisterAsync",
