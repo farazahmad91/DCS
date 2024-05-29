@@ -239,8 +239,8 @@ namespace API.Service
                 }
                 else
                 { string otp = GenerateOTP(6);
-                    string sub  = "Testing";
-                    string body = $"Your OTP is {otp}";
+                    string sub = "Verification of Email Address";
+                    string body = $"Dear Customer,\n\nWe are reaching out to verify your email address in order to ensure the security and integrity of your account. As part of our authentication process, please find below the One-Time Password (OTP) required for verification:\n\nOTP: {otp}\n\nKindly enter the OTP provided above to complete the verification process. If you encounter any difficulties or have any questions, please do not hesitate to contact our support team for assistance.\n\nThank you for your cooperation.\n\nBest regards,\nThe DCS Team";
                     _sendmail.SendEmails(email, sub, body);
                     var param = new {
                         Email = email,
