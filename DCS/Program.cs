@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddScoped<Sendmail>();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IRequestInfo, RequestInfo>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
