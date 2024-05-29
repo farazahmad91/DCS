@@ -102,7 +102,7 @@
                 </button>
             </div>
             <div class="mt-4 h-r">
-                <button class="btn btn-danger px-4 validate" id="btnrohide2" onclick="ValidatedOTP();">Resend OTP</button>
+                <button class="btn btn-danger px-4 validate" id="btnrohide2" onclick="sendEmail();">Resend OTP</button>
                 <button class="btn btn-primary validate1" type="button" id="btnrohide1" hidden>
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     Loading...
@@ -133,9 +133,7 @@
             });
         }
 
-        OTPInput(); // Call the OTPInput function to initialize the inputs
-
-        // Add event listener to the validate button
+        OTPInput();
         document.querySelector('.validate').addEventListener('click', function () {
             const otp = Array.from(document.querySelectorAll('#otp > *[id]'))
                 .map(input => input.value)
@@ -176,9 +174,7 @@
                    
                 })
                 .fail(function (error) {
-                    // Handle failure
                     console.error('Validation failed:', error);
-                    // Do something on failure if needed
                 });
         }
     }
