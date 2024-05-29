@@ -153,7 +153,7 @@
         var email = $("#Email").val();
         if (validateEmail(email)) {
             toggleLoading(true);
-            sessionStorage.setItem('email', email);
+            var sEmail=  sessionStorage.setItem('email', email);
             var formData = { useremail: email };
 
             $.post("/Validate-Email", formData)
@@ -162,6 +162,22 @@
                     if (res.statusCode === 1) {
                         $("#exampleModal").modal("show");
                         $(".hdndiv").addClass("invisible");
+                        document.getElementById("uemail").innerHTML = maskEmail(sEmail);
+                        document.querySelector("h-v").hidden = true;
+                        document.querySelector("h-r").hidden = false;
+                        var timer = 60;
+                        var countdown = setInterval(function () {
+                            if (timer > 0) {
+                                document.getElementById("timerDisplay").innerHTML = "Resend OTP in: " + timer + " seconds";
+                                timer--;
+                            } else {
+                                // Hide timer and show resend button
+                                clearInterval(countdown);
+                                document.getElementById("timerDisplay").innerHTML = ""; // Remove timer display
+                                document.getElementById("btnResendOTP").hidden = false; // Show resend button
+                            }
+                        }, 1000); // Update every second
+
                     } else {
                         $("#btnhide2").val("Resend OTP");
                         Info(res.statusCode,res.responseText);
@@ -234,5 +250,18 @@
                 }
             });
         });
+    }
+
+    function maskEmail(email) {
+        // Split the email address into local part and domain part
+        var parts = email.split("@@");
+        var localPart = parts[0];
+        var domainPart = parts[1];
+
+        // Mask the local part, leaving only the first and last characters visible
+        var maskedLocalPart = localPart.charAt(0) + "xxxxxx" + localPart.charAt(localPart.length - 1);
+
+        // Combine the masked local part with the domain part
+        return maskedLocalPart + "@@" + domainPart;
     }
 </script>
