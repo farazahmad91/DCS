@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using static System.Net.WebRequestMethods;
 using Entities;
 using ErrorLog = Entities.Response.ErrorLog;
+using System.Security.Cryptography;
 
 namespace API.Service
 {
@@ -27,7 +28,7 @@ namespace API.Service
         private readonly IHashPassword _hashpass;
         private readonly IDapper _dapper;
         private readonly Sendmail _sendmail;
-        public UserService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration,IHashPassword hashpass, IDapper dapper, Sendmail sendmail)
+        public UserService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IHashPassword hashpass, IDapper dapper, Sendmail sendmail)
         {
             _signInManager = signInManager;
             this.userManager = userManager;
@@ -84,9 +85,9 @@ namespace API.Service
                 }
                 if (result.Succeeded)
                 {
-                    Register(model.Email,model.ConfirmPassword);
+                    Register(model.Email, model.ConfirmPassword);
                 }
-                    return response;
+                return response;
             }
             catch (Exception ex)
             {
@@ -108,7 +109,7 @@ namespace API.Service
             var sp = "sp_insert_user";
             try
             {
-            var pass =    _hashpass.EncodePasswordToBase64(password);
+                var pass = _hashpass.EncodePasswordToBase64(password);
                 var param = new
                 {
                     username = email,
@@ -214,7 +215,7 @@ namespace API.Service
         JOIN AspNetUserRoles UR ON U.Id = UR.UserId
         JOIN AspNetRoles R ON UR.RoleId = R.Id";
 
-            var usersWithRoles =  _dapper.GetAll<User>(query);
+            var usersWithRoles = _dapper.GetAll<User>(query);
 
             return usersWithRoles.ToList();
         }
@@ -238,15 +239,18 @@ namespace API.Service
                     return response;
                 }
                 else
-                { string otp = GenerateOTP(6);
+                {
+                    var skey = configuration["HashPassword:EncryptionKey"];
+                    string otp = GenerateOTP("ABCDEFGHIJKLMNOPQRSTUVWXYZ234567");
                     string sub = "Verification of Email Address";
                     string body = $"Dear Customer,\n\nWe are reaching out to verify your email address in order to ensure the security and integrity of your account. As part of our authentication process, please find below the One-Time Password (OTP) required for verification:\n\nOTP: {otp}\n\nKindly enter the OTP provided above to complete the verification process. If you encounter any difficulties or have any questions, please do not hesitate to contact our support team for assistance.\n\nThank you for your cooperation.\n\nBest regards,\nThe DCS Team";
                     _sendmail.SendEmails(email, sub, body);
-                    var param = new {
+                    var param = new
+                    {
                         Email = email,
-                        OTP =otp
+                        OTP = otp
                     };
-                   _dapper.Insert(param, "sp_Validate_Email");
+                    _dapper.Insert(param, "sp_Validate_Email");
                     response.ResponseText = "OTP sent to your registered email!";
                     response.StatusCode = ResponseStatus.SUCCESS;
                     //response.Result = true;
@@ -268,7 +272,7 @@ namespace API.Service
             }
         }
 
-        public static string GenerateOTP(int length)
+        public static string GenOTP(int length)
         {
             const string chars = "0123456789";
             Random random = new Random();
@@ -282,14 +286,14 @@ namespace API.Service
             {
                 ResponseText="Invalid OTP",
                 StatusCode = ResponseStatus.FAILED,
-           };
+            };
             var sp = "sp_VerifyOTP";
             try
             {
                 var param = new
                 {
-                    Email= validateEmail.Email,
-                    OTP= validateEmail.OTP
+                    Email = validateEmail.Email,
+                    OTP = validateEmail.OTP
                 };
                 var i = await _dapper.GetAsync<Response>(sp, param);
                 if (i.StatusCode==ResponseStatus.SUCCESS)
@@ -313,5 +317,61 @@ namespace API.Service
                 return res;
             }
         }
+
+
+        private static string GenerateOTP(byte[] key, long counter, int digits = 6)
+        {
+            // Convert counter to byte array (big-endian)
+            byte[] counterBytes = BitConverter.GetBytes(counter);
+            if (BitConverter.IsLittleEndian)
+                Array.Reverse(counterBytes);
+
+            // Compute HMAC-SHA1 hash
+            using (HMACSHA1 hmac = new HMACSHA1(key))
+            {
+                byte[] hash = hmac.ComputeHash(counterBytes);
+                int offset = hash[hash.Length - 1] & 0x0F;
+                int binary = ((hash[offset] & 0x7F) << 24)
+                           | ((hash[offset + 1] & 0xFF) << 16)
+                           | ((hash[offset + 2] & 0xFF) << 8)
+                           | (hash[offset + 3] & 0xFF);
+
+                // Generate the OTP
+                int otp = binary % (int)Math.Pow(10, digits);
+
+                // Format OTP to have fixed number of digits
+                return otp.ToString().PadLeft(digits, '0');
+            }
+        }
+
+        public static string GenerateOTP(string secret, int digits = 6)
+        {
+            // Decode the Base32 secret key
+            byte[] key = Base32Decode(secret);
+
+            // Get the current Unix timestamp (in seconds)
+            long counter = DateTimeOffset.UtcNow.ToUnixTimeSeconds() / 30;
+
+            // Generate OTP using TOTP algorithm
+            return GenerateOTP(key, counter, digits);
+        }
+
+        private static byte[] Base32Decode(string base32Encoded)
+        {
+            const string base32Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+
+            base32Encoded = base32Encoded.TrimEnd('='); // Remove padding characters
+
+            var bits = base32Encoded
+                .Select(c => Convert.ToString(base32Chars.IndexOf(c), 2).PadLeft(5, '0'))
+                .Aggregate((a, b) => a + b);
+
+            var result = Enumerable.Range(0, bits.Length / 8)
+                .Select(i => Convert.ToByte(bits.Substring(i * 8, 8), 2))
+                .ToArray();
+
+            return result;
+        }
+
     }
 }

@@ -14,6 +14,8 @@ using System.Text;
 using API.SendEmail;
 using Entities;
 using Entities.Response;
+using Azure;
+using Response = Entities.Response.Response;
 
 
 namespace API.Controllers
@@ -180,6 +182,19 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> ValidateEmail(string email)
         {
+            var response = new Entities.Response.Response<bool>
+            {
+                ResponseText = "An error has ocurred try after sometime!",
+                StatusCode = ResponseStatus.SUCCESS
+            };
+            var user = await userManager.FindByEmailAsync(email);
+
+            if (user == null || user.Id.Length == 0)
+            {
+                response.ResponseText = "Please enter valid email!";
+                response.StatusCode=ResponseStatus.FAILED;
+                return BadRequest(response);
+            }
             var i = await _userservice.ValidateEmail(email);
                 return Ok(i);
         }
