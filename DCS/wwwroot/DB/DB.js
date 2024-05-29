@@ -374,3 +374,34 @@ USE[master]
 GO
 ALTER DATABASE[DCS] SET  READ_WRITE
 GO
+
+
+alter PROCEDURE sp_VerifyOTP
+@Email VARCHAR(100),
+	@OTP INT
+AS
+BEGIN  
+    SET NOCOUNT ON;  
+  
+    DECLARE @IsValid BIT;  
+    DECLARE @CurrentTime DATETIME;
+    DECLARE @ExpiryTime DATETIME;
+
+    SET @CurrentTime = GETDATE();
+
+    SET @ExpiryTime = DATEADD(MINUTE, -1, @CurrentTime);
+
+    IF EXISTS(SELECT 1 FROM tbl_Validate_Email WHERE vEmail = @Email AND vOTP = @OTP AND vEntry >= @ExpiryTime)
+BEGIN  
+        DELETE FROM tbl_Validate_Email WHERE vEmail = @Email AND vOTP = @OTP;   
+        SELECT 1 AS StatusCode, 'OTP Verified' AS ResponseText;
+Return
+END
+ELSE
+BEGIN  
+	    DELETE FROM tbl_Validate_Email WHERE vEmail = @Email AND vOTP = @OTP;
+SELECT - 1 AS StatusCode, 'Invalid OTP' AS ResponseText;
+Return
+
+END
+END  
