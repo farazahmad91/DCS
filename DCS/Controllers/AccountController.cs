@@ -21,15 +21,16 @@ namespace DCS.Controllers
 {
     public class AccountController : Controller
     {
-       private readonly  IRequestInfo requestInfo;
+        private readonly IConfiguration _configuration;
+        private readonly  IRequestInfo requestInfo;
         public string email, hostName;
         private readonly string _BaseUrl;
         private readonly IWebHostEnvironment webHostEnvironment;
          private readonly Sendmail _sendmail;
-        public AccountController(/*APIrequest aPIrequest,*/ IWebHostEnvironment webHostEnvironment, Sendmail sendmail)
+        public AccountController(IConfiguration configuration, IWebHostEnvironment webHostEnvironment, Sendmail sendmail)
         {
-            //this._apirequest = aPIrequest;
-            _BaseUrl = "https://localhost:7079";
+            this._configuration = configuration;
+            _BaseUrl =  _configuration["APIBaseURl:BaseURl"];
             this.webHostEnvironment = webHostEnvironment;
             this._sendmail = sendmail;
         }
@@ -63,10 +64,10 @@ namespace DCS.Controllers
                 try
                 {
                     var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Account/Registration", JsonConvert.SerializeObject(model));
-
+                    res = JsonConvert.DeserializeObject<Response>(apiRes.Result);
                     if (apiRes.Result != null)
                     {
-                        res = JsonConvert.DeserializeObject<Response>(apiRes.Result);
+                        
 
                         if (res.StatusCode == ResponseStatus.SUCCESS)
                         {
@@ -89,8 +90,7 @@ namespace DCS.Controllers
                     }
                     else
                     {
-                        var errorMessage = $"Registration failed with status code: {apiRes.HttpStatusCode}, Message: {apiRes.HttpMessage}";
-                        return Json(errorMessage);
+                        return Json(res);
                     }
                 }
                 catch (Exception ex)
@@ -144,7 +144,7 @@ namespace DCS.Controllers
                     string body = $"Dear Customer, We have detected a login attempt to your account from the following IP address: {userip}. If you did not initiate this login attempt, please contact our support team immediately for assistance. Thank you for your prompt attention to this matter. Best regards, The DCS Team";
                     _sendmail.SendEmails(email, subject, body);
                     loginVm.message = authenticateResponse.ResponseText;
-                    return Json(loginVm);
+                    return Json(authenticateResponse);
                 }
 
                 var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -193,6 +193,8 @@ namespace DCS.Controllers
 
         public async Task<IActionResult> SaveChangePassword(ChangePassword changePassword)
         {
+            string email = User.FindFirstValue(ClaimTypes.Email);
+            string name = User.FindFirstValue(ClaimTypes.Name);
             var res = new Response()
             {
                 ResponseText="Failed To Change Password",
@@ -205,6 +207,23 @@ namespace DCS.Controllers
                 if (apiRes != null)
                 {
                     res = JsonConvert.DeserializeObject<Response>(apiRes.Result);
+                }
+                if (res.StatusCode==ResponseStatus.SUCCESS)
+                {
+                    var userip = requestInfo.GetRemoteIP();
+                    string subject = "Password Change Notification";
+                    string body = $"Dear {name},\n\n" +
+                                  "We would like to inform you of a recent update regarding your account at DCS.\n\n" +
+                                  "As part of our commitment to security and ensuring the integrity of your account, we have initiated a password change process. Please find the details below:\n\n" +
+                                  $"New Password: {changePassword.NewPassword}\n\n" +
+                                  $"Initiated from IP Address: {userip}\n\n" +
+                                  "If you did not request this change or have any concerns about the security of your account, please contact our support team immediately.\n\n" +
+                                  "Thank you for your attention to this matter.\n\n" +
+                                  "Best regards,\n" +
+                                  "The DCS Team";
+
+
+                    _sendmail.SendEmails(email, subject, body);
                 }
                 return Json(res);
             }
@@ -337,7 +356,8 @@ namespace DCS.Controllers
         [HttpPost]
         public async Task<IActionResult> ResetPassword(ForgotPasswordViewModel forgetPasswordReq)
         {
-
+            string email = User.FindFirstValue(ClaimTypes.Email);
+            string name = User.FindFirstValue(ClaimTypes.Name);
             var res = new Response()
             {
                 ResponseText = "email not register",
@@ -351,7 +371,28 @@ namespace DCS.Controllers
                 if (apiRes.Result != null)
                 {
                     res = JsonConvert.DeserializeObject<Response>(apiRes.Result);
-                    return Json(res);
+
+                }
+                if (res.StatusCode==ResponseStatus.SUCCESS)
+                {
+                    var userip = requestInfo.GetRemoteIP();
+                    string subject = "Reset Password Notification";
+                    string body = $"Dear {name},\n\n" +
+                                  "We hope this message finds you well.\n\n" +
+                                  "We are writing to inform you of an important update regarding your DCS account.\n\n" +
+                                  "In accordance with our ongoing efforts to enhance account security and safeguard your personal information, we have initiated a password reset process for your account.\n\n" +
+                                  "Below are the details of the password reset:\n\n" +
+                                  $"New Password: {forgetPasswordReq.NewPassword}\n" +
+                                  $"Initiated from IP Address: {userip}\n\n" +
+                                  "If you have not initiated this password reset or suspect any unauthorized access to your account, we strongly encourage you to reach out to our dedicated support team immediately for assistance.\n\n" +
+                                  "We appreciate your prompt attention to this matter as we strive to ensure the continued security of your account.\n\n" +
+                                  "Thank you for your cooperation and understanding.\n\n" +
+                                  "Best Regards,\n" +
+                                  "The DCS Team";
+
+
+
+                    _sendmail.SendEmails(email, subject, body);
                 }
                 return Json(res);
             }

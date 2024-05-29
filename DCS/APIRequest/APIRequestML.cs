@@ -280,4 +280,9 @@ namespace API.AppCode.APIRequest
         }
 
     }
+
+    public class APIBaseURl
+    {
+        public string BaseURl { get; set; }
+    }
 }
