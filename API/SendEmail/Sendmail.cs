@@ -5,14 +5,14 @@ using Microsoft.Extensions.Configuration;
 
 namespace API.SendEmail
 {
-	public class Sendmail
-	{
-		private readonly IConfiguration _configuration;
+    public class Sendmail
+    {
+        private readonly IConfiguration _configuration;
         public string myIP, hostName;
         public Sendmail(IConfiguration configuration)
-		{
-			_configuration = configuration;
-		}
+        {
+            _configuration = configuration;
+        }
         public void SendEmails(string email, string subject, string body)
         {
 
@@ -43,18 +43,33 @@ namespace API.SendEmail
             }
         }
 
+
+
         public string GetIPAddress()
         {
             try
             {
-                hostName = Dns.GetHostName();
-                IPHostEntry myHostEntry = Dns.GetHostEntry(hostName);
-                myIP = myHostEntry.AddressList[0].ToString();
+                string hostName = Dns.GetHostName();
 
+                IPHostEntry myHostEntry = Dns.GetHostEntry(hostName);
+                string myIP = myHostEntry.AddressList
+                                          .FirstOrDefault(ip => ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                                          ?.ToString();
+
+                if (myIP == null)
+                {
+                    throw new Exception("No IPv4 address found for the host.");
+                }
+
+                return myIP;
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Error in GetIPAddress: {ex.Message}");
+                return null;
             }
         }
+
     }
 }
+

@@ -141,17 +141,7 @@ namespace DCS.Controllers
                     string email = loginRequest.Email;
                     string subject = "Account Login Alert";
 
-                    string body = $@"Dear Customer,
-
-                         We have detected a login attempt to your account from the following IP address: {userip}.
-
-                         If you did not initiate this login attempt, please contact our support team immediately for assistance.
-
-                         Thank you for your prompt attention to this matter.
-
-                         Best regards,
-                         The DCS Team";
-
+                    string body = $"Dear Customer, We have detected a login attempt to your account from the following IP address: {userip}. If you did not initiate this login attempt, please contact our support team immediately for assistance. Thank you for your prompt attention to this matter. Best regards, The DCS Team";
                     _sendmail.SendEmails(email, subject, body);
                     loginVm.message = authenticateResponse.ResponseText;
                     return Json(loginVm);
