@@ -85,7 +85,7 @@
     <div class="position-relative">
         <div class="card p-2 text-center">
             <h6>Please enter the one time password <br> to verify your account</h6>
-            <div> <span>A code has been sent to</span> <small>*******shaikh@gmail.com</small> </div>
+            <div> <span>A code has been sent to</span> <small id="uemail"></small> </div>
             <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
                 <input class="m-2 text-center form-control rounded cls" type="text" id="first" maxlength="1" />
                 <input class="m-2 text-center form-control rounded cls" type="text" id="second" maxlength="1" />
@@ -94,13 +94,21 @@
                 <input class="m-2 text-center form-control rounded cls" type="text" id="fifth" maxlength="1" />
                 <input class="m-2 text-center form-control rounded cls" type="text" id="sixth" maxlength="1" />
             </div>
-            <div class="mt-4">
+            <div class="mt-4 h-v">
                 <button class="btn btn-danger px-4 validate" id="btnhide2" onclick="ValidatedOTP();">Validate</button>
                 <button class="btn btn-primary validate1" type="button" id="btnhide1" hidden>
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     Loading...
                 </button>
             </div>
+            <div class="mt-4 h-r">
+                <button class="btn btn-danger px-4 validate" id="btnrohide2" onclick="ValidatedOTP();">Resend OTP</button>
+                <button class="btn btn-primary validate1" type="button" id="btnrohide1" hidden>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                </button>
+            </div>
+            <div id="timerDisplay"></div>
         </div>
     </div>
 </div>
