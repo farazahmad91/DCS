@@ -1,3 +1,6 @@
+using API.AppCode.Configuration;
+using API.RequestInfo;
+using API.SendEmail;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.OpenApi.Models;
@@ -6,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services.AddScoped<Sendmail>();
+builder.Services.AddSingleton<IRequestInfo, RequestInfo>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>

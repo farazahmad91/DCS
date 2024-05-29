@@ -13,6 +13,7 @@ using API.AppCode.IML;
 using API.AppCode.ML;
 using API.SendEmail;
 using System.Configuration;
+using API.RequestInfo;
 
 namespace API.Extension
 {
@@ -31,6 +32,7 @@ namespace API.Extension
             services.AddSingleton<ConnectionStrings>(ch);
             services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
             services.AddTransient<Sendmail>();
+            services.AddSingleton<IRequestInfo, API.RequestInfo.RequestInfo>();
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(ch.Default);
