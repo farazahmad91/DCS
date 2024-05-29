@@ -14,25 +14,27 @@ using API.AppCode.APIRequest;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity.Data;
 using Entities;
+using API.SendEmail;
+using API.RequestInfo;
 
 namespace DCS.Controllers
 {
     public class AccountController : Controller
     {
-       // private readonly APIrequest _apirequest;
-        public string myIP, hostName;
+       private readonly  IRequestInfo requestInfo;
+        public string email, hostName;
         private readonly string _BaseUrl;
         private readonly IWebHostEnvironment webHostEnvironment;
-       // private readonly UploadImage uploadImage;
-        public AccountController(/*APIrequest aPIrequest,*/ IWebHostEnvironment webHostEnvironment/*, UploadImage uploadImage*/)
+         private readonly Sendmail _sendmail;
+        public AccountController(/*APIrequest aPIrequest,*/ IWebHostEnvironment webHostEnvironment, Sendmail sendmail)
         {
             //this._apirequest = aPIrequest;
             _BaseUrl = "https://localhost:7079";
             this.webHostEnvironment = webHostEnvironment;
-            //this.uploadImage = uploadImage;
+            this._sendmail = sendmail;
         }
 
-       
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -68,8 +70,19 @@ namespace DCS.Controllers
 
                         if (res.StatusCode == ResponseStatus.SUCCESS)
                         {
-                            //_apirequest.Post("UserProfile/AddUserProfileDetails", model);
-                            SendEmail(model.Email, model.Password);
+                            //_apirequest.Post("UserProfile/AddUserProfileDetails", model);.
+                            string email = model.Email;
+                            string subject = "Welcome to DCS - Registration Confirmation";
+                            string body = $"Dear {model.Name},\n\n" +
+                                          "Thank you for registering with DCS. We are pleased to welcome you.\n\n" +
+                                          "Your registration details are as follows:\n" +
+                                          $"Password: {model.ConfirmPassword}\n\n" +
+                                          "If you have any questions or require further assistance, please do not hesitate to contact our support team.\n\n" +
+                                          "Thank you for choosing DCS.\n\n" +
+                                          "Best regards,\n" +
+                                          "The DCS Team";
+
+                            _sendmail.SendEmails(email, subject, body);
                         }
                         return Json(res);
 
@@ -124,8 +137,24 @@ namespace DCS.Controllers
 
                 if (authenticateResponse.StatusCode != ResponseStatus.SUCCESS)
                 {
+                   var userip= requestInfo.GetRemoteIP();
+                    string email = loginRequest.Email;
+                    string subject = "Account Login Alert";
+
+                    string body = $@"Dear Customer,
+
+                         We have detected a login attempt to your account from the following IP address: {userip}.
+
+                         If you did not initiate this login attempt, please contact our support team immediately for assistance.
+
+                         Thank you for your prompt attention to this matter.
+
+                         Best regards,
+                         The DCS Team";
+
+                    _sendmail.SendEmails(email, subject, body);
                     loginVm.message = authenticateResponse.ResponseText;
-                    return BadRequest(loginVm);
+                    return Json(loginVm);
                 }
 
                 var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -209,44 +238,8 @@ namespace DCS.Controllers
             return PartialView(list);
         }
 
-        public void SendEmail(string email, string password)
-        {
 
-            try
-            {
-                using (MailMessage mail = new MailMessage())
-                using (SmtpClient smtpServer = new SmtpClient("smtp.gmail.com"))
-                {
-                    string fromAddress = "cozmotest91@gmail.com";
-                    mail.From = new MailAddress(fromAddress);
-                    mail.To.Add(email);
-                    mail.Subject = "New Register";
-                    mail.Body = "Dear Customer,\n\nThank you for your new registration. Your password is: " + password + ". If you have any questions or need assistance, please contact us immediately.\n\nThank you for your attention.\n\nBest regards,\nFaraz Shaikh";
-                    smtpServer.Port = 587;
-                    smtpServer.Credentials = new System.Net.NetworkCredential("cozmotest91@gmail.com", "cuncfbllgbiwwyax");
-                    smtpServer.EnableSsl = true;
 
-                    smtpServer.Send(mail);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error sending email", ex);
-            }
-        }
-        public void GetIPAddress()
-        {
-            try
-            {
-                hostName = Dns.GetHostName();
-                IPHostEntry myHostEntry = Dns.GetHostEntry(hostName);
-                myIP = myHostEntry.AddressList[0].ToString();
-
-            }
-            catch (Exception ex)
-            {
-            }
-        }
 
         [HttpGet]
  

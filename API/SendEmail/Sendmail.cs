@@ -8,8 +8,8 @@ namespace API.SendEmail
 	public class Sendmail
 	{
 		private readonly IConfiguration _configuration;
-
-		public Sendmail(IConfiguration configuration)
+        public string myIP, hostName;
+        public Sendmail(IConfiguration configuration)
 		{
 			_configuration = configuration;
 		}
@@ -43,5 +43,18 @@ namespace API.SendEmail
             }
         }
 
+        public string GetIPAddress()
+        {
+            try
+            {
+                hostName = Dns.GetHostName();
+                IPHostEntry myHostEntry = Dns.GetHostEntry(hostName);
+                myIP = myHostEntry.AddressList[0].ToString();
+
+            }
+            catch (Exception ex)
+            {
+            }
+        }
     }
 }
