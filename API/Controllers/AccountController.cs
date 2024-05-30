@@ -91,12 +91,14 @@ namespace API.Controllers
                 if (!checkPassword)
                 {
                     response.ResponseText = "Invalid current password!";
+                    response.StatusCode = ResponseStatus.FAILED;
                     return BadRequest(response);
                 }
                 var result = await userManager.ChangePasswordAsync(user, passwordReq.CurrentPassword, passwordReq.NewPassword);
                 if (!result.Succeeded)
                 {
                     response.ResponseText = "Something went wrong try after sometime!";
+                    response.StatusCode = ResponseStatus.FAILED;
                     return BadRequest(response);
                 }
                 response.ResponseText = "Password has been changed successfully!";
@@ -120,54 +122,19 @@ namespace API.Controllers
         [HttpPost(nameof(ForgetPassword))]
         public async Task<IActionResult> ForgetPassword(ForgotPasswordViewModel forgetPasswordReq)
         {
-            var response = new Entities.Response.Response<bool>
+            var result = await _userservice.ForgetPassword(forgetPasswordReq);
+            if (result.StatusCode==ResponseStatus.FAILED)
             {
-                ResponseText = "An error has ocurred try after sometime!",
-                StatusCode = ResponseStatus.SUCCESS
-            };
-            var user = await userManager.FindByEmailAsync(forgetPasswordReq.Email);
-                    
-            if (user == null || user.Id.Length == 0)
-            {
-                response.ResponseText = "User not found!";
-                return BadRequest(response);
+                return BadRequest(result);
             }
-         
-         
-            response.ResponseText = "";
-            response.StatusCode = response.StatusCode;
-            if (response.StatusCode == ResponseStatus.SUCCESS)
-            {
-                if (string.IsNullOrEmpty(forgetPasswordReq.NewPassword))
-                {
-                    response.ResponseText = "Please provide password!";
-                    return BadRequest(response);
-                }
-                var token = await userManager.GeneratePasswordResetTokenAsync(user);
-
-                var resetPassResult = await userManager.ResetPasswordAsync(user, token, forgetPasswordReq.NewPassword);
-                if (resetPassResult.Succeeded)
-                {
-                    response.StatusCode = ResponseStatus.SUCCESS;
-                    response.ResponseText = "Password changed successfully!";
-                }
-                else
-                {
-                    response.StatusCode = ResponseStatus.FAILED;
-                    response.ResponseText = resetPassResult.Errors.FirstOrDefault().ToString();
-                }
-            }
-            if (response.StatusCode == ResponseStatus.SUCCESS)
-            {
-                return Ok(response);
-            }
-            return BadRequest(response);
+            return Ok(result);
         }
 
         [HttpPost(nameof(EncodePassword))]
         public async Task<IActionResult> EncodePassword(string pass)
         {
           var i=  _hashpass.EncodePasswordToBase64(pass);
+
             return Ok(i);
         }
 

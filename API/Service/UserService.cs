@@ -13,7 +13,6 @@ using API.SendEmail;
 using Microsoft.AspNetCore.Http;
 using static System.Net.WebRequestMethods;
 using Entities;
-using ErrorLog = Entities.Response.ErrorLog;
 using System.Security.Cryptography;
 
 namespace API.Service
@@ -91,12 +90,12 @@ namespace API.Service
             }
             catch (Exception ex)
             {
-                var error = new ErrorLog
+                var error = new Entities.ErrorLog
                 {
                     ClassName = GetType().Name,
-                    FunctionName = "RegisterAsync",
-                    ResponseText = ex.Message,
-                    Proc_Name = "",
+                    FuncName = "RegisterAsync",
+                    Error = ex.Message,
+                    ProcName = "",
                 };
                 var _ = new ErrorLog_ML(_dapper).Error(error);
                 return response;
@@ -121,12 +120,12 @@ namespace API.Service
             }
             catch (Exception ex)
             {
-                var error = new ErrorLog
+                var error = new Entities.ErrorLog
                 {
                     ClassName = GetType().Name,
-                    FunctionName = "Register",
-                    ResponseText = ex.Message,
-                    Proc_Name = sp,
+                    FuncName = "RegisterAsync",
+                    Error = ex.Message,
+                    ProcName = "",
                 };
                 var _ = new ErrorLog_ML(_dapper).Error(error);
                 return res;
@@ -192,12 +191,12 @@ namespace API.Service
             }
             catch (Exception ex)
             {
-                var error = new ErrorLog
+                var error = new Entities.ErrorLog
                 {
                     ClassName = GetType().Name,
-                    FunctionName = "Login",
-                    ResponseText = ex.Message,
-                    Proc_Name = "",
+                    FuncName = "LoginAsync",
+                    Error = ex.Message,
+                    ProcName = "",
                 };
                 var _ = new ErrorLog_ML(_dapper).Error(error);
                 return response;
@@ -209,15 +208,90 @@ namespace API.Service
 
         public IEnumerable<User> GetAllUsers()
         {
-            string query = @"
-        SELECT U.Id, U.Name, U.UserName, U.Email, R.Name AS Role
-        FROM AspNetUsers U
-        JOIN AspNetUserRoles UR ON U.Id = UR.UserId
-        JOIN AspNetRoles R ON UR.RoleId = R.Id";
+            string sp = "Proc_GetUser";
+            IEnumerable<User> user = new List<User>();
+            try
+            {
+                var usersWithRoles = _dapper.GetAll<User>(sp);
+                usersWithRoles = user;
+            }
+            catch (Exception ex)
+            {
+                var error = new ErrorLog
+                {
+                    ClassName = GetType().Name,
+                    FuncName = "GetAllUsers",
+                    Error = ex.Message,
+                    ProcName = sp,
+                };
+                var _ = new ErrorLog_ML(_dapper).Error(error);
+            }
+            return user;
+        }
 
-            var usersWithRoles = _dapper.GetAll<User>(query);
+        public async Task<Response<bool>> ForgetPassword(ForgotPasswordViewModel forgetPasswordReq)
+        {
+            var response = new Response<bool>
+            {
+                ResponseText = "An error has ocurred try after sometime!",
+                StatusCode = ResponseStatus.SUCCESS
+            };
+            try
+            {
+                var user = await userManager.FindByEmailAsync(forgetPasswordReq.Email);
 
-            return usersWithRoles.ToList();
+                if (user == null || user.Id.Length == 0)
+                {
+                    response.ResponseText = "User not found!";
+                    response.StatusCode = ResponseStatus.FAILED;
+                    response.Result = false;
+                    return response;
+                }
+
+
+                response.ResponseText = "";
+                response.StatusCode = response.StatusCode;
+                if (response.StatusCode == ResponseStatus.SUCCESS)
+                {
+                    if (string.IsNullOrEmpty(forgetPasswordReq.NewPassword))
+                    {
+                        response.ResponseText = "Please provide password!";
+                        response.StatusCode = ResponseStatus.FAILED;
+                        response.Result = false;
+                        return response;
+                    }
+                    var token = await userManager.GeneratePasswordResetTokenAsync(user);
+
+                    var resetPassResult = await userManager.ResetPasswordAsync(user, token, forgetPasswordReq.NewPassword);
+                    if (resetPassResult.Succeeded)
+                    {
+                        response.StatusCode = ResponseStatus.SUCCESS;
+                        response.ResponseText = "Password changed successfully!";
+                    }
+                    else
+                    {
+                        response.StatusCode = ResponseStatus.FAILED;
+                        response.ResponseText = resetPassResult.Errors.FirstOrDefault().ToString();
+                    }
+                }
+                if (response.StatusCode == ResponseStatus.SUCCESS)
+                {
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                var error = new ErrorLog
+                {
+                    ClassName = GetType().Name,
+                    FuncName = "ForgetPassword",
+                    Error = ex.Message,
+                    ProcName = "",
+                };
+                var _ = new ErrorLog_ML(_dapper).Error(error);
+                return response;
+            }
+            return response;
         }
 
 
@@ -267,7 +341,14 @@ namespace API.Service
                 response.ResponseText = "An error has occurred. Please try again later!";
                 response.StatusCode = ResponseStatus.FAILED;
                 //response.Result = false;
-
+                var error = new ErrorLog
+                {
+                    ClassName = GetType().Name,
+                    FuncName = "ValidateEmail",
+                    Error = ex.Message,
+                    ProcName = "",
+                };
+                var _ = new ErrorLog_ML(_dapper).Error(error);
                 return response;
             }
         }
@@ -306,12 +387,12 @@ namespace API.Service
             }
             catch (Exception ex)
             {
-                var error = new ErrorLog
+                var error = new Entities.ErrorLog
                 {
                     ClassName = GetType().Name,
-                    FunctionName = "VerifyOTP",
-                    ResponseText = ex.Message,
-                    Proc_Name = sp,
+                    FuncName = "VerifyOTP",
+                    Error = ex.Message,
+                    ProcName = "",
                 };
                 var _ = new ErrorLog_ML(_dapper).Error(error);
                 return res;
@@ -321,12 +402,9 @@ namespace API.Service
 
         private static string GenerateOTP(byte[] key, long counter, int digits = 6)
         {
-            // Convert counter to byte array (big-endian)
             byte[] counterBytes = BitConverter.GetBytes(counter);
             if (BitConverter.IsLittleEndian)
                 Array.Reverse(counterBytes);
-
-            // Compute HMAC-SHA1 hash
             using (HMACSHA1 hmac = new HMACSHA1(key))
             {
                 byte[] hash = hmac.ComputeHash(counterBytes);
@@ -335,32 +413,43 @@ namespace API.Service
                            | ((hash[offset + 1] & 0xFF) << 16)
                            | ((hash[offset + 2] & 0xFF) << 8)
                            | (hash[offset + 3] & 0xFF);
-
-                // Generate the OTP
                 int otp = binary % (int)Math.Pow(10, digits);
-
-                // Format OTP to have fixed number of digits
                 return otp.ToString().PadLeft(digits, '0');
             }
         }
 
-        public static string GenerateOTP(string secret, int digits = 6)
+        public string GenerateOTP(string secret, int digits = 6)
         {
-            // Decode the Base32 secret key
-            byte[] key = Base32Decode(secret);
+            try
+            {
+                byte[] key = Base32Decode(secret);
+                long counter = DateTimeOffset.UtcNow.ToUnixTimeSeconds() / 30;
+                return GenerateOTP(key, counter, digits);
+            }
+            catch (Exception ex)
+            {
+                var response = new Response()
+                {
+                    ResponseText = ex.Message,
+                };
+                var error = new ErrorLog
+                {
+                    ClassName = "UserService",
+                    FuncName = "GenerateOTP",
+                    Error = ex.Message,
+                    ProcName = "",
+                };
+                var _ = new ErrorLog_ML(_dapper).Error(error);
+                return response.ResponseText;
+            }
 
-            // Get the current Unix timestamp (in seconds)
-            long counter = DateTimeOffset.UtcNow.ToUnixTimeSeconds() / 30;
-
-            // Generate OTP using TOTP algorithm
-            return GenerateOTP(key, counter, digits);
         }
 
         private static byte[] Base32Decode(string base32Encoded)
         {
             const string base32Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
 
-            base32Encoded = base32Encoded.TrimEnd('='); // Remove padding characters
+            base32Encoded = base32Encoded.TrimEnd('=');
 
             var bits = base32Encoded
                 .Select(c => Convert.ToString(base32Chars.IndexOf(c), 2).PadLeft(5, '0'))

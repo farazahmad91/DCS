@@ -405,3 +405,34 @@ Return
 
 END
 END  
+
+
+
+	CREATE TABLE ErrorLog(
+		Id int primary key identity(1, 1),
+		ClassName VARCHAR(255),
+		FuncName VARCHAR(255),
+		ProcName VARCHAR(255),
+		Error VARCHAR(MAX),
+		EntryOn Datetime default getdate()
+);
+
+CREATE PROCEDURE Proc_InsertErrorLog
+@ClassName VARCHAR(255),
+	@FuncName VARCHAR(255),
+		@ProcName VARCHAR(255),
+			@Error VARCHAR(MAX)
+AS
+BEGIN
+    INSERT INTO ErrorLog(ClassName, FuncName, ProcName, Error)
+VALUES(@ClassName, @FuncName, @ProcName, @Error);
+END;
+
+Create Proc Proc_GetUser
+As
+Begin
+ SELECT U.Id, U.Name, U.UserName, U.Email, R.Name AS Role
+ FROM AspNetUsers U
+ JOIN AspNetUserRoles UR ON U.Id = UR.UserId
+ JOIN AspNetRoles R ON UR.RoleId = R.Id;
+End
