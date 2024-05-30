@@ -1,17 +1,25 @@
 ﻿using System.Net;
 using System.Net.Mime;
 using System.Text;
+using API.AppCode.IML;
+using API.AppCode.ML;
 using API.DBContext.Response;
 using Entities;
+using Entities.Response;
 using Newtonsoft.Json;
 
 namespace API.AppCode.APIRequest
 {
     public class APIRequestML : IAPIRequest
     {
+        private readonly IDapper _dapper;
         public static APIRequestML O { get { return Instance.Value; } }
         private static Lazy<APIRequestML> Instance = new Lazy<APIRequestML>(() => new APIRequestML());
         private APIRequestML() { }
+        public APIRequestML(IDapper dapper) 
+        {
+            _dapper=dapper;
+        }
         #region HttpGet
         public async Task<string> CallUsingHttpWebRequest_GET(string URL)
         {
@@ -90,7 +98,14 @@ namespace API.AppCode.APIRequest
             }
             catch (UriFormatException ufx)
             {
-                throw new Exception(ufx.Message);
+                var error = new ErrorLog
+                {
+                    ClassName = GetType().Name,
+                    FuncName = "PostAsync",
+                    Error = ufx.Message,
+                    ProcName = "",
+                };
+                var _ = new ErrorLog_ML(_dapper).Error(error);
             }
             catch (WebException wx)
             {
@@ -109,12 +124,26 @@ namespace API.AppCode.APIRequest
                 }
                 else
                 {
-                    throw new Exception(wx.Message);
+                    var error = new ErrorLog
+                    {
+                        ClassName = GetType().Name,
+                        FuncName = "PostAsync",
+                        Error = wx.Message,
+                        ProcName = "",
+                    };
+                    var _ = new ErrorLog_ML(_dapper).Error(error);
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                var error = new Entities.ErrorLog
+                {
+                    ClassName = GetType().Name,
+                    FuncName = "PostAsync",
+                    Error = ex.Message,
+                    ProcName = "",
+                };
+                var _ = new ErrorLog_ML(_dapper).Error(error);
             }
             return httpResponse;
         }

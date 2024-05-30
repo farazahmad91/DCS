@@ -122,8 +122,8 @@
                         <div class="position-relative">
                             <div class="p-2 text-center">
                                 <h6>Please enter the one time password <br> to verify your account</h6>
-                                <div style="color:red;"><span>A code has been sent to</span> <small>*******shaikh@gmail.com</small></div>
-                                <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
+                                <div style="color:red;"><span>A code has been sent to</span> <small id="uemail"></small> </div>
+                                <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2 card">
                                     <input class="m-2 text-center form-control rounded cls" type="text" id="first" maxlength="1" />
                                     <input class="m-2 text-center form-control rounded cls" type="text" id="second" maxlength="1" />
                                     <input class="m-2 text-center form-control rounded cls" type="text" id="third" maxlength="1" />
@@ -131,13 +131,22 @@
                                     <input class="m-2 text-center form-control rounded cls" type="text" id="fifth" maxlength="1" />
                                     <input class="m-2 text-center form-control rounded cls" type="text" id="sixth" maxlength="1" />
                                 </div>
-                                <div class="mt-4">
+                                <div class="mt-4" hidden>
                                     <button class="btn btn-danger px-4 validate" id="btnhide2" onclick="validateOTP();">Validate</button>
                                     <button class="btn btn-primary validate1" type="button" id="btnhide1" hidden>
                                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                        Loading...
+                                        Verify...
                                     </button>
                                 </div>
+
+                                <div class="mt-4 h-r" hidden>
+                                    <button class="btn btn-danger px-4 validate" id="btnrohide2" onclick="sendEmail();">Resend OTP</button>
+                                    <button class="btn btn-primary validate1" type="button" id="btnrohide1" hidden>
+                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        Requesting...
+                                    </button>
+                                </div>
+                                <div id="timerDisplay"></div>
                             </div>
                         </div>
                     </div>
@@ -165,18 +174,18 @@
                         document.getElementById("uemail").innerHTML = maskEmail(sEmail);
                         document.querySelector("h-v").hidden = true;
                         document.querySelector("h-r").hidden = false;
+                        toggleLoadingonResend(true);
                         var timer = 60;
                         var countdown = setInterval(function () {
                             if (timer > 0) {
                                 document.getElementById("timerDisplay").innerHTML = "Resend OTP in: " + timer + " seconds";
                                 timer--;
                             } else {
-                                // Hide timer and show resend button
                                 clearInterval(countdown);
-                                document.getElementById("timerDisplay").innerHTML = ""; // Remove timer display
-                                document.getElementById("btnResendOTP").hidden = false; // Show resend button
+                                document.getElementById("timerDisplay").innerHTML = ""; 
+                                document.getElementById("btnResendOTP").hidden = false; 
                             }
-                        }, 1000); // Update every second
+                        }, 1000);
 
                     } else {
                         $("#btnhide2").val("Resend OTP");
@@ -229,6 +238,10 @@
         document.getElementById("btnhide1").hidden = !isLoading;
     }
 
+    function toggleLoadingonResend(isLoading) {
+        document.getElementById("btnrohide2").hidden = isLoading;
+        document.getElementById("btnrohide1").hidden = !isLoading;
+    }
 
     document.addEventListener("DOMContentLoaded", function () {
         initializeOTPInputs();
@@ -252,16 +265,20 @@
         });
     }
 
-    function maskEmail(email) {
-        // Split the email address into local part and domain part
-        var parts = email.split("@@");
-        var localPart = parts[0];
-        var domainPart = parts[1];
-
-        // Mask the local part, leaving only the first and last characters visible
-        var maskedLocalPart = localPart.charAt(0) + "xxxxxx" + localPart.charAt(localPart.length - 1);
-
-        // Combine the masked local part with the domain part
-        return maskedLocalPart + "@@" + domainPart;
+   function maskEmail(email) {
+    var parts = email.split("@@");
+    if (parts.length !== 2) {
+        return "Invalid email format";
     }
+    var localPart = parts[0];
+    var domainPart = parts[1];
+    if (localPart.length < 2) {
+        return "Invalid email format";
+    }
+    var maskedLocalPart = localPart.charAt(0) + "*****" + localPart.charAt(localPart.length - 1);
+    return maskedLocalPart + "@@" + domainPart;
+}
+
+   console.log(maskEmail("")); 
+
 </script>

@@ -1,4 +1,5 @@
 ﻿using API.AppCode.IML;
+using Entities;
 using Entities.Response;
 
 namespace API.AppCode.ML
@@ -12,14 +13,14 @@ namespace API.AppCode.ML
         }
         public async Task<int> Error(object entity)
         {
-            var sp = "InsertErrorLog";
+            var sp = "Proc_InsertErrorLog";
             var res = (ErrorLog)entity;
             var param = new
             {
                 ClassName = res.ClassName,
-                FunctionName = res.FunctionName,
-                ResponseText = res.ResponseText,
-                Proc_Name = res.Proc_Name,
+                FuncName = res.FuncName,
+                Error = res.Error,
+                Proc_Name = res.ProcName,
             };
             var i = await _dapper.Insert(param, sp);
             return i;
