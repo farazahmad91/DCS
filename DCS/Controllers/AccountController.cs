@@ -137,7 +137,7 @@ namespace DCS.Controllers
 
                 if (authenticateResponse.StatusCode != ResponseStatus.SUCCESS)
                 {
-                   var userip= requestInfo.GetRemoteIP();
+                    var userip = _sendmail.GetIPAddress();
                     string email = loginRequest.Email;
                     string subject = "Account Login Alert";
 

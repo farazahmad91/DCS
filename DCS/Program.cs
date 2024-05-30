@@ -1,17 +1,40 @@
 using API.AppCode.Configuration;
+using API.AppCode.IML;
+using API.AppCode.Infrastructure;
+using API.Connection;
+using API.DBContext;
 using API.RequestInfo;
 using API.SendEmail;
+using Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
 
+// Set up connection strings
+var dbConnectionString = configuration.GetConnectionString("Default");
+var connectionStrings = new ConnectionStrings { Default = dbConnectionString };
+builder.Services.AddSingleton<ConnectionStrings>(connectionStrings);
+
+// Add DbContext
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.UseSqlServer(connectionStrings.Default);
+});
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddScoped<Sendmail>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IRequestInfo, RequestInfo>();
+builder.Services.AddTransient<Sendmail>();
+builder.Services.AddTransient<EmailHtmlBody>();
+builder.Services.AddTransient<EmailCredential>();
+builder.Services.AddScoped<API.AppCode.IML.IDapper, API.Data.Dapper>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
