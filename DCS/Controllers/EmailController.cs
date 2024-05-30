@@ -22,7 +22,7 @@ namespace DCS.Controllers
 			_sendmail=sendmail;
 			_webHostEnvironment=webHostEnvironment;
             _logger = logger;
-            _BaseUrl =  _configuration["APIBaseURl:BaseURl"];
+            _BaseUrl = "https://localhost:7079";
         }
 
         [HttpGet]

@@ -169,6 +169,7 @@
                 .done(function (res) {
                     toggleLoading(false);
                     if (res.statusCode === 1) {
+                        document.getElementById("uemail").innerHTML = maskEmail(sEmail);
                         $("#exampleModal").modal("show");
                         $(".hdndiv").addClass("invisible");
                         document.getElementById("uemail").innerHTML = maskEmail(sEmail);

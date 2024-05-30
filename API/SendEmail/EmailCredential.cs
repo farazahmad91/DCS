@@ -15,11 +15,11 @@ namespace API.SendEmail
 		{
 			return new Dictionary<string, object>
 			{
-				{ "FromAddress", _configuration["EmailSettings:MailFrom"] },
-				{ "HostAddress", _configuration["EmailSettings:Host"] },
-				{ "UserName", _configuration["EmailSettings:userName"] },
-				{ "Password", _configuration["EmailSettings:Password"] },
-				{ "Port", int.Parse(_configuration["EmailSettings:Port"]) }
+				//{ "FromAddress", _configuration["EmailSettings:MailFrom"] },
+				//{ "HostAddress", _configuration["EmailSettings:Host"] },
+				//{ "UserName", _configuration["EmailSettings:userName"] },
+				//{ "Password", _configuration["EmailSettings:Password"] },
+				//{ "Port", int.Parse(_configuration["EmailSettings:Port"]) }
 			};
 		}
 	}

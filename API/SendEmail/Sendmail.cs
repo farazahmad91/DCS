@@ -2,6 +2,8 @@
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
+using API.AppCode.IML;
+using API.AppCode.ML;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -15,26 +17,27 @@ namespace API.SendEmail
         private readonly IWebHostEnvironment _env;
         private readonly EmailHtmlBody _emailHtmlBody;
 		private readonly EmailCredential _emailCredential;
-		public Sendmail(IConfiguration configuration, IWebHostEnvironment env , EmailHtmlBody emailHtmlBody, EmailCredential emailCredential)
+        private readonly IDapper _dapper;
+        public Sendmail(IConfiguration configuration, IWebHostEnvironment env , EmailHtmlBody emailHtmlBody, EmailCredential emailCredential, IDapper dapper)
         {
             _configuration = configuration;
             _env = env;
             _emailHtmlBody = emailHtmlBody;
 			_emailCredential=emailCredential;
+            _dapper = dapper;
 
-		}
+        }
         public void SendEmails(string email, string subject, string body)
         {
 
             try
             {
-				var emailSettings = _emailCredential.EmailCredentials();
-				string fromAddress = (string)emailSettings["FromAddress"];
-				string hostAddress = (string)emailSettings["HostAddress"];
-				string userName = (string)emailSettings["UserName"];
-				string pass = (string)emailSettings["Password"];
-				int port = (int)emailSettings["Port"];
-				using (MailMessage mail = new MailMessage())
+                string fromAddress = "farazshaikh8960@gmail.com";
+                string hostAddress = "smtp.gmail.com";
+                string userName = "cozmotest91@gmail.com";
+                string pass = "cuncfbllgbiwwyax";
+                int port = int.Parse("587");
+                using (MailMessage mail = new MailMessage())
                 using (SmtpClient smtpServer = new SmtpClient(hostAddress))
                 {
                     mail.From = new MailAddress(fromAddress);
@@ -51,21 +54,27 @@ namespace API.SendEmail
             }
             catch (Exception ex)
             {
-                throw new Exception("Error sending email", ex);
+                var error = new Entities.ErrorLog
+                {
+                    ClassName = GetType().Name,
+                    FuncName = "RegisterAsync",
+                    Error = ex.Message,
+                    ProcName = "",
+                };
+                var _ = new ErrorLog_ML(_dapper).Error(error);
+                
             }
         }
 		public void SendEmailWithImage(CreateEmail cEmail)
         {
             try
             {
-				var emailSettings = _emailCredential.EmailCredentials();
-				string fromAddress = (string)emailSettings["FromAddress"];
-				string hostAddress = (string)emailSettings["HostAddress"];
-				string userName = (string)emailSettings["UserName"];
-				string pass = (string)emailSettings["Password"];
-				int port = (int)emailSettings["Port"];
-
-				using (MailMessage mail = new MailMessage())
+                string fromAddress = "farazshaikh8960@gmail.com";
+                string hostAddress = "smtp.gmail.com";
+                string userName = "cozmotest91@gmail.com";
+                string pass = "cuncfbllgbiwwyax";
+                int port = int.Parse("587");
+                using (MailMessage mail = new MailMessage())
                 using (SmtpClient smtpServer = new SmtpClient(hostAddress))
                 {
                     mail.From = new MailAddress(fromAddress);
@@ -99,7 +108,14 @@ namespace API.SendEmail
             }
             catch (Exception ex)
             {
-                throw new Exception("Error sending email", ex);
+                var error = new Entities.ErrorLog
+                {
+                    ClassName = GetType().Name,
+                    FuncName = "RegisterAsync",
+                    Error = ex.Message,
+                    ProcName = "",
+                };
+                var _ = new ErrorLog_ML(_dapper).Error(error);
             }
         }
 
