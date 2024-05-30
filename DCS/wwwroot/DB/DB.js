@@ -417,16 +417,29 @@ END
 		EntryOn Datetime default getdate()
 );
 
-CREATE PROCEDURE Proc_InsertErrorLog
+
+
+Alter PROCEDURE Proc_InsertErrorLog
 @ClassName VARCHAR(255),
 	@FuncName VARCHAR(255),
 		@ProcName VARCHAR(255),
 			@Error VARCHAR(MAX)
 AS
 BEGIN
-    INSERT INTO ErrorLog(ClassName, FuncName, ProcName, Error)
+    BEGIN TRY
+        INSERT INTO ErrorLog(ClassName, FuncName, ProcName, Error)
 VALUES(@ClassName, @FuncName, @ProcName, @Error);
+        
+        SELECT 1 AS StatusCode, 'Error logged successfully' AS ResponseText;
+RETURN 
+    END TRY
+    BEGIN CATCH
+SELECT - 1 AS StatusCode, 'Error occurred while logging' AS ResponseText;
+RETURN 
+    END CATCH
 END;
+
+
 
 Create Proc Proc_GetUser
 As
