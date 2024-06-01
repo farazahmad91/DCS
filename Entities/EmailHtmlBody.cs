@@ -14,24 +14,19 @@ namespace Entities
         public EmailHtmlBody(IConfiguration configuration)
         {
             _configuration = configuration;
+
         }
 
-        private Dictionary<string, string> SocialMediaLinks()
-        {
-            return new Dictionary<string, string>
-            {
-                { "FBUrl", _configuration["SocialMedia:FB"] },
-                { "FBIcon", _configuration["SocialMedia:FBIcon"] },
-                { "TwitterUrl", _configuration["SocialMedia:X"] },
-                { "TwitterIcon", _configuration["SocialMedia:XIcon"] },
-                { "InstaUrl", _configuration["SocialMedia:Insta"] },
-                { "InstaIcon", _configuration["SocialMedia:InstaIcon"] }
-            };
-        }
+        
 
         public string GenerateHtmlBody(string body)
         {
-            var links = SocialMediaLinks();
+            string FBlink = _configuration["SocialMedia:FB"];
+            string FBIconlink = _configuration["SocialMedia:FBIcon"];
+            string XLink = _configuration["SocialMedia:X"];
+            string XIconLink = _configuration["SocialMedia:XIcon"];
+            string InstaLink = _configuration["SocialMedia:Insta"];
+            string InstaIconLink = _configuration["SocialMedia:InstaIcon"];
 
             string htmlBody = $@"
                 <html>
@@ -39,14 +34,14 @@ namespace Entities
                     <p>{body}</p>
                     <p>Follow us on social media:</p>
                     <p>
-                        <a href='{links["FBUrl"]}'>
-                            <img src='{links["FBIcon"]}' alt='Facebook' style='width:32px;height:32px;border:0;' />
+                        <a href='{FBlink}'>
+                            <img src='{FBIconlink}' alt='Facebook' style='width:32px;height:32px;border:0;' />
                         </a> 
-                        <a href='{links["TwitterUrl"]}'>
-                            <img src='{links["TwitterIcon"]}' alt='Twitter' style='width:32px;height:32px;border:0;' />
+                        <a href='{XLink}'>
+                            <img src='{XIconLink}' alt='Twitter' style='width:32px;height:32px;border:0;' />
                         </a> 
-                        <a href='{links["InstaUrl"]}'>
-                            <img src='{links["InstaIcon"]}' alt='Instagram' style='width:32px;height:32px;border:0;' />
+                        <a href='{InstaLink}'>
+                            <img src='{InstaIconLink}' alt='Instagram' style='width:32px;height:32px;border:0;' />
                         </a>
                     </p>
                 </body>
@@ -57,29 +52,92 @@ namespace Entities
 
         public string GenerateHtmlBodyWithImage(string body)
         {
-            var links = SocialMediaLinks();
-
+            string FBlink = _configuration["SocialMedia:FB"];
+            string FBIconlink = _configuration["SocialMedia:FBIcon"];
+            string XLink = _configuration["SocialMedia:X"];
+            string XIconLink = _configuration["SocialMedia:XIcon"];
+            string InstaLink = _configuration["SocialMedia:Insta"];
+            string InstaIconLink = _configuration["SocialMedia:InstaIcon"];
             string htmlBody = $@"
-                <html>
-                <body>
-                    <p>
-                        <img src='cid:EmbeddedImage' alt='Image' />
-                    </p>
-                    <p>{body}</p>
-                    <p>Follow us on social media:</p>
-                    <p>
-                        <a href='{links["FBUrl"]}'>
-                            <img src='{links["FBIcon"]}' alt='Facebook' style='width:32px;height:32px;border:0;' />
-                        </a> 
-                        <a href='{links["TwitterUrl"]}'>
-                            <img src='{links["TwitterIcon"]}' alt='Twitter' style='width:32px;height:32px;border:0;' />
-                        </a> 
-                        <a href='{links["InstaUrl"]}'>
-                            <img src='{links["InstaIcon"]}' alt='Instagram' style='width:32px;height:32px;border:0;' />
-                        </a>
-                    </p>
-                </body>
-                </html>";
+               
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }}
+
+        .email-container {{
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }}
+
+        .email-header {{
+            text-align: center;
+            padding-bottom: 20px;
+        }}
+
+        .email-content {{
+            padding: 20px;
+        }}
+
+        .social-media {{
+            text-align: center;
+            padding: 20px 0;
+        }}
+
+        .social-media a {{
+            margin: 0 10px;
+            text-decoration: none;
+            color: #0073e6;
+            font-size: 18px;
+        }}
+
+        .social-media a:hover {{
+            color: #0056b3;
+        }}
+
+        .social-media img {{
+            width: 32px;
+            height: 32px;
+            border: 0;
+            margin-right: 10px;
+            vertical-align: middle;
+        }}
+
+        .email-content p {{
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }}
+    </style>
+
+
+<body>
+    <div class=""email-container"">
+        <div class=""email-header"">
+            <img src=""cid:EmbeddedImage"" alt=""Company Logo"">
+        </div>
+  
+            {body}
+       
+        <div class=""social-media"">
+            <p>Follow us on social media:</p>
+            <a href=""https://www.facebook.com"" target=""_blank""><img src=""https://yourwebsite.com/facebook-icon.png"" alt=""Facebook""></a>
+            <a href=""https://www.twitter.com"" target=""_blank""><img src=""https://yourwebsite.com/twitter-icon.png"" alt=""Twitter""></a>
+            <a href=""https://www.instagram.com"" target=""_blank""><img src=""https://yourwebsite.com/instagram-icon.png"" alt=""Instagram""></a>
+        </div>
+    </div>
+</body>
+
+</html>
+
+";
 
             return htmlBody;
         }

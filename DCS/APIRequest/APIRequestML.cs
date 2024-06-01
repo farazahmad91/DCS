@@ -121,9 +121,6 @@ namespace API.AppCode.APIRequest
                             httpResponse.HttpStatusCode = ((HttpWebResponse)wx.Response).StatusCode;
                         }
                     }
-                }
-                else
-                {
                     var error = new ErrorLog
                     {
                         ClassName = GetType().Name,
@@ -132,6 +129,10 @@ namespace API.AppCode.APIRequest
                         ProcName = "",
                     };
                     var _ = new ErrorLog_ML(_dapper).Error(error);
+                }
+                else
+                {
+
                 }
             }
             catch (Exception ex)

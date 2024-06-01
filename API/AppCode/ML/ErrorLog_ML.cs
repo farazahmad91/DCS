@@ -12,15 +12,8 @@ namespace API.AppCode.ML
         {
             this._dapper = dapper;
         }
-        public async Task<Response> Error(object entity)
+        public async Task<int> Error(object entity)
         {
-            var response = new Response()
-            {
-                ResponseText="Log error",
-                StatusCode=ResponseStatus.FAILED
-            };
-            try
-            {
                 var sp = "Proc_InsertErrorLog";
                 var res = (ErrorLog)entity;
                 var param = new
@@ -30,19 +23,9 @@ namespace API.AppCode.ML
                     Error = res.Error,
                     Proc_Name = res.ProcName,
                 };
-                var i = await _dapper.GetAsync<Response>(sp, param);
-                response=i;
+                var i = await _dapper.Insert(param,sp);
                 return i;
-            }
-            catch (Exception ex)
-            {
-                var res = new Response()
-                {
-                    ResponseText=ex.Message,
-                    StatusCode=ResponseStatus.FAILED
-                };
-                return res;
-            }
+
         }
     }
 }
