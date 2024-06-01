@@ -83,7 +83,8 @@ namespace API.SendEmail
                     mail.IsBodyHtml = true;
                     string htmlBody =_emailHtmlBody.GenerateHtmlBodyWithImage(cEmail.Message);
                     mail.Body = htmlBody;
-                    string absoluteImagePath = Path.Combine(_env.ContentRootPath, cEmail.Image.TrimStart('/'));
+                
+                    string absoluteImagePath = Path.Combine(_env.ContentRootPath, cEmail.ImagePath.TrimStart('/'));
                     if (!string.IsNullOrEmpty(absoluteImagePath) && File.Exists(absoluteImagePath))
                     {
                         LinkedResource inline = new LinkedResource(absoluteImagePath, MediaTypeNames.Image.Jpeg)
@@ -180,67 +181,57 @@ namespace API.SendEmail
         }
 
 
-        //public void Sendmailss(string email, string subject, string body, string imagePath)
-        //    {
-        //        try
-        //        {
-        //            string fromAddress = _configuration["EmailSettings:MailFrom"];
-        //            string hostAddress = _configuration["EmailSettings:Host"];
-        //            string userName = _configuration["EmailSettings:userName"];
-        //            string pass = _configuration["EmailSettings:Password"];
-        //            int port = int.Parse(_configuration["EmailSettings:Port"]);
+        public void Sendmailss(CreateEmail cEmail)
+        {
+            try
+            {
+                string fromAddress = _configuration["EmailSettings:MailFrom"];
+                string hostAddress = _configuration["EmailSettings:Host"];
+                string userName = _configuration["EmailSettings:userName"];
+                string pass = _configuration["EmailSettings:Password"];
+                int port = int.Parse(_configuration["EmailSettings:Port"]);
 
-        //            using (MailMessage mail = new MailMessage())
-        //            using (SmtpClient smtpServer = new SmtpClient(hostAddress))
-        //            {
-        //                mail.From = new MailAddress(fromAddress);
-        //                mail.To.Add(email);
-        //                mail.Subject = subject;
-        //                mail.IsBodyHtml = true; // Enable HTML content
+                using (MailMessage mail = new MailMessage())
+                using (SmtpClient smtpServer = new SmtpClient(hostAddress))
+                {
+                    mail.From = new MailAddress(fromAddress);
+                    mail.To.Add(cEmail.Emails);
+                    mail.Subject = cEmail.Subject;
+                    mail.IsBodyHtml = true; // Enable HTML content
+                    string htmlBody = _emailHtmlBody.GenerateHtmlBodyWithImage(cEmail.Message);
+                    mail.Body = htmlBody;
 
-        //                // Create HTML body with an image and social media links
-        //                string htmlBody = $@"
-        //                <html>
-        //                <body>
-        //                    <p>{body}</p>
-        //                    <p>Follow us on social media:</p>
-        //                    <p>
-        //                        <a href='https://www.facebook.com/yourprofile'>Facebook</a> | 
-        //                        <a href='https://twitter.com/yourprofile'>Twitter</a> | 
-        //                        <a href='https://www.instagram.com/yourprofile'>Instagram</a>
-        //                    </p>
-        //                    <p>
-        //                        <img src='cid:EmbeddedImage' alt='Image' />
-        //                    </p>
-        //                </body>
-        //                </html>";
+                    if (!string.IsNullOrEmpty(cEmail.ImagePath) && File.Exists(cEmail.ImagePath))
+                    {
+                        LinkedResource inline = new LinkedResource(cEmail.ImagePath, MediaTypeNames.Image.Jpeg)
+                        {
+                            ContentId = "EmbeddedImage"
+                        };
+                        AlternateView avHtml = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
+                        avHtml.LinkedResources.Add(inline);
+                        mail.AlternateViews.Add(avHtml);
+                    }
+                    else
+                    {
+                        throw new FileNotFoundException("Image file not found.", cEmail.ImagePath);
+                    }
 
-        //                mail.Body = htmlBody;
+                    smtpServer.Port = port;
+                    smtpServer.Credentials = new System.Net.NetworkCredential(userName, pass);
+                    smtpServer.EnableSsl = true;
 
-        //                // Embed the image in the email
-        //                if (!string.IsNullOrEmpty(imagePath))
-        //                {
-        //                    LinkedResource inline = new LinkedResource(imagePath, MediaTypeNames.Image.Jpeg)
-        //                    {
-        //                        ContentId = "EmbeddedImage"
-        //                    };
-        //                    AlternateView avHtml = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
-        //                    avHtml.LinkedResources.Add(inline);
-        //                    mail.AlternateViews.Add(avHtml);
-        //                }
-
-        //                smtpServer.Port = port;
-        //                smtpServer.Credentials = new System.Net.NetworkCredential(userName, pass);
-        //                smtpServer.EnableSsl = true;
-
-        //                smtpServer.Send(mail);
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception("Error sending email", ex);
-        //        }
-        //    }
+                    smtpServer.Send(mail);
+                }
+            }
+            catch (FileNotFoundException fnfEx)
+            {
+                throw new Exception($"File not found: {fnfEx.Message}", fnfEx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error sending email", ex);
+            }
+        }
 
 
     }

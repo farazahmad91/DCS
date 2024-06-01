@@ -15,35 +15,23 @@ namespace API.AppCode.ML
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public Response SendBulkEmails(List<CreateEmail> emails)
+        public Response SendBulkEmails(CreateEmail emails)
         {
             var response = new Response()
             {
                 ResponseText = "An error has occurred, try again later!",
                 StatusCode = ResponseStatus.FAILED
             };
-
-            if (emails == null || emails.Count == 0)
-            {
-                response.ResponseText = "Email list cannot be null or empty";
-                response.StatusCode = ResponseStatus.FAILED;
-                return response;
-            }
-
             var failedEmails = new List<string>();
-
-            foreach (var email in emails)
-            {
                 try
                 {
-                    _sendmail.SendEmailWithImage(email); // Assuming SendEmailWithImage is an async method
+                    _sendmail.Sendmailss(emails); // Assuming SendEmailWithImage is an async method
                 }
                 catch (Exception ex)
                 {
-                    failedEmails.Add(email.Emails);
-                }
-            }
+                    failedEmails.Add(emails.Emails);
 
+                }
             if (failedEmails.Count > 0)
             {
                 response.ResponseText = $"Failed to send emails to the following recipients: {string.Join(", ", failedEmails)}";

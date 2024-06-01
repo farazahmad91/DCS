@@ -2,6 +2,7 @@
 using API.Claims;
 using API.DBContext.Entities;
 using API.SendEmail;
+using DCS.Models;
 using Entities;
 using Entities.Response;
 using Microsoft.AspNetCore.Mvc;
@@ -17,12 +18,14 @@ namespace DCS.Controllers
 		private readonly Sendmail _sendmail;
         private readonly ILogger<EmailController> _logger;
         private readonly string _BaseUrl;
-        public EmailController(Sendmail sendmail , IWebHostEnvironment webHostEnvironment, ILogger<EmailController> logger, IConfiguration configuration) 
+        private readonly UploadImage _uploadImage;
+        public EmailController(Sendmail sendmail , IWebHostEnvironment webHostEnvironment, ILogger<EmailController> logger, IConfiguration configuration, UploadImage uploadImage) 
 		{
 			_sendmail=sendmail;
 			_webHostEnvironment=webHostEnvironment;
             _logger = logger;
             _BaseUrl = "https://localhost:7079";
+            this._uploadImage = uploadImage;
         }
 
         [HttpGet]
@@ -32,19 +35,77 @@ namespace DCS.Controllers
             return View();
         }
 
-        [Route("sendBulkEmails")]
+
         [HttpPost]
-        public async Task<IActionResult> SendBulkEmails([FromBody] List<CreateEmail> emails)
+        public async Task<IActionResult> SendBulkEmails([FromForm] string emailDataArray, IFormFile imageFile)
         {
-            var jsonEmails = JsonConvert.SerializeObject(emails); // Serialize the list to JSON string
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/SendBulkEmails", jsonEmails, User.GetLoggedInUserToken());
-            List<User> list = null;
-            if (apiRes.Result != null)
+            if (string.IsNullOrEmpty(emailDataArray))
             {
-                list = JsonConvert.DeserializeObject<List<User>>(apiRes.Result);
+                return BadRequest("Email data is required.");
             }
-            return Json(list);
+
+            List<CreateEmail> createEmail;
+            try
+            {
+                createEmail = JsonConvert.DeserializeObject<List<CreateEmail>>(emailDataArray);
+            }
+            catch (JsonException)
+            {
+                return BadRequest("Invalid email data format.");
+            }
+
+            if (createEmail == null || !createEmail.Any())
+            {
+                return BadRequest("Invalid email data.");
+            }
+
+            string filePath = null;
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                string relativePath = Path.Combine("wwwroot", "DCS", "img");
+                string absolutePath = Path.Combine(Directory.GetCurrentDirectory(), relativePath);
+
+                try
+                {
+                    if (!Directory.Exists(absolutePath))
+                    {
+                        Directory.CreateDirectory(absolutePath);
+                    }
+
+                    var uniqueFileName = $"{Guid.NewGuid()}_{Path.GetFileName(imageFile.FileName)}";
+                    filePath = Path.Combine(relativePath, uniqueFileName);
+                    string fullFilePath = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+
+                    using (var stream = new FileStream(fullFilePath, FileMode.Create))
+                    {
+                        await imageFile.CopyToAsync(stream);
+                    }
+
+                    foreach (var data in createEmail)
+                    {
+                        data.ImagePath = fullFilePath; // Save full path to avoid path issues
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, $"Error saving image: {ex.Message}");
+                }
+            }
+
+            try
+            {
+                var jsonEmails = JsonConvert.SerializeObject(createEmail);
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/SendBulkEmails", jsonEmails, User.GetLoggedInUserToken());
+                return Json(apiRes);
+                
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(-1, $"Internal server error: {ex.Message}");
+            }
         }
+
+
 
 
         //[HttpPost("sendBulkEmails")]

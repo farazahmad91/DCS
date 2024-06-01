@@ -10,7 +10,7 @@ namespace Entities
 	{
 		public string Emails { get; set; }
 		public string Subject { get; set; }
-		public string Image { get; set; }
+		public string ImagePath { get; set; }
 		public string Message { get; set; }
 	}
 }

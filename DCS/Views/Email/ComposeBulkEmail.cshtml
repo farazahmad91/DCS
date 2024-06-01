@@ -1,74 +1,75 @@
 ﻿@{
     ViewData["Title"] = "Email Sender";
-    Layout = "_Layout";
+    Layout = "_LayoutSiteAdmin";
 }
-    <div>
-        <input type="radio" id="singleSelect" name="selectionMode" checked>
-        <label for="singleSelect">Single Select</label>
-        <input type="radio" id="multiSelect" name="selectionMode">
-        <label for="multiSelect">Multi Select</label>
-        <input type="radio" id="selectAll" name="selectionMode">
-        <label for="selectAll">Select All</label>
-    </div>
-    <div class="d-grid pt-3 float-left">
-        <input onclick='$("#bulkemail").modal("show");' class="btn btn-lg btn-primary" id="btnmodal" value="Create Message" type="submit">
-    </div>
-    <table id="userTable">
-        <thead>
-            <tr>
-                <th>Select</th>
-                <th>User ID</th>
-                <th>Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><input type="checkbox" class="userCheckbox"></td>
-                <td>1</td>
-                <td>user1@example.com</td>
-            </tr>
-            <tr>
-                <td><input type="checkbox" class="userCheckbox"></td>
-                <td>2</td>
-                <td>user2@example.com</td>
-            </tr>
-            <!-- Add more rows for additional users -->
-        </tbody>
-    </table>
-    <div class="card-body">
-        <div class="modal fade" id="bulkemail" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Write a message</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div>
+    <input type="radio" id="singleSelect" name="selectionMode" checked>
+    <label for="singleSelect">Single Select</label>
+    <input type="radio" id="multiSelect" name="selectionMode">
+    <label for="multiSelect">Multi Select</label>
+    <input type="radio" id="selectAll" name="selectionMode">
+    <label for="selectAll">Select All</label>
+</div>
+<div class="d-grid pt-3 float-left">
+    <input onclick='$("#bulkemail").modal("show");' class="btn btn-lg btn-primary" id="btnmodal" value="Create Message" type="submit">
+</div>
+<table id="userTable">
+    <thead>
+        <tr>
+            <th>Select</th>
+            <th>User ID</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><input type="checkbox" class="userCheckbox"></td>
+
+            <td>farazshaikh8960@gmail.com</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" class="userCheckbox"></td>
+
+            <td>farazshaikh08538@gmail.com</td>
+        </tr>
+        <!-- Add more rows for additional users -->
+    </tbody>
+</table>
+<div class="card-body">
+    <div class="modal fade" id="bulkemail" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Write a message</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Subject</label>
+                                <input type="text" id="txtSubject" class="form-control cls" />
+                            </div>
+                            <div class="col-sm-6">
+                                <label>Image</label>
+                                <input type="file" id="txtImage" class="form-control cls" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>Message</label>
+                                <textarea id="txtMessage" class="form-control cls"></textarea>
+                            </div>
+                           
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <div class="container d-flex justify-content-center align-items-center">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <label>Subject</label>
-                                    <input type="text" id="txtSubject" class="form-control cls" />
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Image</label>
-                                    <input type="image" id="txtImage" class="form-control cls" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label>Message</label>
-                                    <textarea id="txtMessage" class="form-control cls"></textarea>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="d-grid pt-3">
-                                    <input onclick="sendBulkEmails();" class="btn btn-lg btn-primary" id="btnhide2" value="Send OTP" type="submit">
-                                    <button class="btn btn-lg btn-primary btn-block" type="button" id="btnhide1" hidden>
-                                        <span class="spinner-border spinner-border-sm spinner-1x" role="status" aria-hidden="true"></span>
-                                        Sending...
-                                    </button>
-                                </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="d-grid pt-3">
+                                <button class="btn btn-lg btn-primary btn-block" type="button" id="btnsendEmail">
+                                    <span id="sendSpin" role="status" aria-hidden="true"></span>
+                                    Sending
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -76,86 +77,147 @@
             </div>
         </div>
     </div>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            const singleSelectRadio = document.getElementById('singleSelect');
-            const multiSelectRadio = document.getElementById('multiSelect');
-            const selectAllRadio = document.getElementById('selectAll');
-            const userCheckboxes = document.querySelectorAll('.userCheckbox');
+<script>
+    $(document).ready(function () {
+        const singleSelectRadio = document.getElementById('singleSelect');
+        const multiSelectRadio = document.getElementById('multiSelect');
+        const selectAllRadio = document.getElementById('selectAll');
+        const userCheckboxes = document.querySelectorAll('.userCheckbox');
 
-            singleSelectRadio.addEventListener('change', function () {
-                if (this.checked) {
-                    userCheckboxes.forEach(function (checkbox) {
-                        checkbox.type = 'radio';
-                    });
-                }
-            });
-
-            multiSelectRadio.addEventListener('change', function () {
-                if (this.checked) {
-                    userCheckboxes.forEach(function (checkbox) {
-                        checkbox.type = 'checkbox';
-                    });
-                }
-            });
-
-            selectAllRadio.addEventListener('change', function () {
-                if (this.checked) {
-                    userCheckboxes.forEach(function (checkbox) {
-                        checkbox.checked = true;
-                    });
-                }
-            });
-
-            function getSelectedEmails() {
-                const selectedEmails = [];
+        singleSelectRadio.addEventListener('change', function () {
+            if (this.checked) {
                 userCheckboxes.forEach(function (checkbox) {
-                    if (checkbox.checked) {
-                        const userEmail = checkbox.parentElement.nextElementSibling.nextElementSibling.innerText;
-                        selectedEmails.push(userEmail);
-                    }
+                    checkbox.type = 'radio';
                 });
-                return selectedEmails;
-            }
-
-            document.getElementById('sendEmailButton').addEventListener('click', function () {
-                const selectedEmails = getSelectedEmails();
-                if (selectedEmails.length > 0) {
-                    sendBulkEmails(selectedEmails);
-                } else {
-                    Info(-1,"Please select at least one email.");
-                }
-            });
-
-            function sendBulkEmails(emailList) {
-            var className = "cls";
-            if (IsValidate(className)) {
-                document.getElementById("btnhide2").hidden = true;
-                document.getElementById("btnhide1").hidden = false;
-                var param = {
-                    Subject: $("#txtSubject").val(),
-                    Message: $("#txtMessage").val(),
-                    Image: $("#txtImage").val(),
-                    Emails: emailList
-                };
-                $.ajax({
-                    url: '/sendBulkEmails',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(param),
-                    success: function (response) {
-                        document.getElementById("btnhide1").hidden = true;
-                        document.getElementById("btnhide2").hidden = false;
-                        Info(response.statusCode, response.responseText);
-                        console.log('Bulk emails sent successfully:', response);
-                    },
-                    error: function (xhr, status, error) {
-                        Info(-1, 'Error sending bulk emails:', error);
-                    }
-                });
-                }
             }
         });
-    </script>
+
+        multiSelectRadio.addEventListener('change', function () {
+            if (this.checked) {
+                userCheckboxes.forEach(function (checkbox) {
+                    checkbox.type = 'checkbox';
+                });
+            }
+        });
+
+        selectAllRadio.addEventListener('change', function () {
+            if (this.checked) {
+                userCheckboxes.forEach(function (checkbox) {
+                    checkbox.checked = true;
+                });
+            }
+        });
+
+        function getSelectedEmails() {
+            debugger;
+            const selectedEmails = [];
+            userCheckboxes.forEach(function (checkbox) {
+                if (checkbox.checked) {
+                    const userEmail = checkbox.parentElement.nextElementSibling.innerText;
+                    selectedEmails.push(userEmail);
+                }
+            });
+            return selectedEmails;
+        }
+
+        document.getElementById('btnsendEmail').addEventListener('click', function () {
+            const selectedEmails = getSelectedEmails();
+            if (selectedEmails.length > 0) {
+                console.log('Selected emails:', selectedEmails);
+                // Do something with selected emails, like sending them
+                // For example:
+                sendBulkEmails(selectedEmails);
+            } else {
+                alert("Please select at least one email.");
+            }
+        });
+
+        function sendBulkEmails(emailList) {
+            document.getElementById("sendSpin").classList.add("spinner-border", "spinner-border-sm", "spinner-1x");
+            document.getElementById("btnsendEmail").innerHTML = "Sending...";
+
+            if (IsValidate("cls")) {
+                var subject = $("#txtSubject").val();
+                var message = $("#txtMessage").val();
+                var imageFile = $('#txtImage')[0].files[0];
+
+                var emailDataArray = emailList.map(function (email) {
+                    return {
+                        Emails: email,
+                        Subject: subject,
+                        ImagePath: imageFile ? imageFile.name : "",
+                        Message: message
+                    };
+                });
+
+                var formData = new FormData();
+                formData.append("emailDataArray", JSON.stringify(emailDataArray));
+                if (imageFile) {
+                    formData.append("imageFile", imageFile);
+                }
+
+                $.ajax({
+                    url: '/Email/SendBulkEmails',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        console.log(response);
+                    },
+                    error: function (xhr) {
+                        console.log(xhr);
+                    }
+                });
+            }
+        }
+
+
+
+        //        function sendBulkEmails(emailList) {
+        //            document.getElementById("sendSpin").classList.add("spinner-border", "spinner-border-sm", "spinner-1x");
+        //            var className = "cls";
+        //            if (IsValidate(className)) {
+        //                // Get subject and message
+        //                var subject = $("#txtSubject").val();
+        //                var message = $("#txtMessage").val();
+
+
+        //                var formData = new FormData();
+
+        //                // Append common data for all emails
+        //                formData.append('Subject', subject);
+        //                formData.append('Message', message);
+        //                formData.append('ImagePath', $('#txtImage')[0].files[0]); // Assuming same image for all emails
+
+        //                // Append email data
+        //                emailList.forEach(function (email) {
+        //                    formData.append('Emails', email); // Append the email address to FormData
+        //                });
+        //                console.log(formData);
+        //                $.ajax({
+        //                    url: '/sendBulkEmails',
+        //                    type: 'POST',
+        //                    data: JSON.stringify(formData),
+        //                    contentType: false,
+        //                    processData: false,
+        //                    success: function (response) {
+        //                        document.getElementById("btnhide1").hidden = true;
+        //                        document.getElementById("btnhide2").hidden = false;
+        //                        alert('Bulk emails sent successfully: ' + response); // Concatenate response to the message
+        //                        console.log('Bulk emails sent successfully:', response);
+        //                    },
+        //                    error: function (xhr, status, error) {
+        //                        alert('Error sending bulk emails: ' + xhr.responseText); // Display the error message received from the server
+        //                        console.error('Error sending bulk emails:', error);
+        //                    }
+        //                });
+        //            }
+        //        }/*
+        // */
+
+    });
+</script>
 

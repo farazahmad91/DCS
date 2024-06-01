@@ -5,6 +5,7 @@ using API.Connection;
 using API.DBContext;
 using API.RequestInfo;
 using API.SendEmail;
+using DCS.Models;
 using Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -29,6 +30,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddScoped<Sendmail>();
+builder.Services.AddScoped<UploadImage>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IRequestInfo, RequestInfo>();
 builder.Services.AddTransient<Sendmail>();

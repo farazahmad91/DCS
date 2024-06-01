@@ -5,6 +5,6 @@ namespace API.AppCode.IML
 {
     public interface IEmail
     {
-        public Response SendBulkEmails(List<CreateEmail> emails);
+        public Response SendBulkEmails(CreateEmail emails);
     }
 }
