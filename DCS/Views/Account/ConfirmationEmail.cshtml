@@ -1,0 +1,176 @@
+﻿@{
+    ViewData["Title"] = "ForgotPassword";
+    Layout = "~/Views/Shared/_Account.cshtml";
+}
+<div class="card-body">
+    <div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Enter OTP</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container d-flex justify-content-center align-items-center">
+                        <div class="position-relative">
+                            <div class="p-2 text-center">
+                                <h6>Please enter the one time password <br> to verify your account</h6>
+                                <div style="color:red;"><span id="resendemail">A code has been sent to</span> <small id="Lemail"></small> </div>
+                                <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
+                                    <input class="m-2 text-center form-control rounded cls" type="text" id="first" maxlength="1" />
+                                    <input class="m-2 text-center form-control rounded cls" type="text" id="second" maxlength="1" />
+                                    <input class="m-2 text-center form-control rounded cls" type="text" id="third" maxlength="1" />
+                                    <input class="m-2 text-center form-control rounded cls" type="text" id="fourth" maxlength="1" />
+                                    <input class="m-2 text-center form-control rounded cls" type="text" id="fifth" maxlength="1" />
+                                    <input class="m-2 text-center form-control rounded cls" type="text" id="sixth" maxlength="1" />
+                                </div>
+                                <div class="mt-4 h-v">
+                                    <button class="btn btn-danger px-4 validate" id="btnValidatehide2" onclick="validateOTP();">Validate</button>
+                                    <button class="btn btn-primary validate1" type="button" id="btnValidatehide1" hidden>
+                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        Verify...
+                                    </button>
+                                </div>
+
+                                <div class="mt-4 h-r" hidden>
+                                    <button class="btn btn-danger px-4 validate" id="btnrohide2" onclick="reSendEmail();">
+                                        <span id="resendspinn" role="status" aria-hidden="true"></span>
+                                        Resend OTP
+                                    </button>
+                                    <button class="btn btn-primary validate1" type="button" onclick="validateOTP();" id="btnrohide1" hidden>
+                                        <span id="Validspinn" role="status" aria-hidden="true"></span>
+                                        Validate...
+                                    </button>
+                                </div>
+                                <div id="timerDisplay"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.ready
+
+    function validateOTP() {
+        document.getElementById("Validspinn").classList.add("spinner-border", "spinner-border-sm", "spinner-1x");
+
+
+        const otp = Array.from(document.querySelectorAll('#otp > *[id]')).map(input => input.value).join('');
+        const email = sessionStorage.getItem('loginuseremail');
+
+        if (otp.length === 6) {
+            toggleLoading(true);
+            var formData = { otp: otp, email: email };
+
+            $.post('/Validate-OTP', formData)
+                .done(function (res) {
+                    toggleLoading(false);
+                    if (res.statusCode === 1) {
+                        window.location.href = "/ResetPassword";
+                    } else {
+                        document.getElementById("Validspinn").classList.remove("spinner-border", "spinner-border-sm", "spinner-1x");
+                        Info(res.statusCode, res.responseText);
+                    }
+                })
+                .fail(function () {
+                    toggleLoading(false);
+                    Info(-1, "Validation failed!");
+                });
+        } else {
+            Info(-1, "Please enter a valid OTP");
+            document.getElementById("Validspinn").classList.remove("spinner-border", "spinner-border-sm", "spinner-1x");
+        }
+    }
+
+    function validateEmail(email) {
+        const re = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+        return re.test(email);
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        initializeOTPInputs();
+    });
+
+    function initializeOTPInputs() {
+        const inputs = document.querySelectorAll('#otp > *[id]');
+        inputs.forEach((input, index) => {
+            input.addEventListener('keydown', function (event) {
+                if (event.key === "Backspace") {
+                    input.value = '';
+                    if (index !== 0) inputs[index - 1].focus();
+                } else if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
+                    input.value = event.key;
+                    if (index !== inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                    event.preventDefault();
+                }
+            });
+        });
+    }
+
+    function maskEmail(email) {
+        var parts = email.split("@@");
+        if (parts.length !== 2) {
+            return "Invalid email format";
+        }
+        var localPart = parts[0];
+        var domainPart = parts[1];
+        if (localPart.length < 2) {
+            return "Invalid email format";
+        }
+        var maskedLocalPart = localPart.charAt(0) + "*****" + localPart.charAt(localPart.length - 1);
+        return maskedLocalPart + "@@" + domainPart;
+    }
+
+    function Info(statusCode, message) {
+        alert("Status: " + statusCode + "\nMessage: " + message);
+    }
+
+    function reSendEmail() {
+        document.getElementById("resendspinn").classList.add("spinner-border", "spinner-border-sm");
+        var email = $("#Email").val();
+        if (validateEmail(email)) {
+            toggleLoading(true);
+            sessionStorage.setItem('email', email);
+            var formData = { useremail: email };
+
+            $.post("/Validate-Email", formData)
+                .done(function (res) {
+                    console.log(res);
+                    toggleLoading(true);
+                    if (res.statusCode === 1) {
+                        document.getElementById("resendemail").innerHTML = "A code has been resent to";
+                        document.getElementById("Lemail").innerHTML = maskEmail(email);
+                        document.getElementById("resendspinn").classList.remove("spinner-border", "spinner-border-sm");
+                        document.getElementById("btnrohide2").hidden = true;
+                        document.getElementById("btnrohide1").hidden = false;
+                        var timer = 60;
+                        var countdown = setInterval(function () {
+                            if (timer > 0) {
+                                document.getElementById("timerDisplay").innerHTML = "Resend OTP in: " + timer + " seconds";
+                                timer--;
+                            } else {
+                                clearInterval(countdown);
+                                document.getElementById("timerDisplay").innerHTML = "";
+                                document.getElementById("btnrohide2").hidden = false;
+                            }
+                        }, 1000);
+                    } else {
+                        $("#btnhide2").val("Send OTP");
+                        Info(res.statusCode, res.responseText);
+                    }
+                })
+                .fail(function () {
+                    toggleLoading(false);
+                    $("#btnhide2").val("Send OTP");
+                    Info(-1, "Something went wrong!!!");
+                });
+        } else {
+            Info(-1, "Validation failed!");
+        }
+    }
+</script>

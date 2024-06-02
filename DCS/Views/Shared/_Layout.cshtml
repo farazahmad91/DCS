@@ -259,11 +259,26 @@
 									</ul>
 								</div>
 							</li>
-							<li>
-								<a href="login.html">
+
+							<li class="sidebar-dropdown">
+								<a href="#">
 									<i class="bi bi-receipt"></i>
 									<span class="menu-text">Invoice</span>
+									<span class="badge green">15</span>
 								</a>
+								<div class="sidebar-submenu">
+									<ul>
+										<li>
+											<a href="/Add-Invoice">AddInvoice</a>
+										</li>
+										<li>
+											<a href="/Invoice">Invoice-Report</a>
+										</li>
+										<li>
+											<a href="maps.html">Review</a>
+										</li>
+									</ul>
+								</div>
 							</li>
 							<li>
 								<a href="/APIViews">
@@ -363,40 +378,6 @@
 			<!-- Content wrapper scroll start -->
 			<div class="content-wrapper-scroll">
 
-				<!-- Main header starts -->
-				<div class="main-header">
-					<div class="d-flex align-items-center justify-content-center">
-						<div class="page-icon">
-							<i class="bi bi-house"></i>
-						</div>
-						<div class="page-title d-none d-md-block">
-							<h5>Welcome back, DCS</h5>
-						</div>
-					</div>
-					<!-- Live updates start -->
-					<ul class="updates d-flex align-items-end flex-column overflow-hidden" id="updates">
-						<li>
-							<a href="javascript:void(0)">
-								<i class="bi bi-envelope-paper text-primary font-1x me-2"></i>
-								<span>12 emails from DCS Michaiah.</span>
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0)">
-								<i class="bi bi-bar-chart text-primary font-1x me-2"></i>
-								<span>15 new features updated successfully.</span>
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0)">
-								<i class="bi bi-folder-check text-primary font-1x me-2"></i>
-								<span>The media folder is created successfully.</span>
-							</a>
-						</li>
-					</ul>
-					
-					<hr /><!-- Live updates end -->
-				</div>
 				
             @RenderBody()
 			</div>

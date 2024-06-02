@@ -4,15 +4,22 @@ namespace DCS.Controllers
 {
     public class InvoiceController : Controller
     {
-        public IActionResult Invoice()
+		[Route("Invoice")]
+		public IActionResult Invoice()
         {
             return View();
         }
 		public IActionResult List()
 		{
+			return PartialView();
+		}
+		[Route("Add-Invoice")]
+		public IActionResult AddInvoice()
+		{
 			return View();
 		}
-		public IActionResult EditInvoice()
+		[Route("Invoice-Report")]
+		public IActionResult InvoiceView()
 		{
 			return View();
 		}

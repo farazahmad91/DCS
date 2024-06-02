@@ -11,7 +11,8 @@
 
         SUCCESS = 1,
         FAILED = -1,
-    }
+		ISEmailVerified = 2,
+	}
 
     public class RespnseToken : Response
     {

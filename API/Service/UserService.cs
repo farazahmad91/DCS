@@ -85,7 +85,10 @@ namespace API.Service
                 if (result.Succeeded)
                 {
                     Register(model.Email, model.ConfirmPassword);
-                }
+                   ValidateEmail(model.Email);
+					response.ResponseText = "OTP has been sent your email address for verify Account!!";
+					response.StatusCode = ResponseStatus.SUCCESS;
+				}
                 return response;
             }
             catch (Exception ex)
@@ -153,7 +156,14 @@ namespace API.Service
                     response.ResponseText = "Password did not match";
                     return response;
                 }
+                if (result)
+                {
+                  var i = await IsUserVerified(model.Email);
+                     response.ResponseText= i.ResponseText;
+					 response.StatusCode= i.StatusCode;
+					return response;
 
+				}
                 await _signInManager.SignInAsync(userExists, isPersistent: true);
                 var roleDetails = await userManager.GetRolesAsync(userExists);
 
@@ -361,7 +371,47 @@ namespace API.Service
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
-        public async Task<Response> VerifyOTP(ValidateEmail validateEmail)
+
+
+		public async Task<Response> IsUserVerified(string Email)
+		{
+			var res = new Response()
+			{
+				ResponseText = "Invalid OTP",
+				StatusCode = ResponseStatus.FAILED,
+			};
+			var sp = "Proc_IsUserVerfied";
+			try
+			{
+				var param = new
+				{
+					Email = Email,
+				};
+				var i = await _dapper.GetAsync<Response>(sp, param);
+				if (i.StatusCode == ResponseStatus.SUCCESS)
+				{
+					res.ResponseText = "OTP Verified";
+					res.StatusCode = ResponseStatus.SUCCESS;
+				}
+				res = i;
+				return res;
+			}
+			catch (Exception ex)
+			{
+				var error = new Entities.ErrorLog
+				{
+					ClassName = GetType().Name,
+					FuncName = "VerifyOTP",
+					Error = ex.Message,
+					ProcName = sp,
+				};
+				var _ = new ErrorLog_ML(_dapper).Error(error);
+				return res;
+			}
+		}
+
+
+		public async Task<Response> VerifyOTP(ValidateEmail validateEmail)
         {
             var res = new Response()
             {
@@ -392,7 +442,7 @@ namespace API.Service
                     ClassName = GetType().Name,
                     FuncName = "VerifyOTP",
                     Error = ex.Message,
-                    ProcName = "",
+                    ProcName = sp,
                 };
                 var _ = new ErrorLog_ML(_dapper).Error(error);
                 return res;
