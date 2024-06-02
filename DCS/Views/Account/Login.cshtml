@@ -86,7 +86,7 @@
             document.getElementById("btnhide1").hidden = false;
             var email = $("#Email").val();
             var password = $("#Password").val();
-
+            sessionStorage.setItem('loginuseremail', email);
             var formData = {
                 Email: email,
                 Password: password

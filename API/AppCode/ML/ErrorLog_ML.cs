@@ -12,10 +12,9 @@ namespace API.AppCode.ML
         {
             this._dapper = dapper;
         }
-        public async Task<int> Error(object entity)
+        public async Task<int> Error(ErrorLog res)
         {
                 var sp = "Proc_InsertErrorLog";
-                var res = (ErrorLog)entity;
                 var param = new
                 {
                     ClassName = res.ClassName,

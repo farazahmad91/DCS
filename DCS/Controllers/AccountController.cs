@@ -72,18 +72,6 @@ namespace DCS.Controllers
                         if (res.StatusCode == ResponseStatus.SUCCESS)
                         {
                             //_apirequest.Post("UserProfile/AddUserProfileDetails", model);.
-                            string email = model.Email;
-                            string subject = "Welcome to DCS - Registration Confirmation";
-                            string body = $"Dear {model.Name},\n\n" +
-                                          "Thank you for registering with DCS. We are pleased to welcome you.\n\n" +
-                                          "Your registration details are as follows:\n" +
-                                          $"Password: {model.ConfirmPassword}\n\n" +
-                                          "If you have any questions or require further assistance, please do not hesitate to contact our support team.\n\n" +
-                                          "Thank you for choosing DCS.\n\n" +
-                                          "Best regards,\n" +
-                                          "The DCS Team";
-
-                            _sendmail.SendEmails(email, subject, body);
                         }
                         return Json(res);
 
@@ -134,7 +122,10 @@ namespace DCS.Controllers
                 }
 
                 var authenticateResponse = JsonConvert.DeserializeObject<Response<LoginResponse>>(apiRes.Result);
+                if (authenticateResponse.StatusCode != ResponseStatus.ISEmailVerified)
+                {
 
+                }
                 if (authenticateResponse.StatusCode != ResponseStatus.SUCCESS)
                 {
                     var userip = _sendmail.GetIPAddress();
@@ -185,7 +176,36 @@ namespace DCS.Controllers
             }
         }
 
-        [Route("ChangePassword")]
+		[Route("IsVerified-User")]
+		[HttpPost]
+		public async Task<IActionResult> ConfirmationEmail(ValidateEmail validateEmail)
+		{
+			var res = new Response()
+			{
+				ResponseText = "email not register",
+				StatusCode = ResponseStatus.FAILED
+			};
+
+			try
+			{
+
+				var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Account/VerifyOTP", JsonConvert.SerializeObject(validateEmail), null);
+				if (apiRes.Result != null)
+				{
+					res = JsonConvert.DeserializeObject<Response>(apiRes.Result);
+					return Json(res);
+				}
+				return Json(res);
+			}
+			catch (Exception ex)
+			{
+
+				throw;
+			}
+
+		}
+
+		[Route("ChangePassword")]
         public async Task<IActionResult> ChangePassword()
         {
             return PartialView();
