@@ -30,8 +30,8 @@ namespace API.Controllers
         private readonly IConfiguration configuration;
         private readonly IUserService _userservice;
         private readonly IHashPassword _hashpass;
-       
-        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IUserService userservice,  IHashPassword hashpass)
+        private readonly IUserValidation _userValidation;
+        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IUserService userservice,  IHashPassword hashpass, IUserValidation userValidation)
         {
             _signInManager = signInManager;
             this.userManager = userManager;
@@ -39,6 +39,7 @@ namespace API.Controllers
             this.configuration = configuration;
             _userservice = userservice;
             _hashpass=hashpass;
+            _userValidation=userValidation;
         }
 
         [HttpPost(nameof(Registration))]
@@ -72,6 +73,14 @@ namespace API.Controllers
                 return Ok(result);
             }
             return Ok(response);
+        }
+
+        [HttpPost(nameof(VerifyConfirmationEmail))]
+        public async Task<IActionResult> VerifyConfirmationEmail(ValidateEmail validateEmail)
+        {
+            var i = _userValidation.VerifyConfirmationEmail(validateEmail);
+
+            return Ok(i);
         }
 
 
@@ -115,8 +124,6 @@ namespace API.Controllers
         public async Task<IActionResult> AllUser()
         {
             var i = _userservice.GetAllUsers();
-
-
             return Ok(i);
         }
         [HttpPost(nameof(ForgetPassword))]
@@ -162,7 +169,7 @@ namespace API.Controllers
                 response.StatusCode=ResponseStatus.FAILED;
                 return BadRequest(response);
             }
-            var i = await _userservice.ValidateEmail(email);
+            var i = await _userValidation.ValidateEmail(email);
                 return Ok(i);
         }
 
@@ -170,7 +177,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> VerifyOTP(ValidateEmail validateEmail)
         {
-            var i = await _userservice.VerifyOTP(validateEmail);
+            var i = await _userValidation.VerifyOTP(validateEmail);
             return Ok(i);
         }
     }

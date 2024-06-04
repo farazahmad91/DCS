@@ -1,7 +1,15 @@
-﻿@{
-    ViewData["Title"] = "Email Sender";
-    Layout = "_LayoutSiteAdmin";
+﻿
+
+@{
+    ViewData["Title"] = "Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<h1>Users</h1>
+
+<p>
+    <input onclick='$("#bulkemail").modal("show");' class="btn btn-lg btn-primary" id="btnmodal" value="Create Message" type="submit">
+</p>
 <div>
     <input type="radio" id="singleSelect" name="selectionMode" checked>
     <label for="singleSelect">Single Select</label>
@@ -10,29 +18,30 @@
     <input type="radio" id="selectAll" name="selectionMode">
     <label for="selectAll">Select All</label>
 </div>
-<div class="d-grid pt-3 float-left">
-    <input onclick='$("#bulkemail").modal("show");' class="btn btn-lg btn-primary" id="btnmodal" value="Create Message" type="submit">
-</div>
-<table id="userTable">
+<table class="table" id="tbluser">
     <thead>
         <tr>
-            <th>Select</th>
-            <th>User ID</th>
-            <th>Email</th>
+            <th hidden>
+                <label>Id</label>
+            </th>
+            <th></th>
+            <th>
+                <label>Email</label>
+            </th>
+            <th>
+                <label>Name</label>
+            </th>
+            <th>
+                <label>UserName</label>
+            </th>
+            <th>
+                <label>Role</label>
+            </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td><input type="checkbox" class="userCheckbox"></td>
 
-            <td>farazshaikh8960@gmail.com</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class="userCheckbox"></td>
-
-            <td>farazshaikh08538@gmail.com</td>
-        </tr>
-        <!-- Add more rows for additional users -->
     </tbody>
 </table>
 <div class="card-body">
@@ -60,7 +69,7 @@
                                 <label>Message</label>
                                 <textarea id="txtMessage" class="form-control cls"></textarea>
                             </div>
-                           
+
                         </div>
                     </div>
                     <div class="row">
@@ -133,7 +142,7 @@
                 alert("Please select at least one email.");
             }
         });
-
+        loadData();
         function sendBulkEmails(emailList) {
             document.getElementById("sendSpin").classList.add("spinner-border", "spinner-border-sm", "spinner-1x");
             document.getElementById("btnsendEmail").innerHTML = "Sending...";
@@ -176,6 +185,12 @@
 
 
     });
-</script>
 
-   
+    var loadData = function () {
+        $.get('/_UserList').done(function (res) {
+            $('#tbluser tbody').html(res);
+        }).fail(function (xhr) {
+             console.log(xhr.responseText);
+        });
+    }
+</script>
