@@ -93,14 +93,21 @@
             };
 
             $.post("/Account/Login", formData).done(function (res) {
-                setTimeout(function () {
-                    console.log(res);
-                    document.getElementById("btnhide1").hidden = true;
-                    document.getElementById("btnhide2").hidden = false;
-                    Info(1, 'Login successful');
-                    window.location.href = `${res}`;
-                }, 2000);
+                console.log(res);
+                if (res.statusCode==1) {
+                    setTimeout(function () {
+                        console.log(res);
+                        Info(1, 'Login successful');
+                         window.location.href = `${res}`;
+                    }, 2000);
+                }
+                if (res.statusCode == 2) {
 
+                    window.location.href = "/IsVerified-User";
+                }
+                Info(res.statusCode, res.responseText);
+                document.getElementById("btnhide1").hidden = true;
+                document.getElementById("btnhide2").hidden = false;
 
             }).fail(function () {
                 showerrors("Something went wrong!!!");

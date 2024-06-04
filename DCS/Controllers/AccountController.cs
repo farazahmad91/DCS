@@ -122,9 +122,9 @@ namespace DCS.Controllers
                 }
 
                 var authenticateResponse = JsonConvert.DeserializeObject<Response<LoginResponse>>(apiRes.Result);
-                if (authenticateResponse.StatusCode != ResponseStatus.ISEmailVerified)
+                if (authenticateResponse.StatusCode == ResponseStatus.ISEmailVerified)
                 {
-
+                      return Json(authenticateResponse);
                 }
                 if (authenticateResponse.StatusCode != ResponseStatus.SUCCESS)
                 {
@@ -133,7 +133,7 @@ namespace DCS.Controllers
                     string subject = "Account Login Alert";
 
                     string body = $"Dear Customer, We have detected a login attempt to your account from the following IP address: {userip}. If you did not initiate this login attempt, please contact our support team immediately for assistance. Thank you for your prompt attention to this matter. Best regards, The DCS Team";
-                    _sendmail.SendEmails(email, subject, body);
+                    ///_sendmail.SendEmails(email, subject, body);
                     loginVm.message = authenticateResponse.ResponseText;
                     return Json(authenticateResponse);
                 }
@@ -164,7 +164,7 @@ namespace DCS.Controllers
                 }
                 else
                 {
-                    return Json("Page Not Found");
+                    return Json(authenticateResponse);
                 }
 
             }
@@ -177,33 +177,11 @@ namespace DCS.Controllers
         }
 
 		[Route("IsVerified-User")]
-		[HttpPost]
-		public async Task<IActionResult> ConfirmationEmail(ValidateEmail validateEmail)
+		public IActionResult ConfirmationEmail()
 		{
-			var res = new Response()
-			{
-				ResponseText = "email not register",
-				StatusCode = ResponseStatus.FAILED
-			};
+            return View();
 
-			try
-			{
-
-				var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Account/VerifyOTP", JsonConvert.SerializeObject(validateEmail), null);
-				if (apiRes.Result != null)
-				{
-					res = JsonConvert.DeserializeObject<Response>(apiRes.Result);
-					return Json(res);
-				}
-				return Json(res);
-			}
-			catch (Exception ex)
-			{
-
-				throw;
-			}
-
-		}
+        }
 
 		[Route("ChangePassword")]
         public async Task<IActionResult> ChangePassword()
