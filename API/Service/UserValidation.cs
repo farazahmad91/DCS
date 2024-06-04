@@ -141,6 +141,7 @@ namespace API.Service
                     var par = new
                     {
                         IsVerfied = 1,
+                        Email= validateEmail.Email,
                     };
                     var j = await _dapper.GetAsync<Response>("Proc_ConfirmEmail", par);
                     res = j;
