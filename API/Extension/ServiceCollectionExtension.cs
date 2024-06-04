@@ -29,6 +29,7 @@ namespace API.Extension
             services.AddScoped<API.AppCode.IML.IDapper, API.Data.Dapper>();
             services.AddScoped<IErrorLog, ErrorLog_ML>();
             services.AddScoped<IHashPassword, HashPassword>();
+            services.AddScoped<IUserValidation, UserValidation>();
             services.AddScoped<API.Service.IUserService, API.Service.UserService>();
             services.AddSingleton<ConnectionStrings>(ch);
             services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));

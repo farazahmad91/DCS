@@ -119,41 +119,6 @@ namespace API.SendEmail
                 var _ = new ErrorLog_ML(_dapper).Error(error);
             }
         }
-
-		//public void SendBulkEmails(List<string> emails, string subject, string body, string relativeImagePath)
-		//{
-		//	foreach (string email in emails)
-		//	{
-		//		try
-		//		{
-		//			_emailCredential.SendEmailWithImage(email, subject, body, relativeImagePath);
-		//			Console.WriteLine($"Email sent successfully to {email}");
-		//		}
-		//		catch (Exception ex)
-		//		{
-		//			Console.WriteLine($"Failed to send email to {email}: {ex.Message}");
-		//		}
-		//	}
-		//}
-
-		//public void SendBulkEmails(List<string> emails)
-		//{
-		//	foreach (var email in emails)
-		//	{
-		//		try
-		//		{
-		//			SendUserMail(email);
-		//		}
-		//		catch (Exception ex)
-		//		{
-		//			Console.WriteLine($"Failed to send email to {email}: {ex.Message}");
-		//			// Handle the exception as needed
-		//		}
-		//	}
-		//}
-
-		
-
 		public string GetIPAddress()
         {
             try
@@ -179,8 +144,6 @@ namespace API.SendEmail
                 return null;
             }
         }
-
-
         public void Sendmailss(CreateEmail cEmail)
         {
             try

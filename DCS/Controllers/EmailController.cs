@@ -104,52 +104,6 @@ namespace DCS.Controllers
                 return StatusCode(-1, $"Internal server error: {ex.Message}");
             }
         }
-
-
-
-
-        //[HttpPost("sendBulkEmails")]
-        //public async Task<IActionResult> SendBulkEmails([FromBody] List<CreateEmail> emails)
-        //{
-        //    var response = new Entities.Response.Response<bool>
-        //    {
-        //        ResponseText = "An error has ocurred try after sometime!",
-        //        StatusCode = ResponseStatus.SUCCESS
-        //    };
-        //    if (emails == null || emails.Count == 0)
-        //    {
-        //        response.ResponseText="Email list cannot be null or empty";
-        //        response.StatusCode=ResponseStatus.FAILED;
-        //        return Json(response);
-        //    }
-
-        //    var failedEmails = new List<string>();
-
-        //    foreach (var email in emails)
-        //    {
-        //        try
-        //        {
-        //            _sendmail.SendEmailWithImage(email);
-        //            //  await _sendmail.SendEmailWithImage(email); // Assuming SendEmailWithImage is an async method
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            _logger.LogError(ex, $"Failed to send email to {email.Emails}");
-        //            failedEmails.Add(email.Emails);
-        //        }
-        //    }
-
-        //    if (failedEmails.Count > 0)
-        //    {
-        //        response.ResponseText=$"Failed to send emails to the following recipients: {string.Join(", ", failedEmails)}";
-        //        response.StatusCode=ResponseStatus.FAILED;
-        //        return Json(response);
-        //        //return StatusCode(500, $"Failed to send emails to the following recipients: {string.Join(", ", failedEmails)}");
-        //    }
-        //    response.ResponseText="Bulk emails sent successfully";
-        //    response.StatusCode=ResponseStatus.FAILED;
-        //    return Json(response);
-        //}
     }
 }
 

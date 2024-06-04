@@ -98,22 +98,15 @@
                 <input class="m-2 text-center form-control rounded cls" type="text" id="fifth" maxlength="1" />
                 <input class="m-2 text-center form-control rounded cls" type="text" id="sixth" maxlength="1" />
             </div>
-            <div class="mt-4 h-v">
-                <button class="btn btn-danger px-4 validate" id="btnValidatehide2" onclick="validateOTP();">Validate</button>
-                <button class="btn btn-primary validate1" type="button" id="btnValidatehide1" hidden>
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    Verify...
+            <div class="mt-4">
+                <button class="btn btn-danger px-4 validate" id="btnValidatehide2" onclick="validateOTP();">
+                    <span id="Validspinn" role="status" aria-hidden="true"></span>
+                    Validate
                 </button>
-            </div>
 
-            <div class="mt-4 h-r" hidden>
-                <button class="btn btn-danger px-4 validate" id="btnrohide2" onclick="reSendEmail();">
+                <button class="btn btn-danger px-4 validate" id="btnrohide2" onclick="reSendEmail();" hidden>
                     <span id="resendspinn" role="status" aria-hidden="true"></span>
                     Resend OTP
-                </button>
-                <button class="btn btn-primary validate1" type="button" onclick="validateOTP();" id="btnrohide1" hidden>
-                    <span id="Validspinn" role="status" aria-hidden="true"></span>
-                    Validate...
                 </button>
             </div>
             <div id="timerDisplay"></div>
@@ -141,7 +134,7 @@
 
     function validateOTP() {
         document.getElementById("Validspinn").classList.add("spinner-border", "spinner-border-sm", "spinner-1x");
-
+        document.getElementById("btnValidatehide2").innerHTML = "Requesting...";
 
         const otp = Array.from(document.querySelectorAll('#otp > *[id]')).map(input => input.value).join('');
        
@@ -217,6 +210,8 @@
 
     function reSendEmail() {
         document.getElementById("resendspinn").classList.add("spinner-border", "spinner-border-sm");
+        document.getElementById("btnrohide2").innerHTML = "Sending...";
+        document.getElementById("btnValidatehide2").hidden = true;
         var email = $("#Email").val();
         if (validateEmail(email)) {
             toggleLoading(true);
@@ -232,7 +227,7 @@
                         document.getElementById("Lemail").innerHTML = maskEmail(email);
                         document.getElementById("resendspinn").classList.remove("spinner-border", "spinner-border-sm");
                         document.getElementById("btnrohide2").hidden = true;
-                        document.getElementById("btnrohide1").hidden = false;
+                        document.getElementById("btnValidatehide2").hidden = false;
                         var timer = 60;
                         var countdown = setInterval(function () {
                             if (timer > 0) {

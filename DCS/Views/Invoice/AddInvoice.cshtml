@@ -1,6 +1,6 @@
-﻿
-@{
-    ViewData["Title"] = "AddInvoice";
+﻿@{
+	ViewData["Title"] = "AddInvoice";
+	Layout = "_LayoutSiteAdmin";
 }
 
 <!-- Content wrapper start -->
@@ -19,43 +19,39 @@
 							<div class="col-sm-6 col-12">
 								<!-- Row start -->
 								<div class="row gx-3">
-									<div class="col-sm-12 col-12">
+									<div class="col-sm-6 col-12">
 										<!-- Form group start -->
 										<div class="mb-3">
 											<label for="customerName" class="form-label">Customer Name</label>
-											<input type="text" id="customerName" class="form-control"
-												   placeholder="Enter Customer Name" />
+											<input type="text" id="txtName" class="form-control" placeholder="Enter Customer Name" />
 										</div>
 										<!-- Form group end -->
 									</div>
 									<div class="col-sm-6 col-12">
 										<!-- Form group start -->
 										<div class="mb-3">
-											<label for="invNumber" class="form-label">Invoice Number</label>
-											<input type="text" id="invNumber" class="form-control"
-												   placeholder="Enter Invoice Number" />
-										</div>
-										<!-- Form group end -->
-									</div>
-									<div class="col-sm-6 col-12">
-										<!-- Form group start -->
-										<div class="mb-3">
-											<label for="dueDate" class="form-label">Due Date</label>
+											<label for="txtEmail" class="form-label">Email</label>
 											<div class="input-group">
-												<input type="text" class="form-control datepicker-opens-left" id="dueDate"
-													   placeholder="DD/MM/YYYY" />
-												<span class="input-group-text">
-													<i class="bi bi-calendar4"></i>
-												</span>
+												<input type="text" id="txtEmail" class="form-control" placeholder="Enter Email" />
 											</div>
 										</div>
 										<!-- Form group end -->
 									</div>
-									<div class="col-sm-12 col-12">
+									<div class="col-sm-6 col-12">
 										<!-- Form group start -->
-										<div class="mb-2">
-											<label for="msgCustomer" class="form-label">Message</label>
-											<textarea rows="3" id="msgCustomer" class="form-control"></textarea>
+										<div class="mb-3">
+											<label for="txtPhone" class="form-label">Mobile No.</label>
+											<input type="text" id="txtPhone" class="form-control" placeholder="Enter Mobile Number" />
+										</div>
+										<!-- Form group end -->
+									</div>
+									<div class="col-sm-6 col-12">
+										<!-- Form group start -->
+										<div class="mb-3">
+											<label for="txtAddress" class="form-label">Address</label>
+											<div class="input-group">
+												<input type="text" id="txtAddress" class="form-control" placeholder="Enter Address" />
+											</div>
 										</div>
 										<!-- Form group end -->
 									</div>
@@ -65,7 +61,7 @@
 						</div>
 						<!-- Row end -->
 					</div>
-
+					<hr />
 					<!-- Row start -->
 					<div class="row gx-3">
 						<div class="col-12">
@@ -73,71 +69,56 @@
 								<table class="table table-bordered">
 									<thead>
 										<tr>
-											<th colspan="7" class="pt-3 pb-3">
-												Items/Products
-											</th>
-										</tr>
-										<tr>
+											<th>Service</th>
 											<th>Product</th>
 											<th>Quantity</th>
 											<th>Unit</th>
 											<th>Price</th>
 											<th>VAT</th>
+											<th>Discount</th>
 											<th>Amount (Net)</th>
 											<th>Actions</th>
 										</tr>
 									</thead>
-									<tbody>
-										<tr>
+									<tbody id="tbody">
+										<tr class="rowClass">
 											<td>
 												<!-- Form group start -->
-												<select class="form-select">
-													<option>Select Product</option>
+												<select class="form-select" id="txtService0">
+													<option>Select Service</option>
 													<option>Mobiles</option>
 													<option>Books</option>
-													<option>Clothing</option>
-													<option>Electronics</option>
-													<option>Food</option>
-													<option>Games</option>
-													<option>Gifts</option>
-													<option>Laptops</option>
-													<option>Mobiles</option>
-													<option>Music</option>
-													<option>Office</option>
-													<option>Pharmacy</option>
-													<option>Sports</option>
-													<option>Toys</option>
 												</select>
-												<!-- Form group end -->
 											</td>
 											<td>
-												<!-- Form group start -->
 												<div class="m-0">
-													<input type="number" class="form-control" placeholder="Qty" />
+													<input type="text" class="form-control" id="txtProduct0" placeholder="Product" />
 												</div>
-												<!-- Form group end -->
+											</td>
+											<td>
+												<div class="m-0">
+													<input type="number" class="form-control" id="txtQty0" onchange="txtonChange();" placeholder="Qty" />
+												</div>
+											</td>
+											<td>
+												<select class="form-select" id="txtUnit0">
+													<option>Select Unit</option>
+													<option>tablet</option>
+													<option>Books</option>
+												</select>
 											</td>
 											<td>
 												<!-- Form group start -->
-												<div class="m-0">
-													<input type="text" class="form-control" />
+												<div class="input-group m-0">
+													<input type="text" id="txtPrice0" onchange="txtonChange();" class="form-control" placeholder="Price" />
+													<span class="input-group-text">₹</span>
 												</div>
 												<!-- Form group end -->
 											</td>
 											<td>
 												<!-- Form group start -->
 												<div class="input-group m-0">
-													<input type="text" class="form-control" />
-													<span class="input-group-text">
-														<i class="bi bi-currency-dollar"></i>
-													</span>
-												</div>
-												<!-- Form group end -->
-											</td>
-											<td>
-												<!-- Form group start -->
-												<div class="input-group m-0">
-													<input type="text" class="form-control" />
+													<input type="text" id="txtVat0" onchange="txtonChange();" class="form-control" placeholder="Vat" />
 													<span class="input-group-text">%</span>
 												</div>
 												<!-- Form group end -->
@@ -145,74 +126,7 @@
 											<td>
 												<!-- Form group start -->
 												<div class="input-group m-0">
-													<input type="text" class="form-control" />
-													<span class="input-group-text">
-														<i class="bi bi-currency-dollar"></i>
-													</span>
-												</div>
-												<!-- Form group end -->
-											</td>
-											<td>
-												<div class="d-inline-flex gap-3">
-													<button class="btn btn-outline-danger">
-														<i class="bi bi-trash m-0"></i>
-													</button>
-													<button class="btn btn-outline-success">
-														<i class="bi bi-pencil m-0"></i>
-													</button>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<!-- Form group start -->
-												<select class="form-select">
-													<option>Select Product</option>
-													<option>Mobiles</option>
-													<option>Books</option>
-													<option>Clothing</option>
-													<option>Electronics</option>
-													<option>Food</option>
-													<option>Games</option>
-													<option>Gifts</option>
-													<option>Laptops</option>
-													<option>Mobiles</option>
-													<option>Music</option>
-													<option>Office</option>
-													<option>Pharmacy</option>
-													<option>Sports</option>
-													<option>Toys</option>
-												</select>
-												<!-- Form group end -->
-											</td>
-											<td>
-												<!-- Form group start -->
-												<div class="m-0">
-													<input type="number" class="form-control" placeholder="Qty" />
-												</div>
-												<!-- Form group end -->
-											</td>
-											<td>
-												<!-- Form group start -->
-												<div class="m-0">
-													<input type="text" class="form-control" />
-												</div>
-												<!-- Form group end -->
-											</td>
-											<td>
-												<!-- Form group start -->
-												<div class="input-group m-0">
-													<input type="text" class="form-control" />
-													<span class="input-group-text">
-														<i class="bi bi-currency-dollar"></i>
-													</span>
-												</div>
-												<!-- Form group end -->
-											</td>
-											<td>
-												<!-- Form group start -->
-												<div class="input-group m-0">
-													<input type="text" class="form-control" />
+													<input type="text" id="txtDiscount0" onchange="txtonChange();" class="form-control" placeholder="Discount" />
 													<span class="input-group-text">%</span>
 												</div>
 												<!-- Form group end -->
@@ -220,43 +134,24 @@
 											<td>
 												<!-- Form group start -->
 												<div class="input-group m-0">
-													<input type="text" class="form-control" />
-													<span class="input-group-text">
-														<i class="bi bi-currency-dollar"></i>
-													</span>
+													<input type="text" id="txtTotalAmount0" class="form-control" placeholder="Total Amount" />
+													<span class="input-group-text">₹</span>
 												</div>
 												<!-- Form group end -->
 											</td>
 											<td>
 												<div class="d-inline-flex gap-3">
-													<button class="btn btn-outline-danger">
+													<button class="btn btn-outline-danger remove">
 														<i class="bi bi-trash m-0"></i>
 													</button>
-													<button class="btn btn-outline-success">
-														<i class="bi bi-pencil m-0"></i>
+													<button class="btn btn-dark" id="btnaddnew">
+														Add
 													</button>
 												</div>
 											</td>
 										</tr>
 										<tr>
-											<td>
-												<button class="btn btn-dark">
-													Add New Row
-												</button>
-											</td>
-											<td colspan="6">
-												<div class="row justify-content-end">
-													<div class="col-auto">
-														<label class="col-form-label">Discount % of Total Amount</label>
-													</div>
-													<div class="col-auto">
-														<input type="text" class="form-control" placeholder="0%" />
-													</div>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td colspan="5">&nbsp;</td>
+											<td colspan="7">&nbsp;</td>
 											<td>
 												<p class="m-0">Subtotal</p>
 												<p class="m-0">Discount</p>
@@ -264,10 +159,10 @@
 												<h5 class="mt-2 text-red">Total USD</h5>
 											</td>
 											<td>
-												<p class="m-0">$0.00</p>
-												<p class="m-0">$0.00</p>
-												<p class="m-0">$0.00</p>
-												<h5 class="mt-2 text-red">$0.00</h5>
+												<p class="m-0" id="subtotal">₹0.00</p>
+												<p class="m-0" id="discountAmount">₹0.00</p>
+												<p class="m-0" id="vatAmount">₹0.00</p>
+												<h5 class="mt-2 text-red" id="totalAmount">₹0.00</h5>
 											</td>
 										</tr>
 									</tbody>
@@ -276,10 +171,10 @@
 						</div>
 						<div class="col-12">
 							<div class="text-end">
-								<button class="btn btn-outline-success">
-									Save as Draft
+								<button class="btn btn-outline-success" onclick="CreateInvoice();">
+									Create Invoice
 								</button>
-								<a href="invoice-list.html" class="btn btn-success ms-1">Create Invoice</a>
+								@* <a onclick="CreateInvoice();" class="btn btn-success ms-1">Create Invoice</a> *@
 							</div>
 						</div>
 					</div>
@@ -288,7 +183,296 @@
 			</div>
 		</div>
 	</div>
-	<!-- Row end -->
 
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+	$(document).ready(() => {
+		let count = 1;
 
+		// Adding row on click to Add New Row button
+		$('#tbody').on('click', '#btnaddnew', function () {
+			let dynamicRowHTML = `
+					<tr class="rowClass">
+						<td>
+							<select class="form-select" id="txtService${count}">
+								<option>Select Service</option>
+								<option>Mobiles</option>
+								<option>Books</option>
+							</select>
+						</td>
+						<td>
+							<div class="m-0">
+								<input type="text" class="form-control" id="txtProduct${count}" placeholder="Product" />
+							</div>
+						</td>
+						<td>
+							<div class="m-0">
+								<input type="number" class="form-control" id="txtQty${count}" onchange="txtonChange();" placeholder="Qty" />
+							</div>
+						</td>
+						<td>
+							<select class="form-select" id="txtUnit${count}">
+								<option>Select Unit</option>
+								<option>tablet</option>
+								<option>Books</option>
+							</select>
+						</td>
+						<td>
+							<div class="input-group m-0">
+								<input type="text" id="txtPrice${count}" onchange="txtonChange();" class="form-control" placeholder="Price"/>
+								<span class="input-group-text">₹</span>
+							</div>
+						</td>
+						<td>
+							<div class="input-group m-0">
+								<input type="text" id="txtVat${count}" onchange="txtonChange();" class="form-control" placeholder="Vat"/>
+								<span class="input-group-text">%</span>
+							</div>
+						</td>
+						<td>
+							<div class="input-group m-0">
+								<input type="text" id="txtDiscount${count}" onchange="txtonChange();" class="form-control" placeholder="Discount"/>
+								<span class="input-group-text">%</span>
+							</div>
+						</td>
+						<td>
+							<div class="input-group m-0">
+								<input type="text" id="txtTotalAmount${count}" class="form-control" placeholder="Total Amount"/>
+								<span class="input-group-text">₹</span>
+							</div>
+						</td>
+						<td>
+							<div class="d-inline-flex gap-3">
+								<button class="btn btn-outline-danger remove">
+									<i class="bi bi-trash m-0"></i>
+								</button>
+								<button class="btn btn-dark" id="btnaddnew">
+									Add
+								</button>
+							</div>
+						</td>
+					</tr>`;
+			$('#tbody tr:last').before(dynamicRowHTML);
+			count++;
+		});
+
+		// Removing Row on click to Remove button
+		$('#tbody').on('click', '.remove', function () {
+			$(this).closest('tr.rowClass').remove();
+			txtonChange();
+		});
+	});
+
+
+	function txtonChange() {
+		let discount = parseFloat($('#txtDiscount').val()) || 0;
+		let subtotal = 0;
+		let totalVAT = 0;
+		let totalAmount = 0;
+
+		$('#tbody tr.rowClass').each(function () {
+			let qty = parseFloat($(this).find('input[id^="txtQty"]').val()) || 0;
+			let price = parseFloat($(this).find('input[id^="txtPrice"]').val()) || 0;
+			let discountPercent = parseFloat($(this).find('input[id^="txtDiscount"]').val()) || 0;
+			let vat = parseFloat($(this).find('input[id^="txtVat"]').val()) || 0;
+
+			let netAmount = qty * price;
+			let vatAmount = (netAmount * vat) / 100;
+
+			subtotal += netAmount;
+			totalVAT += vatAmount;
+			let stotal = netAmount;
+			let tVAT = vatAmount;
+			let disAmount = (stotal * discountPercent) / 100;
+			let tAmount = stotal - disAmount + tVAT;
+			$(this).find('input[id^="txtTotalAmount"]').val(`${tAmount.toFixed(2)}`);
+		});
+
+		let discountAmount = (subtotal * discount) / 100;
+		totalAmount = subtotal - discountAmount + totalVAT;
+
+		$('#subtotal').text(`₹${subtotal.toFixed(2)}`);
+		$('#discountAmount').text(`₹${discountAmount.toFixed(2)}`);
+		$('#vatAmount').text(`₹${totalVAT.toFixed(2)}`);
+		$('#totalAmount').text(`₹${totalAmount.toFixed(2)}`);
+	}
+
+	function CreateInvoice() {
+		// Retrieve customer information from input fields
+		let customerName = $('#txtName').val();
+		let email = $('#txtEmail').val();
+		let phone = $('#txtPhone').val();
+		let address = $('#txtAddress').val();
+		let discount = parseFloat($('#txtDiscount').val()) || 0; // Parse discount value, default to 0 if not provided
+		let subtotal = 0;
+		let totalVAT = 0;
+		let totalAmount = 0;
+
+		let items = []; // Array to store invoice items
+
+		// Iterate through each table row with class 'rowClass'
+		$('#tbody tr.rowClass').each(function () {
+			// Retrieve item details from input fields within the row
+			let service = $(this).find('select[id^="txtService"]').val();
+			let product = $(this).find('input[id^="txtProduct"]').val();
+			let qty = parseFloat($(this).find('input[id^="txtQty"]').val()) || 0;
+			let unit = $(this).find('select[id^="txtUnit"]').val();
+			let price = parseFloat($(this).find('input[id^="txtPrice"]').val()) || 0;
+			let discountPercent = parseFloat($(this).find('input[id^="txtDiscount"]').val()) || 0;
+			let vat = parseFloat($(this).find('input[id^="txtVat"]').val()) || 0;
+
+			// Calculate net amount and VAT amount for the item
+			let netAmount = qty * price;
+			let vatAmount = (netAmount * vat) / 100;
+
+			subtotal += netAmount; // Add net amount to subtotal
+			totalVAT += vatAmount; // Add VAT amount to totalVAT
+
+			// Calculate total amount for the item after discount and VAT
+			let stotal = netAmount;
+			let tVAT = vatAmount;
+			let disAmount = (stotal * discountPercent) / 100;
+			let tAmount = stotal - disAmount + tVAT;
+
+			// Set total amount for the item in its corresponding input field
+			$(this).find('input[id^="txtTotalAmount"]').val(`${tAmount.toFixed(2)}`);
+
+			// Add item details to the items array
+			items.push({
+				Service: service,
+				Product: product,
+				Quantity: qty,
+				Unit: unit,
+				Price: price,
+				Discount: discountPercent,
+				VAT: vat,
+				NetAmount: netAmount,
+				VATAmount: vatAmount,
+				TotalAmount: tAmount
+			});
+		});
+
+		// Calculate discount amount based on subtotal and discount percentage
+		let discountAmount = (subtotal * discount) / 100;
+		// Calculate total amount by subtracting discount amount and adding total VAT
+		totalAmount = subtotal - discountAmount + totalVAT;
+
+		// Update UI with calculated amounts
+		$('#subtotal').text(`₹${subtotal.toFixed(2)}`);
+		$('#discountAmount').text(`₹${discountAmount.toFixed(2)}`);
+		$('#vatAmount').text(`₹${totalVAT.toFixed(2)}`);
+		$('#totalAmount').text(`₹${totalAmount.toFixed(2)}`);
+
+		// Create invoice view model object
+		let invoiceViewModel = {
+			CustomerName: customerName,
+			Email: email,
+			Phone: phone,
+			Address: address,
+			Subtotal: subtotal,
+			DiscountAmount: discountAmount,
+			TotalVAT: totalVAT,
+			TotalAmount: totalAmount,
+			Items: items
+		};
+
+		// Log invoice items to console for debugging
+		console.log(invoiceViewModel);
+
+		// Send invoice data to server using AJAX POST request
+		$.ajax({
+			type: "POST",
+			url: "/AddInvoice",
+			contentType: "application/json; charset=utf-8",
+			data: JSON.stringify(invoiceViewModel), // Convert invoiceViewModel to JSON string
+			success: function (response) {
+				alert(response.message); // Show success message from server
+			},
+			error: function () {
+				alert("Error creating invoice"); // Show error message if request fails
+			}
+		});
+	}
+
+
+
+
+
+
+
+
+	// function CreateInvoice() {
+	// 	let customerName = $('#txtName').val();
+	// 	let email = $('#txtEmail').val();
+	// 	let phone = $('#txtPhone').val();
+	// 	let address = $('#txtAddress').val();
+	// 	let discount = parseFloat($('#txtDiscount').val()) || 0;
+	// 	let subtotal = 0;
+	// 	let totalVAT = 0;
+	// 	let totalAmount = 0;
+
+	// 	let items = [];
+
+	// 	$('#tbody tr.rowClass').each(function () {
+	// 		let service = $(this).find('select[id^="txtService"]').val();
+	// 		let product = $(this).find('input[id^="txtProduct"]').val();
+	// 		let qty = parseFloat($(this).find('input[id^="txtQty"]').val()) || 0;
+	// 		let unit = $(this).find('select[id^="txtUnit"]').val();
+	// 		let price = parseFloat($(this).find('input[id^="txtPrice"]').val()) || 0;
+	// 		let discountPercent = parseFloat($(this).find('input[id^="txtDiscount"]').val()) || 0;
+	// 		let vat = parseFloat($(this).find('input[id^="txtVat"]').val()) || 0;
+
+	// 		let netAmount = qty * price;
+	// 		let vatAmount = (netAmount * vat) / 100;
+
+	// 		subtotal += netAmount;
+	// 		totalVAT += vatAmount;
+
+	// 		let stotal = netAmount;
+	// 		let tVAT = vatAmount;
+	// 		let disAmount = (stotal * discountPercent) / 100;
+	// 		let tAmount = stotal - disAmount + tVAT;
+
+	// 		$(this).find('input[id^="txtTotalAmount"]').val(`${tAmount.toFixed(2)}`);
+
+	// 		items.push({
+	// 			service: service,
+	// 			product: product,
+	// 			qty: qty,
+	// 			unit: unit,
+	// 			price: price,
+	// 			discountPercent: discountPercent,
+	// 			vat: vat,
+	// 			netAmount: netAmount,
+	// 			vatAmount: vatAmount,
+	// 			totalAmount: tAmount
+	// 		});
+	// 	});
+
+	// 	let discountAmount = (subtotal * discount) / 100;
+	// 	totalAmount = subtotal - discountAmount + totalVAT;
+
+	// 	$('#subtotal').text(`₹${subtotal.toFixed(2)}`);
+	// 	$('#discountAmount').text(`₹${discountAmount.toFixed(2)}`);
+	// 	$('#vatAmount').text(`₹${totalVAT.toFixed(2)}`);
+	// 	$('#totalAmount').text(`₹${totalAmount.toFixed(2)}`);
+
+	// 	$.post("/Add-Invoice", {
+	// 		customerName: customerName,
+	// 		email: email,
+	// 		phone: phone,
+	// 		address: address,
+	// 		subtotal: subtotal,
+	// 		discountAmount: discountAmount,
+	// 		totalVAT: totalVAT,
+	// 		totalAmount: totalAmount,
+	// 		items: items // Sending the items array
+	// 	}).done(function () {
+	// 		alert("Invoice created successfully");
+	// 	}).fail(function () {
+	// 		alert("Error creating invoice");
+	// 	});
+	// }
+
+</script>

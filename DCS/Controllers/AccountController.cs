@@ -83,14 +83,17 @@ namespace DCS.Controllers
                 }
                 catch (Exception ex)
                 {
-
-                    return Json($"Registration failed. Exception: {ex.Message}");
+                    res.ResponseText=$"Registration failed. Exception: {ex.Message}";
+                    res.StatusCode = ResponseStatus.FAILED;
+                    return Json(res);
                 }
             }
             else
             {
-
-                return Json("Invalid request! Please check the provided data.");
+                res.ResponseText="Invalid request! Please check the provided data.";
+                res.StatusCode = ResponseStatus.FAILED;
+                return Json(res);
+                
             }
 
         }
@@ -105,37 +108,30 @@ namespace DCS.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginRequests loginRequest)
         {
-            var loginVm = new LoginVM { message = "Invalid login request!" };
+            var res = new Response()
+            {
+                ResponseText = "Failed To Login User",
+                StatusCode = ResponseStatus.FAILED
+            };
 
             if (!ModelState.IsValid)
             {
-                return BadRequest(loginVm);
+                return Json(res);
             }
 
             try
             {
                 var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Account/Login", JsonConvert.SerializeObject(loginRequest));
-
+                var authenticateResponse = JsonConvert.DeserializeObject<Response<LoginResponse>>(apiRes.Result);
                 if (string.IsNullOrEmpty(apiRes.Result))
                 {
-                    return BadRequest(loginVm);
+                    return Json(authenticateResponse);
                 }
 
-                var authenticateResponse = JsonConvert.DeserializeObject<Response<LoginResponse>>(apiRes.Result);
+                
                 if (authenticateResponse.StatusCode == ResponseStatus.ISEmailVerified)
                 {
                       return Json(authenticateResponse);
-                }
-                if (authenticateResponse.StatusCode != ResponseStatus.SUCCESS)
-                {
-                    var userip = _sendmail.GetIPAddress();
-                    string email = loginRequest.Email;
-                    string subject = "Account Login Alert";
-
-                    string body = $"Dear Customer, We have detected a login attempt to your account from the following IP address: {userip}. If you did not initiate this login attempt, please contact our support team immediately for assistance. Thank you for your prompt attention to this matter. Best regards, The DCS Team";
-                    ///_sendmail.SendEmails(email, subject, body);
-                    loginVm.message = authenticateResponse.ResponseText;
-                    return Json(authenticateResponse);
                 }
 
                 var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -170,9 +166,9 @@ namespace DCS.Controllers
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                loginVm.message = "An error occurred while processing the login request.";
-                return BadRequest(loginVm);
+                res.ResponseText="An error occurred while processing the login request.";
+                res.StatusCode = ResponseStatus.FAILED;
+                return Json(res);
             }
         }
 
@@ -183,7 +179,35 @@ namespace DCS.Controllers
 
         }
 
-		[Route("ChangePassword")]
+        public async Task<IActionResult> VerifyConfirmationEmail(ValidateEmail validateEmail)
+        {
+            var res = new Response()
+            {
+                ResponseText="email not register",
+                StatusCode = ResponseStatus.FAILED
+            };
+
+            try
+            {
+
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Account/VerifyConfirmationEmail", JsonConvert.SerializeObject(validateEmail), null);
+                if (apiRes.Result != null)
+                {
+                    res = JsonConvert.DeserializeObject<Response>(apiRes.Result);
+                    return Json(res);
+                }
+                return Json(res);
+            }
+            catch (Exception ex)
+            {
+                res.ResponseText="Something wrong!!";
+                res.StatusCode = ResponseStatus.FAILED;
+                return Json(res);
+            }
+
+        }
+
+        [Route("ChangePassword")]
         public async Task<IActionResult> ChangePassword()
         {
             return PartialView();
@@ -208,7 +232,7 @@ namespace DCS.Controllers
                 }
                 if (res.StatusCode==ResponseStatus.SUCCESS)
                 {
-                    var userip = requestInfo.GetRemoteIP();
+                    var userip = _sendmail.GetIPAddress();
                     string subject = "Password Change Notification";
                     string body = $"Dear {name},\n\n" +
                                   "We would like to inform you of a recent update regarding your account at DCS.\n\n" +
@@ -230,11 +254,16 @@ namespace DCS.Controllers
                 res.ResponseText = ex.Message;
                 res.StatusCode = ResponseStatus.FAILED;
                 return Json(res);
-                throw;
             }
 
         }
-        public async Task<IActionResult> UserList()
+        [Route("Users")]
+        public async Task<IActionResult> Users()
+        {
+            return View();
+        }
+        [Route("_UserList")]
+        public async Task<IActionResult> _UserList()
         {
             var list = new List<User>();
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Account/AllUser", null, User.GetLoggedInUserToken());
@@ -244,9 +273,6 @@ namespace DCS.Controllers
             }
             return PartialView(list);
         }
-
-
-
 
         [HttpGet]
  
@@ -301,8 +327,9 @@ namespace DCS.Controllers
             }
             catch (Exception ex)
             {
-
-                throw;
+                res.ResponseText="Something wrong!!";
+                res.StatusCode = ResponseStatus.FAILED;
+                return Json(res);
             }
 
         }
@@ -337,8 +364,9 @@ namespace DCS.Controllers
             }
             catch (Exception ex)
             {
-
-                throw;
+                res.ResponseText="Something wrong!!";
+                res.StatusCode = ResponseStatus.FAILED;
+                return Json(res);
             }
 
         }
@@ -373,7 +401,7 @@ namespace DCS.Controllers
                 }
                 if (res.StatusCode==ResponseStatus.SUCCESS)
                 {
-                    var userip = requestInfo.GetRemoteIP();
+                    var userip = _sendmail.GetIPAddress();
                     string subject = "Reset Password Notification";
                     string body = $"Dear {name},\n\n" +
                                   "We hope this message finds you well.\n\n" +
@@ -397,7 +425,9 @@ namespace DCS.Controllers
             catch (Exception ex)
             {
 
-                throw;
+                res.ResponseText="Something wrong!!";
+                res.StatusCode = ResponseStatus.FAILED;
+                return Json(res);
             }
 
         }
