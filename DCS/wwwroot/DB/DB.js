@@ -449,3 +449,197 @@ Begin
  JOIN AspNetUserRoles UR ON U.Id = UR.UserId
  JOIN AspNetRoles R ON UR.RoleId = R.Id;
 End
+
+
+
+CREATE TABLE TransactionDetails(
+	Id INT PRIMARY KEY IDENTITY(1, 1),
+	InvoiceID int,
+	Mode NVARCHAR(50),
+	TransactionId NVARCHAR(50),
+	IsPaid BIT,
+	DueDate NVARCHAR(50),
+	DueAmountPayDate NVARCHAR(50),
+	EntryOn DATETIME default getdate()
+);
+
+
+CREATE TABLE Invoice(
+	InvoiceID INT PRIMARY KEY IDENTITY(1, 1),
+	PatientName NVARCHAR(100),
+	Email NVARCHAR(100),
+	Phone NVARCHAR(20),
+	Address NVARCHAR(255),
+	Subtotal FLOAT,
+	DiscountAmount FLOAT,
+	TotalVAT FLOAT,
+	TotalAmount FLOAT,
+	EntryOn DATETIME default getdate()
+);
+
+
+CREATE TABLE InvoiceItem(
+	ID INT PRIMARY KEY IDENTITY(1, 1),
+	InvoiceID int,
+	Service NVARCHAR(100),
+	Product NVARCHAR(100),
+	Quantity FLOAT,
+	Unit NVARCHAR(50),
+	Price FLOAT,
+	VAT FLOAT,
+	Discount FLOAT,
+	SingleDiscountAmount FLOAT,
+	SubAmount FLOAT,
+	NetAmount FLOAT,
+	VATAmount FLOAT,
+	TotalAmount FLOAT
+);
+
+
+
+alter PROCEDURE InsertInvoiceData
+@PatientName NVARCHAR(100),
+	@Email NVARCHAR(100),
+		@Phone NVARCHAR(20),
+			@Address NVARCHAR(255),
+				@Subtotal FLOAT,
+					@DiscountAmount FLOAT,
+						@TotalVAT FLOAT,
+							@TotalAmount FLOAT,
+								@InvoiceItems InvoiceItemType READONLY, --Table - valued parameter for InvoiceItem
+    @TransactionMode NVARCHAR(50),
+	@TransactionId NVARCHAR(50),
+		@IsPaid BIT,
+			@DueDate NVARCHAR(50),
+				@DueAmountPayDate NVARCHAR(50)
+AS
+BEGIN
+    BEGIN TRY
+        BEGIN TRANSACTION;
+        
+        DECLARE @InvoiceID INT;
+
+--Insert into Invoice table
+        INSERT INTO Invoice(PatientName, Email, Phone, Address, Subtotal, DiscountAmount, TotalVAT, TotalAmount)
+VALUES(@PatientName, @Email, @Phone, @Address, @Subtotal, @DiscountAmount, @TotalVAT, @TotalAmount);
+        
+        SET @InvoiceID = SCOPE_IDENTITY();
+
+--Insert into InvoiceItem table
+        INSERT INTO InvoiceItem(InvoiceID, Service, Product, Quantity, Unit, Price, VAT, Discount, SingleDiscountAmount, SubAmount, NetAmount, VATAmount, TotalAmount)
+        SELECT @InvoiceID, Service, Product, Quantity, Unit, Price, VAT, Discount, SingleDiscountAmount, SubAmount, NetAmount, VATAmount, TotalAmount
+        FROM @InvoiceItems;
+
+--Insert into TransactionDetails table
+        INSERT INTO TransactionDetails(InvoiceID, Mode, TransactionId, IsPaid, DueDate, DueAmountPayDate)
+VALUES(@InvoiceID, @TransactionMode, @TransactionId, @IsPaid, @DueDate, @DueAmountPayDate);
+                SELECT 1 AS StatusCode, 'Create Invoice Successful' AS ResponseText;
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+SELECT - 1 AS StatusCode, 'Invoice Saved Field!' AS ResponseText;
+        ROLLBACK TRANSACTION;
+THROW;
+    END CATCH
+END
+
+
+
+CREATE TYPE InvoiceItemType AS TABLE
+	(
+		Service NVARCHAR(100),
+		Product NVARCHAR(100),
+		Quantity FLOAT,
+		Unit NVARCHAR(50),
+		Price FLOAT,
+		VAT FLOAT,
+		Discount FLOAT,
+		SingleDiscountAmount FLOAT,
+		SubAmount FLOAT,
+		NetAmount FLOAT,
+		VATAmount FLOAT,
+		TotalAmount FLOAT
+	);
+
+CREATE TYPE TransactionDetailType AS TABLE
+	(InvoiceID int,
+		Mode NVARCHAR(50),
+		TransactionId NVARCHAR(50),
+		IsPaid BIT,
+		DueDate NVARCHAR(50)
+)
+
+		alter table tbl_users add IsActive bit
+
+
+
+alter PROCEDURE InsertInvoiceData
+@PatientName NVARCHAR(100),
+	@Email NVARCHAR(100),
+		@Phone NVARCHAR(20),
+			@Address NVARCHAR(255),
+				@Subtotal FLOAT,
+					@DiscountAmount FLOAT,
+						@TotalVAT FLOAT,
+							@TotalAmount FLOAT,
+								@InvoiceItems InvoiceItemType READONLY, --Table - valued parameter for InvoiceItem
+    @Transaction TransactionType READONLY
+AS
+BEGIN
+    BEGIN TRY
+        BEGIN TRANSACTION;
+        
+        DECLARE @InvoiceID INT;
+
+--Insert into Invoice table
+        INSERT INTO Invoice(PatientName, Email, Phone, Address, Subtotal, DiscountAmount, TotalVAT, TotalAmount)
+VALUES(@PatientName, @Email, @Phone, @Address, @Subtotal, @DiscountAmount, @TotalVAT, @TotalAmount);
+        
+        SET @InvoiceID = SCOPE_IDENTITY();
+
+--Insert into InvoiceItem table
+        INSERT INTO InvoiceItem(InvoiceID, Service, Product, Quantity, Unit, Price, VAT, Discount, SingleDiscountAmount, SubAmount, NetAmount, VATAmount, TotalAmount)
+        SELECT @InvoiceID, Service, Product, Quantity, Unit, Price, VAT, Discount, SingleDiscountAmount, SubAmount, NetAmount, VATAmount, TotalAmount
+        FROM @InvoiceItems;
+
+--Insert into TransactionDetails table
+        INSERT INTO TransactionDetails(InvoiceID, Mode, TransactionId, IsPaid, DueDate)
+       SELECT @InvoiceID, Mode, TransactionId, IsPaid, DueDate FROM @Transaction;
+                SELECT 1 AS StatusCode, 'Create Invoice Successful' AS ResponseText;
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+SELECT - 1 AS StatusCode, 'Invoice Saved Field!' AS ResponseText;
+        ROLLBACK TRANSACTION;
+THROW;
+    END CATCH
+END
+
+USE[DCS]
+GO
+/****** Object:  StoredProcedure [dbo].[Proc_IsUserVerfied]    Script Date: 05-06-2024 17:56:58 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE[dbo].[Proc_IsUserVerfied]
+@Email VARCHAR(100)
+AS
+BEGIN
+    IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email AND IsActive = 0)
+BEGIN
+        SELECT 3 AS StatusCode, 'Your account has been deactivated. Please contact the support team for assistance.' AS ResponseText;
+END
+    ELSE IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email AND IsVerified = 1)
+BEGIN
+        SELECT 2 AS StatusCode, 'Email Verified' AS ResponseText;
+END
+    ELSE IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email AND(IsVerified = 0 OR IsVerified IS NULL))
+BEGIN
+        SELECT 2 AS StatusCode, 'Email Not Verified' AS ResponseText;
+END
+ELSE
+BEGIN
+SELECT - 1 AS StatusCode, 'Invalid Email' AS ResponseText;
+END
+END;

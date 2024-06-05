@@ -23,6 +23,19 @@
             @Html.DisplayFor(modelItem => item.Role)
         </td>
         <td>
+            <span class="btn btn-sm btn-outline-danger" id="showp_0"><i class="fa fa-low-vision"></i> Show</span>
+           @*  @Html.DisplayFor(modelItem => item.PasswordHash) *@
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsVerified)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsLocked)
+        </td>
+        <td>
             @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
             @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
             @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })

@@ -7,5 +7,10 @@
         public string Name { get; set; }
         public string UserName { get; set; }
         public string? Role { get; set; }
+        public string? PasswordHash { get; set; }
+        public bool? IsVerified { get; set; }
+        public bool? IsLocked { get; set; }
+        public bool? IsActive { get; set; }
+
     }
 }

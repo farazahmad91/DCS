@@ -1,4 +1,9 @@
-﻿using Entities;
+﻿using API.AppCode.APIRequest;
+using API.Claims;
+using API.RequestInfo;
+using API.SendEmail;
+using Entities;
+using Entities.Response;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -6,7 +11,14 @@ namespace DCS.Controllers
 {
     public class InvoiceController : Controller
     {
-		[Route("Invoice")]
+        private readonly IConfiguration _configuration;
+        private readonly string _BaseUrl;
+        public InvoiceController(IConfiguration configuration)
+        {
+            this._configuration = configuration;
+            _BaseUrl =  _configuration["APIBaseURl:BaseURl"];
+        }
+        [Route("Invoice")]
 		public IActionResult Invoice()
         {
             return View();
@@ -24,16 +36,32 @@ namespace DCS.Controllers
 
 		[HttpPost]
 		[Route("AddInvoice")]
-		public IActionResult AddInvoice([FromBody] InvoiceViewModel invoiceViewModel)
+		public async Task<IActionResult> AddInvoice([FromBody] InvoiceViewModel invoiceViewModel)
 		{
-			if (invoiceViewModel == null)
-			{
-				return BadRequest("Invalid invoice data.");
-			}
 
-			// Process the received invoiceViewModel object here
+            var res = new Response()
+            {
+                ResponseText="something wrong!",
+                StatusCode = ResponseStatus.FAILED
+            };
 
-			return Ok(new { message = "Invoice created successfully" });
+            try
+            {
+                var token = User.GetLoggedInUserToken();
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Invoice/InsertInvoiceData", JsonConvert.SerializeObject(invoiceViewModel),null);
+                if (apiRes.Result != null)
+                {
+                    res = JsonConvert.DeserializeObject<Response>(apiRes.Result);
+                    return Json(res);
+                }
+                return Json(res);
+            }
+            catch (Exception ex)
+            {
+                res.ResponseText="Something wrong!!";
+                res.StatusCode = ResponseStatus.FAILED;
+                return Json(res);
+            }
 		}
 
 

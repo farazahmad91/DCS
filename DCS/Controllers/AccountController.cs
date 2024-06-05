@@ -129,7 +129,7 @@ namespace DCS.Controllers
                 }
 
                 
-                if (authenticateResponse.StatusCode == ResponseStatus.ISEmailVerified)
+                if (authenticateResponse.StatusCode == ResponseStatus.ISEmailVerifiedField)
                 {
                       return Json(authenticateResponse);
                 }

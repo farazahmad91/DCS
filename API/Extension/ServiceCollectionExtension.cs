@@ -15,6 +15,7 @@ using API.SendEmail;
 using System.Configuration;
 using API.RequestInfo;
 using Entities;
+using API.AppCode.IService;
 
 namespace API.Extension
 {
@@ -28,7 +29,8 @@ namespace API.Extension
             services.AddScoped<API.AppCode.IML.IAppointment, API.AppCode.ML.Appointment_ML>();
             services.AddScoped<API.AppCode.IML.IDapper, API.Data.Dapper>();
             services.AddScoped<IErrorLog, ErrorLog_ML>();
-            services.AddScoped<IHashPassword, HashPassword>();
+            services.AddScoped<IHashPassword, HashPassword>();       
+            services.AddScoped<IInvoice, Invoice_ML>();
             services.AddScoped<IUserValidation, UserValidation>();
             services.AddScoped<API.Service.IUserService, API.Service.UserService>();
             services.AddSingleton<ConnectionStrings>(ch);
