@@ -221,12 +221,13 @@ namespace API.Service
 
         public IEnumerable<User> GetAllUsers()
         {
-            string sp = "Proc_GetUser";
             IEnumerable<User> user = new List<User>();
+            string sp = "Proc_GetUser";
+           
             try
             {
                 var usersWithRoles = _dapper.GetAll<User>(sp);
-                usersWithRoles = user;
+                 user= usersWithRoles;
             }
             catch (Exception ex)
             {
