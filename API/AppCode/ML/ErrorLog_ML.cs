@@ -12,18 +12,26 @@ namespace API.AppCode.ML
         {
             this._dapper = dapper;
         }
-        public async Task<int> Error(ErrorLog res)
+        public int Error(ErrorLog res)
         {
+            try
+            {
                 var sp = "Proc_InsertErrorLog";
                 var param = new
                 {
                     ClassName = res.ClassName,
                     FuncName = res.FuncName,
                     Error = res.Error,
-                    Proc_Name = res.ProcName,
+                    ProcName = res.ProcName,
                 };
-                var i = await _dapper.Insert(param,sp);
+                var i = _dapper.Update(param, sp);
                 return i;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
 
         }
     }
