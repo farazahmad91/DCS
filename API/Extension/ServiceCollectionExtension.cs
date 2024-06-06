@@ -41,6 +41,7 @@ namespace API.Extension
             services.AddTransient<EmailCredential>();
 			services.AddSingleton<IRequestInfo, API.RequestInfo.RequestInfo>();
             services.AddHttpContextAccessor();
+            services.AddHttpClient();
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(ch.Default);

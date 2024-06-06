@@ -1,12 +1,9 @@
 ﻿using System.Net;
-using System.Net.Mime;
 using System.Text;
 using API.AppCode.IML;
 using API.AppCode.ML;
 using API.DBContext.Response;
 using Entities;
-using Entities.Response;
-using Newtonsoft.Json;
 
 namespace API.AppCode.APIRequest
 {

@@ -16,6 +16,8 @@ using Entities;
 using Entities.Response;
 using Azure;
 using Response = Entities.Response.Response;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 
 namespace API.Controllers
@@ -42,8 +44,8 @@ namespace API.Controllers
             _userValidation=userValidation;
         }
 
-        [HttpPost(nameof(Registration))]
 
+        [HttpPost(nameof(Registration))]
         public async Task<IActionResult> Registration(RegisterViewModel model)
         {
             var response = new Response()
@@ -74,6 +76,18 @@ namespace API.Controllers
             }
             return Ok(response);
         }
+        [HttpPost(nameof(Logout))]
+        public async Task<IActionResult> Logout()
+        {
+            var response = new Response();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await _signInManager.SignOutAsync();
+            HttpContext.Response.Cookies.Delete(".AspNetCore.Cookies");
+            HttpContext.Response.Cookies.Delete(".AspNetCore.Identity.Application");
+            response.ResponseText = "Cookies are deleted!";
+            response.StatusCode = ResponseStatus.SUCCESS;
+            return Ok(response);
+        }
 
         [HttpPost(nameof(VerifyConfirmationEmail))]
         public async Task<IActionResult> VerifyConfirmationEmail(ValidateEmail validateEmail)
@@ -82,8 +96,6 @@ namespace API.Controllers
 
             return Ok(i);
         }
-
-
         [HttpPost(nameof(ChangePassword))]
         public async Task<IActionResult> ChangePassword(ChangePassword passwordReq)
         {
@@ -145,7 +157,8 @@ namespace API.Controllers
             return Ok(i);
         }
 
-        [HttpPost(nameof(DecodePass))]
+        [Route(nameof(DecodePass)+"/{pass}")]
+        [HttpPost]
         public async Task<IActionResult> DecodePass(string pass)
         {
             var i = _hashpass.DecodeFrom64(pass);

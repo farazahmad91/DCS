@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Users";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutSiteAdmin.cshtml";
 }
 
 <h1>Users</h1>
@@ -103,102 +103,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
-        const singleSelectRadio = document.getElementById('singleSelect');
-        const multiSelectRadio = document.getElementById('multiSelect');
-        const selectAllRadio = document.getElementById('selectAll');
-        const userCheckboxes = document.querySelectorAll('.userCheckbox');
-
-        singleSelectRadio.addEventListener('change', function () {
-            if (this.checked) {
-                userCheckboxes.forEach(function (checkbox) {
-                    checkbox.type = 'radio';
-                });
-            }
-        });
-
-        multiSelectRadio.addEventListener('change', function () {
-            if (this.checked) {
-                userCheckboxes.forEach(function (checkbox) {
-                    checkbox.type = 'checkbox';
-                });
-            }
-        });
-
-        selectAllRadio.addEventListener('change', function () {
-            if (this.checked) {
-                userCheckboxes.forEach(function (checkbox) {
-                    checkbox.checked = true;
-                });
-            }
-        });
-
-        function getSelectedEmails() {
-            debugger;
-            const selectedEmails = [];
-            userCheckboxes.forEach(function (checkbox) {
-                if (checkbox.checked) {
-                    const userEmail = checkbox.parentElement.nextElementSibling.innerText;
-                    selectedEmails.push(userEmail);
-                }
-            });
-            return selectedEmails;
-        }
-
-        document.getElementById('btnsendEmail').addEventListener('click', function () {
-            const selectedEmails = getSelectedEmails();
-            if (selectedEmails.length > 0) {
-                console.log('Selected emails:', selectedEmails);
-                // Do something with selected emails, like sending them
-                // For example:
-                sendBulkEmails(selectedEmails);
-            } else {
-                alert("Please select at least one email.");
-            }
-        });
         loadData();
-        function sendBulkEmails(emailList) {
-            document.getElementById("sendSpin").classList.add("spinner-border", "spinner-border-sm", "spinner-1x");
-            document.getElementById("btnsendEmail").innerHTML = "Sending...";
-
-            if (IsValidate("cls")) {
-                var subject = $("#txtSubject").val();
-                var message = $("#txtMessage").val();
-                var imageFile = $('#txtImage')[0].files[0];
-
-                var emailDataArray = emailList.map(function (email) {
-                    return {
-                        Emails: email,
-                        Subject: subject,
-                        ImagePath: imageFile ? imageFile.name : "",
-                        Message: message
-                    };
-                });
-
-                var formData = new FormData();
-                formData.append("emailDataArray", JSON.stringify(emailDataArray));
-                if (imageFile) {
-                    formData.append("imageFile", imageFile);
-                }
-
-                $.ajax({
-                    url: '/Email/SendBulkEmails',
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (response) {
-                        console.log(response);
-                    },
-                    error: function (xhr) {
-                        console.log(xhr);
-                    }
-                });
-            }
-        }
-
-
     });
-
     var loadData = function () {
         $.get('/_UserList').done(function (res) {
             $('#tbluser tbody').html(res);

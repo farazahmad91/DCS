@@ -643,3 +643,58 @@ BEGIN
 SELECT - 1 AS StatusCode, 'Invalid Email' AS ResponseText;
 END
 END;
+
+
+		
+ALTER PROCEDURE[dbo].[Proc_IsUserVerfied]
+@Email VARCHAR(100)
+AS
+BEGIN
+      IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email AND(IsActive = 0 OR IsActive IS NULL))
+BEGIN
+        SELECT 3 AS StatusCode, 'Your account has been deactivated. Please contact the support team for assistance.' AS ResponseText;
+END
+	ELSE IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email AND IsLocked = 1)
+BEGIN
+SELECT - 1 AS StatusCode, 'The user account is temporarily locked.' AS ResponseText;
+END
+    ELSE IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email AND IsVerified = 1)
+BEGIN
+        SELECT 1 AS StatusCode, 'Email Verified' AS ResponseText;
+END
+    ELSE IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email AND(IsVerified = 0 OR IsVerified IS NULL))
+BEGIN
+        SELECT 2 AS StatusCode, 'Email Not Verified' AS ResponseText;
+END
+ELSE
+BEGIN
+SELECT - 1 AS StatusCode, 'Invalid Email' AS ResponseText;
+END
+END;
+
+
+alter table tbl_users add   InvalidLoginAttempts INT DEFAULT 0
+
+alter PROCEDURE Proc_IncrementInvalidLoginAttempts
+@Email VARCHAR(50)
+AS
+BEGIN
+--Check if the user exists
+    IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email)
+BEGIN
+--Increment the invalid login attempts
+        UPDATE tbl_users
+        SET InvalidLoginAttempts = InvalidLoginAttempts + 1
+        WHERE username = @Email;
+
+--Optional: Return the current invalid login attempts count
+        SELECT InvalidLoginAttempts
+        FROM tbl_users
+        WHERE username = @Email;
+END
+ELSE
+BEGIN
+--Handle the case where the user does not exist
+RAISERROR('User not found.', 16, 1);
+END
+END;
