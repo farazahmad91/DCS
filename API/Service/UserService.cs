@@ -15,6 +15,7 @@ using static System.Net.WebRequestMethods;
 using Entities;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Identity.Data;
+using System.Net.Http;
 
 namespace API.Service
 {
@@ -29,7 +30,9 @@ namespace API.Service
         private readonly IDapper _dapper;
         private readonly Sendmail _sendmail;
         private readonly IUserValidation _userValidation;
-        public UserService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IHashPassword hashpass, IDapper dapper, Sendmail sendmail, IUserValidation userValidation)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly HttpClient _httpClient;
+        public UserService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IHashPassword hashpass, IDapper dapper, Sendmail sendmail, IUserValidation userValidation, IHttpContextAccessor httpContextAccessor, HttpClient httpClient)
         {
             _signInManager = signInManager;
             this.userManager = userManager;
@@ -39,6 +42,8 @@ namespace API.Service
             _dapper=dapper;
             _sendmail=sendmail;
             _userValidation=userValidation;
+            _httpContextAccessor=httpContextAccessor;
+            _httpClient=httpClient;
         }
         public async Task<Response> RegisterAsync(RegisterViewModel model)
         {
@@ -137,6 +142,7 @@ namespace API.Service
 
         public async Task<Response<LoginResponse>> LoginAsync(LoginViewModel model)
         {
+
             var response = new Response<LoginResponse>();
 
             try
@@ -148,6 +154,35 @@ namespace API.Service
                     response.ResponseText = "Invalid Username or Password";
                     return response;
                 }
+
+                var result = await userManager.CheckPasswordAsync(userExists, model.Password);
+                if (!result)
+                {
+                    // If Invalid Password, Add 1 in InvalidLoginAttempts field 
+                    var param = new
+                    {
+                        Email= model.Email
+                    };
+                    var counts = _dapper.GetById<User>(param,"Proc_IncrementInvalidLoginAttempts");
+                    if (counts.InvalidLoginAttempts > 3)
+                    {
+                        response.StatusCode = ResponseStatus.FAILED;
+                        response.ResponseText = "Account locked due to multiple incorrect password attempts";
+
+                        // Send email alert
+                        var userip = _sendmail.GetIPAddress();
+                        string email = model.Email;
+                        string subject = "Account Login Alert";
+                        string body = $"Dear Customer, We have detected multiple invalid login attempts to your account. For your account's security, it has been temporarily deactivated. If you did not initiate these login attempts, please contact our support team immediately for assistance. Additionally, the login attempts were made from the following IP address: {userip}. Thank you for your prompt attention to this matter. Best regards, The DCS Team";
+                        _sendmail.SendEmails(email, subject, body);
+                        return response;
+                    }
+
+                    response.StatusCode = ResponseStatus.FAILED;
+                    response.ResponseText = "Password did not match";
+
+                    return response;
+                }
                 if (userExists != null)
                 {
                     var i = await _userValidation.IsUserVerified(model.Email);
@@ -155,20 +190,6 @@ namespace API.Service
                     response.StatusCode= i.StatusCode;
                     return response;
 
-                }
-
-                var result = await userManager.CheckPasswordAsync(userExists, model.Password);
-                if (!result)
-                {
-                    response.StatusCode = ResponseStatus.FAILED;
-                    response.ResponseText = "Password did not match";
-                    var userip = _sendmail.GetIPAddress();
-                    string email = model.Email;
-                    string subject = "Account Login Alert";
-
-                    string body = $"Dear Customer, We have detected a login attempt to your account from the following IP address: {userip}. If you did not initiate this login attempt, please contact our support team immediately for assistance. Thank you for your prompt attention to this matter. Best regards, The DCS Team";
-                   //_sendmail.SendEmails(email, subject, body);
-                    return response;
                 }
                 await _signInManager.SignInAsync(userExists, isPersistent: true);
                 var roleDetails = await userManager.GetRolesAsync(userExists);
@@ -188,11 +209,20 @@ namespace API.Service
                     expires: DateTime.UtcNow.AddDays(30), // Use UTC time
                     signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
                 );
-
+                if (result)
+                {
+                    // If login is successful, reset the failed attempts count
+                    var param = new
+                    {
+                        Email = model.Email
+                    };
+                    var counts = _dapper.Update(param, "Proc_ResetInvalidLoginAttempts");
+                }
                 string tokenAsString = new JwtSecurityTokenHandler().WriteToken(token);
 
                 response.StatusCode = ResponseStatus.SUCCESS;
                 response.ResponseText = ResponseStatus.SUCCESS.ToString();
+
                 response.Result = new LoginResponse
                 {
                     Email = userExists.Email,
@@ -308,7 +338,6 @@ namespace API.Service
             }
             return response;
         }
-
 
 
     }

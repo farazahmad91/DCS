@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<API.DBContext.Entities.User>
 
-
 @foreach (var item in Model)
 {
     <tr>
@@ -9,7 +8,7 @@
         </td>
         <td><input type="checkbox" class="userCheckbox"></td>
         <td>
-            @Html.DisplayFor(modelItem => item.Email)
+            @item.Email
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
@@ -21,8 +20,7 @@
             @Html.DisplayFor(modelItem => item.Role)
         </td>
         <td>
-            <span class="btn btn-sm btn-outline-danger" id="showp_0"><i class="fa fa-low-vision"></i> Show</span>
-           @*  @Html.DisplayFor(modelItem => item.PasswordHash) *@
+            <span class="btn btn-sm btn-outline-danger" onclick="ShowPassword('@item.PasswordHash', '@item.Name');"><i class="fa fa-eye"></i> Show</span>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.IsActive)
@@ -34,9 +32,133 @@
             @Html.DisplayFor(modelItem => item.IsLocked)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
         </td>
     </tr>
 }
+
+<div class="card-body">
+    <div class="modal fade" id="mpassword" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Mr. <span id="username"></span> Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <label>Password: <span id="decpass"></span></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Your script below -->
+<script>
+    $(document).ready(function () {
+        const singleSelectRadio = document.getElementById('singleSelect');
+        const multiSelectRadio = document.getElementById('multiSelect');
+        const selectAllRadio = document.getElementById('selectAll');
+        const userCheckboxes = document.querySelectorAll('.userCheckbox');
+
+        singleSelectRadio.addEventListener('change', function () {
+            if (this.checked) {
+                userCheckboxes.forEach(function (checkbox) {
+                    checkbox.type = 'radio';
+                });
+            }
+        });
+
+        multiSelectRadio.addEventListener('change', function () {
+            if (this.checked) {
+                userCheckboxes.forEach(function (checkbox) {
+                    checkbox.type = 'checkbox';
+                });
+            }
+        });
+
+        selectAllRadio.addEventListener('change', function () {
+            if (this.checked) {
+                userCheckboxes.forEach(function (checkbox) {
+                    checkbox.checked = true;
+                });
+            }
+        });
+
+        function getSelectedEmails() {
+            const selectedEmails = [];
+            userCheckboxes.forEach(function (checkbox) {
+                if (checkbox.checked) {
+                    const userEmail = checkbox.parentElement.nextElementSibling.textContent.trim();
+                    selectedEmails.push(userEmail);
+                }
+            });
+            return selectedEmails;
+        }
+
+        document.getElementById('btnsendEmail').addEventListener('click', function () {
+            const selectedEmails = getSelectedEmails();
+            if (selectedEmails.length > 0) {
+                console.log('Selected emails:', selectedEmails);
+                sendBulkEmails(selectedEmails);
+            } else {
+                alert("Please select at least one email.");
+            }
+        });
+
+        function sendBulkEmails(emailList) {
+            document.getElementById("sendSpin").classList.add("spinner-border", "spinner-border-sm", "spinner-1x");
+            document.getElementById("btnsendEmail").textContent = "Sending...";
+
+            if (IsValidate("cls")) {
+                const subject = $("#txtSubject").val();
+                const message = $("#txtMessage").val();
+                const imageFile = $('#txtImage')[0].files[0];
+
+                const emailDataArray = emailList.map(email => ({
+                    Emails: email,
+                    Subject: subject,
+                    ImagePath: imageFile ? imageFile.name : "",
+                    Message: message
+                }));
+
+                const formData = new FormData();
+                formData.append("emailDataArray", JSON.stringify(emailDataArray));
+                if (imageFile) {
+                    formData.append("imageFile", imageFile);
+                }
+
+                $.ajax({
+                    url: '/Email/SendBulkEmails',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        console.log(response);
+                    },
+                    error: function (xhr) {
+                        console.log(xhr);
+                    }
+                });
+            }
+        }
+    });
+
+    function ShowPassword(pass, name) {
+        $.post('/DecriptPassword', { HashPass: pass }).done(function (res) {
+            debugger;
+            console.log("Decrypted password:", res);
+            $("#decpass").text(res);
+            $("#username").text(name);
+            $("#mpassword").modal("Show");
+        }).fail(function (xhr) {
+            console.log("Error:", xhr.responseText);
+        });
+    }
+</script>

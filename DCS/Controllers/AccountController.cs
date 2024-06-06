@@ -178,7 +178,6 @@ namespace DCS.Controllers
             return View();
 
         }
-
         public async Task<IActionResult> VerifyConfirmationEmail(ValidateEmail validateEmail)
         {
             var res = new Response()
@@ -212,7 +211,6 @@ namespace DCS.Controllers
         {
             return PartialView();
         }
-
         public async Task<IActionResult> SaveChangePassword(ChangePassword changePassword)
         {
             string email = User.FindFirstValue(ClaimTypes.Email);
@@ -273,9 +271,7 @@ namespace DCS.Controllers
             }
             return PartialView(list);
         }
-
         [HttpGet]
- 
         public async Task<IActionResult> Logout()
         {
             try
@@ -430,6 +426,52 @@ namespace DCS.Controllers
                 return Json(res);
             }
 
+        }
+
+        [Route("DecriptPassword")]
+        [HttpPost]
+        public async Task<IActionResult> DecriptPassword(string HashPass)
+        {
+            var res = new Response()
+            {
+                ResponseText="Decript Password FAILED",
+                StatusCode = ResponseStatus.FAILED
+            };
+            if (HashPass== null)
+            {
+
+                    res.ResponseText="please select password";
+                    return Json(res);
+            }
+            try
+            {
+
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Account/DecodePass/{HashPass}", null, null);
+                if (apiRes.Result != null)
+                {
+                    
+                    return Json(apiRes.Result);
+                }
+                return Json(res);
+            }
+            catch (Exception ex)
+            {
+                res.ResponseText="Something wrong!!";
+                res.StatusCode = ResponseStatus.FAILED;
+                return Json(res);
+            }
+
+        }
+
+        [HttpGet]
+        [Route("Logout")]
+        public async Task<IActionResult> Logout(string returnUrl = "/Account/Login")
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Response.Cookies.Delete(".AspNetCore.Cookies");
+            HttpContext.Response.Cookies.Delete(".AspNetCore.Identity.Application");
+            //_userProfileService.DeleteUserProfileCookie();
+            return LocalRedirect(returnUrl);
         }
         //[Route("/Profile")]
         //public async Task<IActionResult> UserProfile()

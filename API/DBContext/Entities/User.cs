@@ -1,4 +1,6 @@
-﻿namespace API.DBContext.Entities
+﻿using API.Migrations;
+
+namespace API.DBContext.Entities
 {
     public class User
     {
@@ -11,6 +13,7 @@
         public bool? IsVerified { get; set; }
         public bool? IsLocked { get; set; }
         public bool? IsActive { get; set; }
+        public int InvalidLoginAttempts { get; set; }
 
     }
 }
