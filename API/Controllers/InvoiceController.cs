@@ -27,5 +27,26 @@ namespace API.Controllers
             }
             return Ok(result);
         }
+        [HttpPost(nameof(GetInvoiceData))]
+        public async Task<ActionResult> GetInvoiceData()
+        {
+            var result = await _invoice.GetInvoiceData();
+            //if (result.StatusCode==ResponseStatus.FAILED)
+            //{
+            //    return BadRequest(result);
+            //}
+            return Ok(result);
+        }
+
+        [HttpPost(nameof(GetInvoiceDataByInvoiceId))]
+        public async Task<ActionResult> GetInvoiceDataByInvoiceId(int Id)
+        {
+            var result = await _invoice.GetInvoiceDataByInvoiceId(Id);
+            //if (result.StatusCode==ResponseStatus.FAILED)
+            //{
+            //    return BadRequest(result);
+            //}
+            return Ok(result);
+        }
     }
 }

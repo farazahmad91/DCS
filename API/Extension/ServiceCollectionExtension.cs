@@ -25,21 +25,21 @@ namespace API.Extension
         {
             string dbConnectionString = configuration.GetConnectionString("Default");
             ConnectionStrings ch = new ConnectionStrings { Default = dbConnectionString };
-            services.AddScoped<API.Data.Dapper>();
-            services.AddScoped<API.AppCode.IML.IAppointment, API.AppCode.ML.Appointment_ML>();
-            services.AddScoped<API.AppCode.IML.IDapper, API.Data.Dapper>();
+            services.AddScoped<Data.Dapper>();
+            services.AddScoped<IAppointment, Appointment_ML>();
+            services.AddScoped<IDapper, Data.Dapper>();
             services.AddScoped<IErrorLog, ErrorLog_ML>();
             services.AddScoped<IHashPassword, HashPassword>();       
             services.AddScoped<IInvoice, Invoice_ML>();
             services.AddScoped<IUserValidation, UserValidation>();
-            services.AddScoped<API.Service.IUserService, API.Service.UserService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddSingleton<ConnectionStrings>(ch);
             services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
             services.AddTransient<Sendmail>();
             services.AddTransient<EmailHtmlBody>();
             services.AddTransient<IEmail , Email_ML>();
             services.AddTransient<EmailCredential>();
-			services.AddSingleton<IRequestInfo, API.RequestInfo.RequestInfo>();
+			services.AddSingleton<IRequestInfo, RequestInfo.RequestInfo>();
             services.AddHttpContextAccessor();
             services.AddHttpClient();
             services.AddDbContext<ApplicationDbContext>(options =>

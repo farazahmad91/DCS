@@ -1,10 +1,10 @@
-﻿USE[master]
+﻿iUSE[master]
 GO
-/****** Object:  Database [DCS]    Script Date: 10-05-2024 17:56:16 ******/
+/****** Object:  Database [DCS]    Script Date: 07-06-2024 18:45:21 ******/
 CREATE DATABASE[DCS]
 CONTAINMENT = NONE
  ON  PRIMARY
-	(NAME = N'DCS', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER03\MSSQL\DATA\DCS.mdf', SIZE = 8192KB, MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB)
+	(NAME = N'SDClinic', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER03\MSSQL\DATA\SDClinic.mdf', SIZE = 8192KB, MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB)
  LOG ON
 	(NAME = N'SDClinic_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER03\MSSQL\DATA\SDClinic_log.ldf', SIZE = 8192KB, MAXSIZE = 2048GB, FILEGROWTH = 65536KB)
  WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
@@ -84,17 +84,63 @@ ALTER DATABASE[DCS] SET QUERY_STORE(OPERATION_MODE = READ_WRITE, CLEANUP_POLICY 
 GO
 USE[DCS]
 GO
-/****** Object:  Table [dbo].[Appointments]    Script Date: 10-05-2024 17:56:16 ******/
+/****** Object:  UserDefinedTableType [dbo].[InvoiceItemType]    Script Date: 07-06-2024 18:45:21 ******/
+CREATE TYPE[dbo].[InvoiceItemType] AS TABLE(
+	[Service][nvarchar](100) NULL,
+	[Product][nvarchar](100) NULL,
+	[Quantity][float] NULL,
+	[Unit][nvarchar](50) NULL,
+	[Price][float] NULL,
+	[VAT][float] NULL,
+	[Discount][float] NULL,
+	[SingleDiscountAmount][float] NULL,
+	[SubAmount][float] NULL,
+	[NetAmount][float] NULL,
+	[VATAmount][float] NULL,
+	[TotalAmount][float] NULL
+)
+GO
+/****** Object:  UserDefinedTableType [dbo].[TransactionDetailType]    Script Date: 07-06-2024 18:45:21 ******/
+CREATE TYPE[dbo].[TransactionDetailType] AS TABLE(
+	[InvoiceID][int] NULL,
+	[Mode][nvarchar](50) NULL,
+	[TransactionId][nvarchar](50) NULL,
+	[IsPaid][bit] NULL,
+	[DueDate][nvarchar](50) NULL
+)
+GO
+/****** Object:  UserDefinedTableType [dbo].[TransactionType]    Script Date: 07-06-2024 18:45:21 ******/
+CREATE TYPE[dbo].[TransactionType] AS TABLE(
+	[Mode][nvarchar](50) NULL,
+	[TransactionId][nvarchar](50) NULL,
+	[IsPaid][bit] NULL,
+	[DueDate][nvarchar](50) NULL
+)
+GO
+/****** Object:  Table [dbo].[__EFMigrationsHistory]    Script Date: 07-06-2024 18:45:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE[dbo].[Appointments](
-	[AppointmentID][int] IDENTITY(1, 1) NOT NULL,
+CREATE TABLE[dbo].[__EFMigrationsHistory](
+	[MigrationId][nvarchar](150) NOT NULL,
+	[ProductVersion][nvarchar](32) NOT NULL,
+	CONSTRAINT[PK___EFMigrationsHistory] PRIMARY KEY CLUSTERED
+	(
+		[MigrationId] ASC
+	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
+) ON[PRIMARY]
+GO
+/****** Object:  Table [dbo].[appointments]    Script Date: 07-06-2024 18:45:21 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE[dbo].[appointments](
+	[AppointmentID][int] IDENTITY(10000, 1) NOT NULL,
 	[PatientID][int] NULL,
-	[AppointmentDate][date] NULL,
-	[StartTime][varchar](50) NULL,
-	[EndTime][varchar](50) NULL,
+	[AppointmentDate][varchar](255) NULL,
+	[AppointTime][varchar](50) NULL,
 	[Status][int] NULL,
 	[EntryOn][datetime] NULL,
 	PRIMARY KEY CLUSTERED
@@ -103,7 +149,134 @@ CREATE TABLE[dbo].[Appointments](
 	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Dentists]    Script Date: 10-05-2024 17:56:16 ******/
+/****** Object:  Table [dbo].[AspNetRoleClaims]    Script Date: 07-06-2024 18:45:21 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE[dbo].[AspNetRoleClaims](
+	[Id][int] IDENTITY(1, 1) NOT NULL,
+	[RoleId][nvarchar](450) NOT NULL,
+	[ClaimType][nvarchar](max) NULL,
+	[ClaimValue][nvarchar](max) NULL,
+	CONSTRAINT[PK_AspNetRoleClaims] PRIMARY KEY CLUSTERED
+	(
+		[Id] ASC
+	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
+) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
+GO
+/****** Object:  Table [dbo].[AspNetRoles]    Script Date: 07-06-2024 18:45:21 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE[dbo].[AspNetRoles](
+	[Id][nvarchar](450) NOT NULL,
+	[Name][nvarchar](256) NULL,
+	[NormalizedName][nvarchar](256) NULL,
+	[ConcurrencyStamp][nvarchar](max) NULL,
+	CONSTRAINT[PK_AspNetRoles] PRIMARY KEY CLUSTERED
+	(
+		[Id] ASC
+	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
+) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
+GO
+/****** Object:  Table [dbo].[AspNetUserClaims]    Script Date: 07-06-2024 18:45:21 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE[dbo].[AspNetUserClaims](
+	[Id][int] IDENTITY(1, 1) NOT NULL,
+	[UserId][nvarchar](450) NOT NULL,
+	[ClaimType][nvarchar](max) NULL,
+	[ClaimValue][nvarchar](max) NULL,
+	CONSTRAINT[PK_AspNetUserClaims] PRIMARY KEY CLUSTERED
+	(
+		[Id] ASC
+	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
+) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
+GO
+/****** Object:  Table [dbo].[AspNetUserLogins]    Script Date: 07-06-2024 18:45:21 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE[dbo].[AspNetUserLogins](
+	[LoginProvider][nvarchar](450) NOT NULL,
+	[ProviderKey][nvarchar](450) NOT NULL,
+	[ProviderDisplayName][nvarchar](max) NULL,
+	[UserId][nvarchar](450) NOT NULL,
+	CONSTRAINT[PK_AspNetUserLogins] PRIMARY KEY CLUSTERED
+	(
+		[LoginProvider] ASC,
+		[ProviderKey] ASC
+	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
+) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
+GO
+/****** Object:  Table [dbo].[AspNetUserRoles]    Script Date: 07-06-2024 18:45:21 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE[dbo].[AspNetUserRoles](
+	[UserId][nvarchar](450) NOT NULL,
+	[RoleId][nvarchar](450) NOT NULL,
+	CONSTRAINT[PK_AspNetUserRoles] PRIMARY KEY CLUSTERED
+	(
+		[UserId] ASC,
+		[RoleId] ASC
+	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
+) ON[PRIMARY]
+GO
+/****** Object:  Table [dbo].[AspNetUsers]    Script Date: 07-06-2024 18:45:21 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE[dbo].[AspNetUsers](
+	[Id][nvarchar](450) NOT NULL,
+	[Name][nvarchar](max) NOT NULL,
+	[PhoneNo][nvarchar](max) NOT NULL,
+	[UserName][nvarchar](256) NULL,
+	[NormalizedUserName][nvarchar](256) NULL,
+	[Email][nvarchar](256) NULL,
+	[NormalizedEmail][nvarchar](256) NULL,
+	[EmailConfirmed][bit] NOT NULL,
+	[PasswordHash][nvarchar](max) NULL,
+	[SecurityStamp][nvarchar](max) NULL,
+	[ConcurrencyStamp][nvarchar](max) NULL,
+	[PhoneNumber][nvarchar](max) NULL,
+	[PhoneNumberConfirmed][bit] NOT NULL,
+	[TwoFactorEnabled][bit] NOT NULL,
+	[LockoutEnd][datetimeoffset](7) NULL,
+	[LockoutEnabled][bit] NOT NULL,
+	[AccessFailedCount][int] NOT NULL,
+	CONSTRAINT[PK_AspNetUsers] PRIMARY KEY CLUSTERED
+	(
+		[Id] ASC
+	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
+) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
+GO
+/****** Object:  Table [dbo].[AspNetUserTokens]    Script Date: 07-06-2024 18:45:21 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE[dbo].[AspNetUserTokens](
+	[UserId][nvarchar](450) NOT NULL,
+	[LoginProvider][nvarchar](450) NOT NULL,
+	[Name][nvarchar](450) NOT NULL,
+	[Value][nvarchar](max) NULL,
+	CONSTRAINT[PK_AspNetUserTokens] PRIMARY KEY CLUSTERED
+	(
+		[UserId] ASC,
+		[LoginProvider] ASC,
+		[Name] ASC
+	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
+) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
+GO
+/****** Object:  Table [dbo].[Dentists]    Script Date: 07-06-2024 18:45:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -122,7 +295,25 @@ CREATE TABLE[dbo].[Dentists](
 	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[FAQs]    Script Date: 10-05-2024 17:56:16 ******/
+/****** Object:  Table [dbo].[ErrorLog]    Script Date: 07-06-2024 18:45:21 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE[dbo].[ErrorLog](
+	[Id][int] IDENTITY(1, 1) NOT NULL,
+	[ClassName][varchar](255) NULL,
+	[FuncName][varchar](255) NULL,
+	[ProcName][varchar](255) NULL,
+	[Error][varchar](max) NULL,
+	[EntryOn][datetime] NULL,
+	PRIMARY KEY CLUSTERED
+	(
+		[Id] ASC
+	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
+) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
+GO
+/****** Object:  Table [dbo].[FAQs]    Script Date: 07-06-2024 18:45:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -139,17 +330,21 @@ CREATE TABLE[dbo].[FAQs](
 	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Invoices]    Script Date: 10-05-2024 17:56:16 ******/
+/****** Object:  Table [dbo].[Invoice]    Script Date: 07-06-2024 18:45:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE[dbo].[Invoices](
+CREATE TABLE[dbo].[Invoice](
 	[InvoiceID][int] IDENTITY(1, 1) NOT NULL,
-	[AppointmentID][int] NULL,
-	[TotalAmount][decimal](10, 2) NULL,
-	[InvoiceDate][date] NULL,
-	[IsPaid][int] NULL,
+	[PatientName][nvarchar](100) NULL,
+	[Email][nvarchar](100) NULL,
+	[Phone][nvarchar](20) NULL,
+	[Address][nvarchar](255) NULL,
+	[Subtotal][float] NULL,
+	[DiscountAmount][float] NULL,
+	[TotalVAT][float] NULL,
+	[TotalAmount][float] NULL,
 	[EntryOn][datetime] NULL,
 	PRIMARY KEY CLUSTERED
 	(
@@ -157,7 +352,33 @@ CREATE TABLE[dbo].[Invoices](
 	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[MedicalHistory]    Script Date: 10-05-2024 17:56:16 ******/
+/****** Object:  Table [dbo].[InvoiceItem]    Script Date: 07-06-2024 18:45:21 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE[dbo].[InvoiceItem](
+	[ID][int] IDENTITY(1, 1) NOT NULL,
+	[InvoiceID][int] NULL,
+	[Service][nvarchar](100) NULL,
+	[Product][nvarchar](100) NULL,
+	[Quantity][float] NULL,
+	[Unit][nvarchar](50) NULL,
+	[Price][float] NULL,
+	[VAT][float] NULL,
+	[Discount][float] NULL,
+	[SingleDiscountAmount][float] NULL,
+	[SubAmount][float] NULL,
+	[NetAmount][float] NULL,
+	[VATAmount][float] NULL,
+	[TotalAmount][float] NULL,
+	PRIMARY KEY CLUSTERED
+	(
+		[ID] ASC
+	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
+) ON[PRIMARY]
+GO
+/****** Object:  Table [dbo].[MedicalHistory]    Script Date: 07-06-2024 18:45:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -175,7 +396,7 @@ CREATE TABLE[dbo].[MedicalHistory](
 	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Patient_Services]    Script Date: 10-05-2024 17:56:16 ******/
+/****** Object:  Table [dbo].[Patient_Services]    Script Date: 07-06-2024 18:45:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -186,26 +407,25 @@ CREATE TABLE[dbo].[Patient_Services](
 	[EntryOn][datetime] NULL
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Patients]    Script Date: 10-05-2024 17:56:16 ******/
+/****** Object:  Table [dbo].[patients]    Script Date: 07-06-2024 18:45:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE[dbo].[Patients](
-	[PatientID][int] IDENTITY(1, 1) NOT NULL,
-	[FirstName][varchar](50) NULL,
-	[LastName][varchar](50) NULL,
-	[Email][varchar](100) NULL,
-	[Phone][varchar](20) NULL,
+CREATE TABLE[dbo].[patients](
+	[PatientID][int] IDENTITY(10000, 1) NOT NULL,
+	[PatientName][varchar](255) NULL,
+	[PatientEmail][varchar](255) NULL,
+	[PatientPhone][varchar](20) NULL,
 	[Address][varchar](255) NULL,
-	[CreatedOn][datetime] NULL,
+	[EntryOn][datetime] NULL,
 	PRIMARY KEY CLUSTERED
 	(
 		[PatientID] ASC
 	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Payments]    Script Date: 10-05-2024 17:56:16 ******/
+/****** Object:  Table [dbo].[Payments]    Script Date: 07-06-2024 18:45:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -224,7 +444,7 @@ CREATE TABLE[dbo].[Payments](
 	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Reviews]    Script Date: 10-05-2024 17:56:16 ******/
+/****** Object:  Table [dbo].[Reviews]    Script Date: 07-06-2024 18:45:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -242,7 +462,7 @@ CREATE TABLE[dbo].[Reviews](
 	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Services]    Script Date: 10-05-2024 17:56:16 ******/
+/****** Object:  Table [dbo].[Services]    Script Date: 07-06-2024 18:45:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -259,7 +479,7 @@ CREATE TABLE[dbo].[Services](
 	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_PageErrorLog]    Script Date: 10-05-2024 17:56:16 ******/
+/****** Object:  Table [dbo].[tbl_PageErrorLog]    Script Date: 07-06-2024 18:45:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -274,7 +494,63 @@ CREATE TABLE[dbo].[tbl_PageErrorLog](
 	[_EntryDate][datetime] NULL
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Treatment]    Script Date: 10-05-2024 17:56:16 ******/
+/****** Object:  Table [dbo].[tbl_users]    Script Date: 07-06-2024 18:45:21 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE[dbo].[tbl_users](
+	[userId][int] IDENTITY(1, 1) NOT NULL,
+	[username][varchar](100) NULL,
+	[PasswordHash][nvarchar](255) NULL,
+	[EntryOn][datetime] NULL,
+	[IsVerified][bit] NULL,
+	[IsLocked][bit] NULL,
+	[IsActive][bit] NULL,
+	[InvalidLoginAttempts][int] NULL,
+	PRIMARY KEY CLUSTERED
+	(
+		[userId] ASC
+	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
+) ON[PRIMARY]
+GO
+/****** Object:  Table [dbo].[tbl_Validate_Email]    Script Date: 07-06-2024 18:45:21 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE[dbo].[tbl_Validate_Email](
+	[vID][int] IDENTITY(1, 1) NOT NULL,
+	[vEmail][varchar](100) NULL,
+	[vOTP][int] NULL,
+	[vEntry][datetime] NULL,
+	PRIMARY KEY CLUSTERED
+	(
+		[vID] ASC
+	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
+) ON[PRIMARY]
+GO
+/****** Object:  Table [dbo].[TransactionDetails]    Script Date: 07-06-2024 18:45:21 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE[dbo].[TransactionDetails](
+	[Id][int] IDENTITY(1, 1) NOT NULL,
+	[InvoiceID][int] NULL,
+	[Mode][nvarchar](50) NULL,
+	[TransactionId][nvarchar](50) NULL,
+	[IsPaid][bit] NULL,
+	[DueDate][nvarchar](50) NULL,
+	[DueAmountPayDate][nvarchar](50) NULL,
+	[EntryOn][datetime] NULL,
+	PRIMARY KEY CLUSTERED
+	(
+		[Id] ASC
+	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
+) ON[PRIMARY]
+GO
+/****** Object:  Table [dbo].[Treatment]    Script Date: 07-06-2024 18:45:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -295,7 +571,7 @@ CREATE TABLE[dbo].[Treatment](
 	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[WorkingHours]    Script Date: 10-05-2024 17:56:16 ******/
+/****** Object:  Table [dbo].[WorkingHours]    Script Date: 07-06-2024 18:45:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -313,276 +589,338 @@ CREATE TABLE[dbo].[WorkingHours](
 	)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-SET IDENTITY_INSERT[dbo].[Appointments] ON
+INSERT[dbo].[__EFMigrationsHistory]([MigrationId], [ProductVersion]) VALUES(N'20240516050714_init', N'8.0.5')
 GO
-INSERT[dbo].[Appointments]([AppointmentID], [PatientID], [AppointmentDate], [StartTime], [EndTime], [Status], [EntryOn]) VALUES(1, 1, CAST(N'2024-05-10' AS Date), N'09:00 AM', N'10:00 AM', 1, CAST(N'2024-05-09T14:58:10.017' AS DateTime))
+SET IDENTITY_INSERT[dbo].[appointments] ON
 GO
-INSERT[dbo].[Appointments]([AppointmentID], [PatientID], [AppointmentDate], [StartTime], [EndTime], [Status], [EntryOn]) VALUES(2, 2, CAST(N'2024-05-12' AS Date), N'02:30 PM', N'03:30 PM', 1, CAST(N'2024-05-09T14:58:10.017' AS DateTime))
+INSERT[dbo].[appointments]([AppointmentID], [PatientID], [AppointmentDate], [AppointTime], [Status], [EntryOn]) VALUES(10000, 10000, N'2024-06-07', N'09:27', 1, CAST(N'2024-06-07T18:40:43.943' AS DateTime))
 GO
-INSERT[dbo].[Appointments]([AppointmentID], [PatientID], [AppointmentDate], [StartTime], [EndTime], [Status], [EntryOn]) VALUES(3, 3, CAST(N'2024-05-15' AS Date), N'11:00 AM', N'12:00 PM', 1, CAST(N'2024-05-09T14:58:10.017' AS DateTime))
+SET IDENTITY_INSERT[dbo].[appointments] OFF
 GO
-SET IDENTITY_INSERT[dbo].[Appointments] OFF
+INSERT[dbo].[AspNetRoles]([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES(N'0ac53903-91aa-48d6-8486-911b83a32011', N'Admin', N'ADMIN', NULL)
 GO
-ALTER TABLE[dbo].[Dentists] ADD  DEFAULT(getdate()) FOR[EntryOn]
+INSERT[dbo].[AspNetRoles]([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES(N'b367ed2c-3a08-462d-a6ca-12d9bd08a6cb', N'User', N'USER', NULL)
 GO
-ALTER TABLE[dbo].[FAQs] ADD  DEFAULT(getdate()) FOR[EntryOn]
+INSERT[dbo].[AspNetUserRoles]([UserId], [RoleId]) VALUES(N'8f16e949-f04c-47b3-a934-a058b5980554', N'0ac53903-91aa-48d6-8486-911b83a32011')
 GO
-ALTER TABLE[dbo].[Invoices] ADD  DEFAULT(getdate()) FOR[EntryOn]
+INSERT[dbo].[AspNetUserRoles]([UserId], [RoleId]) VALUES(N'a66c24c8-9c1c-4639-b61c-635dd11e0158', N'0ac53903-91aa-48d6-8486-911b83a32011')
 GO
-ALTER TABLE[dbo].[MedicalHistory] ADD  DEFAULT(getdate()) FOR[EntryOn]
+INSERT[dbo].[AspNetUserRoles]([UserId], [RoleId]) VALUES(N'e41ada2a-088e-48fa-8328-d0cc94b98ef6', N'0ac53903-91aa-48d6-8486-911b83a32011')
 GO
-ALTER TABLE[dbo].[Patient_Services] ADD  DEFAULT(getdate()) FOR[EntryOn]
+INSERT[dbo].[AspNetUserRoles]([UserId], [RoleId]) VALUES(N'7acd9f6b-234a-4928-b1b6-26bdef47600f', N'b367ed2c-3a08-462d-a6ca-12d9bd08a6cb')
 GO
-ALTER TABLE[dbo].[Patients] ADD  DEFAULT(getdate()) FOR[CreatedOn]
+INSERT[dbo].[AspNetUsers]([Id], [Name], [PhoneNo], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES(N'7acd9f6b-234a-4928-b1b6-26bdef47600f', N'Faraz', N'99877', N'Farazshaikh08538@gmail.com', N'FARAZSHAIKH08538@GMAIL.COM', N'Farazshaikh08538@gmail.com', N'FARAZSHAIKH08538@GMAIL.COM', 1, N'AQAAAAIAAYagAAAAENUcii3Jijj42ivWGn2H38TdyOv95BvLcjKhxjPcBekGr/koAtg4ySYcW04HFj8RVw==', N'XIPTBJHEEFFSTOKPUDIPSGCAPWULK4M6', N'3dd576b2-d1ae-4ce6-a04f-6c00359fe707', NULL, 0, 0, NULL, 1, 0)
 GO
-ALTER TABLE[dbo].[Payments] ADD  DEFAULT(getdate()) FOR[EntryOn]
+INSERT[dbo].[AspNetUsers]([Id], [Name], [PhoneNo], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES(N'8f16e949-f04c-47b3-a934-a058b5980554', N'faraz', N'65645', N'faraz@gmail.com', N'FARAZ@GMAIL.COM', N'faraz@gmail.com', N'FARAZ@GMAIL.COM', 1, N'AQAAAAIAAYagAAAAEJ0fW5h76d4MkyHu2JS5UAAQ6tNu2OcKsN/b4PMGcY8MsfVrJZgtf9J0OEIWPKUd7Q==', N'P5EG7F7LNQEJFJZDASJM7LZ2J7AEDG46', N'525f4776-e3b7-402c-8d62-93909566a59a', NULL, 0, 0, NULL, 1, 0)
 GO
-ALTER TABLE[dbo].[Reviews] ADD  DEFAULT(getdate()) FOR[EntryOn]
+INSERT[dbo].[AspNetUsers]([Id], [Name], [PhoneNo], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES(N'a66c24c8-9c1c-4639-b61c-635dd11e0158', N'Faraz', N'78678', N'user@example.com', N'USER@EXAMPLE.COM', N'user@example.com', N'USER@EXAMPLE.COM', 1, N'AQAAAAIAAYagAAAAEGdmDogjoILD/LAyO7bZXNDznQ9igcnkM0iFT+RLJBNB8DX38Xx9Yygs7qbYQ4iGbg==', N'RPH52SNI6EKJD566CZFIZX2GKAEUTQTW', N'fd87cf6d-57d5-4119-8e2d-21d29a48ff15', NULL, 0, 0, NULL, 1, 0)
 GO
-ALTER TABLE[dbo].[Services] ADD  DEFAULT(getdate()) FOR[EntryOn]
+INSERT[dbo].[AspNetUsers]([Id], [Name], [PhoneNo], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES(N'e41ada2a-088e-48fa-8328-d0cc94b98ef6', N'faraz', N'65645', N'farazshaikh8960@gmail.com', N'FARAZSHAIKH8960@GMAIL.COM', N'farazshaikh8960@gmail.com', N'FARAZSHAIKH8960@GMAIL.COM', 1, N'AQAAAAIAAYagAAAAEJg4eOAM46LgCsUxhWukYpAv/sIn/uxM06ENMKG+AqyOgN6zY6uV3fleMiioC1m4/Q==', N'IOFPAULZHMB7BSTJ22T4DQ7ICVZMBWPW', N'5874a93e-e196-47a2-a088-86fa2c68fe3e', NULL, 0, 0, NULL, 1, 0)
 GO
-ALTER TABLE[dbo].[tbl_PageErrorLog] ADD  DEFAULT(getdate()) FOR[_EntryDate]
+SET IDENTITY_INSERT[dbo].[ErrorLog] ON
 GO
-ALTER TABLE[dbo].[Treatment] ADD  DEFAULT(getdate()) FOR[EntryOn]
+INSERT[dbo].[ErrorLog]([Id], [ClassName], [FuncName], [ProcName], [Error], [EntryOn]) VALUES(1, N'Proc_Invoice', N'InsertInvoiceData', N'InsertInvoiceData', N'The member  of type Entities.InvoiceItem cannot be used as a parameter value', CAST(N'2024-06-05T12:36:33.420' AS DateTime))
 GO
-ALTER TABLE[dbo].[WorkingHours] ADD  DEFAULT(getdate()) FOR[EntryOn]
+INSERT[dbo].[ErrorLog]([Id], [ClassName], [FuncName], [ProcName], [Error], [EntryOn]) VALUES(2, N'Proc_Invoice', N'InsertInvoiceData', N'InsertInvoiceData', N'Trying to pass a table-valued parameter with 4 column(s) where the corresponding user-defined table type requires 5 column(s).', CAST(N'2024-06-05T13:03:19.670' AS DateTime))
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_PageErrorLog]    Script Date: 10-05-2024 17:56:16 ******/
+INSERT[dbo].[ErrorLog]([Id], [ClassName], [FuncName], [ProcName], [Error], [EntryOn]) VALUES(3, N'Proc_Invoice', N'InsertInvoiceData', N'InsertInvoiceData', N'Trying to pass a table-valued parameter with 4 column(s) where the corresponding user-defined table type requires 5 column(s).', CAST(N'2024-06-05T13:06:25.267' AS DateTime))
+GO
+INSERT[dbo].[ErrorLog]([Id], [ClassName], [FuncName], [ProcName], [Error], [EntryOn]) VALUES(4, N'UserService', N'LoginAsync', N'', N'Session has not been configured for this application or request.', CAST(N'2024-06-06T11:24:04.110' AS DateTime))
+GO
+INSERT[dbo].[ErrorLog]([Id], [ClassName], [FuncName], [ProcName], [Error], [EntryOn]) VALUES(5, N'UserService', N'LoginAsync', N'', N'Procedure or function ''Proc_IncrementInvalidLoginAttempts'' expects parameter ''@Username'', which was not supplied.', CAST(N'2024-06-06T11:42:44.500' AS DateTime))
+GO
+INSERT[dbo].[ErrorLog]([Id], [ClassName], [FuncName], [ProcName], [Error], [EntryOn]) VALUES(6, N'Proc_Appointment', N'call', N'Proc_InsertPatientAndAppointment', N'Cannot access a disposed object.
+Object name: ''Microsoft.AspNetCore.Identity.UserManager`1[[API.DBContext.ApplicationUser, API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]''.', CAST(N'2024-06-07T18:41:35.773' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[ErrorLog] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Invoice] ON 
+GO
+INSERT [dbo].[Invoice] ([InvoiceID], [PatientName], [Email], [Phone], [Address], [Subtotal], [DiscountAmount], [TotalVAT], [TotalAmount], [EntryOn]) VALUES (1, N'string', N'string', N'string', N'string', 0, 0, 0, 0, CAST(N'2024-06-05T13:06:32.930' AS DateTime))
+GO
+INSERT [dbo].[Invoice] ([InvoiceID], [PatientName], [Email], [Phone], [Address], [Subtotal], [DiscountAmount], [TotalVAT], [TotalAmount], [EntryOn]) VALUES (2, N'string', N'string', N'string', N'string', 0, 0, 0, 0, CAST(N'2024-06-05T13:08:42.173' AS DateTime))
+GO
+INSERT [dbo].[Invoice] ([InvoiceID], [PatientName], [Email], [Phone], [Address], [Subtotal], [DiscountAmount], [TotalVAT], [TotalAmount], [EntryOn]) VALUES (3, N'fdg', N'dfgdf', N'9988773737', N'dfgfdg', 336, 16.799999237060547, 188.16000366210938, 507.3599853515625, CAST(N'2024-06-05T16:52:30.000' AS DateTime))
+GO
+INSERT [dbo].[Invoice] ([InvoiceID], [PatientName], [Email], [Phone], [Address], [Subtotal], [DiscountAmount], [TotalVAT], [TotalAmount], [EntryOn]) VALUES (4, N'fdg', N'dfgdf', N'9988773737', N'dfgfdg', 649362, 156184.5625, 29554.560546875, 522732, CAST(N'2024-06-05T16:57:01.050' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[Invoice] OFF
+GO
+SET IDENTITY_INSERT [dbo].[InvoiceItem] ON 
+GO
+INSERT [dbo].[InvoiceItem] ([ID], [InvoiceID], [Service], [Product], [Quantity], [Unit], [Price], [VAT], [Discount], [SingleDiscountAmount], [SubAmount], [NetAmount], [VATAmount], [TotalAmount]) VALUES (1, 1, N'string', N'string', 0, N'string', 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[InvoiceItem] ([ID], [InvoiceID], [Service], [Product], [Quantity], [Unit], [Price], [VAT], [Discount], [SingleDiscountAmount], [SubAmount], [NetAmount], [VATAmount], [TotalAmount]) VALUES (2, 2, N'string', N'string', 0, N'string', 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[InvoiceItem] ([ID], [InvoiceID], [Service], [Product], [Quantity], [Unit], [Price], [VAT], [Discount], [SingleDiscountAmount], [SubAmount], [NetAmount], [VATAmount], [TotalAmount]) VALUES (3, 3, N'Mobiles', N'dsf', 6, N'tablet', 56, 56, 5, 16.799999237060547, 336, 0, 0, 507.3599853515625)
+GO
+INSERT [dbo].[InvoiceItem] ([ID], [InvoiceID], [Service], [Product], [Quantity], [Unit], [Price], [VAT], [Discount], [SingleDiscountAmount], [SubAmount], [NetAmount], [VATAmount], [TotalAmount]) VALUES (4, 4, N'Mobiles', N'dsf', 6, N'tablet', 56, 56, 5, 16.799999237060547, 336, 0, 0, 507.3599853515625)
+GO
+INSERT [dbo].[InvoiceItem] ([ID], [InvoiceID], [Service], [Product], [Quantity], [Unit], [Price], [VAT], [Discount], [SingleDiscountAmount], [SubAmount], [NetAmount], [VATAmount], [TotalAmount]) VALUES (5, 4, N'Books', N'dfsdf', 546, N'tablet', 565, 4, 44, 135735.59375, 308490, 0, 0, 185094)
+GO
+INSERT [dbo].[InvoiceItem] ([ID], [InvoiceID], [Service], [Product], [Quantity], [Unit], [Price], [VAT], [Discount], [SingleDiscountAmount], [SubAmount], [NetAmount], [VATAmount], [TotalAmount]) VALUES (6, 4, N'Mobiles', N'fddfgfd', 56756, N'Select Unit', 6, 5, 6, 20432.16015625, 340536, 0, 0, 337130.625)
+GO
+SET IDENTITY_INSERT [dbo].[InvoiceItem] OFF
+GO
+SET IDENTITY_INSERT [dbo].[patients] ON 
+GO
+INSERT [dbo].[patients] ([PatientID], [PatientName], [PatientEmail], [PatientPhone], [Address], [EntryOn]) VALUES (10000, N'Farazshaikh', N'Farazshaikh60@gmail.com', N'987654446', N'strazamgar', CAST(N'2024-06-07T18:40:43.937' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[patients] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tbl_users] ON 
+GO
+INSERT [dbo].[tbl_users] ([userId], [username], [PasswordHash], [EntryOn], [IsVerified], [IsLocked], [IsActive], [InvalidLoginAttempts]) VALUES (1, N'faraz@gmail.com', N'ts/rTdP0AyPKNg1nNjW/G1u0/RxzquIMTEn/9jx5Us8=', CAST(N'2024-05-16T16:11:05.373' AS DateTime), NULL, NULL, 1, 3)
+GO
+INSERT [dbo].[tbl_users] ([userId], [username], [PasswordHash], [EntryOn], [IsVerified], [IsLocked], [IsActive], [InvalidLoginAttempts]) VALUES (2, N'Farazshaikh08538@gmail.com', N'Ihh3xfAefViWj8YBd0G16QXFZ2eFFZZdNOyazqtZA2k=', CAST(N'2024-06-06T11:40:20.697' AS DateTime), NULL, NULL, 1, 4)
+GO
+SET IDENTITY_INSERT [dbo].[tbl_users] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tbl_Validate_Email] ON 
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (2, N'farazshaikh8960@gmail.com', 414045, CAST(N'2024-05-17T18:24:57.467' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (3, N'farazshaikh8960@gmail.com', 51054, CAST(N'2024-05-17T18:25:37.993' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (4, N'farazshaikh8960@gmail.com', 30228, CAST(N'2024-05-17T18:29:17.660' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (5, N'farazshaikh8960@gmail.com', 557898, CAST(N'2024-05-17T18:35:54.743' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (6, N'farazshaikh8960@gmail.com', 619465, CAST(N'2024-05-17T18:41:02.450' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (7, N'farazshaikh8960@gmail.com ', 482146, CAST(N'2024-05-29T17:49:37.020' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (8, N'Farazshaikh8960@gmail.com ', 86805, CAST(N'2024-05-29T17:57:23.537' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (9, N'farazshaikh8960@gmail.com ', 561152, CAST(N'2024-05-29T18:02:43.780' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (13, N'farazshaikh8960@gmail.com ', 811711, CAST(N'2024-05-30T12:27:44.450' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (14, N'farazshaikh8960@gmail.com ', 272417, CAST(N'2024-05-30T12:32:00.153' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (15, N'farazshaikh8960@gmail.com', 885314, CAST(N'2024-06-01T10:43:13.403' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (16, N'farazshaikh8960@gmail.com', 781682, CAST(N'2024-06-01T10:46:38.520' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (17, N'farazshaikh8960@gmail.com', 911570, CAST(N'2024-06-01T10:52:20.763' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (18, N'farazshaikh8960@gmail.com', 420577, CAST(N'2024-06-01T10:53:17.143' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (19, N'farazshaikh8960@gmail.com', 349892, CAST(N'2024-06-01T10:57:17.010' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (20, N'farazshaikh8960@gmail.com', 197330, CAST(N'2024-06-01T10:58:50.763' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (21, N'farazshaikh8960@gmail.com', 49812, CAST(N'2024-06-01T11:05:35.693' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (22, N'farazshaikh8960@gmail.com', 471181, CAST(N'2024-06-01T11:08:32.357' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (24, N'farazshaikh8960@gmail.com', 985664, CAST(N'2024-06-01T11:16:43.630' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (25, N'farazshaikh8960@gmail.com', 86074, CAST(N'2024-06-01T11:21:12.697' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (26, N'farazshaikh8960@gmail.com', 737575, CAST(N'2024-06-01T11:22:39.833' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (27, N'farazshaikh8960@gmail.com', 573082, CAST(N'2024-06-01T11:24:07.427' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (29, N'farazshaikh8960@gmail.com', 30396, CAST(N'2024-06-01T11:27:26.680' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (30, N'farazshaikh8960@gmail.com', 195918, CAST(N'2024-06-01T11:45:33.330' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (31, N'farazshaikh8960@gmail.com', 852617, CAST(N'2024-06-01T11:49:04.397' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (32, N'farazshaikh8960@gmail.com', 966045, CAST(N'2024-06-01T11:50:14.473' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (33, N'farazshaikh8960@gmail.com', 231240, CAST(N'2024-06-01T11:51:27.627' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (34, N'farazshaikh8960@gmail.com', 447915, CAST(N'2024-06-01T11:52:36.527' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (35, N'farazshaikh8960@gmail.com', 199830, CAST(N'2024-06-01T11:53:54.133' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (36, N'farazshaikh8960@gmail.com', 894994, CAST(N'2024-06-01T11:57:18.807' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (39, N'farazshaikh8960@gmail.com', 691884, CAST(N'2024-06-01T12:12:36.790' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (40, N'farazshaikh8960@gmail.com', 905228, CAST(N'2024-06-01T12:15:20.003' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (41, N'farazshaikh8960@gmail.com', 749557, CAST(N'2024-06-01T12:16:40.653' AS DateTime))
+GO
+INSERT [dbo].[tbl_Validate_Email] ([vID], [vEmail], [vOTP], [vEntry]) VALUES (1007, N'Farazshaikh08538@gmail.com', 17988, CAST(N'2024-06-06T11:40:25.127' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[tbl_Validate_Email] OFF
+GO
+SET IDENTITY_INSERT [dbo].[TransactionDetails] ON 
+GO
+INSERT [dbo].[TransactionDetails] ([Id], [InvoiceID], [Mode], [TransactionId], [IsPaid], [DueDate], [DueAmountPayDate], [EntryOn]) VALUES (1, 1, N'string', N'string', 1, N'string', NULL, CAST(N'2024-06-05T13:06:32.930' AS DateTime))
+GO
+INSERT [dbo].[TransactionDetails] ([Id], [InvoiceID], [Mode], [TransactionId], [IsPaid], [DueDate], [DueAmountPayDate], [EntryOn]) VALUES (2, 2, N'string', N'string', 1, N'string', NULL, CAST(N'2024-06-05T13:08:42.173' AS DateTime))
+GO
+INSERT [dbo].[TransactionDetails] ([Id], [InvoiceID], [Mode], [TransactionId], [IsPaid], [DueDate], [DueAmountPayDate], [EntryOn]) VALUES (3, 3, N'fgfg', N'ertre44', 1, N'', NULL, CAST(N'2024-06-05T16:52:30.107' AS DateTime))
+GO
+INSERT [dbo].[TransactionDetails] ([Id], [InvoiceID], [Mode], [TransactionId], [IsPaid], [DueDate], [DueAmountPayDate], [EntryOn]) VALUES (4, 4, N'fgfg', N'ertre44', 1, N'', NULL, CAST(N'2024-06-05T16:57:01.050' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[TransactionDetails] OFF
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [IX_AspNetRoleClaims_RoleId]    Script Date: 07-06-2024 18:45:22 ******/
+CREATE NONCLUSTERED INDEX [IX_AspNetRoleClaims_RoleId] ON [dbo].[AspNetRoleClaims]
+(
+	[RoleId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [RoleNameIndex]    Script Date: 07-06-2024 18:45:22 ******/
+CREATE UNIQUE NONCLUSTERED INDEX [RoleNameIndex] ON [dbo].[AspNetRoles]
+(
+	[NormalizedName] ASC
+)
+WHERE ([NormalizedName] IS NOT NULL)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [IX_AspNetUserClaims_UserId]    Script Date: 07-06-2024 18:45:22 ******/
+CREATE NONCLUSTERED INDEX [IX_AspNetUserClaims_UserId] ON [dbo].[AspNetUserClaims]
+(
+	[UserId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [IX_AspNetUserLogins_UserId]    Script Date: 07-06-2024 18:45:22 ******/
+CREATE NONCLUSTERED INDEX [IX_AspNetUserLogins_UserId] ON [dbo].[AspNetUserLogins]
+(
+	[UserId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [IX_AspNetUserRoles_RoleId]    Script Date: 07-06-2024 18:45:22 ******/
+CREATE NONCLUSTERED INDEX [IX_AspNetUserRoles_RoleId] ON [dbo].[AspNetUserRoles]
+(
+	[RoleId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [EmailIndex]    Script Date: 07-06-2024 18:45:22 ******/
+CREATE NONCLUSTERED INDEX [EmailIndex] ON [dbo].[AspNetUsers]
+(
+	[NormalizedEmail] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UserNameIndex]    Script Date: 07-06-2024 18:45:22 ******/
+CREATE UNIQUE NONCLUSTERED INDEX [UserNameIndex] ON [dbo].[AspNetUsers]
+(
+	[NormalizedUserName] ASC
+)
+WHERE ([NormalizedUserName] IS NOT NULL)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ__patients__7006396A68595A2B]    Script Date: 07-06-2024 18:45:22 ******/
+ALTER TABLE [dbo].[patients] ADD UNIQUE NONCLUSTERED 
+(
+	[PatientEmail] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+/****** Object:  Index [UK_vOTP]    Script Date: 07-06-2024 18:45:22 ******/
+ALTER TABLE [dbo].[tbl_Validate_Email] ADD  CONSTRAINT [UK_vOTP] UNIQUE NONCLUSTERED 
+(
+	[vOTP] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[appointments] ADD  DEFAULT (getdate()) FOR [EntryOn]
+GO
+ALTER TABLE [dbo].[Dentists] ADD  DEFAULT (getdate()) FOR [EntryOn]
+GO
+ALTER TABLE [dbo].[ErrorLog] ADD  DEFAULT (getdate()) FOR [EntryOn]
+GO
+ALTER TABLE [dbo].[FAQs] ADD  DEFAULT (getdate()) FOR [EntryOn]
+GO
+ALTER TABLE [dbo].[Invoice] ADD  DEFAULT (getdate()) FOR [EntryOn]
+GO
+ALTER TABLE [dbo].[MedicalHistory] ADD  DEFAULT (getdate()) FOR [EntryOn]
+GO
+ALTER TABLE [dbo].[Patient_Services] ADD  DEFAULT (getdate()) FOR [EntryOn]
+GO
+ALTER TABLE [dbo].[patients] ADD  DEFAULT (getdate()) FOR [EntryOn]
+GO
+ALTER TABLE [dbo].[Payments] ADD  DEFAULT (getdate()) FOR [EntryOn]
+GO
+ALTER TABLE [dbo].[Reviews] ADD  DEFAULT (getdate()) FOR [EntryOn]
+GO
+ALTER TABLE [dbo].[Services] ADD  DEFAULT (getdate()) FOR [EntryOn]
+GO
+ALTER TABLE [dbo].[tbl_PageErrorLog] ADD  DEFAULT (getdate()) FOR [_EntryDate]
+GO
+ALTER TABLE [dbo].[tbl_users] ADD  DEFAULT (getdate()) FOR [EntryOn]
+GO
+ALTER TABLE [dbo].[tbl_users] ADD  DEFAULT ((0)) FOR [InvalidLoginAttempts]
+GO
+ALTER TABLE [dbo].[tbl_Validate_Email] ADD  DEFAULT (getdate()) FOR [vEntry]
+GO
+ALTER TABLE [dbo].[TransactionDetails] ADD  DEFAULT (getdate()) FOR [EntryOn]
+GO
+ALTER TABLE [dbo].[Treatment] ADD  DEFAULT (getdate()) FOR [EntryOn]
+GO
+ALTER TABLE [dbo].[WorkingHours] ADD  DEFAULT (getdate()) FOR [EntryOn]
+GO
+ALTER TABLE [dbo].[AspNetRoleClaims]  WITH CHECK ADD  CONSTRAINT [FK_AspNetRoleClaims_AspNetRoles_RoleId] FOREIGN KEY([RoleId])
+REFERENCES [dbo].[AspNetRoles] ([Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AspNetRoleClaims] CHECK CONSTRAINT [FK_AspNetRoleClaims_AspNetRoles_RoleId]
+GO
+ALTER TABLE [dbo].[AspNetUserClaims]  WITH CHECK ADD  CONSTRAINT [FK_AspNetUserClaims_AspNetUsers_UserId] FOREIGN KEY([UserId])
+REFERENCES [dbo].[AspNetUsers] ([Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AspNetUserClaims] CHECK CONSTRAINT [FK_AspNetUserClaims_AspNetUsers_UserId]
+GO
+ALTER TABLE [dbo].[AspNetUserLogins]  WITH CHECK ADD  CONSTRAINT [FK_AspNetUserLogins_AspNetUsers_UserId] FOREIGN KEY([UserId])
+REFERENCES [dbo].[AspNetUsers] ([Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AspNetUserLogins] CHECK CONSTRAINT [FK_AspNetUserLogins_AspNetUsers_UserId]
+GO
+ALTER TABLE [dbo].[AspNetUserRoles]  WITH CHECK ADD  CONSTRAINT [FK_AspNetUserRoles_AspNetRoles_RoleId] FOREIGN KEY([RoleId])
+REFERENCES [dbo].[AspNetRoles] ([Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AspNetUserRoles] CHECK CONSTRAINT [FK_AspNetUserRoles_AspNetRoles_RoleId]
+GO
+ALTER TABLE [dbo].[AspNetUserRoles]  WITH CHECK ADD  CONSTRAINT [FK_AspNetUserRoles_AspNetUsers_UserId] FOREIGN KEY([UserId])
+REFERENCES [dbo].[AspNetUsers] ([Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AspNetUserRoles] CHECK CONSTRAINT [FK_AspNetUserRoles_AspNetUsers_UserId]
+GO
+ALTER TABLE [dbo].[AspNetUserTokens]  WITH CHECK ADD  CONSTRAINT [FK_AspNetUserTokens_AspNetUsers_UserId] FOREIGN KEY([UserId])
+REFERENCES [dbo].[AspNetUsers] ([Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AspNetUserTokens] CHECK CONSTRAINT [FK_AspNetUserTokens_AspNetUsers_UserId]
+GO
+/****** Object:  StoredProcedure [dbo].[InsertInvoiceData]    Script Date: 07-06-2024 18:45:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE proc[dbo].[Proc_PageErrorLog]
-	(
-		@ClsName varchar(100),
-		@FnName varchar(100),
-		@ProcName nvarchar(100),
-		@UserID INT,
-		@Error NVARCHAR(max)
-	)
-AS
-BEGIN
---! Replace DB Name  
-INSERT INTO tbl_PageErrorLog(_ClsName, _FnName, _ProcName, _UserID, _Error)
-VALUES(@ClsName, @FnName, @ProcName, @UserID, @Error)  
-  
-SELECT 1, 'Error Log Sucessfully Inserted' Msg
-
-end
-GO
-USE[master]
-GO
-ALTER DATABASE[DCS] SET  READ_WRITE
-GO
-
-
-alter PROCEDURE sp_VerifyOTP
-@Email VARCHAR(100),
-	@OTP INT
-AS
-BEGIN  
-    SET NOCOUNT ON;  
-  
-    DECLARE @IsValid BIT;  
-    DECLARE @CurrentTime DATETIME;
-    DECLARE @ExpiryTime DATETIME;
-
-    SET @CurrentTime = GETDATE();
-
-    SET @ExpiryTime = DATEADD(MINUTE, -1, @CurrentTime);
-
-    IF EXISTS(SELECT 1 FROM tbl_Validate_Email WHERE vEmail = @Email AND vOTP = @OTP AND vEntry >= @ExpiryTime)
-BEGIN  
-        DELETE FROM tbl_Validate_Email WHERE vEmail = @Email AND vOTP = @OTP;   
-        SELECT 1 AS StatusCode, 'OTP Verified' AS ResponseText;
-Return
-END
-ELSE
-BEGIN  
-	    DELETE FROM tbl_Validate_Email WHERE vEmail = @Email AND vOTP = @OTP;
-SELECT - 1 AS StatusCode, 'Invalid OTP' AS ResponseText;
-Return
-
-END
-END  
-
-
-
-	CREATE TABLE ErrorLog(
-		Id int primary key identity(1, 1),
-		ClassName VARCHAR(255),
-		FuncName VARCHAR(255),
-		ProcName VARCHAR(255),
-		Error VARCHAR(MAX),
-		EntryOn Datetime default getdate()
-);
-
-
-
-Alter PROCEDURE Proc_InsertErrorLog
-@ClassName VARCHAR(255),
-	@FuncName VARCHAR(255),
-		@ProcName VARCHAR(255),
-			@Error VARCHAR(MAX)
-AS
-BEGIN
-    BEGIN TRY
-        INSERT INTO ErrorLog(ClassName, FuncName, ProcName, Error)
-VALUES(@ClassName, @FuncName, @ProcName, @Error);
-        
-        SELECT 1 AS StatusCode, 'Error logged successfully' AS ResponseText;
-RETURN 
-    END TRY
-    BEGIN CATCH
-SELECT - 1 AS StatusCode, 'Error occurred while logging' AS ResponseText;
-RETURN 
-    END CATCH
-END;
-
-
-
-Create Proc Proc_GetUser
-As
-Begin
- SELECT U.Id, U.Name, U.UserName, U.Email, R.Name AS Role
- FROM AspNetUsers U
- JOIN AspNetUserRoles UR ON U.Id = UR.UserId
- JOIN AspNetRoles R ON UR.RoleId = R.Id;
-End
-
-
-
-CREATE TABLE TransactionDetails(
-	Id INT PRIMARY KEY IDENTITY(1, 1),
-	InvoiceID int,
-	Mode NVARCHAR(50),
-	TransactionId NVARCHAR(50),
-	IsPaid BIT,
-	DueDate NVARCHAR(50),
-	DueAmountPayDate NVARCHAR(50),
-	EntryOn DATETIME default getdate()
-);
-
-
-CREATE TABLE Invoice(
-	InvoiceID INT PRIMARY KEY IDENTITY(1, 1),
-	PatientName NVARCHAR(100),
-	Email NVARCHAR(100),
-	Phone NVARCHAR(20),
-	Address NVARCHAR(255),
-	Subtotal FLOAT,
-	DiscountAmount FLOAT,
-	TotalVAT FLOAT,
-	TotalAmount FLOAT,
-	EntryOn DATETIME default getdate()
-);
-
-
-CREATE TABLE InvoiceItem(
-	ID INT PRIMARY KEY IDENTITY(1, 1),
-	InvoiceID int,
-	Service NVARCHAR(100),
-	Product NVARCHAR(100),
-	Quantity FLOAT,
-	Unit NVARCHAR(50),
-	Price FLOAT,
-	VAT FLOAT,
-	Discount FLOAT,
-	SingleDiscountAmount FLOAT,
-	SubAmount FLOAT,
-	NetAmount FLOAT,
-	VATAmount FLOAT,
-	TotalAmount FLOAT
-);
-
-
-
-alter PROCEDURE InsertInvoiceData
-@PatientName NVARCHAR(100),
-	@Email NVARCHAR(100),
-		@Phone NVARCHAR(20),
-			@Address NVARCHAR(255),
-				@Subtotal FLOAT,
-					@DiscountAmount FLOAT,
-						@TotalVAT FLOAT,
-							@TotalAmount FLOAT,
-								@InvoiceItems InvoiceItemType READONLY, --Table - valued parameter for InvoiceItem
-    @TransactionMode NVARCHAR(50),
-	@TransactionId NVARCHAR(50),
-		@IsPaid BIT,
-			@DueDate NVARCHAR(50),
-				@DueAmountPayDate NVARCHAR(50)
-AS
-BEGIN
-    BEGIN TRY
-        BEGIN TRANSACTION;
-        
-        DECLARE @InvoiceID INT;
-
---Insert into Invoice table
-        INSERT INTO Invoice(PatientName, Email, Phone, Address, Subtotal, DiscountAmount, TotalVAT, TotalAmount)
-VALUES(@PatientName, @Email, @Phone, @Address, @Subtotal, @DiscountAmount, @TotalVAT, @TotalAmount);
-        
-        SET @InvoiceID = SCOPE_IDENTITY();
-
---Insert into InvoiceItem table
-        INSERT INTO InvoiceItem(InvoiceID, Service, Product, Quantity, Unit, Price, VAT, Discount, SingleDiscountAmount, SubAmount, NetAmount, VATAmount, TotalAmount)
-        SELECT @InvoiceID, Service, Product, Quantity, Unit, Price, VAT, Discount, SingleDiscountAmount, SubAmount, NetAmount, VATAmount, TotalAmount
-        FROM @InvoiceItems;
-
---Insert into TransactionDetails table
-        INSERT INTO TransactionDetails(InvoiceID, Mode, TransactionId, IsPaid, DueDate, DueAmountPayDate)
-VALUES(@InvoiceID, @TransactionMode, @TransactionId, @IsPaid, @DueDate, @DueAmountPayDate);
-                SELECT 1 AS StatusCode, 'Create Invoice Successful' AS ResponseText;
-        COMMIT TRANSACTION;
-    END TRY
-    BEGIN CATCH
-SELECT - 1 AS StatusCode, 'Invoice Saved Field!' AS ResponseText;
-        ROLLBACK TRANSACTION;
-THROW;
-    END CATCH
-END
-
-
-
-CREATE TYPE InvoiceItemType AS TABLE
-	(
-		Service NVARCHAR(100),
-		Product NVARCHAR(100),
-		Quantity FLOAT,
-		Unit NVARCHAR(50),
-		Price FLOAT,
-		VAT FLOAT,
-		Discount FLOAT,
-		SingleDiscountAmount FLOAT,
-		SubAmount FLOAT,
-		NetAmount FLOAT,
-		VATAmount FLOAT,
-		TotalAmount FLOAT
-	);
-
-CREATE TYPE TransactionDetailType AS TABLE
-	(InvoiceID int,
-		Mode NVARCHAR(50),
-		TransactionId NVARCHAR(50),
-		IsPaid BIT,
-		DueDate NVARCHAR(50)
-)
-
-		alter table tbl_users add IsActive bit
-
-
-
-alter PROCEDURE InsertInvoiceData
-@PatientName NVARCHAR(100),
-	@Email NVARCHAR(100),
-		@Phone NVARCHAR(20),
-			@Address NVARCHAR(255),
-				@Subtotal FLOAT,
-					@DiscountAmount FLOAT,
-						@TotalVAT FLOAT,
-							@TotalAmount FLOAT,
-								@InvoiceItems InvoiceItemType READONLY, --Table - valued parameter for InvoiceItem
+CREATE PROCEDURE [dbo].[InsertInvoiceData]
+    @PatientName NVARCHAR(100),
+    @Email NVARCHAR(100),
+    @Phone NVARCHAR(20),
+    @Address NVARCHAR(255),
+    @Subtotal FLOAT,
+    @DiscountAmount FLOAT,
+    @TotalVAT FLOAT,
+    @TotalAmount FLOAT,
+    @InvoiceItems InvoiceItemType READONLY, -- Table-valued parameter for InvoiceItem
     @Transaction TransactionType READONLY
 AS
 BEGIN
@@ -590,111 +928,386 @@ BEGIN
         BEGIN TRANSACTION;
         
         DECLARE @InvoiceID INT;
-
---Insert into Invoice table
-        INSERT INTO Invoice(PatientName, Email, Phone, Address, Subtotal, DiscountAmount, TotalVAT, TotalAmount)
-VALUES(@PatientName, @Email, @Phone, @Address, @Subtotal, @DiscountAmount, @TotalVAT, @TotalAmount);
+        
+        -- Insert into Invoice table
+        INSERT INTO Invoice (PatientName, Email, Phone, Address, Subtotal, DiscountAmount, TotalVAT, TotalAmount)
+        VALUES (@PatientName, @Email, @Phone, @Address, @Subtotal, @DiscountAmount, @TotalVAT, @TotalAmount);
         
         SET @InvoiceID = SCOPE_IDENTITY();
-
---Insert into InvoiceItem table
-        INSERT INTO InvoiceItem(InvoiceID, Service, Product, Quantity, Unit, Price, VAT, Discount, SingleDiscountAmount, SubAmount, NetAmount, VATAmount, TotalAmount)
+        
+        -- Insert into InvoiceItem table
+        INSERT INTO InvoiceItem (InvoiceID, Service, Product, Quantity, Unit, Price, VAT, Discount, SingleDiscountAmount, SubAmount, NetAmount, VATAmount, TotalAmount)
         SELECT @InvoiceID, Service, Product, Quantity, Unit, Price, VAT, Discount, SingleDiscountAmount, SubAmount, NetAmount, VATAmount, TotalAmount
         FROM @InvoiceItems;
-
---Insert into TransactionDetails table
-        INSERT INTO TransactionDetails(InvoiceID, Mode, TransactionId, IsPaid, DueDate)
-       SELECT @InvoiceID, Mode, TransactionId, IsPaid, DueDate FROM @Transaction;
+        
+        -- Insert into TransactionDetails table
+        INSERT INTO TransactionDetails (InvoiceID, Mode, TransactionId, IsPaid, DueDate)
+       SELECT @InvoiceID,Mode,TransactionId,IsPaid,DueDate FROM @Transaction;
                 SELECT 1 AS StatusCode, 'Create Invoice Successful' AS ResponseText;
         COMMIT TRANSACTION;
     END TRY
     BEGIN CATCH
-SELECT - 1 AS StatusCode, 'Invoice Saved Field!' AS ResponseText;
+	    SELECT -1 AS StatusCode, 'Invoice Saved Field!' AS ResponseText;
         ROLLBACK TRANSACTION;
-THROW;
+        THROW;
     END CATCH
 END
-
-USE[DCS]
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_IsUserVerfied]    Script Date: 05-06-2024 17:56:58 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_ConfirmEmail]    Script Date: 07-06-2024 18:45:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-ALTER PROCEDURE[dbo].[Proc_IsUserVerfied]
-@Email VARCHAR(100)
+create proc [dbo].[Proc_ConfirmEmail]@IsVerfied int,@Email Varchar(100)AsBeginUpdate tbl_users set IsVerified = @IsVerfied where username = @Email;End
+GO
+/****** Object:  StoredProcedure [dbo].[Proc_GetInvoiceDataByInvoiceId]    Script Date: 07-06-2024 18:45:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[Proc_GetInvoiceDataByInvoiceId] 
+    @InvoiceID INT ,
+	@Case int
+AS  
+BEGIN  
+    BEGIN TRY  
+        BEGIN TRANSACTION;  
+		IF(@case=1)
+		Begin
+		 SELECT 
+       *
+        FROM Invoice
+        WHERE InvoiceID = @InvoiceID;
+		end
+
+		Else IF(@case=2)
+		Begin
+				SELECT 
+            *
+        FROM InvoiceItem
+        WHERE InvoiceID = @InvoiceID;
+		end
+
+
+		Else IF(@case=3)
+		Begin
+		       SELECT 
+            *
+        FROM TransactionDetails
+        WHERE InvoiceID = @InvoiceID;
+		end
+
+        COMMIT TRANSACTION;  
+    END TRY  
+    BEGIN CATCH  
+        ROLLBACK TRANSACTION;  
+        THROW;  
+    END CATCH  
+END
+GO
+/****** Object:  StoredProcedure [dbo].[Proc_GetInvoiceList]    Script Date: 07-06-2024 18:45:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+Create proc [dbo].[Proc_GetInvoiceList]
+As
+Begin
+select * from InvoiceItem;
+End
+GO
+/****** Object:  StoredProcedure [dbo].[Proc_GetUser]    Script Date: 07-06-2024 18:45:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE Proc [dbo].[Proc_GetUser]
+As
+Begin
+ SELECT U.Id, U.Name, U.UserName, U.Email, R.Name AS Role,tu.PasswordHash,tu.IsVerified ,tu.IsActive, tu.IsLocked
+ FROM AspNetUsers U
+ JOIN AspNetUserRoles UR ON U.Id = UR.UserId
+ JOIN tbl_users tu ON U.Email = tu.username
+ JOIN AspNetRoles R ON UR.RoleId = R.Id;
+End
+GO
+/****** Object:  StoredProcedure [dbo].[Proc_IncrementInvalidLoginAttempts]    Script Date: 07-06-2024 18:45:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[Proc_IncrementInvalidLoginAttempts]
+    @Email VARCHAR(50)
 AS
 BEGIN
-    IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email AND IsActive = 0)
-BEGIN
-        SELECT 3 AS StatusCode, 'Your account has been deactivated. Please contact the support team for assistance.' AS ResponseText;
-END
-    ELSE IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email AND IsVerified = 1)
-BEGIN
-        SELECT 2 AS StatusCode, 'Email Verified' AS ResponseText;
-END
-    ELSE IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email AND(IsVerified = 0 OR IsVerified IS NULL))
-BEGIN
-        SELECT 2 AS StatusCode, 'Email Not Verified' AS ResponseText;
-END
-ELSE
-BEGIN
-SELECT - 1 AS StatusCode, 'Invalid Email' AS ResponseText;
-END
-END;
-
-
-		
-ALTER PROCEDURE[dbo].[Proc_IsUserVerfied]
-@Email VARCHAR(100)
-AS
-BEGIN
-      IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email AND(IsActive = 0 OR IsActive IS NULL))
-BEGIN
-        SELECT 3 AS StatusCode, 'Your account has been deactivated. Please contact the support team for assistance.' AS ResponseText;
-END
-	ELSE IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email AND IsLocked = 1)
-BEGIN
-SELECT - 1 AS StatusCode, 'The user account is temporarily locked.' AS ResponseText;
-END
-    ELSE IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email AND IsVerified = 1)
-BEGIN
-        SELECT 1 AS StatusCode, 'Email Verified' AS ResponseText;
-END
-    ELSE IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email AND(IsVerified = 0 OR IsVerified IS NULL))
-BEGIN
-        SELECT 2 AS StatusCode, 'Email Not Verified' AS ResponseText;
-END
-ELSE
-BEGIN
-SELECT - 1 AS StatusCode, 'Invalid Email' AS ResponseText;
-END
-END;
-
-
-alter table tbl_users add   InvalidLoginAttempts INT DEFAULT 0
-
-alter PROCEDURE Proc_IncrementInvalidLoginAttempts
-@Email VARCHAR(50)
-AS
-BEGIN
---Check if the user exists
-    IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email)
-BEGIN
---Increment the invalid login attempts
+    -- Check if the user exists
+    IF EXISTS (SELECT 1 FROM tbl_users WHERE username = @Email)
+    BEGIN
+        -- Increment the invalid login attempts
         UPDATE tbl_users
         SET InvalidLoginAttempts = InvalidLoginAttempts + 1
         WHERE username = @Email;
 
---Optional: Return the current invalid login attempts count
+        -- Optional: Return the current invalid login attempts count
         SELECT InvalidLoginAttempts
         FROM tbl_users
         WHERE username = @Email;
-END
-ELSE
-BEGIN
---Handle the case where the user does not exist
-RAISERROR('User not found.', 16, 1);
-END
+    END
+    ELSE
+    BEGIN
+        -- Handle the case where the user does not exist
+        RAISERROR('User not found.', 16, 1);
+    END
 END;
+GO
+/****** Object:  StoredProcedure [dbo].[Proc_InsertErrorLog]    Script Date: 07-06-2024 18:45:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[Proc_InsertErrorLog]  
+    @ClassName NVARCHAR(255),  
+    @FuncName NVARCHAR(255),  
+    @ProcName NVARCHAR(255),  
+    @Error NVARCHAR(MAX)  
+AS  
+BEGIN  
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+        INSERT INTO ErrorLog (ClassName, FuncName, ProcName, Error)  
+        VALUES (@ClassName, @FuncName, @ProcName, @Error);  
+    END TRY
+    BEGIN CATCH
+        -- Log the error to a special error table or take other appropriate actions
+        INSERT INTO ErrorLog (ClassName, FuncName, ProcName, Error)
+        VALUES ('ErrorLog Procedure', 'ErrorLog', 'Proc_InsertErrorLog', ERROR_MESSAGE());
+
+        -- Throw or handle the error as needed
+        THROW;
+    END CATCH;
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[Proc_InsertPatientAndAppointment]    Script Date: 07-06-2024 18:45:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[Proc_InsertPatientAndAppointment]
+    @PatientName VARCHAR(255),
+    @PatientEmail VARCHAR(255),
+    @PatientPhone VARCHAR(20),
+    @Address VARCHAR(255),
+    @AppointmentDate VARCHAR(50),
+    @AppointTime VARCHAR(50),
+    @Status INT
+AS
+BEGIN
+    BEGIN TRY
+        BEGIN TRANSACTION;
+        
+        INSERT INTO patients (PatientName, PatientEmail, PatientPhone, Address)
+        VALUES (@PatientName, @PatientEmail, @PatientPhone, @Address);
+        
+        DECLARE @PatientID INT;
+        SET @PatientID = SCOPE_IDENTITY();
+        
+        INSERT INTO appointments (PatientID, AppointmentDate, AppointTime, Status)
+        VALUES (@PatientID, @AppointmentDate, @AppointTime, @Status);
+        
+        COMMIT TRANSACTION;
+
+        SELECT 1 AS StatusCode, 'Appointment confirmed successfully.' AS ResponseText;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+
+        SELECT -1 AS StatusCode, 'Failed to confirm appointment. Please try again.' AS ResponseText;
+    END CATCH;
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[Proc_IsUserVerfied]    Script Date: 07-06-2024 18:45:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[Proc_IsUserVerfied]    @Email VARCHAR(100)ASBEGIN      IF EXISTS (SELECT 1 FROM tbl_users WHERE username = @Email AND (IsActive = 0 OR IsActive IS NULL))    BEGIN        SELECT 3 AS StatusCode, 'Your account has been deactivated. Please contact the support team for assistance.' AS ResponseText;    END	ELSE IF EXISTS (SELECT 1 FROM tbl_users WHERE username = @Email AND IsLocked = 1)
+    BEGIN
+        SELECT -1 AS StatusCode, 'The user account is temporarily locked.' AS ResponseText;
+    END    ELSE IF EXISTS (SELECT 1 FROM tbl_users WHERE username = @Email AND IsVerified = 1)    BEGIN        SELECT 1 AS StatusCode, 'Email Verified' AS ResponseText;    END    ELSE IF EXISTS (SELECT 1 FROM tbl_users WHERE username = @Email AND (IsVerified = 0 OR IsVerified IS NULL))    BEGIN        SELECT 2 AS StatusCode, 'Email Not Verified' AS ResponseText;    END    ELSE    BEGIN        SELECT -1 AS StatusCode, 'Invalid Email' AS ResponseText;    ENDEND;
+GO
+/****** Object:  StoredProcedure [dbo].[Proc_PageErrorLog]    Script Date: 07-06-2024 18:45:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[Proc_PageErrorLog]  
+(  
+@ClsName varchar(100),  
+@FnName varchar(100),  
+@ProcName nvarchar(100), 
+@UserID INT,  
+@Error NVARCHAR(max)  
+)  
+AS  
+BEGIN  
+--! Replace DB Name  
+INSERT INTO tbl_PageErrorLog (_ClsName, _FnName,_ProcName, _UserID, _Error)  
+VALUES (@ClsName, @FnName,@ProcName, @UserID, @Error)  
+  
+SELECT 1,'Error Log Sucessfully Inserted' Msg  
+  
+end  
+GO
+/****** Object:  StoredProcedure [dbo].[Proc_ResetInvalidLoginAttempts]    Script Date: 07-06-2024 18:45:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+Create PROCEDURE [dbo].[Proc_ResetInvalidLoginAttempts]
+    @Email VARCHAR(50)
+AS
+BEGIN
+    -- Check if the user exists
+    IF EXISTS (SELECT 1 FROM tbl_users WHERE username = @Email)
+    BEGIN
+        -- Increment the invalid login attempts
+        UPDATE tbl_users
+        SET InvalidLoginAttempts = 0
+        WHERE username = @Email;
+    END
+    ELSE
+    BEGIN
+        -- Handle the case where the user does not exist
+        RAISERROR('User not found.', 16, 1);
+    END
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[Proc_VerifyConfirmationEmail]    Script Date: 07-06-2024 18:45:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[Proc_VerifyConfirmationEmail]    
+    @Email VARCHAR(100),      
+    @OTP INT      
+AS      
+BEGIN      
+    SET NOCOUNT ON;      
+      
+    DECLARE @IsValid BIT;      
+    DECLARE @CurrentTime DATETIME;    
+    DECLARE @ExpiryTime DATETIME;    
+    
+    SET @CurrentTime = GETDATE();    
+    
+    SET @ExpiryTime = DATEADD(MINUTE, -1, @CurrentTime);    
+    
+    IF EXISTS (SELECT 1 FROM tbl_Validate_Email WHERE vEmail = @Email AND vOTP = @OTP AND vEntry >= @ExpiryTime)      
+    BEGIN      
+        DELETE FROM tbl_Validate_Email WHERE vEmail = @Email AND vOTP = @OTP;       
+        SELECT 1 AS StatusCode, 'OTP Verified' AS ResponseText;      
+    END      
+    ELSE IF EXISTS (SELECT 1 FROM tbl_Validate_Email WHERE vEmail = @Email AND vOTP = @OTP)  
+    BEGIN  
+        DELETE FROM tbl_Validate_Email WHERE vEmail = @Email AND vOTP = @OTP;     
+        SELECT -1 AS StatusCode, 'OTP Has Expired' AS ResponseText;      
+    END  
+    ELSE  
+    BEGIN  
+        SELECT -2 AS StatusCode, 'Invalid OTP or Email' AS ResponseText;      
+    END  
+END  
+GO
+/****** Object:  StoredProcedure [dbo].[sp_insert_user]    Script Date: 07-06-2024 18:45:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[sp_insert_user]
+    @username VARCHAR(100),
+    @PasswordHash NVARCHAR(255)
+AS
+BEGIN
+    INSERT INTO tbl_users (username, PasswordHash)
+    VALUES (@username, @PasswordHash);
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[sp_Validate_Email]    Script Date: 07-06-2024 18:45:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[sp_Validate_Email]
+    @Email VARCHAR(100),
+    @OTP INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO tbl_Validate_Email (vEmail, vOTP)
+    VALUES (@Email, @OTP);
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[sp_VerifyOTP]    Script Date: 07-06-2024 18:45:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[sp_VerifyOTP]    
+    @Email VARCHAR(100),    
+    @OTP INT    
+AS    
+BEGIN    
+    SET NOCOUNT ON;    
+    
+    DECLARE @IsValid BIT;    
+    DECLARE @CurrentTime DATETIME;  
+    DECLARE @ExpiryTime DATETIME;  
+  
+    SET @CurrentTime = GETDATE();  
+  
+    SET @ExpiryTime = DATEADD(MINUTE, -1, @CurrentTime);  
+  
+    IF EXISTS (SELECT 1 FROM tbl_Validate_Email WHERE vEmail = @Email AND vOTP = @OTP AND vEntry >= @ExpiryTime)    
+    BEGIN    
+        DELETE FROM tbl_Validate_Email WHERE vEmail = @Email AND vOTP = @OTP;     
+        SELECT 1 AS StatusCode, 'OTP Verified' AS ResponseText;    
+    END    
+    ELSE IF EXISTS (SELECT 1 FROM tbl_Validate_Email WHERE vEmail = @Email AND vOTP = @OTP)
+    BEGIN
+        DELETE FROM tbl_Validate_Email WHERE vEmail = @Email AND vOTP = @OTP;   
+        SELECT -1 AS StatusCode, 'OTP Has Expired' AS ResponseText;    
+    END
+    ELSE
+    BEGIN
+        SELECT -2 AS StatusCode, 'Invalid OTP or Email' AS ResponseText;    
+    END
+END
+GO
+USE [master]
+GO
+ALTER DATABASE [DCS] SET  READ_WRITE 
+GO
+
+
+		CREATE PROCEDURE Proc_FindUser
+    @Email VARCHAR(100)
+AS
+BEGIN
+    BEGIN TRY
+        IF EXISTS (SELECT 1 FROM AspNetUsers WHERE Email = @Email)
+        BEGIN
+            SELECT -1 AS StatusCode, 'User Already Exists!' AS ResponseText; 
+        END
+        ELSE
+        BEGIN
+            SELECT 1 AS StatusCode, 'User Does Not Exist!' AS ResponseText; 
+        END
+    END TRY
+    BEGIN CATCH
+        -- You can handle errors here, for example:
+        SELECT -1 AS StatusCode, 'Something went wrong!' AS ResponseText; 
+    END CATCH
+END

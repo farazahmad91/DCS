@@ -135,7 +135,7 @@ namespace API.Controllers
         [HttpPost(nameof(AllUser))]
         public async Task<IActionResult> AllUser()
         {
-            var i = _userservice.GetAllUsers();
+            var i = await _userservice.GetAllUsers();
             return Ok(i);
         }
         [HttpPost(nameof(ForgetPassword))]

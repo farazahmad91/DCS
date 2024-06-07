@@ -63,23 +63,24 @@ namespace API.Data
                 return connection.QueryFirstOrDefault<T>(query, id);
             }
         }
-        public IEnumerable<T> GetItemsById<T>(object parms, string query)
+        public async Task<IEnumerable<T>> GetAll<T>(string query, object parms, CommandType commandType = CommandType.StoredProcedure)
         {
             using (var connection = new SqlConnection(Constr))
             {
-                connection.Open();
-                return connection.Query<T>(query, parms);
+              await  connection.OpenAsync();
+                return await connection.QueryAsync<T>(query, parms, commandType: commandType);
             }
         }
 
-        public IEnumerable<T> GetAll<T>(string query)
+        public async Task<IEnumerable<T>> GetAll<T>(string query)
         {
             using (var connection = new SqlConnection(Constr))
             {
-                connection.Open();
-                return connection.Query<T>(query);
+                await connection.OpenAsync();
+                return await connection.QueryAsync<T>(query);
             }
         }
+
 
         public int Update(object entity, string storedProcedure)
         {
@@ -89,7 +90,6 @@ namespace API.Data
                 return connection.Execute(storedProcedure, entity);
             }
         }
-
     }
 
 }

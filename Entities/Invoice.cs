@@ -1,4 +1,6 @@
-﻿namespace Entities
+﻿using System.Collections.Generic;
+
+namespace Entities
 {
 	public class InvoiceItem
 	{
@@ -38,6 +40,12 @@
         public string Mode { get; set; }
         public bool IsPaid { get; set; }
         public string DueDate { get; set; }
+    }
+    public class InvoiceViewModelDetails
+    {
+        public IEnumerable<InvoiceViewModel> InvoiceViewModels { get; set; }
+        public IEnumerable<InvoiceItem> InvoiceItems { get; set; }
+        public IEnumerable<TransactionDetails> TransactionDetail { get; set; }
     }
 
 }
