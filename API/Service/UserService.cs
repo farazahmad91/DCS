@@ -249,14 +249,14 @@ namespace API.Service
             }
         }
 
-        public IEnumerable<User> GetAllUsers()
+        public async Task<IEnumerable<User>> GetAllUsers()
         {
             IEnumerable<User> user = new List<User>();
             string sp = "Proc_GetUser";
            
             try
             {
-                var usersWithRoles = _dapper.GetAll<User>(sp);
+                var usersWithRoles = await _dapper.GetAll<User>(sp);
                  user= usersWithRoles;
             }
             catch (Exception ex)

@@ -1,6 +1,7 @@
 ﻿using API.AppCode.DL;
 using API.AppCode.IML;
 using API.AppCode.IService;
+using API.DBContext.Entities;
 using DCS.Models;
 using Entities;
 using Entities.Response;
@@ -46,6 +47,20 @@ namespace API.AppCode.ML
                 var _ = new ErrorLog_ML(_dapper).Error(error);
             }
             return res;
+        }
+
+        public async Task<IEnumerable<InvoiceItem>> GetInvoiceData()
+        {
+            IProcedureAsync procedure = new Proc_GetInvoice(_dapper);
+              var i = await  procedure.Call();
+            return (IEnumerable<InvoiceItem>)i;
+        }
+
+        public async Task<InvoiceViewModelDetails> GetInvoiceDataByInvoiceId(int Id)
+        {
+            IProcedureAsync procedure = new Proc_GetInvoiceDataByInvoiceId(_dapper);
+            var i = await procedure.Call(Id);
+            return (InvoiceViewModelDetails)i;
         }
     }
 }

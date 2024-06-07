@@ -1,6 +1,7 @@
 ﻿using API.AppCode.IML;
 using API.AppCode.ML;
 using API.Data;
+using DCS.Models;
 using Entities;
 using Entities.Response;
 using System.Collections.Generic;
@@ -45,10 +46,10 @@ namespace API.AppCode.DL
             }
             catch (Exception ex)
             {
-                var error = new Entities.ErrorLog
+                var error = new ErrorLog
                 {
                     ClassName = GetType().Name,
-                    FuncName = "InsertInvoiceData",
+                    FuncName = "call",
                     Error = ex.Message,
                     ProcName = GetName(),
                 };
@@ -119,5 +120,102 @@ namespace API.AppCode.DL
         }
 
         public string GetName() => "InsertInvoiceData";
+    }
+
+    public class Proc_GetInvoice : IProcedureAsync
+    {
+        private readonly IDapper _dapper;
+        public Proc_GetInvoice(IDapper dapper)
+        {
+            this._dapper = dapper;
+        }
+        public async Task<object> Call()
+        {
+            IEnumerable<InvoiceItem> items = new List<InvoiceItem>();
+            try
+            {
+                var i = await _dapper.GetAll<InvoiceItem>(GetName());
+                items=i.ToList();
+                return items;
+            }
+            catch (Exception ex)
+            {
+                var error = new ErrorLog
+                {
+                    ClassName = GetType().Name,
+                    FuncName = "call",
+                    Error = ex.Message,
+                    ProcName = GetName(),
+                };
+                var _ = new ErrorLog_ML(_dapper).Error(error);
+            }
+            return items;
+        }
+
+        public Task<object> Call(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetName()
+        {
+            return "Proc_GetInvoiceList";
+        }
+    }
+
+    public class Proc_GetInvoiceDataByInvoiceId : IProcedureAsync
+    {
+        private readonly IDapper _dapper;
+        public Proc_GetInvoiceDataByInvoiceId(IDapper dapper)
+        {
+            this._dapper = dapper;
+        }
+        public async Task<object> Call()
+        {
+
+            throw new NotImplementedException();
+        }
+
+        public async Task<object> Call(object obj)
+        {
+            int invoiceId = (int)obj;
+            InvoiceViewModelDetails invoiceDetails = new InvoiceViewModelDetails();
+            IEnumerable<InvoiceItem> items = new List<InvoiceItem>();
+            try
+            {
+                var param = new
+                {
+                    InvoiceID = invoiceId,
+                    Case=1
+
+                };
+                var invoiceData = await _dapper.GetAll<InvoiceViewModel>(GetName(),new { InvoiceID = invoiceId, Case = 1 });
+                items = await _dapper.GetAll<InvoiceItem>(GetName(), new { InvoiceID = invoiceId, Case = 2 });
+                var transactionData = await _dapper.GetAll<TransactionDetails>(GetName(), new { InvoiceID = invoiceId, Case = 3 });
+
+                invoiceDetails.InvoiceViewModels = invoiceData;
+                invoiceDetails.InvoiceItems = items.ToList();
+                invoiceDetails.TransactionDetail = transactionData;
+
+                return invoiceDetails;
+            }
+            catch (Exception ex)
+            {
+                var error = new ErrorLog
+                {
+                    ClassName = GetType().Name,
+                    FuncName = "call",
+                    Error = ex.Message,
+                    ProcName = GetName(),
+                };
+                var _ = new ErrorLog_ML(_dapper).Error(error);
+            }
+            return invoiceDetails;
+        }
+
+        public string GetName()
+        {
+            return "Proc_GetInvoiceDataByInvoiceId";
+        }
     }
 }

@@ -1,12 +1,12 @@
-﻿namespace DCS.Models
+﻿using Entities;
+
+namespace DCS.Models
 {
-    public class Appointment
+    public class Appointment: Patient
     {
         public int AppointmentID { get; set; }
-        public int? PatientID { get; set; }
-        public DateTime? AppointmentDate { get; set; }
-        public string? StartTime { get; set; }
-        public string? EndTime { get; set; }
+        public string? AppointmentDate { get; set; }
+        public string? AppointTime { get; set; }
         public int? Status { get; set; }
         public DateTime? EntryOn { get; set; }
     }
