@@ -2,6 +2,7 @@
 using Entities.Response;
 using Entities;
 using API.AppCode.IML;
+using API.AppCode.DL;
 
 namespace API.AppCode.ML
 {
@@ -9,10 +10,31 @@ namespace API.AppCode.ML
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly Sendmail _sendmail;
-        public Email_ML(Sendmail sendmail, IWebHostEnvironment webHostEnvironment)
+        private readonly IDapper _dapper;
+        public Email_ML(Sendmail sendmail, IWebHostEnvironment webHostEnvironment, IDapper dapper)
         {
             _sendmail = sendmail;
             _webHostEnvironment = webHostEnvironment;
+            _dapper=dapper;
+        }
+
+        public async Task<Response> AddOrUpdateEmailTemplate(EmailTemplate template)
+        {
+            IProcedureAsync procedure = new Proc_AddOrUpdateEmailTemplate(_dapper);
+            var i = await procedure.Call(template);
+            return (Response)i;
+        }
+        
+        public async Task<IEnumerable<EmailTemplate>> GetEmailTemplate()
+        {
+            IProcedureAsync procedure = new Proc_GetEmailTemplate(_dapper);
+            var i = await procedure.Call();
+            return (IEnumerable<EmailTemplate>)i;
+        }
+
+        public Task<EmailTemplate> GetEmailTemplateById(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public Response SendBulkEmails(CreateEmail emails)
@@ -45,5 +67,6 @@ namespace API.AppCode.ML
 
             return response;
         }
+
     }
 }

@@ -1,8 +1,10 @@
 ﻿using API.AppCode.IML;
+using API.SendEmail;
 using Entities;
 using Entities.Response;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace API.Controllers
 {
@@ -11,10 +13,11 @@ namespace API.Controllers
     public class EmailController : ControllerBase
     {
         private readonly IEmail _email;
-
-        public EmailController(IEmail email)
+        private readonly Sendmail _emailsend;
+        public EmailController(IEmail email, Sendmail emailsend)
         {
             _email=email;
+            _emailsend=emailsend;
         }
         [HttpPost(nameof(SendBulkEmails))]
         public async Task<IActionResult> SendBulkEmails(List<CreateEmail> createEmail)
@@ -29,6 +32,29 @@ namespace API.Controllers
                 res=_email.SendBulkEmails(email);
             }
             return Ok(res);
+        }
+
+        [HttpPost(nameof(SendEmail))]
+        public IActionResult SendEmail(CreateEmail createEmail)
+        {
+            _emailsend.SendEmail(createEmail);
+
+            return Ok("");
+        }
+
+        [HttpPost(nameof(AddOrUpdateEmailTemplate))]
+        public IActionResult AddOrUpdateEmailTemplate(EmailTemplate template)
+        {
+            var i = _email.AddOrUpdateEmailTemplate(template);
+
+            return Ok(i);
+        }
+
+        [HttpPost(nameof(GetEmailTemplate))]
+        public IActionResult GetEmailTemplate()
+        {
+            var i = _email.GetEmailTemplate();
+            return Ok(i);
         }
     }
 }

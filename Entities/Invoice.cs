@@ -8,7 +8,8 @@ namespace Entities
 		public string Product { get; set; }
 		public float Quantity { get; set; }
 		public string Unit { get; set; }
-		public float Price { get; set; }
+        public string Type { get; set; }
+        public float Price { get; set; }
 		public float VAT { get; set; }
 		public float Discount { get; set; }
 		public float SingleDiscountAmount { get; set; }

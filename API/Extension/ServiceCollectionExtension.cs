@@ -42,6 +42,7 @@ namespace API.Extension
 			services.AddSingleton<IRequestInfo, RequestInfo.RequestInfo>();
             services.AddHttpContextAccessor();
             services.AddHttpClient();
+            services.AddScoped<IMedicineManagement, MedicineManagement_ML>();
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(ch.Default);
