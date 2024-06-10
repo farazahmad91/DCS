@@ -54,6 +54,22 @@
                                 <label>Image</label>
                                 <input type="file" id="txtImage" class="form-control cls" />
                             </div>
+                        </div> <div class="row">
+                            <div class="col-sm-6">
+                                <label>Email Template</label>
+                                <select id="sel_Temp">
+                                    <option value="">please select email template</option>
+                                    <option value="1">New Year Template</option>
+                                    <option value="2">Holi Template</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>With Image</label>
+                                <span class="switch switch-sm" style="padding-left:5px;">
+                                    <input type="checkbox" class="switch" id="WithImage">
+                                    <label for="WithImage" class="font-weight-bold lbl"></label>
+                                </span>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
@@ -71,6 +87,7 @@
                                     Sending
                                 </button>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -134,21 +151,28 @@
             }
         });
 
-        function sendBulkEmails(emailList) {
+        function sendBulkEmails(emailList) { 
+            debugger;
+            const checkbox = document.getElementById('WithImage');
+            const isChecked = checkbox.checked;
+            alert('Checkbox is ' + (isChecked ? 'checked' : 'unchecked'));
             document.getElementById("sendSpin").classList.add("spinner-border", "spinner-border-sm", "spinner-1x");
             document.getElementById("btnsendEmail").innerHTML = "Sending...";
 
             if (IsValidate("cls")) {
                 var subject = $("#txtSubject").val();
+                var template = $("#sel_Temp").val();
                 var message = $("#txtMessage").val();
                 var imageFile = $('#txtImage')[0].files[0];
-
+                var ckb = isChecked;
                 var emailDataArray = emailList.map(function (email) {
                     return {
                         Emails: email,
                         Subject: subject,
                         ImagePath: imageFile ? imageFile.name : "",
-                        Message: message
+                        Message: message,
+                        WithImage: ckb,
+                        Template: template
                     };
                 });
 

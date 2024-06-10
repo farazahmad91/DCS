@@ -12,5 +12,7 @@ namespace Entities
 		public string Subject { get; set; }
 		public string ImagePath { get; set; }
 		public string Message { get; set; }
-	}
+        public int TemplateId{ get; set; }
+        public int WithImage { get; set; }
+    }
 }
