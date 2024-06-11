@@ -1,8 +1,14 @@
-﻿@using DCS.AppCode.Configuration
+﻿@using Entities
 @using DCS.Layout
+﻿@using System.Security.Claims
 @model Project
 @{
-    Project project = new Project();
+	Project project = new Project();
+	ApplicationSetting setting = new ApplicationSetting();
+	var nameClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+	var name = nameClaim != null ? nameClaim.Value : "Guest";
+	var role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+	var Urole = role != null ? role.Value : "Guest";
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -105,7 +111,7 @@
 				<div class="header-profile d-flex align-items-center">
 					<div class="dropdown">
 						<a href="#" id="userSettings" class="user-settings" data-toggle="dropdown" aria-haspopup="true">
-							<span class="user-name d-none d-md-block">Roslyn Jackson</span>
+							<span class="user-name d-none d-md-block">@name</span>
 							<span class="avatar">
 								<img src="~/assets/images/user4.png" alt="Admin Panel" />
 								<span class="status online"></span>
@@ -115,7 +121,7 @@
 							<div class="header-profile-actions">
 								<a href="profile.html">Profile</a>
 								<a href="account-settings.html">Settings</a>
-								<a href="/ChangePassword">Logout</a>
+								<a href="/Logout">Logout</a>
 							</div>
 						</div>
 					</div>
@@ -200,26 +206,30 @@
 									</ul>
 								</div>
 							</li>
-							<li class="sidebar-dropdown">
-								<a href="#">
-									<i class="fa fa-user-md"></i>
-									<span class="menu-text">Dentist</span>
-									<span class="badge red">15</span>
-								</a>
-								<div class="sidebar-submenu">
-									<ul>
-										<li>
-											<a href="accordions.html">Dentist</a>
+							@if (setting.IsPatient && Urole=="Patient")
+							{
+								<li class="sidebar-dropdown">
+									<a href="#">
+										<i class="fa fa-user-md"></i>
+										<span class="menu-text">Dentist</span>
+										<span class="badge red">15</span>
+									</a>
+									<div class="sidebar-submenu">
+										<ul>
+											<li>
+												<a href="accordions.html">Dentist</a>
+											</li>
+											@* <li>
+										<a href="alerts.html">PatientService</a>
 										</li>
-										@* <li>
-											<a href="alerts.html">PatientService</a>
-										</li>
 										<li>
-											<a href="buttons.html">MedicalHistory</a>
+										<a href="buttons.html">MedicalHistory</a>
 										</li> *@
-									</ul>
-								</div>
-							</li>
+										</ul>
+									</div>
+								</li>
+							}
+							
 							<li>
 								<a href="data-tables.html">
 									<i class="bi bi-credit-card-fill"></i>
