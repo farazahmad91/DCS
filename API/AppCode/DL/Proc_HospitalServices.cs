@@ -5,16 +5,17 @@ using Entities;
 
 namespace API.AppCode.DL
 {
-    public class Proc_AddPatient : IProcedureAsync
+ 
+    public class Proc_AddHospitalServices : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_AddPatient(IDapper dapper)
+        public Proc_AddHospitalServices(IDapper dapper)
         {
             _dapper=dapper;
         }
         public async Task<object> Call(object obj)
         {
-            var req = (Patient)obj;
+            var req = (HospitalServices)obj;
             var res = new Response()
             {
                 ResponseText="Somthing wrong!!",
@@ -24,11 +25,10 @@ namespace API.AppCode.DL
             {
                 var param = new
                 {
-                    PatientID = req.PatientID,
-                    PatientName = req.PatientName,
-                    PatientEmail = req.PatientEmail,
-                    PatientPhone = req.PatientPhone,
-                    Address = req.Address,
+                    ServiceID = req.ServiceID,
+                    ServiceName = req.ServiceName,
+                    Description = req.Description,
+                    Price = req.Price,
                 };
                 var i = await _dapper.GetAsync<Response>(GetName(), param);
                 res=i;
@@ -59,10 +59,10 @@ namespace API.AppCode.DL
         }
     }
 
-    public class Proc_GetPatient : IProcedureAsync
+    public class Proc_GetService : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_GetPatient(IDapper dapper)
+        public Proc_GetService(IDapper dapper)
         {
             _dapper=dapper;
         }
@@ -73,10 +73,10 @@ namespace API.AppCode.DL
             {
                 var param = new
                 {
-                    PatientName = name,
+                    ServiceName = name,
 
                 };
-                var i = await _dapper.GetAll<Patient>(GetName(), param);
+                var i = await _dapper.GetAll<HospitalServices>(GetName(), param);
                 return i;
             }
             catch (Exception ex)
@@ -104,10 +104,10 @@ namespace API.AppCode.DL
         }
     }
 
-    public class Proc_GetPatientById : IProcedureAsync
+    public class Proc_GetServiceById : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_GetPatientById(IDapper dapper)
+        public Proc_GetServiceById(IDapper dapper)
         {
             _dapper=dapper;
         }
@@ -118,10 +118,10 @@ namespace API.AppCode.DL
             {
                 var param = new
                 {
-                    PatientId = id,
+                    ServiceId = id,
 
                 };
-                var i = await _dapper.GetAsync<Patient>(GetName(), param);
+                var i = await _dapper.GetAsync<HospitalServices>(GetName(), param);
                 return i;
             }
             catch (Exception ex)

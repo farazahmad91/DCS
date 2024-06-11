@@ -19,15 +19,13 @@ namespace API.SendEmail
         private readonly EmailHtmlBody _emailHtmlBody;
         private readonly EmailCredential _emailCredential;
         private readonly IDapper _dapper;
-        private readonly IEmail _emailtemp;
-        public Sendmail(IConfiguration configuration, IWebHostEnvironment env, EmailHtmlBody emailHtmlBody, EmailCredential emailCredential, IDapper dapper, IEmail emailtemp)
+        public Sendmail(IConfiguration configuration, IWebHostEnvironment env, EmailHtmlBody emailHtmlBody, EmailCredential emailCredential, IDapper dapper)
         {
             _configuration = configuration;
             _env = env;
             _emailHtmlBody = emailHtmlBody;
             _emailCredential=emailCredential;
             _dapper = dapper;
-            _emailtemp=emailtemp;
         }
         public void SendEmails(string email, string subject, string body)
         {
@@ -217,7 +215,7 @@ namespace API.SendEmail
                     mail.To.Add(cEmail.Emails);
                     mail.Subject = cEmail.Subject;
                     mail.IsBodyHtml = true; // Enable HTML content
-                    string htmlBody = cEmail.Template;
+                    string htmlBody = "";
                     mail.Body = htmlBody;
 
                     if (cEmail.WithImage==1)
@@ -301,7 +299,7 @@ namespace API.SendEmail
                     mail.To.Add(cEmail.Emails);
                     mail.Subject = cEmail.Subject;
                     mail.IsBodyHtml = true; // Enable HTML content
-                    string htmlBody = _emailtemp.GetEmailTemplate();
+                    string htmlBody = "";
                     mail.Body = htmlBody;
 
                     if (cEmail.WithImage == 1)

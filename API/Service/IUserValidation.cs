@@ -9,5 +9,8 @@ namespace API.Service
         public Task<Response> IsUserVerified(string Email);
         public Task<Response> VerifyConfirmationEmail(ValidateEmail validateEmail);
         public Task<Response> VerifyOTP(ValidateEmail validateEmail);
+        public string GenerateOTP(string secret, int digits = 6);
+
+
     }
 }

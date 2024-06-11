@@ -11,11 +11,13 @@ namespace API.AppCode.ML
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly Sendmail _sendmail;
         private readonly IDapper _dapper;
+        ApplicationSetting setting = new ApplicationSetting();
         public Email_ML(Sendmail sendmail, IWebHostEnvironment webHostEnvironment, IDapper dapper)
         {
             _sendmail = sendmail;
             _webHostEnvironment = webHostEnvironment;
             _dapper=dapper;
+            
         }
 
         public async Task<Response> AddOrUpdateEmailTemplate(EmailTemplate template)
@@ -47,7 +49,17 @@ namespace API.AppCode.ML
             var failedEmails = new List<string>();
                 try
                 {
-                    _sendmail.Sendmailss(emails); // Assuming SendEmailWithImage is an async method
+                if (setting.IsBulkEmail)
+                {
+                    _sendmail.Sendmailss(emails);
+                }
+                else
+                {
+                    response.ResponseText = "Bulk Email Sending Service is Deactivated. Please activate the service by upgrading to a premium project plan.";
+                    response.StatusCode = ResponseStatus.FAILED;
+                    return response;
+                }
+                   
                 }
                 catch (Exception ex)
                 {

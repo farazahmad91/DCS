@@ -1,6 +1,6 @@
 ﻿namespace API.AppCode.DL
 {
-    public class Proc_Policies
+    public class Proc_PremiumServices
     {
     }
 }

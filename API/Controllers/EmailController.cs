@@ -37,6 +37,8 @@ namespace API.Controllers
         [HttpPost(nameof(SendEmail))]
         public IActionResult SendEmail(CreateEmail createEmail)
         {
+            var a = $@"{createEmail.Template}";
+            createEmail.Template=a;
             _emailsend.SendEmail(createEmail);
 
             return Ok("");

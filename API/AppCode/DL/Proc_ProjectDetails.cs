@@ -5,16 +5,16 @@ using Entities;
 
 namespace API.AppCode.DL
 {
-    public class Proc_AddPatient : IProcedureAsync
+    public class Proc_AddProjectDetails : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_AddPatient(IDapper dapper)
+        public Proc_AddProjectDetails(IDapper dapper)
         {
             _dapper=dapper;
         }
         public async Task<object> Call(object obj)
         {
-            var req = (Patient)obj;
+            var req = (ProjectDetails)obj;
             var res = new Response()
             {
                 ResponseText="Somthing wrong!!",
@@ -22,13 +22,16 @@ namespace API.AppCode.DL
             };
             try
             {
-                var param = new
+
+				var param = new
                 {
-                    PatientID = req.PatientID,
-                    PatientName = req.PatientName,
-                    PatientEmail = req.PatientEmail,
-                    PatientPhone = req.PatientPhone,
-                    Address = req.Address,
+					ProjectId = req.ProjectId,
+                    UserEmail=req.UserEmail,
+                    ProjectName = req.ProjectName,
+                    DomainName=req.DomainName,
+                    Validity = req.Validity,
+                    IsLifeTime = req.IsLifeTime,
+                    Status=req.Status,
                 };
                 var i = await _dapper.GetAsync<Response>(GetName(), param);
                 res=i;
@@ -55,14 +58,13 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            throw new NotImplementedException();
+            return "Prc_InsertOrUpdateProject";
         }
     }
-
-    public class Proc_GetPatient : IProcedureAsync
+    public class Proc_GetProjectDetails : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_GetPatient(IDapper dapper)
+        public Proc_GetProjectDetails(IDapper dapper)
         {
             _dapper=dapper;
         }
@@ -73,10 +75,10 @@ namespace API.AppCode.DL
             {
                 var param = new
                 {
-                    PatientName = name,
+                    ProjectName = name,
 
                 };
-                var i = await _dapper.GetAll<Patient>(GetName(), param);
+                var i = await _dapper.GetAll<ProjectDetails>(GetName(), param);
                 return i;
             }
             catch (Exception ex)
@@ -103,14 +105,14 @@ namespace API.AppCode.DL
             throw new NotImplementedException();
         }
     }
-
-    public class Proc_GetPatientById : IProcedureAsync
+    public class Proc_GetProjectDetailsById : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_GetPatientById(IDapper dapper)
+        public Proc_GetProjectDetailsById(IDapper dapper)
         {
             _dapper=dapper;
         }
+
         public async Task<object> Call(object obj)
         {
             int id = (int)obj;
@@ -118,10 +120,10 @@ namespace API.AppCode.DL
             {
                 var param = new
                 {
-                    PatientId = id,
+                    ProjectId = id,
 
                 };
-                var i = await _dapper.GetAsync<Patient>(GetName(), param);
+                var i = await _dapper.GetAsync<ProjectDetails>(GetName(), param);
                 return i;
             }
             catch (Exception ex)
