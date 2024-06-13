@@ -96,16 +96,19 @@
                 console.log(res);
                 if (res.statusCode==1) {
                     setTimeout(function () {
-                        console.log(res);
                         Info(1, 'Login successful');
                          window.location.href = `${res}`;
                     }, 2000);
+                }
+                if (res.statusCode == 3) {
+                    setTimeout(function () {
+                        Info(-1, res.responseText);
+                    }, 3000);
                 }
                 if (res.statusCode == 2) {
 
                     window.location.href = "/IsVerified-User";
                 }
-                Info(res.statusCode, res.responseText);
                 document.getElementById("btnhide1").hidden = true;
                 document.getElementById("btnhide2").hidden = false;
 

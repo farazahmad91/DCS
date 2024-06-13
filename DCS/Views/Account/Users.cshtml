@@ -2,10 +2,20 @@
 
 @{
     ViewData["Title"] = "Users";
-    Layout = "~/Views/Shared/_LayoutSiteAdmin.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Users</h1>
+<!-- Content wrapper start -->
+<div class="content-wrapper">
+    <!-- Row start -->
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Create Invoice</div>
+                </div>
+                <div class="card-body">
+                    <div class="create-invoice-wrapper">
 
 <p>
     <input onclick='$("#bulkemail").modal("show");' class="btn btn-lg btn-primary" id="btnmodal" value="Create Message" type="submit">
@@ -117,6 +127,7 @@
         </div>
     </div>
 </div>
+</div></div></div></div></div></div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function () {

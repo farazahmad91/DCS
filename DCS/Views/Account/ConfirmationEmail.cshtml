@@ -133,6 +133,7 @@
     });
 
     function validateOTP() {
+        const email = sessionStorage.getItem('loginuseremail');
         document.getElementById("Validspinn").classList.add("spinner-border", "spinner-border-sm", "spinner-1x");
         document.getElementById("btnValidatehide2").innerHTML = "Requesting...";
 
@@ -140,12 +141,10 @@
        
 
         if (otp.length === 6) {
-            toggleLoading(true);
             var formData = { otp: otp, email: email };
 
-            $.post('/Validate-OTP', formData)
+            $.post('/Account/VerifyConfirmationEmail', formData)
                 .done(function (res) {
-                    toggleLoading(false);
                     if (res.statusCode === 1) {
                         window.location.href = "/ResetPassword";
                     } else {
@@ -214,14 +213,12 @@
         document.getElementById("btnValidatehide2").hidden = true;
         var email = $("#Email").val();
         if (validateEmail(email)) {
-            toggleLoading(true);
             sessionStorage.setItem('email', email);
             var formData = { useremail: email };
 
             $.post("/Validate-Email", formData)
                 .done(function (res) {
                     console.log(res);
-                    toggleLoading(true);
                     if (res.statusCode === 1) {
                         document.getElementById("resendemail").innerHTML = "A code has been resent to";
                         document.getElementById("Lemail").innerHTML = maskEmail(email);
