@@ -1,45 +1,41 @@
 ﻿using API.AppCode.IML;
-using Entities;
-using DCS.Models;
 using API.AppCode.ML;
-using API.Service;
-using Microsoft.AspNetCore.Identity;
-using API.DBContext;
 using Entities.Response;
-using System.Text;
-using System.Security.Cryptography;
+using Entities;
+using API.AppCode.Configuration;
 
 namespace API.AppCode.DL
 {
-    public class Proc_Appointment : IProcedureAsync
-    {   private readonly IDapper _dapper;
-        public Proc_Appointment(IDapper dapper)
+    public class Proc_AddPurchaseService : IProcedureAsync
+    {
+        private readonly IDapper _dapper;
+        public Proc_AddPurchaseService(IDapper dapper)
         {
-             this._dapper = dapper;
+            _dapper=dapper;
         }
-
         public async Task<object> Call(object obj)
         {
-            var req = (Appointment)obj;
+            var req = (PurchaseService)obj;
             var res = new Response()
             {
                 ResponseText="Somthing wrong!!",
-                StatusCode=ResponseStatus.FAILED,
-                AppointmentId=0
+                StatusCode=ResponseStatus.FAILED
             };
             try
             {
                 var param = new
                 {
-                    DrId = req.DrId,
-                    ServiceId = req.ServiceId,
-                    PId=req.PId,
-                    Date = req.Date,
-                    Time = req.Time,
-                    Notes = req.Notes,
-                    Status = req.Status,
+                    PurchaseID=req.PurchaseID,
+                    UserEmail=req.UserEmail,
+                    ServiceID=req.ServiceID,
+                    PurchaseDate=req.PurchaseDate,
+                    ActivationDate=req.ActivationDate,
+                    ExpiryDate= req.ExpiryDate,
+                    Price=req.Price,
+                    Discount=req.Discount,
+                    FinalPrice=req.FinalPrice,
+                    RenewalOption=req.RenewalOption,
                 };
-
                 var i = await _dapper.GetAsync<Response>(GetName(), param);
                 res=i;
                 return res;
@@ -65,27 +61,28 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            return "Proc_UpsertAppointment";
+            return "Proc_ManagePurchase";
         }
     }
-    public class Proc_GetAppointment : IProcedureAsync
+
+    public class Proc_GetPurchaseService : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_GetAppointment(IDapper dapper)
+        public Proc_GetPurchaseService(IDapper dapper)
         {
             _dapper=dapper;
         }
         public async Task<object> Call(object obj)
         {
-            string Date = (string)obj;
+            string email = (string)obj;
             try
             {
                 var param = new
                 {
-                    Date = Date,
+                    UserEmail = email,
 
                 };
-                var i = await _dapper.GetAll<Appointment>(GetName(), param);
+                var i = await _dapper.GetAll<PurchaseService>(GetName(), param);
                 return i;
             }
             catch (Exception ex)
@@ -109,13 +106,14 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            return "Proc_GetAppointments";
+            return "Proc_GetPurchasesService";
         }
     }
-    public class Proc_GetAppointmentByPId : IProcedureAsync
+
+    public class Proc_GetPurchaseServiceById : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_GetAppointmentByPId(IDapper dapper)
+        public Proc_GetPurchaseServiceById(IDapper dapper)
         {
             _dapper=dapper;
         }
@@ -126,10 +124,10 @@ namespace API.AppCode.DL
             {
                 var param = new
                 {
-                    AppointmentId = id,
+                    PurchaseID = id,
 
                 };
-                var i = await _dapper.GetAsync<Appointment>(GetName(), param);
+                var i = await _dapper.GetAsync<PurchaseService>(GetName(), param);
                 return i;
             }
             catch (Exception ex)
@@ -153,7 +151,7 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            return "Proc_GetAppointmentIdById";
+            return "Proc_GetPurchaseServiceById";
         }
     }
 }

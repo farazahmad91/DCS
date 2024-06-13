@@ -1,45 +1,47 @@
 ﻿using API.AppCode.IML;
-using Entities;
-using DCS.Models;
 using API.AppCode.ML;
-using API.Service;
-using Microsoft.AspNetCore.Identity;
-using API.DBContext;
 using Entities.Response;
-using System.Text;
-using System.Security.Cryptography;
+using Entities;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace API.AppCode.DL
 {
-    public class Proc_Appointment : IProcedureAsync
-    {   private readonly IDapper _dapper;
-        public Proc_Appointment(IDapper dapper)
+    public class Proc_AddDoctor : IProcedureAsync
+    {
+        private readonly IDapper _dapper;
+        public Proc_AddDoctor(IDapper dapper)
         {
-             this._dapper = dapper;
+            _dapper=dapper;
         }
-
         public async Task<object> Call(object obj)
         {
-            var req = (Appointment)obj;
+            var req = (Doctor)obj;
             var res = new Response()
             {
                 ResponseText="Somthing wrong!!",
-                StatusCode=ResponseStatus.FAILED,
-                AppointmentId=0
+                StatusCode=ResponseStatus.FAILED
             };
             try
             {
                 var param = new
                 {
                     DrId = req.DrId,
-                    ServiceId = req.ServiceId,
-                    PId=req.PId,
-                    Date = req.Date,
-                    Time = req.Time,
-                    Notes = req.Notes,
-                    Status = req.Status,
+                    Name = req.Name,
+                    Email = req.Email,
+                    Phone = req.Phone,
+                    DrImage = req.DrImage,
+                    Address = req.Address,
+                    Specialization = req.Specialization,
+                    Gender = req.Gender,
+                    DateOfBirth = req.DateOfBirth,
+                    Qualifications = req.Qualifications,
+                    ExperienceYears = req.ExperienceYears,
+                    Affiliations = req.Affiliations,
+                    Languages = req.Languages,
+                    ConsultationFee = req.ConsultationFee,
+                    Availability = req.Availability,
+                    Status=req.Status,
                 };
-
                 var i = await _dapper.GetAsync<Response>(GetName(), param);
                 res=i;
                 return res;
@@ -65,27 +67,28 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            return "Proc_UpsertAppointment";
+            return "proc_InsertOrUpdateDoctor";
         }
     }
-    public class Proc_GetAppointment : IProcedureAsync
+
+    public class Proc_GetDoctor : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_GetAppointment(IDapper dapper)
+        public Proc_GetDoctor(IDapper dapper)
         {
             _dapper=dapper;
         }
         public async Task<object> Call(object obj)
         {
-            string Date = (string)obj;
+            string name = (string)obj;
             try
             {
                 var param = new
                 {
-                    Date = Date,
+                    Name = name,
 
                 };
-                var i = await _dapper.GetAll<Appointment>(GetName(), param);
+                var i = await _dapper.GetAll<Doctor>(GetName(), param);
                 return i;
             }
             catch (Exception ex)
@@ -109,13 +112,14 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            return "Proc_GetAppointments";
+            return "Proc_GetDoctors";
         }
     }
-    public class Proc_GetAppointmentByPId : IProcedureAsync
+
+    public class Proc_GetDoctorById : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_GetAppointmentByPId(IDapper dapper)
+        public Proc_GetDoctorById(IDapper dapper)
         {
             _dapper=dapper;
         }
@@ -126,10 +130,10 @@ namespace API.AppCode.DL
             {
                 var param = new
                 {
-                    AppointmentId = id,
+                    DrId = id,
 
                 };
-                var i = await _dapper.GetAsync<Appointment>(GetName(), param);
+                var i = await _dapper.GetAsync<Doctor>(GetName(), param);
                 return i;
             }
             catch (Exception ex)
@@ -153,7 +157,7 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            return "Proc_GetAppointmentIdById";
+            return "Proc_GetDoctorsById";
         }
     }
 }

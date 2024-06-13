@@ -23,14 +23,12 @@ namespace API.AppCode.ML
             var i = await procedure.Call(details);
             return (Response)i;
         }
-
         public async Task<IEnumerable<ProjectDetails>> GetProjectDetails(string name)
         {
             IProcedureAsync procedure = new Proc_GetProjectDetails(_dapper);
             var i = await procedure.Call(name);
             return (IEnumerable<ProjectDetails>)i;
         }
-
         public async Task<ProjectDetails> GetProjectDetailsByProjectId(int Id)
         {
             IProcedureAsync procedure = new Proc_GetProjectDetailsById(_dapper);

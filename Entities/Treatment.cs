@@ -6,16 +6,36 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class Treatment
+  
+    public class Treatment: Medication
     {
-        public int TreatmentID { get; set; }
-        public int? AppointmentID { get; set; }
-        public int? ServiceID { get; set; }
-        public int? DentistID { get; set; }
-        public string Notes { get; set; }
-        public int? Duration { get; set; }
-        public decimal? Cost { get; set; }
-        public int? Status { get; set; }
-        public DateTime? EntryOn { get; set; }
+        public int TreatmentId { get; set; }
+        public int PId { get; set; }
+        public int DrId { get; set; }
+        public string Diagnosis { get; set; }
+        public DateTime TreatmentDate { get; set; }
+        public string Description { get; set; }
+        public List<Medication> Medications { get; set; }
+        public string Status { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime? ModifiedDate { get; set; }
+        public string ModifiedBy { get; set; }
     }
+
+    public class Medication
+    {
+        public int MedicationId { get; set; }
+        public string Name { get; set; }
+        public string Dosage { get; set; }
+        public string Frequency { get; set; }
+        public DateTime? FollowUpDate { get; set; }
+    }
+
+    public class TreatmentDetails
+    {
+        public IEnumerable<Treatment> treatment { get; set; }
+        public IEnumerable<Medication> Medications { get; set; }
+    }
+
 }

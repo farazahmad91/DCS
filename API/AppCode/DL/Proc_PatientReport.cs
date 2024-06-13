@@ -1,45 +1,40 @@
 ﻿using API.AppCode.IML;
-using Entities;
-using DCS.Models;
 using API.AppCode.ML;
-using API.Service;
-using Microsoft.AspNetCore.Identity;
-using API.DBContext;
 using Entities.Response;
-using System.Text;
-using System.Security.Cryptography;
+using Entities;
 
 namespace API.AppCode.DL
 {
-    public class Proc_Appointment : IProcedureAsync
-    {   private readonly IDapper _dapper;
-        public Proc_Appointment(IDapper dapper)
+    public class Proc_AddPatientReport : IProcedureAsync
+    {
+        private readonly IDapper _dapper;
+        public Proc_AddPatientReport(IDapper dapper)
         {
-             this._dapper = dapper;
+            _dapper=dapper;
         }
-
         public async Task<object> Call(object obj)
         {
-            var req = (Appointment)obj;
+            var req = (PatientReport)obj;
             var res = new Response()
             {
                 ResponseText="Somthing wrong!!",
-                StatusCode=ResponseStatus.FAILED,
-                AppointmentId=0
+                StatusCode=ResponseStatus.FAILED
             };
             try
             {
                 var param = new
                 {
-                    DrId = req.DrId,
+                    PId = req.PId,
                     ServiceId = req.ServiceId,
-                    PId=req.PId,
-                    Date = req.Date,
-                    Time = req.Time,
-                    Notes = req.Notes,
+                    DrId = req.DrId,
+                    HospitalId = req.HospitalId,
+                    Diagnosis = req.Diagnosis,
+                    PrescribeMedicine = req.PrescribeMedicine,
+                    MedicineTiming = req.MedicineTiming,
+                    NextAppointmentDate = req.NextAppointmentDate,
+                    Cost = req.Cost,
                     Status = req.Status,
                 };
-
                 var i = await _dapper.GetAsync<Response>(GetName(), param);
                 res=i;
                 return res;
@@ -65,27 +60,28 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            return "Proc_UpsertAppointment";
+            return "proc_InsertOrUpdateDoctor";
         }
     }
-    public class Proc_GetAppointment : IProcedureAsync
+
+    public class Proc_GetPatientReport : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_GetAppointment(IDapper dapper)
+        public Proc_GetPatientReport(IDapper dapper)
         {
             _dapper=dapper;
         }
         public async Task<object> Call(object obj)
         {
-            string Date = (string)obj;
+            string EntryOn = (string)obj;
             try
             {
                 var param = new
                 {
-                    Date = Date,
+                    EntryOn = EntryOn,
 
                 };
-                var i = await _dapper.GetAll<Appointment>(GetName(), param);
+                var i = await _dapper.GetAll<PatientReport>(GetName(), param);
                 return i;
             }
             catch (Exception ex)
@@ -109,13 +105,14 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            return "Proc_GetAppointments";
+            return "Proc_GetDoctors";
         }
     }
-    public class Proc_GetAppointmentByPId : IProcedureAsync
+
+    public class Proc_GetPatientReportById : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_GetAppointmentByPId(IDapper dapper)
+        public Proc_GetPatientReportById(IDapper dapper)
         {
             _dapper=dapper;
         }
@@ -126,10 +123,10 @@ namespace API.AppCode.DL
             {
                 var param = new
                 {
-                    AppointmentId = id,
+                    PId = id,
 
                 };
-                var i = await _dapper.GetAsync<Appointment>(GetName(), param);
+                var i = await _dapper.GetAsync<PatientReport>(GetName(), param);
                 return i;
             }
             catch (Exception ex)
@@ -153,7 +150,7 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            return "Proc_GetAppointmentIdById";
+            return "Proc_GetDoctorsById";
         }
     }
 }
