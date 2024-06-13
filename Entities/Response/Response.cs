@@ -3,8 +3,10 @@
     public class Response
     {
         public string? ResponseText { get; set; }
-
         public ResponseStatus StatusCode { get; set; }
+        public int AppointmentId { get; set; }
+        public int PatientId { get; set; }
+
     }
     public enum ResponseStatus
     {

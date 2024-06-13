@@ -6,8 +6,8 @@ namespace API.AppCode.IML
     public interface IAppointment
     {
         public Task<Response> AddOrUpdateAppointment(Appointment appointment);
-        public IEnumerable<Appointment> GetAppointment();
-        public Appointment GetAppointment(int id);
+        public Task<IEnumerable<Appointment>> GetAppointment(string Date);
+        public Task<Appointment> GetAppointmentById(int AppointmentId);
         public int DeleteAppointment(int id);
 
     }

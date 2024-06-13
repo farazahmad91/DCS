@@ -5,16 +5,16 @@ using Entities;
 
 namespace API.AppCode.DL
 {
-    public class Proc_AddApplicationPolicies : IProcedureAsync
+    public class Proc_AddDCSPolicies : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_AddApplicationPolicies(IDapper dapper)
+        public Proc_AddDCSPolicies(IDapper dapper)
         {
             _dapper=dapper;
         }
         public async Task<object> Call(object obj)
         {
-            var req = (HospitalServices)obj;
+            var req = (DCSPolicies)obj;
             var res = new Response()
             {
                 ResponseText="Somthing wrong!!",
@@ -24,10 +24,11 @@ namespace API.AppCode.DL
             {
                 var param = new
                 {
-                    ServiceID = req.ServiceID,
-                    ServiceName = req.ServiceName,
+                    PolicyId = req.PolicyId,
+                    PolicyName = req.PolicyName,
                     Description = req.Description,
-                    Price = req.Price,
+                    UpdateDate = req.UpdateDate,
+                    Status = req.Status
                 };
                 var i = await _dapper.GetAsync<Response>(GetName(), param);
                 res=i;
@@ -54,14 +55,14 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            throw new NotImplementedException();
+            return "";
         }
     }
 
-    public class Proc_GetApplicationPolicies : IProcedureAsync
+    public class Proc_GetDCSPolicies : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_GetApplicationPolicies(IDapper dapper)
+        public Proc_GetDCSPolicies(IDapper dapper)
         {
             _dapper=dapper;
         }
@@ -72,10 +73,10 @@ namespace API.AppCode.DL
             {
                 var param = new
                 {
-                    ServiceName = name,
+                    PolicyName = name,
 
                 };
-                var i = await _dapper.GetAll<HospitalServices>(GetName(), param);
+                var i = await _dapper.GetAll<DCSPolicies>(GetName(), param);
                 return i;
             }
             catch (Exception ex)
@@ -99,14 +100,14 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            throw new NotImplementedException();
+            return "";
         }
     }
 
-    public class Proc_GetApplicationPoliciesById : IProcedureAsync
+    public class Proc_GetDCSPoliciesById : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_GetApplicationPoliciesById(IDapper dapper)
+        public Proc_GetDCSPoliciesById(IDapper dapper)
         {
             _dapper=dapper;
         }
@@ -117,10 +118,10 @@ namespace API.AppCode.DL
             {
                 var param = new
                 {
-                    ServiceId = id,
+                    PolicyId = id,
 
                 };
-                var i = await _dapper.GetAsync<HospitalServices>(GetName(), param);
+                var i = await _dapper.GetAsync<DCSPolicies>(GetName(), param);
                 return i;
             }
             catch (Exception ex)
@@ -144,7 +145,7 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            throw new NotImplementedException();
+            return "";
         }
     }
 }

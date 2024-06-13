@@ -1,45 +1,61 @@
 ﻿using API.AppCode.IML;
-using Entities;
-using DCS.Models;
 using API.AppCode.ML;
-using API.Service;
-using Microsoft.AspNetCore.Identity;
-using API.DBContext;
 using Entities.Response;
-using System.Text;
-using System.Security.Cryptography;
+using Entities;
+using API.AppCode.Configuration;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace API.AppCode.DL
 {
-    public class Proc_Appointment : IProcedureAsync
-    {   private readonly IDapper _dapper;
-        public Proc_Appointment(IDapper dapper)
+    public class Proc_AddPremiumServices : IProcedureAsync
+    {
+        private readonly IDapper _dapper;
+        public Proc_AddPremiumServices(IDapper dapper)
         {
-             this._dapper = dapper;
+            _dapper=dapper;
         }
-
         public async Task<object> Call(object obj)
         {
-            var req = (Appointment)obj;
+            var req = (DCSService)obj;
             var res = new Response()
             {
                 ResponseText="Somthing wrong!!",
-                StatusCode=ResponseStatus.FAILED,
-                AppointmentId=0
+                StatusCode=ResponseStatus.FAILED
             };
             try
             {
                 var param = new
                 {
-                    DrId = req.DrId,
-                    ServiceId = req.ServiceId,
-                    PId=req.PId,
-                    Date = req.Date,
-                    Time = req.Time,
-                    Notes = req.Notes,
-                    Status = req.Status,
+                    ServiceID = req.ServiceID,
+                    ServiceName = req.ServiceName,
+                    Description = req.Description,
+                    Price = req.Price,
+                    Duration = req.Duration,
+                    Availability = req.Availability,
+                    Features = req.Features,
+                    ServiceLevel = req.ServiceLevel,
+                    ActivationDate =req.ActivationDate ,
+                    ExpiryDate = req.ExpiryDate,
+                    RenewalOption = req.RenewalOption,
+                    Discounts =req.Discounts, 
+                    CustomerSupportLevel = req.CustomerSupportLevel,
+                    TermsAndConditions = req.TermsAndConditions,
+                    UpdatedAt = req?.UpdatedAt,
+                    UsageLimits = req.UsageLimits,
+                    FeedbackRating =req.FeedbackRating, 
+                    Popularity = req.Popularity,
+                    EmailMarketing = req.EmailMarketing,
+                    EmailVerificationService = req.EmailVerificationService,
+                    ShowYourUserPassword=req.ShowYourUserPassword,
+                    ReferralService=req.ReferralService,
+                    AutoBackUpService = req.AutoBackUpService,
+                    SmsNotificationService = req.SmsNotificationService,
+                    EmergencyAlertService = req.EmergencyAlertService,
+                    UserAppointmentReminderService = req.UserAppointmentReminderService,
+                    DoctorAvailabilityNotificationService = req.DoctorAvailabilityNotificationService,
+                    MedicineStoreManagementService = req.MedicineStoreManagementService,
+                    TwoFactorAuthenticationService=req.TwoFactorAuthenticationService,
                 };
-
                 var i = await _dapper.GetAsync<Response>(GetName(), param);
                 res=i;
                 return res;
@@ -65,27 +81,28 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            return "Proc_UpsertAppointment";
+            return "Proc_InsertOrUpdatePremiumService";
         }
     }
-    public class Proc_GetAppointment : IProcedureAsync
+
+    public class Proc_GetPremiumServices : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_GetAppointment(IDapper dapper)
+        public Proc_GetPremiumServices(IDapper dapper)
         {
             _dapper=dapper;
         }
         public async Task<object> Call(object obj)
         {
-            string Date = (string)obj;
+            string name = (string)obj;
             try
             {
                 var param = new
                 {
-                    Date = Date,
+                    ServiceName = name,
 
                 };
-                var i = await _dapper.GetAll<Appointment>(GetName(), param);
+                var i = await _dapper.GetAll<DCSService>(GetName(), param);
                 return i;
             }
             catch (Exception ex)
@@ -109,13 +126,14 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            return "Proc_GetAppointments";
+            return "Proc_GetPremiumService";
         }
     }
-    public class Proc_GetAppointmentByPId : IProcedureAsync
+
+    public class Proc_GetPremiumServicesById : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_GetAppointmentByPId(IDapper dapper)
+        public Proc_GetPremiumServicesById(IDapper dapper)
         {
             _dapper=dapper;
         }
@@ -126,10 +144,10 @@ namespace API.AppCode.DL
             {
                 var param = new
                 {
-                    AppointmentId = id,
+                    ServiceId = id,
 
                 };
-                var i = await _dapper.GetAsync<Appointment>(GetName(), param);
+                var i = await _dapper.GetAsync<DCSService>(GetName(), param);
                 return i;
             }
             catch (Exception ex)
@@ -153,7 +171,7 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            return "Proc_GetAppointmentIdById";
+            return "Proc_GetPremiumServiceById";
         }
     }
 }

@@ -20,5 +20,19 @@ namespace API.Controllers
            var i= _appointment.AddOrUpdateAppointment(appointment);
             return Ok(i);
         }
+
+        [HttpPost(nameof(GetAppointment))]
+        public IActionResult GetAppointment(string Date)
+        {
+            var i = _appointment.GetAppointment(Date);
+            return Ok(i);
+        }
+
+        [HttpPost(nameof(GetAppointmentById))]
+        public IActionResult GetAppointmentById(int AppointmentId)
+        {
+            var i = _appointment.GetAppointmentById(AppointmentId);
+            return Ok(i);
+        }
     }
 }

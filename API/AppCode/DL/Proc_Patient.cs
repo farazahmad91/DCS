@@ -2,6 +2,7 @@
 using API.AppCode.ML;
 using Entities.Response;
 using Entities;
+using DCS.Models;
 
 namespace API.AppCode.DL
 {
@@ -24,11 +25,28 @@ namespace API.AppCode.DL
             {
                 var param = new
                 {
-                    PatientID = req.PatientID,
-                    PatientName = req.PatientName,
-                    PatientEmail = req.PatientEmail,
-                    PatientPhone = req.PatientPhone,
+                    PId = req.PId,
+                    AppointmentId=req.AppointmentId,
+                    Name = req.Name,
+                    DateOfBirth = req.DateOfBirth,
+                    Gender = req.Gender,
+                    Email = req.Email,
+                    Phone = req.Phone,
+                    PImage = req.PImage,
                     Address = req.Address,
+                    MedicalHistory = req.MedicalHistory,
+                    InsuranceInformation = req.InsuranceInformation,
+                    EmergencyContactName = req.EmergencyContactName,
+                    EmergencyContactPhone = req.EmergencyContactPhone,
+                    PrimaryCarePhysicianName = req.PrimaryCarePhysicianName,
+                    PrimaryCarePhysicianPhone = req.PrimaryCarePhysicianPhone,
+                    Allergies = req.Allergies,
+                    Medications = req.Medications,
+                    BloodType = req.BloodType,
+                    Height = req.Height,
+                    Weight = req.Weight,
+                    PreferredLanguage = req.PreferredLanguage,
+                    Occupation = req.Occupation
                 };
                 var i = await _dapper.GetAsync<Response>(GetName(), param);
                 res=i;
@@ -55,7 +73,7 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            throw new NotImplementedException();
+            return "proc_InsertOrUpdatePatient";
         }
     }
 
@@ -68,12 +86,12 @@ namespace API.AppCode.DL
         }
         public async Task<object> Call(object obj)
         {
-            string name = (string)obj;
+            string email = (string)obj;
             try
             {
                 var param = new
                 {
-                    PatientName = name,
+                    Email = email,
 
                 };
                 var i = await _dapper.GetAll<Patient>(GetName(), param);
@@ -100,7 +118,7 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            throw new NotImplementedException();
+            return "Proc_GetPatients";
         }
     }
 
@@ -145,7 +163,7 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            throw new NotImplementedException();
+            return "Proc_GetPatientsById";
         }
     }
 }
