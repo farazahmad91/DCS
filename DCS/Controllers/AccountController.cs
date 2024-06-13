@@ -127,8 +127,11 @@ namespace DCS.Controllers
                 {
                     return Json(authenticateResponse);
                 }
+                if (authenticateResponse.StatusCode == ResponseStatus.IsDeactiveUser)
+                {
+                    return Json(authenticateResponse);
+                }
 
-                
                 if (authenticateResponse.StatusCode == ResponseStatus.ISEmailVerifiedField)
                 {
                       return Json(authenticateResponse);

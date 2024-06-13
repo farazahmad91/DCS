@@ -92,7 +92,7 @@ namespace API.Controllers
         [HttpPost(nameof(VerifyConfirmationEmail))]
         public async Task<IActionResult> VerifyConfirmationEmail(ValidateEmail validateEmail)
         {
-            var i = _userValidation.VerifyConfirmationEmail(validateEmail);
+            var i =await _userValidation.VerifyConfirmationEmail(validateEmail);
 
             return Ok(i);
         }

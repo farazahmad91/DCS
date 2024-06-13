@@ -188,7 +188,14 @@ namespace API.Service
                     var i = await _userValidation.IsUserVerified(model.Email);
                     response.ResponseText= i.ResponseText;
                     response.StatusCode= i.StatusCode;
-                    return response;
+                    if (response.StatusCode== ResponseStatus.ISEmailVerifiedField)
+                    {
+                        _userValidation.ValidateEmail(model.Email);
+                        response.ResponseText = i.ResponseText;
+                        response.StatusCode = i.StatusCode;
+                        return response;
+                    }
+                    
 
                 }
                 await _signInManager.SignInAsync(userExists, isPersistent: true);
