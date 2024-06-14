@@ -15,30 +15,30 @@ namespace API.Controllers
             _policies =policies;
         }
         [HttpPost(nameof(AddOrUpdateHospitalPolicies))]
-        public IActionResult AddOrUpdateHospitalPolicies(HospitalPolicy hospitalPolicy)
+        public async Task<IActionResult> AddOrUpdateHospitalPolicies(HospitalPolicy hospitalPolicy)
         {
-            var i = _policies.AddOrUpdateHospitalPolicies(hospitalPolicy);
+            var i =await _policies.AddOrUpdateHospitalPolicies(hospitalPolicy);
             return Ok(i);
         }
 
         [HttpPost(nameof(GetHospitalPolicies)+"/{name}")]
-        public IActionResult GetHospitalPolicies(string name)
+        public async Task<IActionResult> GetHospitalPolicies(string name)
         {
-            var i = _policies.GetHospitalPolicies(name);
+            var i =await _policies.GetHospitalPolicies(name);
             return Ok(i);
         }
 
         [HttpPost(nameof(GetHospitalPoliciesById)+"/{Id}")]
-        public IActionResult GetHospitalPoliciesById(int Id)
+        public async Task<IActionResult> GetHospitalPoliciesById(int Id)
         {
-            var i = _policies.GetHospitalPoliciesById(Id);
+            var i =await _policies.GetHospitalPoliciesById(Id);
             return Ok(i);
         }
 
         [HttpPost(nameof(GetHospitalPoliciesByTypeId)+"/{Id}")]
-        public IActionResult GetHospitalPoliciesByTypeId(int Id)
+        public async Task<IActionResult> GetHospitalPoliciesByTypeId(int Id)
         {
-            var i = _policies.GetHospitalPoliciesByTypeId(Id);
+            var i =await _policies.GetHospitalPoliciesByTypeId(Id);
             return Ok(i);
         }
     }

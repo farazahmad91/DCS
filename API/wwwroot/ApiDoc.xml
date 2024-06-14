@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebAPI</name>
+    </assembly>
+    <members>
+        <member name="M:WebAPI.Controllers.AccountController.Register(WebAPI.Models.RegisterViewModels)">
+            <summary>
+            Creates a customer.
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST /api/register
+                {
+                    "id": 0,
+                    "name": "Amit",
+                    "phoneNumber": "9936301548",
+                    "password": "123456",
+                    "confirmPassword": "123456"
+                }
+            </remarks>
+            <param name="employee"></param>
+            <returns>A newly created customer</returns>
+            <response code="200">Returns on success</response>
+            <response code="400">If the item is null</response> 
+        </member>
+        <member name="M:WebAPI.Controllers.OrderController.Get(Entities.Models.OrderFilters)">
+             <remarks>
+             <strong>orderStatus</strong>
+            <ul>  
+            <li>6 = Order Placed</li>
+            <li>7 = Order Canceled</li>
+            <li>9 = Order Delivered</li>
+              </ul>
+             </remarks>
+        </member>
+        <member name="M:WebAPI.Controllers.UserController.CreateDeliveryPerson(Service.Identity.RegisterDeliveryPerson)">
+            <summary>
+            Creates a DeliveryPerson.
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST /api/user/register
+                {
+                    "id": 0,
+                    "name": "Amit",
+                    "phoneNumber": "9936301548"
+                }
+            </remarks>
+            <param name="employee"></param>
+            <returns>A newly created DeliveryPerson</returns>
+            <response code="200">Returns on success</response>
+            <response code="400">If the item is null</response> 
+        </member>
+        <member name="M:WebAPI.Controllers.UserController.InitiatePayment(System.Int32,Entities.Enums.PaymentGatewayType)">
+             <summary>
+             Initiate a transaction.
+             </summary>
+             <remarks>
+             Sample request:    
+                 GET /api/user/InitiatePayment?packageId=0,paymentGatewayType=8
+            <ul>  
+            <li>PAYTM = 1</li>
+            <li>RZRPAY = 2</li>
+            <li>ICICIUPI = 3</li>
+            <li>AGRPAY = 4</li>
+            <li>UPIGATEWAY = 5</li>
+            <li>PayU = 6</li>
+            <li>PAYTMJS = 7</li>
+            <li>CASHFREE = 8</li>
+            <li>CASHFREEDEMOTEST = 9</li>
+            <li>UPIGATEWAYNEW = 10</li>
+            <li>MITRAGATEWAY = 11</li>
+            <li>MitraUPINEW = 12 </li>
+              </ul>
+             </remarks>
+             <param name="packageId"></param>
+             <param name="PaymentGatewayType"></param>
+             <returns>A newly created customer</returns>
+             <response code="200">Returns on success</response>
+             <response code="400">If the item is null</response> 
+        </member>
+        <member name="M:WebAPI.Helpers.HttpRequestExtensions.GetRawBodyStringAsync(Microsoft.AspNetCore.Http.HttpRequest,System.Text.Encoding)">
+            <summary>
+            Retrieve the raw body as a string from the Request.Body stream
+            </summary>
+            <param name="request">Request instance to apply to</param>
+            <param name="encoding">Optional - Encoding, defaults to UTF8</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Helpers.HttpRequestExtensions.GetRawBodyBytesAsync(Microsoft.AspNetCore.Http.HttpRequest)">
+            <summary>
+            Retrieves the raw body as a byte array from the Request.Body stream
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

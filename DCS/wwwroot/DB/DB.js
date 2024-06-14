@@ -2826,3 +2826,230 @@ VALUES(@PatientId, @DoctorId, @Diagnosis, @TreatmentDate, @Description, @Status,
 SELECT - 1 AS StatusCode, ERROR_MESSAGE() AS ResponseText;
   End Catch
 END;
+
+
+ public async Task < IActionResult > UploadImageInDictionary([FromForm] DictionaryImgUploadReq req)
+{
+    if (req.Image != null) {
+        var res = new Service.Models.Response
+        {
+            StatusCode = ResponseStatus.Failed,
+                ResponseText = "An error han occurred try after sometime."
+        };
+        var uploadImage = _fileUploadService.Upload(new FileUploadModel
+                {
+                file = req.Image,
+                FileName = $"{DateTime.Now.ToString("ddmmyyhhssmmttt")}",
+                FilePath =  FileDirectories.DictionaryImage,
+            });
+        if (uploadImage.StatusCode != ResponseStatus.Success) {
+            res.ResponseText = uploadImage.ResponseText;
+            return Ok(res);
+        }
+        req.ImagePath = uploadImage.ResponseText;
+    }
+
+    return Ok(await _specificationMaster.UploadImageInDictionary(new RequestBase < DictionaryImgUploadReq >
+    {
+        Data = req,
+        LoginId = User.GetLoggedInUserId < int > ()
+    }));
+}
+
+
+
+
+                public async Task < ActionResult > UploadImageInDictionary([FromForm]DictionaryImgUploadReq req)
+{
+
+
+    var response = new Response
+    {
+        ResponseText = "Failed to save Image.",
+            StatusCode = ResponseStatus.Failed
+    };
+    try {
+        req.ImagePath = string.Empty;
+        var apiRes = await AppWebRequest.O.SendFileAndContentAsync($"{_BaseURL}/api/Specification/UploadImageInDictionary", User.GetLoggedInUserToken(), req, req.Image, null);
+        var apiResponse = await apiRes.Content.ReadAsStringAsync();
+        if (apiRes != null && apiRes.IsSuccessStatusCode) {
+            response = JsonConvert.DeserializeObject < Response > (apiResponse);
+        }
+    }
+    catch (Exception ex)
+    {
+        response.ResponseText = "An error has ocurred try after sometime!";
+    }
+    if (response.StatusCode == ResponseStatus.Success) {
+        return Ok(response);
+    }
+    return BadRequest(response);
+}
+
+        public async Task < HttpResponseMessage > SendFileAndContentAsync < TContent > (string apiUrl, string authToken, TContent contentData, Microsoft.AspNetCore.Http.IFormFile file, Microsoft.AspNetCore.Http.IFormFile file1 = null)
+{
+    try {
+        using(var httpClient = new HttpClient())
+            {
+                using (var request = new HttpRequestMessage(HttpMethod.Post, apiUrl))
+                    {
+
+                        if (!string.IsNullOrEmpty(authToken))
+        {
+            request.Headers.Add("Authorization", $"Bearer {authToken}");
+        }
+        var formData = new MultipartFormDataContent();
+        if (contentData != null) {
+            // Add content parameters
+            foreach(var property in typeof (TContent).GetProperties())
+            {
+                var __value = property.GetValue(contentData);
+                if (__value != null) {
+                    if (__value.GetType().Name.ToUpper() == "FORMFILE") {
+                        file = (Microsoft.AspNetCore.Http.FormFile)__value;
+                        if (file != null) {
+                            // Add the file to the FormData
+                            var fileStream = file.OpenReadStream();
+                            var fileContent = new StreamContent(fileStream);
+                            formData.Add(fileContent, property.Name, file.FileName);
+                        }
+                    }
+                    else {
+                        formData.Add(new StringContent(__value.ToString()), property.Name);
+                    }
+                }
+            }
+        }
+        request.Content = formData;
+        // Send the request
+        var res = await httpClient.SendAsync(request);
+        return res;
+    }
+
+                }
+            }
+            catch (Exception ex)
+{
+    throw;
+}
+        }
+
+
+
+
+public async Task < HttpResponseMessage > SendFileAndContentAsync < TContent > (string apiUrl, string authToken, TContent contentData)
+{
+    try {
+        using(var httpClient = new HttpClient())
+            {
+                using (var request = new HttpRequestMessage(HttpMethod.Post, apiUrl))
+                    {
+
+                        if (!string.IsNullOrEmpty(authToken))
+        {
+            request.Headers.Add("Authorization", $"Bearer {authToken}");
+        }
+        var formData = new MultipartFormDataContent();
+        if (contentData != null) {
+            // Add content parameters
+            foreach(var property in typeof (TContent).GetProperties())
+            {
+                var __value = property.GetValue(contentData);
+                if (__value != null) {
+                    if (__value.GetType().IsGenericType && __value.GetType().GetGenericTypeDefinition() == typeof (List <>)) {
+                        foreach(var item in (List < Microsoft.AspNetCore.Http.IFormFile >)__value)
+                        {
+                            var file = (Microsoft.AspNetCore.Http.FormFile)item;
+                            if (file != null) {
+                                // Add the file to the FormData
+                                var fileStream = file.OpenReadStream();
+                                var fileContent = new StreamContent(fileStream);
+                                formData.Add(fileContent, property.Name, file.FileName);
+                            }
+                        }
+                    }
+                    else {
+                        formData.Add(new StringContent(__value.ToString()), property.Name);
+                    }
+                }
+            }
+        }
+        request.Content = formData;
+        // Send the request
+        var res = await httpClient.SendAsync(request);
+        return res;
+    }
+
+                }
+            }
+            catch (Exception ex)
+{
+    throw;
+}
+        }
+
+
+
+public string GetFormatedNotifications(string template, NotificationKeywordsReplacement param)
+{
+            StringBuilder sb = new StringBuilder(template);
+
+    sb.Replace("{AuctionOpenAt}", param.AuctionOpenAt);
+    sb.Replace("{AuctionEndAt}", param.AuctionEndAt);
+    sb.Replace("{AccountNumber}", param.AccountNumber);
+    sb.Replace("{Amount}", param.Amount?.ToString());
+    sb.Replace("{BalanceAmount}", param.BalanceAmount?.ToString());
+    sb.Replace("{BidAmount}", param.BidAmount?.ToString());
+    sb.Replace("{BidderName}", param.BidderName);
+    sb.Replace("{BidSubmissionDate}", param.BidSubmissionDate);
+    sb.Replace("{CompanyAddress}", param.CompanyAddress);
+    sb.Replace("{CompanyDomain}", param.CompanyDomain);
+    sb.Replace("{CompanyEmail}", param.CompanyEmail);
+    sb.Replace("{CompanyMobile}", param.CompanyMobile);
+    sb.Replace("{CompanyName}", param.CompanyName);
+    sb.Replace("{FromMobileNo}", param.FromMobileNo);
+    sb.Replace("{FromUserName}", param.FromUserName);
+    sb.Replace("{IFSC}", param.IFSC);
+    sb.Replace("{LoginID}", param.LoginID);
+    sb.Replace("{Message}", param.Message);
+    sb.Replace("{Mobile}", param.Mobile);
+    sb.Replace("{OTP}", param.OTP);
+    sb.Replace("{Password}", param.Password);
+    sb.Replace("{PinPassword}", param.PinPassword);
+    sb.Replace("{ProductName}", param.ProductName);
+    sb.Replace("{RecipientName}", param.RecipientName);
+    sb.Replace("{SenderName}", param.SenderName);
+    sb.Replace("{ToMobileNo}", param.ToMobileNo);
+    sb.Replace("{ToUserName}", param.ToUserName);
+    sb.Replace("{TransactionID}", param.TransactionID);
+    sb.Replace("{TransactionDate}", param.TransactionDate);
+    sb.Replace("{TransMode}", param.TransMode);
+    sb.Replace("{UserEmail}", param.UserEmail);
+    sb.Replace("{UserName}", param.UserName);
+    sb.Replace("{UTRorRRN}", param.UTRorRRN);
+
+
+    return sb.ToString();
+}
+
+
+    CREATE TABLE UserLogins(
+        LoginID INT IDENTITY(1, 1) PRIMARY KEY,
+        UserEmail NVARCHAR(255),
+        DeviceID INT,
+        IPAddress NVARCHAR(45),
+        LoginStatus int,
+        LoginTime DATETIME default getdate(),
+        LogOutTime NVARCHAR(45),
+);
+
+    CREATE PROCEDURE Proc_InsertUserLogin
+@UserEmail NVARCHAR(255),
+    @DeviceID INT,
+        @IPAddress NVARCHAR(45),
+            @LoginStatus INT
+AS
+BEGIN
+    INSERT INTO UserLogins(UserEmail, DeviceID, IPAddress, LoginStatus)
+VALUES(@UserEmail, @DeviceID, @IPAddress, @LoginStatus);
+END;
