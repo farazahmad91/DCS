@@ -2693,57 +2693,56 @@ GO
 
 
 
-	var setting = {
-    IsSocialAlert: true,
-    IsEmailVerificationRequired: false,
-    IsBulkEmail: true,
-    IsShowPassword: false,
-    IsMultipleMobileAllowed: true,
-    ProjectID: 123,
-    IsPasswordOnly: false,
-    IsDefaultOTPDisabled: true,
-    IsShowPartner: false,
-    IsReferral: true,
-    IsPaymentGateway: false,
-    IsMultipleVendorAllowed: true,
-    IsTwoFactorAuthenticationEnabled: false,
-    IsDataEncryptionEnabled: true,
-    MaxLoginAttempts: 5,
-    PasswordExpiryDays: 30,
-    IsUserActivityLoggingEnabled: true,
-    IsDarkModeEnabled: false,
-    IsAutoUpdateEnabled: true,
-    IsSmsNotificationEnabled: false,
-    SessionTimeoutMinutes: 15,
-    IsEmergencyAlertEnabled: true,
-    IsPatientRecordEncryptionEnabled: false,
-    IsAppointmentReminderEnabled: true,
-    IsDoctorAvailabilityNotificationEnabled: false,
-    MaxPatientRecordsView: 100,
-    IsLabResultsNotificationEnabled: true,
-    IsInsuranceVerificationRequired: false,
-    IsTelemedicineEnabled: true,
-    IsBillingNotificationEnabled: false,
-    IsPrescriptionRefillReminderEnabled: true,
-	IsPatient : true,
-	IsDoctor :true,
-	SuperAdmin : true,
-	IsAdmin : true
-};
+	
 
-	function updateApplicationSetting(setting) {
-    // Assuming you're using jQuery for AJAX
+function updateApplicationSetting()
+{
+        var setting = {
+            IsSocialAlert: true,
+            IsEmailVerificationRequired: false,
+            IsBulkEmail: true,
+            IsShowPassword: false,
+            IsMultipleMobileAllowed: true,
+            ProjectID: 123,
+            IsPasswordOnly: false,
+            IsDefaultOTPDisabled: true,
+            IsShowPartner: false,
+            IsReferral: true,
+            IsPaymentGateway: false,
+            IsMultipleVendorAllowed: true,
+            IsTwoFactorAuthenticationEnabled: false,
+            IsDataEncryptionEnabled: true,
+            MaxLoginAttempts: 5,
+            PasswordExpiryDays: 30,
+            IsUserActivityLoggingEnabled: true,
+            IsDarkModeEnabled: false,
+            IsAutoUpdateEnabled: true,
+            IsSmsNotificationEnabled: false,
+            SessionTimeoutMinutes: 15,
+            IsEmergencyAlertEnabled: true,
+            IsPatientRecordEncryptionEnabled: false,
+            IsAppointmentReminderEnabled: true,
+            IsDoctorAvailabilityNotificationEnabled: false,
+            MaxPatientRecordsView: 100,
+            IsLabResultsNotificationEnabled: true,
+            IsInsuranceVerificationRequired: false,
+            IsTelemedicineEnabled: true,
+            IsBillingNotificationEnabled: false,
+            IsPrescriptionRefillReminderEnabled: true,
+            IsPatient: true,
+            IsDoctor: true,
+            SuperAdmin: true,
+            IsAdmin: true
+        };
     $.ajax({
-        url: 'updateApplicationSetting', // URL to your backend endpoint
+        url: '/updateApplicationSetting',
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify(setting), // Convert setting object to JSON string
+        data: JSON.stringify(setting),
         success: function(response) {
-            // Handle success response
             console.log('Update successful:', response);
         },
         error: function(xhr, status, error) {
-            // Handle error response
             console.error('Update failed:', error);
         }
     });
