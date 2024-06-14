@@ -15,11 +15,11 @@ namespace API.Controllers
             _appointment=appointment;
         }
 
-        [HttpGet]
-        public IActionResult Get(int id)
-        {
-          var i=   _appointment.GetAppointment(id);
-            return Ok(i);
-        }
+        //[HttpGet]
+        //public IActionResult Get(int id)
+        //{
+        //  var i=   _appointment.GetAppointment(id);
+        //    return Ok(i);
+        //}
     }
 }

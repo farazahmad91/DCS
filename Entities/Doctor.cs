@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ namespace Entities
         public string Email { get; set; }
         public string Phone { get; set; }
         public string DrImage { get; set; }
+        public IFormFile ImagePath { get; set; }
         public string Address { get; set; }
         public string Specialization { get; set; }
         public string Gender { get; set; }

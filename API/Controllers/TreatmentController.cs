@@ -14,30 +14,30 @@ namespace API.Controllers
             _treatment =treatment;
         }
         [HttpPost(nameof(AddTreatment))]
-        public IActionResult AddTreatment(Treatment treatments)
+        public async Task<IActionResult> AddTreatment(Treatment treatments)
         {
-            var i = _treatment.AddTreatment(treatments);
+            var i =await _treatment.AddTreatment(treatments);
             return Ok(i);
         }
 
         [HttpPost(nameof(UpdateTreatment))]
-        public IActionResult UpdateTreatment(Treatment treatments)
+        public async Task<IActionResult> UpdateTreatment(Treatment treatments)
         {
-            var i = _treatment.UpdateTreatment(treatments);
+            var i =await _treatment.UpdateTreatment(treatments);
             return Ok(i);
         }
 
         [HttpPost(nameof(GetTreatment)+"/{date}")]
-        public IActionResult GetTreatment(DateTime date)
+        public async Task<IActionResult> GetTreatment(DateTime date)
         {
-            var i = _treatment.GetTreatment(date);
+            var i =await _treatment.GetTreatment(date);
             return Ok(i);
         }
 
         [HttpPost(nameof(GetTreatmentByPId)+"/{Id}")]
-        public IActionResult GetTreatmentByPId(int Id)
+        public async Task<IActionResult> GetTreatmentByPId(int Id)
         {
-            var i = _treatment.GetTreatmentByPId(Id);
+            var i =await _treatment.GetTreatmentByPId(Id);
             return Ok(i);
         }
     }

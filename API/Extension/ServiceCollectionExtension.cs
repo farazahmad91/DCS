@@ -16,6 +16,7 @@ using System.Configuration;
 using API.RequestInfo;
 using Entities;
 using API.AppCode.IService;
+using API.AppCode.Helper;
 
 namespace API.Extension
 {
@@ -45,6 +46,15 @@ namespace API.Extension
             services.AddScoped<IMedicineManagement, MedicineManagement_ML>();
             services.AddScoped<IProjectDetails, ProjectDetails_ML>();
             services.AddScoped<IApplicationSetting, ApplicationSetting_ML>();
+            services.AddScoped<IDCSPolicies, DCSPolicies_ML>();
+            services.AddScoped<IDCSServices, DCSServices_ML>();
+            services.AddScoped<IDoctor, Doctor_ML>();
+            services.AddScoped<IHospitalPolicies, HospitalPolicies_ML>();
+            services.AddScoped<IHospitalServices, HospitalServices_ML>();
+            services.AddScoped<IPatient, Patient_ML>();
+            services.AddScoped<IPurchaseService, PurchaseService_ML>();
+            services.AddScoped<ITreatment, Treatment_ML>();
+            services.AddScoped<IFileUploadService, FileUploadService>();
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(ch.Default);

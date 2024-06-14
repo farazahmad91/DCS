@@ -14,23 +14,23 @@ namespace API.Controllers
             _patient =patient;
         }
         [HttpPost(nameof(AddOrUpdatePatient))]
-        public IActionResult AddOrUpdatePatient(Patient patients)
+        public async Task<IActionResult> AddOrUpdatePatient(Patient patients)
         {
-            var i = _patient.AddOrUpdatePatient(patients);
+            var i =await _patient.AddOrUpdatePatient(patients);
             return Ok(i);
         }
 
         [HttpPost(nameof(GetPatient)+"/{email}")]
-        public IActionResult GetPatient(string email)
+        public async Task<IActionResult> GetPatient(string email)
         {
-            var i = _patient.GetPatient(email);
+            var i =await _patient.GetPatient(email);
             return Ok(i);
         }
 
         [HttpPost(nameof(GetPatientById)+"/{Id}")]
-        public IActionResult GetPatientById(int Id)
+        public async Task<IActionResult> GetPatientById(int Id)
         {
-            var i = _patient.GetPatientById(Id);
+            var i =await _patient.GetPatientById(Id);
             return Ok(i);
         }
     }

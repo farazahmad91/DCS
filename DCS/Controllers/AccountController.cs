@@ -450,6 +450,7 @@ namespace DCS.Controllers
             {
 
                 var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Account/DecodePass/{HashPass}", null, null);
+               
                 if (apiRes.Result != null)
                 {
                     
@@ -470,11 +471,17 @@ namespace DCS.Controllers
         [Route("Logout")]
         public async Task<IActionResult> Logout(string returnUrl = "/Account/Login")
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            HttpContext.Response.Cookies.Delete(".AspNetCore.Cookies");
-            HttpContext.Response.Cookies.Delete(".AspNetCore.Identity.Application");
-            //_userProfileService.DeleteUserProfileCookie();
-            return LocalRedirect(returnUrl);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Account/Logout", null, null);
+            if (apiRes.Result != null)
+            {
+              var  res = JsonConvert.DeserializeObject<Response>(apiRes.Result);
+                if (res.StatusCode==ResponseStatus.SUCCESS)
+                {
+                    return LocalRedirect(returnUrl);
+                }
+               
+            }
+            return Json(apiRes.Result);
         }
         //[Route("/Profile")]
         //public async Task<IActionResult> UserProfile()

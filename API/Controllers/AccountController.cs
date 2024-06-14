@@ -18,6 +18,7 @@ using Azure;
 using Response = Entities.Response.Response;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using API.AppCode.IML;
 
 
 namespace API.Controllers
@@ -33,7 +34,8 @@ namespace API.Controllers
         private readonly IUserService _userservice;
         private readonly IHashPassword _hashpass;
         private readonly IUserValidation _userValidation;
-        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IUserService userservice,  IHashPassword hashpass, IUserValidation userValidation)
+        private readonly IDapper _dapper;
+        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IUserService userservice,  IHashPassword hashpass, IUserValidation userValidation, IDapper dapper)
         {
             _signInManager = signInManager;
             this.userManager = userManager;
@@ -42,6 +44,7 @@ namespace API.Controllers
             _userservice = userservice;
             _hashpass=hashpass;
             _userValidation=userValidation;
+            _dapper=dapper;
         }
 
 
@@ -86,7 +89,12 @@ namespace API.Controllers
             HttpContext.Response.Cookies.Delete(".AspNetCore.Identity.Application");
             response.ResponseText = "Cookies are deleted!";
             response.StatusCode = ResponseStatus.SUCCESS;
-            return Ok(response);
+            if (response.StatusCode == ResponseStatus.SUCCESS)
+            {
+               // _dapper.Update()
+                return Ok(response);
+            }
+            return BadRequest(response);
         }
 
         [HttpPost(nameof(VerifyConfirmationEmail))]

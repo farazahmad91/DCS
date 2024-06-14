@@ -15,23 +15,23 @@ namespace API.Controllers
             _services =services;
         }
         [HttpPost(nameof(AddorUpdateHospitalServices))]
-        public IActionResult AddorUpdateHospitalServices(HospitalServices services)
+        public async Task<IActionResult> AddorUpdateHospitalServices(HospitalServices services)
         {
-            var i = _services.AddorUpdateHospitalServices(services);
+            var i =await _services.AddorUpdateHospitalServices(services);
             return Ok(i);
         }
 
         [HttpPost(nameof(GetHospitalServices)+"/{name}")]
-        public IActionResult GetHospitalServices(string name)
+        public async Task<IActionResult> GetHospitalServices(string name)
         {
-            var i = _services.GetHospitalServices(name);
+            var i =await _services.GetHospitalServices(name);
             return Ok(i);
         }
 
         [HttpPost(nameof(GetHospitalServicesById)+"/{Id}")]
-        public IActionResult GetHospitalServicesById(int Id)
+        public async Task<IActionResult> GetHospitalServicesById(int Id)
         {
-            var i = _services.GetHospitalServicesById(Id);
+            var i =await _services.GetHospitalServicesById(Id);
             return Ok(i);
         }
     }

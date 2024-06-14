@@ -16,23 +16,23 @@ namespace API.Controllers
             _policies = policies;
         }
         [HttpPost(nameof(AddorUpdateDCSPolicies))]
-        public IActionResult AddorUpdateDCSPolicies(DCSPolicies policy)
+        public async Task<IActionResult> AddorUpdateDCSPolicies(DCSPolicies policy)
         {
-            var i = _policies.AddorUpdateDCSPolicies(policy);
+            var i =await _policies.AddorUpdateDCSPolicies(policy);
             return Ok(i);
         }
 
         [HttpPost(nameof(GetDCSPolicies)+"/{name}")]
-        public IActionResult GetDCSPolicies(string name)
+        public async Task<IActionResult> GetDCSPolicies(string name)
         {
-            var i = _policies.GetDCSPolicies(name);
+            var i =await _policies.GetDCSPolicies(name);
             return Ok(i);
         }
 
         [HttpPost(nameof(GetDCSPoliciesById)+"/{Id}")]
-        public IActionResult GetDCSPoliciesById(int Id)
+        public async Task<IActionResult> GetDCSPoliciesById(int Id)
         {
-            var i = _policies.GetDCSPoliciesById(Id);
+            var i =await _policies.GetDCSPoliciesById(Id);
             return Ok(i);
         }
     }
