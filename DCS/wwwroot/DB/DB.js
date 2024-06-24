@@ -1,10 +1,11 @@
 ﻿USE[master]
-
+GO
+/****** Object:  Database [DCS]    Script Date: 24-06-2024 18:37:46 ******/
 CREATE DATABASE[DCS]
 
 USE[DCS]
 GO
-/****** Object:  UserDefinedTableType [dbo].[InvoiceItemType]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  UserDefinedTableType [dbo].[InvoiceItemType]    Script Date: 24-06-2024 18:37:46 ******/
 CREATE TYPE[dbo].[InvoiceItemType] AS TABLE(
     [Service][nvarchar](100) NULL,
     [Product][nvarchar](100) NULL,
@@ -20,7 +21,7 @@ CREATE TYPE[dbo].[InvoiceItemType] AS TABLE(
     [TotalAmount][float] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[MedicationType]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  UserDefinedTableType [dbo].[MedicationType]    Script Date: 24-06-2024 18:37:46 ******/
 CREATE TYPE[dbo].[MedicationType] AS TABLE(
     [Name][nvarchar](100) NULL,
     [Dosage][nvarchar](50) NULL,
@@ -28,7 +29,7 @@ CREATE TYPE[dbo].[MedicationType] AS TABLE(
     [FollowUpDate][nvarchar](50) NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[TransactionDetailType]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  UserDefinedTableType [dbo].[TransactionDetailType]    Script Date: 24-06-2024 18:37:46 ******/
 CREATE TYPE[dbo].[TransactionDetailType] AS TABLE(
     [InvoiceID][int] NULL,
     [Mode][nvarchar](50) NULL,
@@ -37,7 +38,7 @@ CREATE TYPE[dbo].[TransactionDetailType] AS TABLE(
     [DueDate][nvarchar](50) NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[TransactionType]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  UserDefinedTableType [dbo].[TransactionType]    Script Date: 24-06-2024 18:37:46 ******/
 CREATE TYPE[dbo].[TransactionType] AS TABLE(
     [Mode][nvarchar](50) NULL,
     [TransactionId][nvarchar](50) NULL,
@@ -45,7 +46,7 @@ CREATE TYPE[dbo].[TransactionType] AS TABLE(
     [DueDate][nvarchar](50) NULL
 )
 GO
-/****** Object:  Table [dbo].[__EFMigrationsHistory]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[__EFMigrationsHistory]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -59,50 +60,53 @@ CREATE TABLE[dbo].[__EFMigrationsHistory](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[ApplicationSetting]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[ApplicationSetting]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE[dbo].[ApplicationSetting](
-    [ProjectID][int] NOT NULL,
+    [AppId][int] IDENTITY(1, 1) NOT NULL,
+    [ProjectID][int] NULL,
     [IsSocialAlert][bit] NULL,
     [IsEmailVerificationRequired][bit] NULL,
-    [IsBulkEmail][bit] NULL,
+    [IsEmailMarketing][bit] NULL,
     [IsShowPassword][bit] NULL,
     [IsMultipleMobileAllowed][bit] NULL,
     [IsPasswordOnly][bit] NULL,
-    [IsDefaultOTPDisabled][bit] NULL,
-    [IsShowPartner][bit] NULL,
     [IsReferral][bit] NULL,
+    [IsBackUpService][bit] NULL,
     [IsPaymentGateway][bit] NULL,
     [IsMultipleVendorAllowed][bit] NULL,
     [IsTwoFactorAuthenticationEnabled][bit] NULL,
-    [IsDataEncryptionEnabled][bit] NULL,
     [MaxLoginAttempts][int] NULL,
-    [PasswordExpiryDays][int] NULL,
-    [IsUserActivityLoggingEnabled][bit] NULL,
-    [IsDarkModeEnabled][bit] NULL,
-    [IsAutoUpdateEnabled][bit] NULL,
     [IsSmsNotificationEnabled][bit] NULL,
-    [SessionTimeoutMinutes][int] NULL,
-    [IsEmergencyAlertEnabled][bit] NULL,
-    [IsPatientRecordEncryptionEnabled][bit] NULL,
     [IsAppointmentReminderEnabled][bit] NULL,
     [IsDoctorAvailabilityNotificationEnabled][bit] NULL,
-    [MaxPatientRecordsView][int] NULL,
     [IsLabResultsNotificationEnabled][bit] NULL,
-    [IsInsuranceVerificationRequired][bit] NULL,
-    [IsTelemedicineEnabled][bit] NULL,
+    [IsMSServiceEnabled][bit] NULL,
     [IsBillingNotificationEnabled][bit] NULL,
     [IsPrescriptionRefillReminderEnabled][bit] NULL,
     [IsPatient][bit] NULL,
     [IsDoctor][bit] NULL,
     [SuperAdmin][bit] NULL,
-    [IsAdmin][bit] NULL
+    [IsAdmin][bit] NULL,
+    [EntryOn][datetime] NULL,
+    [Updatedate][datetime] NULL,
+    [IsLabManagmentService][bit] NULL,
+    [IsLowStorageMedicineNotification][bit] NULL,
+    [IsAppointmentContactService][bit] NULL,
+    [IsAppointmentFormService][bit] NULL,
+    [IsAppointmentStatus][bit] NULL,
+    [IsWhatsappMarketing][bit] NULL,
+    [IsDarkModeEnabled][bit] NULL,
+    PRIMARY KEY CLUSTERED
+    (
+        [AppId] ASC
+    )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Appointments]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[Appointments]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -123,7 +127,7 @@ CREATE TABLE[dbo].[Appointments](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[AspNetRoleClaims]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[AspNetRoleClaims]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -139,7 +143,7 @@ CREATE TABLE[dbo].[AspNetRoleClaims](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[AspNetRoles]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[AspNetRoles]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -155,7 +159,7 @@ CREATE TABLE[dbo].[AspNetRoles](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[AspNetUserClaims]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[AspNetUserClaims]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -171,7 +175,7 @@ CREATE TABLE[dbo].[AspNetUserClaims](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[AspNetUserLogins]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[AspNetUserLogins]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -188,7 +192,7 @@ CREATE TABLE[dbo].[AspNetUserLogins](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[AspNetUserRoles]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[AspNetUserRoles]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -203,7 +207,7 @@ CREATE TABLE[dbo].[AspNetUserRoles](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[AspNetUsers]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[AspNetUsers]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -232,7 +236,7 @@ CREATE TABLE[dbo].[AspNetUsers](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[AspNetUserTokens]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[AspNetUserTokens]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -250,7 +254,7 @@ CREATE TABLE[dbo].[AspNetUserTokens](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Doctors]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[Doctors]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -264,7 +268,7 @@ CREATE TABLE[dbo].[Doctors](
     [Address][varchar](200) NULL,
     [Specialization][varchar](100) NULL,
     [Gender][char](1) NULL,
-    [DateOfBirth][date] NULL,
+    [DateOfBirth][varchar](200) NULL,
     [Qualifications][varchar](200) NULL,
     [ExperienceYears][int] NULL,
     [Affiliations][varchar](200) NULL,
@@ -279,7 +283,7 @@ CREATE TABLE[dbo].[Doctors](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[EmailLogs]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[EmailLogs]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -298,7 +302,7 @@ CREATE TABLE[dbo].[EmailLogs](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[EmailTemplates]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[EmailTemplates]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -315,7 +319,7 @@ CREATE TABLE[dbo].[EmailTemplates](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[ErrorLog]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[ErrorLog]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -333,7 +337,7 @@ CREATE TABLE[dbo].[ErrorLog](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[FAQs]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[FAQs]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -350,7 +354,7 @@ CREATE TABLE[dbo].[FAQs](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Invoice]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[Invoice]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -372,7 +376,7 @@ CREATE TABLE[dbo].[Invoice](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[InvoiceItem]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[InvoiceItem]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -398,7 +402,7 @@ CREATE TABLE[dbo].[InvoiceItem](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[MedicalHistory]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[MedicalHistory]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -416,7 +420,7 @@ CREATE TABLE[dbo].[MedicalHistory](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Medication]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[Medication]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -434,7 +438,7 @@ CREATE TABLE[dbo].[Medication](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Medicines]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[Medicines]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -454,7 +458,7 @@ CREATE TABLE[dbo].[Medicines](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[MedicineStocks]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[MedicineStocks]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -470,7 +474,7 @@ CREATE TABLE[dbo].[MedicineStocks](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[MedicinesType]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[MedicinesType]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -484,7 +488,7 @@ CREATE TABLE[dbo].[MedicinesType](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Patient_Services]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[Patient_Services]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -495,7 +499,7 @@ CREATE TABLE[dbo].[Patient_Services](
     [EntryOn][datetime] NULL
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Patients]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[Patients]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -530,7 +534,7 @@ CREATE TABLE[dbo].[Patients](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Payments]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[Payments]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -549,12 +553,12 @@ CREATE TABLE[dbo].[Payments](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[PremiumServices]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[PremiumService]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE[dbo].[PremiumServices](
+CREATE TABLE[dbo].[PremiumService](
     [ServiceID][int] IDENTITY(101, 1) NOT NULL,
     [ServiceName][varchar](255) NULL,
     [Description][varchar](255) NULL,
@@ -573,25 +577,39 @@ CREATE TABLE[dbo].[PremiumServices](
     [UsageLimits][int] NULL,
     [FeedbackRating][decimal](3, 2) NULL,
     [Popularity][int] NULL,
-    [EmailMarketing][varchar](255) NULL,
+    [EmailMarketing][bit] NULL,
     [EmailVerificationService][bit] NULL,
     [ShowYourUserPassword][bit] NULL,
     [ReferralService][bit] NULL,
-    [AutoBackUpService][bit] NULL,
+    [BackUpService][bit] NULL,
     [SmsNotificationService][bit] NULL,
     [EmergencyAlertService][bit] NULL,
     [UserAppointmentReminderService][bit] NULL,
     [DoctorAvailabilityNotificationService][bit] NULL,
     [MedicineStoreManagementService][bit] NULL,
     [TwoFactorAuthenticationService][bit] NULL,
+    [IsMultipleMobileAllowed][bit] NULL,
+    [IsDarkModeEnabled][bit] NULL,
+    [IsBillingNotificationEnabled][bit] NULL,
+    [IsPrescriptionRefillReminderEnabled][bit] NULL,
+    [MaxLoginAttempts][bit] NULL,
+    [IsShowPassword][bit] NULL,
+    [IsSocialAlert][bit] NULL,
+    [IsPasswordOnly][bit] NULL,
+    [IsPatient][bit] NULL,
+    [IsDoctor][bit] NULL,
+    [SuperAdmin][bit] NULL,
+    [IsAdmin][bit] NULL,
     [CreatedAt][datetime] NULL,
-    PRIMARY KEY CLUSTERED
-    (
-        [ServiceID] ASC
-    )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
+    [IsLabManagmentService][bit] NULL,
+    [IsLowStorageMedicineNotification][bit] NULL,
+    [IsAppointmentContactService][bit] NULL,
+    [IsAppointmentFormService][bit] NULL,
+    [IsAppointmentStatus][bit] NULL,
+    [IsWhatsappMarketing][bit] NULL
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Projects]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[Projects]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -612,7 +630,7 @@ CREATE TABLE[dbo].[Projects](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Purchases]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[Purchases]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -634,7 +652,7 @@ CREATE TABLE[dbo].[Purchases](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Reviews]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[Reviews]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -652,7 +670,7 @@ CREATE TABLE[dbo].[Reviews](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Services]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[Services]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -669,7 +687,7 @@ CREATE TABLE[dbo].[Services](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_PageErrorLog]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[tbl_PageErrorLog]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -684,7 +702,7 @@ CREATE TABLE[dbo].[tbl_PageErrorLog](
     [_EntryDate][datetime] NULL
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_users]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[tbl_users]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -704,7 +722,7 @@ CREATE TABLE[dbo].[tbl_users](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_Validate_Email]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[tbl_Validate_Email]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -720,7 +738,7 @@ CREATE TABLE[dbo].[tbl_Validate_Email](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[TransactionDetails]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[TransactionDetails]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -740,7 +758,7 @@ CREATE TABLE[dbo].[TransactionDetails](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Treatment]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[Treatment]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -763,7 +781,26 @@ CREATE TABLE[dbo].[Treatment](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[WorkingHours]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Table [dbo].[UserLogins]    Script Date: 24-06-2024 18:37:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE[dbo].[UserLogins](
+    [LoginID][int] IDENTITY(1, 1) NOT NULL,
+    [UserEmail][nvarchar](255) NULL,
+    [DeviceID][int] NULL,
+    [IPAddress][nvarchar](45) NULL,
+    [LoginStatus][int] NULL,
+    [LoginTime][datetime] NULL,
+    [LogOutTime][nvarchar](45) NULL,
+    PRIMARY KEY CLUSTERED
+    (
+        [LoginID] ASC
+    )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
+) ON[PRIMARY]
+GO
+/****** Object:  Table [dbo].[WorkingHours]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -782,8 +819,6 @@ CREATE TABLE[dbo].[WorkingHours](
 ) ON[PRIMARY]
 GO
 INSERT[dbo].[__EFMigrationsHistory]([MigrationId], [ProductVersion]) VALUES(N'20240516050714_init', N'8.0.5')
-GO
-INSERT[dbo].[ApplicationSetting]([ProjectID], [IsSocialAlert], [IsEmailVerificationRequired], [IsBulkEmail], [IsShowPassword], [IsMultipleMobileAllowed], [IsPasswordOnly], [IsDefaultOTPDisabled], [IsShowPartner], [IsReferral], [IsPaymentGateway], [IsMultipleVendorAllowed], [IsTwoFactorAuthenticationEnabled], [IsDataEncryptionEnabled], [MaxLoginAttempts], [PasswordExpiryDays], [IsUserActivityLoggingEnabled], [IsDarkModeEnabled], [IsAutoUpdateEnabled], [IsSmsNotificationEnabled], [SessionTimeoutMinutes], [IsEmergencyAlertEnabled], [IsPatientRecordEncryptionEnabled], [IsAppointmentReminderEnabled], [IsDoctorAvailabilityNotificationEnabled], [MaxPatientRecordsView], [IsLabResultsNotificationEnabled], [IsInsuranceVerificationRequired], [IsTelemedicineEnabled], [IsBillingNotificationEnabled], [IsPrescriptionRefillReminderEnabled], [IsPatient], [IsDoctor], [SuperAdmin], [IsAdmin]) VALUES(636190, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1)
 GO
 INSERT[dbo].[AspNetRoles]([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES(N'0ac53903-91aa-48d6-8486-911b83a32011', N'Admin', N'ADMIN', NULL)
 GO
@@ -804,6 +839,20 @@ GO
 INSERT[dbo].[AspNetUsers]([Id], [Name], [PhoneNo], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES(N'a66c24c8-9c1c-4639-b61c-635dd11e0158', N'Faraz', N'78678', N'user@example.com', N'USER@EXAMPLE.COM', N'user@example.com', N'USER@EXAMPLE.COM', 1, N'AQAAAAIAAYagAAAAEGdmDogjoILD/LAyO7bZXNDznQ9igcnkM0iFT+RLJBNB8DX38Xx9Yygs7qbYQ4iGbg==', N'RPH52SNI6EKJD566CZFIZX2GKAEUTQTW', N'fd87cf6d-57d5-4119-8e2d-21d29a48ff15', NULL, 0, 0, NULL, 1, 0)
 GO
 INSERT[dbo].[AspNetUsers]([Id], [Name], [PhoneNo], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES(N'e41ada2a-088e-48fa-8328-d0cc94b98ef6', N'faraz', N'65645', N'farazshaikh8960@gmail.com', N'FARAZSHAIKH8960@GMAIL.COM', N'farazshaikh8960@gmail.com', N'FARAZSHAIKH8960@GMAIL.COM', 1, N'AQAAAAIAAYagAAAAEJg4eOAM46LgCsUxhWukYpAv/sIn/uxM06ENMKG+AqyOgN6zY6uV3fleMiioC1m4/Q==', N'IOFPAULZHMB7BSTJ22T4DQ7ICVZMBWPW', N'5874a93e-e196-47a2-a088-86fa2c68fe3e', NULL, 0, 0, NULL, 1, 0)
+GO
+SET IDENTITY_INSERT[dbo].[Doctors] ON
+GO
+INSERT[dbo].[Doctors]([DrId], [Name], [Email], [Phone], [DrImage], [Address], [Specialization], [Gender], [DateOfBirth], [Qualifications], [ExperienceYears], [Affiliations], [Languages], [ConsultationFee], [Availability], [Status], [EntryOn]) VALUES(101, N'hgjghj', N'ghjgh', N'ghjghj', N'https://localhost:7079//images/Specification/Dictionary/140524061705PM.png', N'ghjgh', N'ghjgh', N'g', N'ghjh', N'ghjghj', 7, N'bnmbm', N'bnmnbm', CAST(9.90 AS Decimal(10, 2)), N'bnmnb', 6, CAST(N'2024-06-14T18:05:21.437' AS DateTime))
+GO
+INSERT[dbo].[Doctors]([DrId], [Name], [Email], [Phone], [DrImage], [Address], [Specialization], [Gender], [DateOfBirth], [Qualifications], [ExperienceYears], [Affiliations], [Languages], [ConsultationFee], [Availability], [Status], [EntryOn]) VALUES(102, N'hgjghj', N'ghjgh', N'ghjghj', N'https://localhost:7079//images/Specification/Dictionary/140824061208PM.png', N'ghjgh', N'ghjgh', N'g', N'ghjh', N'ghjghj', 7, N'bnmbm', N'bnmnbm', CAST(9.90 AS Decimal(10, 2)), N'bnmnb', 6, CAST(N'2024-06-14T18:08:17.967' AS DateTime))
+GO
+INSERT[dbo].[Doctors]([DrId], [Name], [Email], [Phone], [DrImage], [Address], [Specialization], [Gender], [DateOfBirth], [Qualifications], [ExperienceYears], [Affiliations], [Languages], [ConsultationFee], [Availability], [Status], [EntryOn]) VALUES(103, N'hgfhg', N'ghjghj', N'ghjghj', N'https://localhost:7079//images/142224060422PM.png', N'ghjghj', N'ghjgh', N'g', N'ghjghj', N'ghjghj', 6, N'ghjg', N'ghjgh', CAST(99.90 AS Decimal(10, 2)), N'gfgfh', 5, CAST(N'2024-06-14T18:22:11.527' AS DateTime))
+GO
+INSERT[dbo].[Doctors]([DrId], [Name], [Email], [Phone], [DrImage], [Address], [Specialization], [Gender], [DateOfBirth], [Qualifications], [ExperienceYears], [Affiliations], [Languages], [ConsultationFee], [Availability], [Status], [EntryOn]) VALUES(104, N'grtg', N'gfg', N'657575676', N'http://localhost:5085//images/143924062539PM.png', N'yuyjh', N'hfgh', N'y', N'56756', N'ythyt', 56, N'ty', N'tyh', CAST(677.00 AS Decimal(10, 2)), N'yt', 97, CAST(N'2024-06-14T18:39:38.637' AS DateTime))
+GO
+INSERT[dbo].[Doctors]([DrId], [Name], [Email], [Phone], [DrImage], [Address], [Specialization], [Gender], [DateOfBirth], [Qualifications], [ExperienceYears], [Affiliations], [Languages], [ConsultationFee], [Availability], [Status], [EntryOn]) VALUES(105, N'   ; color: #666666; font-family: ''Lato'', Helvetica, Arial, sans-serif; font-size: 18px; font-weight', N'nbvnbnm', N'bnmnbm', N'http://localhost:5085//images/144924062249PM.png', N'bnmnbm', N'bnmnbm', N'b', N'nbmnb', N'nbmnbm', 7, N'nm,mn,', N'nm,mn', CAST(99.00 AS Decimal(10, 2)), N'mn,mn', 8, CAST(N'2024-06-14T18:49:27.193' AS DateTime))
+GO
+SET IDENTITY_INSERT[dbo].[Doctors] OFF
 GO
 SET IDENTITY_INSERT[dbo].[EmailLogs] ON
 GO
@@ -840,6 +889,10 @@ GO
 INSERT[dbo].[ErrorLog]([Id], [ClassName], [FuncName], [ProcName], [Error], [EntryOn]) VALUES(11, N'Proc_AddProjectDetails', N'call', N'Prc_InsertOrUpdateProject', N'Procedure or function Prc_InsertOrUpdateProject has too many arguments specified.', CAST(N'2024-06-11T18:11:12.740' AS DateTime))
 GO
 INSERT[dbo].[ErrorLog]([Id], [ClassName], [FuncName], [ProcName], [Error], [EntryOn]) VALUES(12, N'Proc_AddProjectDetails', N'call', N'Prc_InsertOrUpdateProject', N'Procedure or function ''Prc_InsertOrUpdateProject'' expects parameter ''@UserEmail'', which was not supplied.', CAST(N'2024-06-11T18:32:12.130' AS DateTime))
+GO
+INSERT[dbo].[ErrorLog]([Id], [ClassName], [FuncName], [ProcName], [Error], [EntryOn]) VALUES(13, N'Proc_AddDoctor', N'call', N'proc_InsertOrUpdateDoctor', N'Error converting data type nvarchar to date.', CAST(N'2024-06-14T17:57:37.300' AS DateTime))
+GO
+INSERT[dbo].[ErrorLog]([Id], [ClassName], [FuncName], [ProcName], [Error], [EntryOn]) VALUES(14, N'Proc_AddDoctor', N'call', N'proc_InsertOrUpdateDoctor', N'Error converting data type nvarchar to date.', CAST(N'2024-06-14T18:02:44.447' AS DateTime))
 GO
 SET IDENTITY_INSERT[dbo].[ErrorLog] OFF
 GO
@@ -1051,7 +1104,7 @@ SET IDENTITY_INSERT[dbo].[TransactionDetails] OFF
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_AspNetRoleClaims_RoleId]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Index [IX_AspNetRoleClaims_RoleId]    Script Date: 24-06-2024 18:37:46 ******/
 CREATE NONCLUSTERED INDEX[IX_AspNetRoleClaims_RoleId] ON[dbo].[AspNetRoleClaims]
     (
         [RoleId] ASC
@@ -1059,7 +1112,7 @@ CREATE NONCLUSTERED INDEX[IX_AspNetRoleClaims_RoleId] ON[dbo].[AspNetRoleClaims]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [RoleNameIndex]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Index [RoleNameIndex]    Script Date: 24-06-2024 18:37:46 ******/
 CREATE UNIQUE NONCLUSTERED INDEX[RoleNameIndex] ON[dbo].[AspNetRoles]
     (
         [NormalizedName] ASC
@@ -1069,7 +1122,7 @@ WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_AspNetUserClaims_UserId]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Index [IX_AspNetUserClaims_UserId]    Script Date: 24-06-2024 18:37:46 ******/
 CREATE NONCLUSTERED INDEX[IX_AspNetUserClaims_UserId] ON[dbo].[AspNetUserClaims]
     (
         [UserId] ASC
@@ -1077,7 +1130,7 @@ CREATE NONCLUSTERED INDEX[IX_AspNetUserClaims_UserId] ON[dbo].[AspNetUserClaims]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_AspNetUserLogins_UserId]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Index [IX_AspNetUserLogins_UserId]    Script Date: 24-06-2024 18:37:46 ******/
 CREATE NONCLUSTERED INDEX[IX_AspNetUserLogins_UserId] ON[dbo].[AspNetUserLogins]
     (
         [UserId] ASC
@@ -1085,7 +1138,7 @@ CREATE NONCLUSTERED INDEX[IX_AspNetUserLogins_UserId] ON[dbo].[AspNetUserLogins]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_AspNetUserRoles_RoleId]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Index [IX_AspNetUserRoles_RoleId]    Script Date: 24-06-2024 18:37:46 ******/
 CREATE NONCLUSTERED INDEX[IX_AspNetUserRoles_RoleId] ON[dbo].[AspNetUserRoles]
     (
         [RoleId] ASC
@@ -1093,7 +1146,7 @@ CREATE NONCLUSTERED INDEX[IX_AspNetUserRoles_RoleId] ON[dbo].[AspNetUserRoles]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [EmailIndex]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Index [EmailIndex]    Script Date: 24-06-2024 18:37:46 ******/
 CREATE NONCLUSTERED INDEX[EmailIndex] ON[dbo].[AspNetUsers]
     (
         [NormalizedEmail] ASC
@@ -1101,7 +1154,7 @@ CREATE NONCLUSTERED INDEX[EmailIndex] ON[dbo].[AspNetUsers]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UserNameIndex]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Index [UserNameIndex]    Script Date: 24-06-2024 18:37:46 ******/
 CREATE UNIQUE NONCLUSTERED INDEX[UserNameIndex] ON[dbo].[AspNetUsers]
     (
         [NormalizedUserName] ASC
@@ -1109,85 +1162,75 @@ CREATE UNIQUE NONCLUSTERED INDEX[UserNameIndex] ON[dbo].[AspNetUsers]
 WHERE([NormalizedUserName] IS NOT NULL)
 WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 GO
-/****** Object:  Index [UQ__Projects__761ABEF156B357F3]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Index [UQ__Projects__761ABEF156B357F3]    Script Date: 24-06-2024 18:37:46 ******/
 ALTER TABLE[dbo].[Projects] ADD UNIQUE NONCLUSTERED
     (
         [ProjectId] ASC
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 GO
-/****** Object:  Index [UK_vOTP]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  Index [UK_vOTP]    Script Date: 24-06-2024 18:37:46 ******/
 ALTER TABLE[dbo].[tbl_Validate_Email] ADD  CONSTRAINT[UK_vOTP] UNIQUE NONCLUSTERED
     (
         [vOTP] ASC
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsSocialAlert]  DEFAULT((0)) FOR[IsSocialAlert]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_ApplicationSetting_IsSocialAlert]  DEFAULT((0)) FOR[IsSocialAlert]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsEmailVerificationRequired]  DEFAULT((0)) FOR[IsEmailVerificationRequired]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_ApplicationSetting_IsEmailVerificationRequired]  DEFAULT((0)) FOR[IsEmailVerificationRequired]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsBulkEmail]  DEFAULT((0)) FOR[IsBulkEmail]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_ApplicationSetting_IsEmailMarketing]  DEFAULT((0)) FOR[IsEmailMarketing]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsShowPassword]  DEFAULT((0)) FOR[IsShowPassword]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_ApplicationSetting_IsShowPassword]  DEFAULT((0)) FOR[IsShowPassword]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsMultipleMobileAllowed]  DEFAULT((0)) FOR[IsMultipleMobileAllowed]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_ApplicationSetting_IsMultipleMobileAllowed]  DEFAULT((0)) FOR[IsMultipleMobileAllowed]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsPasswordOnly]  DEFAULT((0)) FOR[IsPasswordOnly]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_ApplicationSetting_IsPasswordOnly]  DEFAULT((0)) FOR[IsPasswordOnly]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsDefaultOTPDisabled]  DEFAULT((0)) FOR[IsDefaultOTPDisabled]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_ApplicationSetting_IsReferral]  DEFAULT((0)) FOR[IsReferral]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsShowPartner]  DEFAULT((0)) FOR[IsShowPartner]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_ApplicationSetting_IsBackUpService]  DEFAULT((0)) FOR[IsBackUpService]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsReferral]  DEFAULT((0)) FOR[IsReferral]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_ApplicationSetting_IsPaymentGateway]  DEFAULT((0)) FOR[IsPaymentGateway]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsPaymentGateway]  DEFAULT((0)) FOR[IsPaymentGateway]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_ApplicationSetting_IsMultipleVendorAllowed]  DEFAULT((0)) FOR[IsMultipleVendorAllowed]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsMultipleVendorAllowed]  DEFAULT((0)) FOR[IsMultipleVendorAllowed]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_ApplicationSetting_IsTwoFactorAuthenticationEnabled]  DEFAULT((0)) FOR[IsTwoFactorAuthenticationEnabled]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsTwoFactorAuthenticationEnabled]  DEFAULT((0)) FOR[IsTwoFactorAuthenticationEnabled]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_ApplicationSetting_IsSmsNotificationEnabled]  DEFAULT((0)) FOR[IsSmsNotificationEnabled]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsDataEncryptionEnabled]  DEFAULT((0)) FOR[IsDataEncryptionEnabled]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_ApplicationSetting_IsAppointmentReminderEnabled]  DEFAULT((0)) FOR[IsAppointmentReminderEnabled]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_MaxLoginAttempts]  DEFAULT((0)) FOR[MaxLoginAttempts]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_ApplicationSetting_IsDoctorAvailabilityNotificationEnabled]  DEFAULT((0)) FOR[IsDoctorAvailabilityNotificationEnabled]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_PasswordExpiryDays]  DEFAULT((0)) FOR[PasswordExpiryDays]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_ApplicationSetting_IsLabResultsNotificationEnabled]  DEFAULT((0)) FOR[IsLabResultsNotificationEnabled]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsUserActivityLoggingEnabled]  DEFAULT((0)) FOR[IsUserActivityLoggingEnabled]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_ApplicationSetting_IsMSServiceEnabled]  DEFAULT((0)) FOR[IsMSServiceEnabled]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsDarkModeEnabled]  DEFAULT((0)) FOR[IsDarkModeEnabled]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_ApplicationSetting_IsBillingNotificationEnabled]  DEFAULT((0)) FOR[IsBillingNotificationEnabled]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsAutoUpdateEnabled]  DEFAULT((0)) FOR[IsAutoUpdateEnabled]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_ApplicationSetting_IsPrescriptionRefillReminderEnabled]  DEFAULT((0)) FOR[IsPrescriptionRefillReminderEnabled]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsSmsNotificationEnabled]  DEFAULT((0)) FOR[IsSmsNotificationEnabled]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_ApplicationSetting_IsPatient]  DEFAULT((0)) FOR[IsPatient]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_SessionTimeoutMinutes]  DEFAULT((0)) FOR[SessionTimeoutMinutes]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_ApplicationSetting_IsDoctor]  DEFAULT((0)) FOR[IsDoctor]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsEmergencyAlertEnabled]  DEFAULT((0)) FOR[IsEmergencyAlertEnabled]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_ApplicationSetting_SuperAdmin]  DEFAULT((0)) FOR[SuperAdmin]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsPatientRecordEncryptionEnabled]  DEFAULT((0)) FOR[IsPatientRecordEncryptionEnabled]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_ApplicationSetting_IsAdmin]  DEFAULT((0)) FOR[IsAdmin]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsAppointmentReminderEnabled]  DEFAULT((0)) FOR[IsAppointmentReminderEnabled]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  DEFAULT(getdate()) FOR[EntryOn]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsDoctorAvailabilityNotificationEnabled]  DEFAULT((0)) FOR[IsDoctorAvailabilityNotificationEnabled]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  DEFAULT((0)) FOR[IsLowStorageMedicineNotification]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_MaxPatientRecordsView]  DEFAULT((0)) FOR[MaxPatientRecordsView]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  DEFAULT((0)) FOR[IsAppointmentContactService]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsLabResultsNotificationEnabled]  DEFAULT((0)) FOR[IsLabResultsNotificationEnabled]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  DEFAULT((0)) FOR[IsAppointmentFormService]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsInsuranceVerificationRequired]  DEFAULT((0)) FOR[IsInsuranceVerificationRequired]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  DEFAULT((0)) FOR[IsAppointmentStatus]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsTelemedicineEnabled]  DEFAULT((0)) FOR[IsTelemedicineEnabled]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  DEFAULT((0)) FOR[IsWhatsappMarketing]
 GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsBillingNotificationEnabled]  DEFAULT((0)) FOR[IsBillingNotificationEnabled]
-GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsPrescriptionRefillReminderEnabled]  DEFAULT((0)) FOR[IsPrescriptionRefillReminderEnabled]
-GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsPatient]  DEFAULT((0)) FOR[IsPatient]
-GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsDoctor]  DEFAULT((0)) FOR[IsDoctor]
-GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_SuperAdmin]  DEFAULT((0)) FOR[SuperAdmin]
-GO
-ALTER TABLE[dbo].[ApplicationSetting] ADD  CONSTRAINT[DF_IsAdmin]  DEFAULT((0)) FOR[IsAdmin]
+ALTER TABLE[dbo].[ApplicationSetting] ADD  DEFAULT((0)) FOR[IsDarkModeEnabled]
 GO
 ALTER TABLE[dbo].[Appointments] ADD  DEFAULT(getdate()) FOR[CreatedOn]
 GO
@@ -1215,7 +1258,17 @@ ALTER TABLE[dbo].[Patients] ADD  DEFAULT(getdate()) FOR[EntryOn]
 GO
 ALTER TABLE[dbo].[Payments] ADD  DEFAULT(getdate()) FOR[EntryOn]
 GO
-ALTER TABLE[dbo].[PremiumServices] ADD  DEFAULT(getdate()) FOR[CreatedAt]
+ALTER TABLE[dbo].[PremiumService] ADD  DEFAULT(getdate()) FOR[CreatedAt]
+GO
+ALTER TABLE[dbo].[PremiumService] ADD  DEFAULT((0)) FOR[IsLowStorageMedicineNotification]
+GO
+ALTER TABLE[dbo].[PremiumService] ADD  DEFAULT((0)) FOR[IsAppointmentContactService]
+GO
+ALTER TABLE[dbo].[PremiumService] ADD  DEFAULT((0)) FOR[IsAppointmentFormService]
+GO
+ALTER TABLE[dbo].[PremiumService] ADD  DEFAULT((0)) FOR[IsAppointmentStatus]
+GO
+ALTER TABLE[dbo].[PremiumService] ADD  DEFAULT((0)) FOR[IsWhatsappMarketing]
 GO
 ALTER TABLE[dbo].[Projects] ADD  DEFAULT(getdate()) FOR[CreatedOn]
 GO
@@ -1236,6 +1289,8 @@ GO
 ALTER TABLE[dbo].[TransactionDetails] ADD  DEFAULT(getdate()) FOR[EntryOn]
 GO
 ALTER TABLE[dbo].[Treatment] ADD  DEFAULT(getdate()) FOR[CreatedDate]
+GO
+ALTER TABLE[dbo].[UserLogins] ADD  DEFAULT(getdate()) FOR[LoginTime]
 GO
 ALTER TABLE[dbo].[WorkingHours] ADD  DEFAULT(getdate()) FOR[EntryOn]
 GO
@@ -1275,7 +1330,7 @@ ON DELETE CASCADE
 GO
 ALTER TABLE[dbo].[AspNetUserTokens] CHECK CONSTRAINT[FK_AspNetUserTokens_AspNetUsers_UserId]
 GO
-/****** Object:  StoredProcedure [dbo].[InsertEmailLog]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[InsertEmailLog]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1293,7 +1348,7 @@ BEGIN
 VALUES(@ToEmail, @Subject, @Body, @ErrorMessage, @SentStatus);
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[InsertInvoiceData]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[InsertInvoiceData]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1340,7 +1395,7 @@ THROW;
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Prc_InsertOrUpdateProject]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Prc_InsertOrUpdateProject]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1384,14 +1439,20 @@ SELECT - 1 AS StatusCode, ERROR_MESSAGE() AS ResponseText;
     END CATCH
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_ConfirmEmail]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_ConfirmEmail]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-create proc[dbo].[Proc_ConfirmEmail]@IsVerfied int,    @Email Varchar(100)AsBeginUpdate tbl_users set IsVerified = @IsVerfied where username = @Email;End
+create proc[dbo].[Proc_ConfirmEmail]
+@IsVerfied int,
+    @Email Varchar(100)
+As
+Begin
+Update tbl_users set IsVerified = @IsVerfied where username = @Email;
+End
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_FindUser]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_FindUser]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1416,7 +1477,7 @@ END
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_GetApplicationSetting]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_GetApplicationSetting]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1438,7 +1499,7 @@ SELECT *
 END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_GetAppointmentIdById]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_GetAppointmentIdById]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1452,7 +1513,7 @@ SELECT * FROM Appointments WHERE AppointmentId = @AppointmentId;
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_GetAppointments]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_GetAppointments]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1471,7 +1532,7 @@ SELECT * FROM Appointments ORDER BY 1 DESC;
 END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_GetDoctors]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_GetDoctors]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1490,7 +1551,7 @@ SELECT * FROM Doctors ORDER BY 1 DESC;
 END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_GetDoctorsById]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_GetDoctorsById]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1504,7 +1565,7 @@ SELECT * FROM Doctors WHERE DrId = @DrId;
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_GetEmailTemplate]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_GetEmailTemplate]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1515,7 +1576,7 @@ Begin
 Select * from EmailTemplates
 End
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_GetInvoiceDataByInvoiceId]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_GetInvoiceDataByInvoiceId]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1560,7 +1621,7 @@ THROW;
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_GetInvoiceList]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_GetInvoiceList]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1571,7 +1632,7 @@ Begin
 select * from Invoice order by 1 desc;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_GetMedicineById]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_GetMedicineById]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1593,7 +1654,7 @@ WHERE
 m.MedicineID = @MedicineID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_GetMedicines]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_GetMedicines]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1619,7 +1680,7 @@ BEGIN
 END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_GetMedQuantityByName]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_GetMedQuantityByName]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1634,7 +1695,7 @@ INNER JOIN Medicines m ON m.MedicineID = ms.MedicineID
 WHERE m.Name LIKE '%' + @Name + '%';
 End
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_GetPatients]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_GetPatients]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1653,7 +1714,7 @@ SELECT * FROM Patients;
 END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_GetPatientsById]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_GetPatientsById]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1667,7 +1728,7 @@ SELECT * FROM Patients WHERE PId = @PId;
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_GetPremiumService]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_GetPremiumService]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1686,7 +1747,7 @@ SELECT * FROM PremiumServices;
 END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_GetPremiumServiceById]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_GetPremiumServiceById]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1698,7 +1759,7 @@ BEGIN
 SELECT * FROM PremiumServices WHERE ServiceID = @ServiceID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_GetPurchaseServiceById]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_GetPurchaseServiceById]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1710,7 +1771,7 @@ BEGIN
 SELECT * FROM Purchases WHERE PurchaseID = @PurchaseID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_GetPurchasesService]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_GetPurchasesService]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1729,7 +1790,7 @@ SELECT * FROM Purchases;
 END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_GetTreatmentById]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_GetTreatmentById]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1772,7 +1833,7 @@ THROW;
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_GetTreatmentList]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_GetTreatmentList]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1800,7 +1861,7 @@ BEGIN
 END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_GetUser]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_GetUser]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1815,7 +1876,7 @@ Begin
  JOIN AspNetRoles R ON UR.RoleId = R.Id;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_IncrementInvalidLoginAttempts]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_IncrementInvalidLoginAttempts]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1844,7 +1905,7 @@ RAISERROR('User not found.', 16, 1);
 END
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_InsertErrorLog]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_InsertErrorLog]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1872,12 +1933,12 @@ THROW;
     END CATCH;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[proc_InsertOrUpdateDoctor]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[proc_InsertOrUpdateDoctor]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
+  
 CREATE PROCEDURE[dbo].[proc_InsertOrUpdateDoctor]
 @DrId INT = NULL,
     @Name VARCHAR(100),
@@ -1887,7 +1948,7 @@ CREATE PROCEDURE[dbo].[proc_InsertOrUpdateDoctor]
                     @Address VARCHAR(200),
                         @Specialization VARCHAR(100),
                             @Gender CHAR(1),
-                                @DateOfBirth DATE,
+                                @DateOfBirth VARCHAR(200),
                                     @Qualifications VARCHAR(200),
                                         @ExperienceYears INT,
                                             @Affiliations VARCHAR(200),
@@ -1896,13 +1957,13 @@ CREATE PROCEDURE[dbo].[proc_InsertOrUpdateDoctor]
                                                         @Availability VARCHAR(100),
                                                             @Status INT
 AS
+BEGIN  
+    SET NOCOUNT ON;  
+  
+    BEGIN TRY  
+        IF @DrId IS NULL OR @DrId = 0
 BEGIN
-    SET NOCOUNT ON;
-
-    BEGIN TRY
-        IF @DrId IS NULL
-BEGIN
---Insert new record
+--Insert new record  
             INSERT INTO Doctors(
     Name, Email, Phone, DrImage, Address, Specialization, Gender, DateOfBirth,
     Qualifications, ExperienceYears, Affiliations, Languages, ConsultationFee,
@@ -1912,13 +1973,13 @@ VALUES(
     @Name, @Email, @Phone, @DrImage, @Address, @Specialization, @Gender, @DateOfBirth,
     @Qualifications, @ExperienceYears, @Affiliations, @Languages, @ConsultationFee,
     @Availability, @Status
-);
+);  
            SELECT 1 AS StatusCode, 'Insert Successful' AS ResponseText;
 END
 ELSE
 BEGIN
---Update existing record
-            UPDATE Doctors
+--Update existing record  
+            UPDATE Doctors  
             SET Name = @Name,
     Email = @Email,
     Phone = @Phone,
@@ -1933,17 +1994,17 @@ BEGIN
         Languages = @Languages,
         ConsultationFee = @ConsultationFee,
         Availability = @Availability,
-        Status = @Status
-            WHERE DrId = @DrId;
+        Status = @Status  
+            WHERE DrId = @DrId;  
             SELECT 1 AS StatusCode, 'Update Successful' AS ResponseText;
-END
-    END TRY
+END  
+    END TRY  
     BEGIN CATCH
-SELECT - 1 AS StatusCode, ERROR_MESSAGE() AS ResponseText;
+SELECT - 1 AS StatusCode, ERROR_MESSAGE() AS ResponseText;  
     END CATCH
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[proc_InsertOrUpdatePatient]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[proc_InsertOrUpdatePatient]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2030,7 +2091,7 @@ SELECT - 1 AS StatusCode, ERROR_MESSAGE() AS ResponseText;
     END CATCH
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_InsertOrUpdatePremiumService]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_InsertOrUpdatePremiumService]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2057,19 +2118,37 @@ CREATE PROCEDURE[dbo].[Proc_InsertOrUpdatePremiumService]
                                                                         @EmailVerificationService BIT,
                                                                             @ShowYourUserPassword BIT,
                                                                                 @ReferralService BIT,
-                                                                                    @AutoBackUpService BIT,
+                                                                                    @BackUpService BIT,
                                                                                         @SmsNotificationService BIT,
                                                                                             @EmergencyAlertService BIT,
                                                                                                 @UserAppointmentReminderService BIT,
                                                                                                     @DoctorAvailabilityNotificationService BIT,
                                                                                                         @MedicineStoreManagementService BIT,
-                                                                                                            @TwoFactorAuthenticationService BIT
+                                                                                                            @TwoFactorAuthenticationService BIT,
+                                                                                                                @IsMultipleMobileAllowed BIT,
+                                                                                                                    @IsDarkModeEnabled BIT,
+                                                                                                                        @IsBillingNotificationEnabled BIT,
+                                                                                                                            @IsPrescriptionRefillReminderEnabled BIT,
+                                                                                                                                @MaxLoginAttempts BIT,
+                                                                                                                                    @IsShowPassword BIT,
+                                                                                                                                        @IsSocialAlert BIT,
+                                                                                                                                            @IsPasswordOnly BIT,
+                                                                                                                                                @IsPatient BIT,
+                                                                                                                                                    @IsDoctor BIT,
+                                                                                                                                                        @SuperAdmin BIT,
+                                                                                                                                                            @IsAdmin BIT,
+                                                                                                                                                                @IsLabManagmentService BIT,
+                                                                                                                                                                    @IsLowStorageMedicineNotification BIT,
+                                                                                                                                                                        @IsAppointmentContactService BIT,
+                                                                                                                                                                            @IsAppointmentFormService BIT,
+                                                                                                                                                                                @IsAppointmentStatus BIT,
+                                                                                                                                                                                    @IsWhatsappMarketing BIT
 AS
-BEGIN
-    BEGIN TRY
+BEGIN    
+    BEGIN TRY    
         IF @ServiceID IS NULL
 BEGIN
---Insert new record
+--Insert new record    
             INSERT INTO PremiumService(
     ServiceName,
     Description,
@@ -2084,6 +2163,7 @@ BEGIN
     Discounts,
     CustomerSupportLevel,
     TermsAndConditions,
+    CreatedAt,
     UpdatedAt,
     UsageLimits,
     FeedbackRating,
@@ -2092,13 +2172,31 @@ BEGIN
     EmailVerificationService,
     ShowYourUserPassword,
     ReferralService,
-    AutoBackUpService,
+    BackUpService,
     SmsNotificationService,
-    EmergencyAlertService,
     UserAppointmentReminderService,
     DoctorAvailabilityNotificationService,
     MedicineStoreManagementService,
-    TwoFactorAuthenticationService
+    TwoFactorAuthenticationService,
+    IsMultipleMobileAllowed,
+    IsDarkModeEnabled,
+    IsBillingNotificationEnabled,
+    IsPrescriptionRefillReminderEnabled,
+    MaxLoginAttempts,
+    IsShowPassword,
+    IsSocialAlert,
+    IsPasswordOnly,
+    IsPatient,
+    IsDoctor,
+    SuperAdmin,
+    IsAdmin,
+    IsLabManagmentService,
+    IsLowStorageMedicineNotification,
+    IsAppointmentContactService,
+    IsAppointmentFormService,
+    IsAppointmentStatus,
+    IsWhatsappMarketing
+
 ) VALUES(
     @ServiceName,
     @Description,
@@ -2113,7 +2211,8 @@ BEGIN
     @Discounts,
     @CustomerSupportLevel,
     @TermsAndConditions,
-    GETDATE(), --UpdatedAt
+    GETDATE(), --CreatedAt    
+                GETDATE(), --UpdatedAt    
                 @UsageLimits,
     @FeedbackRating,
     @Popularity,
@@ -2121,19 +2220,36 @@ BEGIN
     @EmailVerificationService,
     @ShowYourUserPassword,
     @ReferralService,
-    @AutoBackUpService,
+    @BackUpService,
     @SmsNotificationService,
-    @EmergencyAlertService,
     @UserAppointmentReminderService,
     @DoctorAvailabilityNotificationService,
     @MedicineStoreManagementService,
-    @TwoFactorAuthenticationService
-);
+    @TwoFactorAuthenticationService,
+    @IsMultipleMobileAllowed,
+    @IsDarkModeEnabled,
+    @IsBillingNotificationEnabled,
+    @IsPrescriptionRefillReminderEnabled,
+    @MaxLoginAttempts,
+    @IsShowPassword,
+    @IsSocialAlert,
+    @IsPasswordOnly,
+    @IsPatient,
+    @IsDoctor,
+    @SuperAdmin,
+    @IsAdmin,
+    @IsLabManagmentService,
+    @IsLowStorageMedicineNotification,
+    @IsAppointmentContactService,
+    @IsAppointmentFormService,
+    @IsAppointmentStatus,
+    @IsWhatsappMarketing
+);    
             SELECT 1 AS StatusCode, 'Add Successful' AS ResponseText;
 END
 ELSE
 BEGIN
---Update existing record
+--Update existing record    
             UPDATE PremiumService
 SET
 ServiceName = @ServiceName,
@@ -2157,24 +2273,40 @@ UsageLimits = @UsageLimits,
     EmailVerificationService = @EmailVerificationService,
     ShowYourUserPassword = @ShowYourUserPassword,
     ReferralService = @ReferralService,
-    AutoBackUpService = @AutoBackUpService,
+    BackUpService = @BackUpService,
     SmsNotificationService = @SmsNotificationService,
-    EmergencyAlertService = @EmergencyAlertService,
     UserAppointmentReminderService = @UserAppointmentReminderService,
     DoctorAvailabilityNotificationService = @DoctorAvailabilityNotificationService,
     MedicineStoreManagementService = @MedicineStoreManagementService,
-    TwoFactorAuthenticationService = @TwoFactorAuthenticationService
-            WHERE ServiceID = @ServiceID;
+    TwoFactorAuthenticationService = @TwoFactorAuthenticationService,
+    IsMultipleMobileAllowed = @IsMultipleMobileAllowed,
+    IsDarkModeEnabled = @IsDarkModeEnabled,
+    IsBillingNotificationEnabled = @IsBillingNotificationEnabled,
+    IsPrescriptionRefillReminderEnabled = @IsPrescriptionRefillReminderEnabled,
+    MaxLoginAttempts = @MaxLoginAttempts,
+    IsShowPassword = @IsShowPassword,
+    IsSocialAlert = @IsSocialAlert,
+    IsPasswordOnly = @IsPasswordOnly,
+    IsPatient = @IsPatient,
+    IsDoctor = @IsDoctor,
+    SuperAdmin = @SuperAdmin,
+    IsAdmin = @IsAdmin,
+    IsLabManagmentService = @IsLabManagmentService,
+    IsLowStorageMedicineNotification = @IsLowStorageMedicineNotification,
+    IsAppointmentContactService = @IsAppointmentContactService,
+    IsAppointmentFormService = @IsAppointmentFormService,
+    IsAppointmentStatus = @IsAppointmentStatus,
+    IsWhatsappMarketing = @IsWhatsappMarketing
+            WHERE ServiceID = @ServiceID;    
             SELECT 1 AS StatusCode, 'Update Successful' AS ResponseText;
-END
-    END TRY
+END    
+    END TRY    
     BEGIN CATCH
-SELECT - 1 AS StatusCode, ERROR_MESSAGE() AS ResponseText;
+SELECT - 1 AS StatusCode, ERROR_MESSAGE() AS ResponseText;    
     END CATCH
-END
-
+END;
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_InsertTreatment]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_InsertTreatment]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2186,72 +2318,163 @@ CREATE PROCEDURE[dbo].[Proc_InsertTreatment]
             @TreatmentDate DATETIME,
                 @Description NVARCHAR(MAX),
                     @Status NVARCHAR(50),
-
                         @CreatedBy NVARCHAR(100),
-                            @Medications MedicationType READONLY-- Table type for Medications
-AS
-BEGIN
-    SET NOCOUNT ON;
-
+                            @Medications MedicationType READONLY-- Table type for Medications  
+AS  
+BEGIN  
+  Begin Try
+    SET NOCOUNT ON;  
+  
     DECLARE @TreatmentId INT;
 
---Insert into Treatment table
+--Insert into Treatment table  
     INSERT INTO Treatment(PId, DrId, Diagnosis, TreatmentDate, Description, Status, CreatedBy)
-VALUES(@PatientId, @DoctorId, @Diagnosis, @TreatmentDate, @Description, @Status, @CreatedBy);
-
+VALUES(@PatientId, @DoctorId, @Diagnosis, @TreatmentDate, @Description, @Status, @CreatedBy);  
+  
     SET @TreatmentId = SCOPE_IDENTITY();
 
---Insert into Medication table
-    INSERT INTO Medication(TreatmentId, Name, Dosage, Frequency, FollowUpDate)
-    SELECT @TreatmentId, Name, Dosage, Frequency, FollowUpDate
-    FROM @Medications;
-
-    RETURN @TreatmentId;
+--Insert into Medication table  
+    INSERT INTO Medication(TreatmentId, Name, Dosage, Frequency, FollowUpDate)  
+    SELECT @TreatmentId, Name, Dosage, Frequency, FollowUpDate  
+    FROM @Medications;  
+  
+    SELECT 1 AS StatusCode, 'Add Successful' AS ResponseText;
+  End try
+  Begin Catch
+SELECT - 1 AS StatusCode, ERROR_MESSAGE() AS ResponseText;
+  End Catch
 END;
 
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_IsUserVerfied]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_InsertUserLogin]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE[dbo].[Proc_IsUserVerfied]@Email VARCHAR(100)ASBEGIN      IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email AND(IsActive = 0 OR IsActive IS NULL))BEGIN        SELECT 3 AS StatusCode, 'Your account has been deactivated. Please contact the support team for assistance.' AS ResponseText;END	ELSE IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email AND IsLocked = 1)
-BEGIN
-SELECT - 1 AS StatusCode, 'The user account is temporarily locked.' AS ResponseText;
-END    ELSE IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email AND IsVerified = 1)BEGIN        SELECT 1 AS StatusCode, 'Email Verified' AS ResponseText;END    ELSE IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email AND(IsVerified = 0 OR IsVerified IS NULL))BEGIN        SELECT 2 AS StatusCode, 'Email Not Verified' AS ResponseText;ENDELSEBEGINSELECT - 1 AS StatusCode, 'Invalid Email' AS ResponseText;ENDEND;
-GO
-/****** Object:  StoredProcedure [dbo].[Proc_ManagePurchase]    Script Date: 13-06-2024 18:47:03 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-
-
-CREATE PROCEDURE[dbo].[Proc_ManagePurchase]
-@PurchaseID INT = NULL,
-    @UserEmail VARCHAR(255),
-        @ServiceID INT,
-            @ActivationDate DATETIME,
-                @ExpiryDate DATETIME,
-                    @Price DECIMAL(10, 2),
-                        @Discount DECIMAL(10, 2),
-                            @FinalPrice DECIMAL(10, 2),
-                                @RenewalOption BIT,
-                                    @Action VARCHAR(10)
+CREATE PROCEDURE[dbo].[Proc_InsertUserLogin]
+@UserEmail NVARCHAR(255),
+    @DeviceID INT,
+        @IPAddress NVARCHAR(45),
+            @LoginStatus INT
 AS
 BEGIN
-    SET NOCOUNT ON;
-    
-    BEGIN TRY
-        IF @PurchaseID IS NULL
+    INSERT INTO UserLogins(UserEmail, DeviceID, IPAddress, LoginStatus)
+VALUES(@UserEmail, @DeviceID, @IPAddress, @LoginStatus);
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[Proc_IsUserVerfied]    Script Date: 24-06-2024 18:37:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE[dbo].[Proc_IsUserVerfied]
+@Email VARCHAR(100)
+AS
 BEGIN
-            INSERT INTO Purchases(UserEmail, ServiceID, ActivationDate, ExpiryDate, Price, Discount, FinalPrice, RenewalOption)
-VALUES(@UserEmail, @ServiceID, @ActivationDate, @ExpiryDate, @Price, @Discount, @FinalPrice, @RenewalOption);
-            SELECT 1 AS StatusCode, 'Add Successful' AS ResponseText;
+      IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email AND(IsActive = 0 OR IsActive IS NULL))
+BEGIN
+        SELECT 3 AS StatusCode, 'Your account has been deactivated. Please contact the support team for assistance.' AS ResponseText;
+END
+	ELSE IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email AND IsLocked = 1)
+BEGIN
+SELECT - 1 AS StatusCode, 'The user account is temporarily locked.' AS ResponseText;
+END
+    ELSE IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email AND IsVerified = 1)
+BEGIN
+        SELECT 1 AS StatusCode, 'Email Verified' AS ResponseText;
+END
+    ELSE IF EXISTS(SELECT 1 FROM tbl_users WHERE username = @Email AND(IsVerified = 0 OR IsVerified IS NULL))
+BEGIN
+        SELECT 2 AS StatusCode, 'Email Not Verified' AS ResponseText;
 END
 ELSE
 BEGIN
-            UPDATE Purchases
+SELECT - 1 AS StatusCode, 'Invalid Email' AS ResponseText;
+END
+END;
+
+GO
+/****** Object:  StoredProcedure [dbo].[Proc_ManagePurchase]    Script Date: 24-06-2024 18:37:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+    
+    
+CREATE PROCEDURE[dbo].[Proc_ManagePurchase]
+@PurchaseID INT = NULL,
+    @ProjectID INT,
+        @UserEmail VARCHAR(255),
+            @ServiceID INT,
+                @ActivationDate DATETIME,
+                    @ExpiryDate DATETIME,
+                        @Price DECIMAL(10, 2),
+                            @Discount DECIMAL(10, 2),
+                                @FinalPrice DECIMAL(10, 2),
+                                    @RenewalOption BIT
+AS
+BEGIN
+Declare
+@EmailMarketing bit,
+    @EmailVerificationService bit,
+        @ShowYourUserPassword bit,
+            @ReferralService bit,
+                @BackUpService bit,
+                    @SmsNotificationService bit,
+                        @IsDarkModeEnabled bit,
+                            @UserAppointmentReminderService bit,
+                                @DoctorAvailabilityNotificationService bit,
+                                    @MedicineStoreManagementService bit,
+                                        @TwoFactorAuthenticationService bit,
+                                            @IsMultipleMobileAllowed BIT,
+                                                @IsBillingNotificationEnabled BIT,
+                                                    @IsPrescriptionRefillReminderEnabled BIT,
+                                                        @MaxLoginAttempts BIT,
+                                                            @IsShowPassword BIT,
+                                                                @IsSocialAlert BIT,
+                                                                    @IsPasswordOnly BIT,
+                                                                        @IsPatient BIT,
+                                                                            @IsDoctor BIT,
+                                                                                @SuperAdmin BIT,
+                                                                                    @IsAdmin BIT,
+                                                                                        @IsLabManagmentService BIT,
+                                                                                            @IsLowStorageMedicineNotification BIT,
+                                                                                                @IsAppointmentContactService BIT,
+                                                                                                    @IsAppointmentFormService BIT,
+                                                                                                        @IsAppointmentStatus BIT,
+                                                                                                            @IsWhatsappMarketing BIT
+    SET NOCOUNT ON;    
+        
+    BEGIN TRY    
+        IF @PurchaseID IS NULL
+BEGIN    
+            INSERT INTO Purchases(UserEmail, ServiceID, ActivationDate, ExpiryDate, Price, Discount, FinalPrice, RenewalOption)
+VALUES(@UserEmail, @ServiceID, @ActivationDate, @ExpiryDate, @Price, @Discount, @FinalPrice, @RenewalOption);   
+  
+  
+   Select @EmailMarketing=EmailMarketing, @EmailVerificationService = EmailVerificationService, @ShowYourUserPassword = ShowYourUserPassword, @ReferralService = ReferralService,
+    @BackUpService = BackUpService, @SmsNotificationService = SmsNotificationService, @UserAppointmentReminderService = UserAppointmentReminderService,
+    @DoctorAvailabilityNotificationService = DoctorAvailabilityNotificationService, @MedicineStoreManagementService = MedicineStoreManagementService, @TwoFactorAuthenticationService = TwoFactorAuthenticationService,
+    @IsMultipleMobileAllowed = IsMultipleMobileAllowed, @IsBillingNotificationEnabled = IsBillingNotificationEnabled, @IsPrescriptionRefillReminderEnabled = IsPrescriptionRefillReminderEnabled,
+    @MaxLoginAttempts = MaxLoginAttempts,
+    @IsShowPassword = IsShowPassword, @IsSocialAlert = IsSocialAlert, @IsPasswordOnly = IsPasswordOnly, @IsPatient = IsPatient, @IsDoctor = IsDoctor, @SuperAdmin = SuperAdmin, @IsAdmin = IsAdmin  
+   From PremiumService Where ServiceID = @ServiceID;  
+  
+   Update ApplicationSetting Set  IsEmailVerificationRequired = @EmailVerificationService, IsEmailMarketing = @EmailMarketing, IsShowPassword = @ShowYourUserPassword, IsReferral = @ReferralService,
+    IsBackUpService = @BackUpService, IsSmsNotificationEnabled = @SmsNotificationService, IsDarkModeEnabled = @IsDarkModeEnabled, IsAppointmentReminderEnabled = @UserAppointmentReminderService, IsDoctorAvailabilityNotificationEnabled = @DoctorAvailabilityNotificationService,
+    IsMSServiceEnabled = @MedicineStoreManagementService, IsTwoFactorAuthenticationEnabled = @TwoFactorAuthenticationService, IsMultipleMobileAllowed = @IsMultipleMobileAllowed,
+    IsBillingNotificationEnabled = @IsBillingNotificationEnabled, IsPrescriptionRefillReminderEnabled = @IsPrescriptionRefillReminderEnabled, MaxLoginAttempts = @MaxLoginAttempts,
+    IsSocialAlert = @IsSocialAlert, IsPasswordOnly = @IsPasswordOnly, IsPatient = @IsPatient, IsDoctor = @IsDoctor, SuperAdmin = @SuperAdmin, IsAdmin = @IsAdmin,
+    IsLabManagmentService = @IsLabManagmentService, IsLowStorageMedicineNotification = @IsLowStorageMedicineNotification, IsAppointmentContactService = @IsAppointmentContactService,
+    IsAppointmentFormService = @IsAppointmentFormService, IsAppointmentStatus = @IsAppointmentStatus, IsWhatsappMarketing = @IsWhatsappMarketing
+   Where ProjectID = @ProjectID;  
+  
+            SELECT 1 AS StatusCode, 'Add Successful' AS ResponseText;
+END
+ELSE
+BEGIN    
+            UPDATE Purchases    
             SET UserEmail = @UserEmail,
     ServiceID = @ServiceID,
     ActivationDate = @ActivationDate,
@@ -2259,17 +2482,17 @@ BEGIN
     Price = @Price,
     Discount = @Discount,
     FinalPrice = @FinalPrice,
-    RenewalOption = @RenewalOption
-            WHERE PurchaseID = @PurchaseID;
+    RenewalOption = @RenewalOption    
+            WHERE PurchaseID = @PurchaseID;   
             SELECT 1 AS StatusCode, 'Update Successful' AS ResponseText;
-END
-    END TRY
-    BEGIN CATCH
-         SELECT 1 AS StatusCode, ERROR_MESSAGE() AS ResponseText;
+END    
+    END TRY    
+    BEGIN CATCH    
+         SELECT 1 AS StatusCode, ERROR_MESSAGE() AS ResponseText;    
     END CATCH
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_PageErrorLog]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_PageErrorLog]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2292,7 +2515,7 @@ SELECT 1, 'Error Log Sucessfully Inserted' Msg
 
 end
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_ResetInvalidLoginAttempts]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_ResetInvalidLoginAttempts]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2316,7 +2539,7 @@ RAISERROR('User not found.', 16, 1);
 END
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_UpdateTreatment]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_UpdateTreatment]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2330,13 +2553,14 @@ CREATE PROCEDURE[dbo].[Proc_UpdateTreatment]
                     @Description NVARCHAR(MAX),
                         @Status NVARCHAR(50),
                             @ModifiedBy NVARCHAR(100),
-                                @Medications MedicationType READONLY-- Table type for Medications
-AS
-BEGIN
-    SET NOCOUNT ON;
+                                @Medications MedicationType READONLY-- Table type for Medications  
+AS  
+BEGIN  
+ Begin Try
+ SET NOCOUNT ON;
 
---Update Treatment table
-    UPDATE Treatment
+--Update Treatment table  
+    UPDATE Treatment  
     SET PId = @PatientId,
     DrId = @DoctorId,
     Diagnosis = @Diagnosis,
@@ -2344,19 +2568,24 @@ BEGIN
     Description = @Description,
     Status = @Status,
     ModifiedDate = getdate(),
-    ModifiedBy = @ModifiedBy
+    ModifiedBy = @ModifiedBy  
     WHERE TreatmentId = @TreatmentId;
 
---Delete existing Medications
+--Delete existing Medications  
     DELETE FROM Medication WHERE TreatmentId = @TreatmentId;
 
---Insert new Medications
-    INSERT INTO Medication(TreatmentId, Name, Dosage, Frequency, FollowUpDate)
-    SELECT @TreatmentId, Name, Dosage, Frequency, FollowUpDate
+--Insert new Medications  
+    INSERT INTO Medication(TreatmentId, Name, Dosage, Frequency, FollowUpDate)  
+    SELECT @TreatmentId, Name, Dosage, Frequency, FollowUpDate  
     FROM @Medications;
+	SELECT 1 AS StatusCode, 'Update Successful' AS ResponseText;
+  End try
+  Begin Catch
+SELECT - 1 AS StatusCode, ERROR_MESSAGE() AS ResponseText;
+  End Catch
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_UpsertAppointment]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_UpsertAppointment]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2403,7 +2632,7 @@ SELECT - 1 AS StatusCode, ERROR_MESSAGE() AS ResponseText;
     END CATCH
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_UpsertMedicineAndStock]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_UpsertMedicineAndStock]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2449,7 +2678,7 @@ END
 SELECT - 1 AS StatusCode, 'Sorry something went wrong!' AS ResponseText;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[Proc_VerifyConfirmationEmail]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[Proc_VerifyConfirmationEmail]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2485,7 +2714,7 @@ SELECT - 2 AS StatusCode, 'Invalid OTP or Email' AS ResponseText;
 END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_insert_user]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[sp_insert_user]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2499,7 +2728,7 @@ BEGIN
 VALUES(@username, @PasswordHash);
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[sp_Validate_Email]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[sp_Validate_Email]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2515,7 +2744,7 @@ BEGIN
 VALUES(@Email, @OTP);
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[sp_VerifyOTP]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[sp_VerifyOTP]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2551,7 +2780,7 @@ SELECT - 2 AS StatusCode, 'Invalid OTP or Email' AS ResponseText;
 END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateApplicationSetting]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[UpdateApplicationSetting]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2559,92 +2788,83 @@ GO
 CREATE PROCEDURE[dbo].[UpdateApplicationSetting]
 @IsSocialAlert BIT,
     @IsEmailVerificationRequired BIT,
-        @IsBulkEmail BIT,
+        @IsEmailMarketing BIT,
             @IsShowPassword BIT,
                 @IsMultipleMobileAllowed BIT,
                     @ProjectID INT,
                         @IsPasswordOnly BIT,
-                            @IsDefaultOTPDisabled BIT,
-                                @IsShowPartner BIT,
-                                    @IsReferral BIT,
-                                        @IsPaymentGateway BIT,
-                                            @IsMultipleVendorAllowed BIT,
-                                                @IsTwoFactorAuthenticationEnabled BIT,
-                                                    @IsDataEncryptionEnabled BIT,
-                                                        @MaxLoginAttempts INT,
-                                                            @PasswordExpiryDays INT,
-                                                                @IsUserActivityLoggingEnabled BIT,
-                                                                    @IsDarkModeEnabled BIT,
-                                                                        @IsAutoUpdateEnabled BIT,
-                                                                            @IsSmsNotificationEnabled BIT,
-                                                                                @SessionTimeoutMinutes INT,
-                                                                                    @IsEmergencyAlertEnabled BIT,
-                                                                                        @IsPatientRecordEncryptionEnabled BIT,
-                                                                                            @IsAppointmentReminderEnabled BIT,
-                                                                                                @IsDoctorAvailabilityNotificationEnabled BIT,
-                                                                                                    @MaxPatientRecordsView INT,
-                                                                                                        @IsLabResultsNotificationEnabled BIT,
-                                                                                                            @IsInsuranceVerificationRequired BIT,
-                                                                                                                @IsTelemedicineEnabled BIT,
-                                                                                                                    @IsBillingNotificationEnabled BIT,
-                                                                                                                        @IsPrescriptionRefillReminderEnabled BIT,
-                                                                                                                            @IsPatient BIT,
-                                                                                                                                @IsDoctor BIT,
-                                                                                                                                    @SuperAdmin BIT,
-                                                                                                                                        @IsAdmin BIT
+                            @IsReferral BIT,
+                                @IsBackUpService bit,
+                                    @IsPaymentGateway BIT,
+                                        @IsMultipleVendorAllowed BIT,
+                                            @IsTwoFactorAuthenticationEnabled BIT,
+                                                @MaxLoginAttempts INT,
+                                                    @IsSmsNotificationEnabled BIT,
+                                                        @IsAppointmentReminderEnabled BIT,
+                                                            @IsDoctorAvailabilityNotificationEnabled BIT,
+                                                                @IsLabResultsNotificationEnabled BIT,
+                                                                    @IsMSServiceEnabled BIT,
+                                                                        @IsBillingNotificationEnabled BIT,
+                                                                            @IsPrescriptionRefillReminderEnabled BIT,
+                                                                                @IsPatient BIT,
+                                                                                    @IsDoctor BIT,
+                                                                                        @SuperAdmin BIT,
+                                                                                            @IsAdmin BIT,
+                                                                                                @IsLabManagmentService BIT,
+                                                                                                    @IsLowStorageMedicineNotification BIT,
+                                                                                                        @IsAppointmentContactService BIT,
+                                                                                                            @IsAppointmentFormService BIT,
+                                                                                                                @IsAppointmentStatus BIT,
+                                                                                                                    @IsWhatsappMarketing BIT
 AS
-BEGIN
-    BEGIN TRY
-        BEGIN TRANSACTION;
-
+BEGIN    
+    BEGIN TRY    
+        BEGIN TRANSACTION;    
+    
         UPDATE ApplicationSetting
 SET
 IsSocialAlert = @IsSocialAlert,
     IsEmailVerificationRequired = @IsEmailVerificationRequired,
-    IsBulkEmail = @IsBulkEmail,
+    IsEmailMarketing = @IsEmailMarketing,
     IsShowPassword = @IsShowPassword,
     IsMultipleMobileAllowed = @IsMultipleMobileAllowed,
     IsPasswordOnly = @IsPasswordOnly,
-    IsDefaultOTPDisabled = @IsDefaultOTPDisabled,
-    IsShowPartner = @IsShowPartner,
     IsReferral = @IsReferral,
     IsPaymentGateway = @IsPaymentGateway,
     IsMultipleVendorAllowed = @IsMultipleVendorAllowed,
     IsTwoFactorAuthenticationEnabled = @IsTwoFactorAuthenticationEnabled,
-    IsDataEncryptionEnabled = @IsDataEncryptionEnabled,
     MaxLoginAttempts = @MaxLoginAttempts,
-    PasswordExpiryDays = @PasswordExpiryDays,
-    IsUserActivityLoggingEnabled = @IsUserActivityLoggingEnabled,
-    IsDarkModeEnabled = @IsDarkModeEnabled,
-    IsAutoUpdateEnabled = @IsAutoUpdateEnabled,
+    IsBackUpService = @IsBackUpService,
     IsSmsNotificationEnabled = @IsSmsNotificationEnabled,
-    SessionTimeoutMinutes = @SessionTimeoutMinutes,
-    IsEmergencyAlertEnabled = @IsEmergencyAlertEnabled,
-    IsPatientRecordEncryptionEnabled = @IsPatientRecordEncryptionEnabled,
     IsAppointmentReminderEnabled = @IsAppointmentReminderEnabled,
     IsDoctorAvailabilityNotificationEnabled = @IsDoctorAvailabilityNotificationEnabled,
-    MaxPatientRecordsView = @MaxPatientRecordsView,
     IsLabResultsNotificationEnabled = @IsLabResultsNotificationEnabled,
-    IsInsuranceVerificationRequired = @IsInsuranceVerificationRequired,
-    IsTelemedicineEnabled = @IsTelemedicineEnabled,
+    IsMSServiceEnabled = @IsMSServiceEnabled,
     IsBillingNotificationEnabled = @IsBillingNotificationEnabled,
     IsPrescriptionRefillReminderEnabled = @IsPrescriptionRefillReminderEnabled,
     IsPatient = @IsPatient,
     IsDoctor = @IsDoctor,
     SuperAdmin = @SuperAdmin,
-    IsAdmin = @IsAdmin
+    IsAdmin = @IsAdmin,
+    Updatedate = Getdate(),
+    IsLabManagmentService = @IsLabManagmentService,
+    IsLowStorageMedicineNotification = @IsLowStorageMedicineNotification,
+    IsAppointmentContactService = @IsAppointmentContactService,
+    IsAppointmentFormService = @IsAppointmentFormService,
+    IsAppointmentStatus = @IsAppointmentStatus,
+    IsWhatsappMarketing = @IsWhatsappMarketing
 WHERE
-ProjectID = @ProjectID;
-
-        COMMIT TRANSACTION;
-        SELECT 1 AS StatusCode, 'Update Successfully' AS ResponseText;
-    END TRY
+ProjectID = @ProjectID;    
+    
+        COMMIT TRANSACTION;    
+        SELECT 1 AS StatusCode, 'Update Successfully' AS ResponseText;    
+    END TRY    
     BEGIN CATCH
-SELECT - 1 AS StatusCode, 'An error has been occured!' AS ResponseText;
+SELECT - 1 AS StatusCode, 'An error has been occured!' AS ResponseText;    
     END CATCH
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[usp_UpsertEmailTemplate]    Script Date: 13-06-2024 18:47:03 ******/
+/****** Object:  StoredProcedure [dbo].[usp_UpsertEmailTemplate]    Script Date: 24-06-2024 18:37:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2687,145 +2907,6 @@ GO
 
 
 
-
-
-
-
-
-
-	
-
-function updateApplicationSetting()
-{
-        var setting = {
-            IsSocialAlert: true,
-            IsEmailVerificationRequired: false,
-            IsBulkEmail: true,
-            IsShowPassword: false,
-            IsMultipleMobileAllowed: true,
-            ProjectID: 123,
-            IsPasswordOnly: false,
-            IsDefaultOTPDisabled: true,
-            IsShowPartner: false,
-            IsReferral: true,
-            IsPaymentGateway: false,
-            IsMultipleVendorAllowed: true,
-            IsTwoFactorAuthenticationEnabled: false,
-            IsDataEncryptionEnabled: true,
-            MaxLoginAttempts: 5,
-            PasswordExpiryDays: 30,
-            IsUserActivityLoggingEnabled: true,
-            IsDarkModeEnabled: false,
-            IsAutoUpdateEnabled: true,
-            IsSmsNotificationEnabled: false,
-            SessionTimeoutMinutes: 15,
-            IsEmergencyAlertEnabled: true,
-            IsPatientRecordEncryptionEnabled: false,
-            IsAppointmentReminderEnabled: true,
-            IsDoctorAvailabilityNotificationEnabled: false,
-            MaxPatientRecordsView: 100,
-            IsLabResultsNotificationEnabled: true,
-            IsInsuranceVerificationRequired: false,
-            IsTelemedicineEnabled: true,
-            IsBillingNotificationEnabled: false,
-            IsPrescriptionRefillReminderEnabled: true,
-            IsPatient: true,
-            IsDoctor: true,
-            SuperAdmin: true,
-            IsAdmin: true
-        };
-    $.ajax({
-        url: '/updateApplicationSetting',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(setting),
-        success: function(response) {
-            console.log('Update successful:', response);
-        },
-        error: function(xhr, status, error) {
-            console.error('Update failed:', error);
-        }
-    });
-}
-
-
-        alter PROCEDURE Proc_UpdateTreatment
-@TreatmentId INT,
-    @PatientId INT,
-        @DoctorId INT,
-            @Diagnosis NVARCHAR(MAX),
-                @TreatmentDate DATETIME,
-                    @Description NVARCHAR(MAX),
-                        @Status NVARCHAR(50),
-                            @ModifiedBy NVARCHAR(100),
-                                @Medications MedicationType READONLY-- Table type for Medications  
-AS  
-BEGIN  
- Begin Try
- SET NOCOUNT ON;
-
---Update Treatment table  
-    UPDATE Treatment  
-    SET PId = @PatientId,
-    DrId = @DoctorId,
-    Diagnosis = @Diagnosis,
-    TreatmentDate = @TreatmentDate,
-    Description = @Description,
-    Status = @Status,
-    ModifiedDate = getdate(),
-    ModifiedBy = @ModifiedBy  
-    WHERE TreatmentId = @TreatmentId;
-
---Delete existing Medications  
-    DELETE FROM Medication WHERE TreatmentId = @TreatmentId;
-
---Insert new Medications  
-    INSERT INTO Medication(TreatmentId, Name, Dosage, Frequency, FollowUpDate)  
-    SELECT @TreatmentId, Name, Dosage, Frequency, FollowUpDate  
-    FROM @Medications;
-	SELECT 1 AS StatusCode, 'Update Successful' AS ResponseText;
-  End try
-  Begin Catch
-SELECT - 1 AS StatusCode, ERROR_MESSAGE() AS ResponseText;
-  End Catch
-END;  
-
-
-
-
-alter PROCEDURE Proc_InsertTreatment
-@PatientId INT,
-    @DoctorId INT,
-        @Diagnosis NVARCHAR(MAX),
-            @TreatmentDate DATETIME,
-                @Description NVARCHAR(MAX),
-                    @Status NVARCHAR(50),
-                        @CreatedBy NVARCHAR(100),
-                            @Medications MedicationType READONLY-- Table type for Medications  
-AS  
-BEGIN  
-  Begin Try
-    SET NOCOUNT ON;  
-  
-    DECLARE @TreatmentId INT;
-
---Insert into Treatment table  
-    INSERT INTO Treatment(PId, DrId, Diagnosis, TreatmentDate, Description, Status, CreatedBy)
-VALUES(@PatientId, @DoctorId, @Diagnosis, @TreatmentDate, @Description, @Status, @CreatedBy);  
-  
-    SET @TreatmentId = SCOPE_IDENTITY();
-
---Insert into Medication table  
-    INSERT INTO Medication(TreatmentId, Name, Dosage, Frequency, FollowUpDate)  
-    SELECT @TreatmentId, Name, Dosage, Frequency, FollowUpDate  
-    FROM @Medications;  
-  
-    SELECT 1 AS StatusCode, 'Add Successful' AS ResponseText;
-  End try
-  Begin Catch
-SELECT - 1 AS StatusCode, ERROR_MESSAGE() AS ResponseText;
-  End Catch
-END;
 
 
  public async Task < IActionResult > UploadImageInDictionary([FromForm] DictionaryImgUploadReq req)
@@ -3032,24 +3113,3 @@ public string GetFormatedNotifications(string template, NotificationKeywordsRepl
     return sb.ToString();
 }
 
-
-    CREATE TABLE UserLogins(
-        LoginID INT IDENTITY(1, 1) PRIMARY KEY,
-        UserEmail NVARCHAR(255),
-        DeviceID INT,
-        IPAddress NVARCHAR(45),
-        LoginStatus int,
-        LoginTime DATETIME default getdate(),
-        LogOutTime NVARCHAR(45),
-);
-
-    CREATE PROCEDURE Proc_InsertUserLogin
-@UserEmail NVARCHAR(255),
-    @DeviceID INT,
-        @IPAddress NVARCHAR(45),
-            @LoginStatus INT
-AS
-BEGIN
-    INSERT INTO UserLogins(UserEmail, DeviceID, IPAddress, LoginStatus)
-VALUES(@UserEmail, @DeviceID, @IPAddress, @LoginStatus);
-END;
