@@ -18,7 +18,8 @@ namespace DCS.Controllers
             this._configuration = configuration;
             _BaseUrl =  _configuration["APIBaseURl:BaseURl"];
         }
-        public IActionResult MasterSetting()
+		[Route("MasterSetting")]
+		public IActionResult MasterSetting()
 		{
 			return View();
 		}
