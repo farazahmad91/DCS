@@ -11,7 +11,7 @@ namespace API.AppCode.ML
         {
             _dapper=dapper;
         }
-        public async Task<IEnumerable<ApplicationSetting>> GetApplicationSetting(int Id)
+        public async Task<IEnumerable<ApplicationSetting>> GetApplicationSetting(int? Id)
         {
             IProcedureAsync procedure = new Proc_GetApplicationSetting(_dapper);
             var i = await procedure.Call(Id);

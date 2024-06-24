@@ -15,6 +15,7 @@ namespace API.AppCode.DL
         }
         public async Task<object> Call(object obj)
         {
+            ApplicationSetting application = new ApplicationSetting();
             var req = (PurchaseService)obj;
             var res = new Response()
             {
@@ -26,7 +27,8 @@ namespace API.AppCode.DL
                 var param = new
                 {
                     PurchaseID=req.PurchaseID,
-                    UserEmail=req.UserEmail,
+                    ProjectID = application.ProjectID,
+                    UserEmail =req.UserEmail,
                     ServiceID=req.ServiceID,
                     PurchaseDate=req.PurchaseDate,
                     ActivationDate=req.ActivationDate,

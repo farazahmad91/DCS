@@ -14,15 +14,15 @@ namespace API.Controllers
         {
             _services =services;
         }
-        [HttpPost(nameof(AddorUpdateDCSPolicies))]
-        public async Task<IActionResult> AddorUpdateDCSPolicies(DCSService services)
+        [HttpPost(nameof(AddorUpdateDCSService))]
+        public async Task<IActionResult> AddorUpdateDCSService(DCSService services)
         {
             var i =await _services.AddorUpdateDCSService(services);
             return Ok(i);
         }
 
         [HttpPost(nameof(GetDCSService)+"/{name}")]
-        public async Task<IActionResult> GetDCSService(string name)
+        public async Task<IActionResult> GetDCSService(string? name)
         {
             var i =await _services.GetDCSService(name);
             return Ok(i);

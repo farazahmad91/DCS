@@ -49,7 +49,7 @@ namespace API.AppCode.ML
             var failedEmails = new List<string>();
                 try
                 {
-                if (setting.IsBulkEmail)
+                if (setting.IsEmailMarketing)
                 {
                     _sendmail.Sendmailss(emails);
                 }

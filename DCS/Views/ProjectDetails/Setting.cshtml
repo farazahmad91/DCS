@@ -1,0 +1,330 @@
+﻿@model Entities.ApplicationSetting
+@{
+	Layout = null;
+}
+<div class="card-body">
+	<!-- Row start -->
+	<div class="row gx-3">
+
+		<div class="col-sm-6 col-12">
+			<!-- Card start -->
+			<label>desktop settings</label>
+			<div class="card">
+				<div class="card-body">
+					<ul class="list-group">
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							@* A Patient Status
+							<div class="form-check form-switch m-0">
+							<input class="form-check-input" type="checkbox" role="switch"
+							id="switchOne" />
+							</div> *@
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Dark Mode
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch"
+									   asp-for="IsDarkModeEnabled" />
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- Card end -->
+		</div>
+		<div class="col-sm-6 col-12">
+			<!-- Card start -->
+			<label>email settings</label>
+			<div class="card">
+				<div class="card-body">
+					<ul class="list-group">
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Email Verification
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch"
+									   asp-for="IsEmailVerificationRequired" />
+							</div>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Email Marketing
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch"
+									   asp-for="IsEmailMarketing" />
+							</div>
+						</li>
+						@* <li class="list-group-item d-flex justify-content-between align-items-center">
+						settings 3
+						<div class="form-check form-switch m-0">
+						<input class="form-check-input" type="checkbox" role="switch"
+						id="switchSix" />
+						</div>
+						</li> *@
+					</ul>
+				</div>
+			</div>
+			<!-- Card end -->
+		</div>
+	</div>
+
+	<div class="row gx-3">
+		<div class="col-sm-6 col-12">
+			<!-- Card start -->
+			<label>Authentication settings</label>
+			<div class="card">
+				<div class="card-body">
+					<ul class="list-group">
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Show Password
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch"
+									   asp-for="IsShowPassword" />
+							</div>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Multiple Mobile Allowed
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch" asp-for="IsMultipleMobileAllowed"
+									   checked />
+							</div>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Password Only
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch"
+									   asp-for="IsPasswordOnly" />
+							</div>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							TwoFactor Authentication
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch"
+									   asp-for="IsTwoFactorAuthenticationEnabled" />
+							</div>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Max LoginAttempts Check
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch"
+									   asp-for="MaxLoginAttempts" />
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- Card end -->
+		</div>
+		<div class="col-sm-6 col-12">
+			<!-- Card start -->
+			<label>payment settings</label>
+			<div class="card">
+				<div class="card-body">
+					<ul class="list-group">
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							PaymentGateway Enable
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch"
+									   asp-for="IsPaymentGateway" />
+							</div>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							BillingNotification Enabled
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch"
+									   asp-for="IsBillingNotificationEnabled" />
+							</div>
+						</li>
+						@* <li class="list-group-item d-flex justify-content-between align-items-center">
+						settings 3
+						<div class="form-check form-switch m-0">
+						<input class="form-check-input" type="checkbox" role="switch"
+						id="switchSix" />
+						</div>
+						</li> *@
+					</ul>
+				</div>
+			</div>
+			<!-- Card end -->
+		</div>
+	</div>
+
+	<div class="row gx-3">
+		<div class="col-sm-6 col-12">
+			<!-- Card start -->
+			<label>Appointment settings</label>
+			<div class="card">
+				<div class="card-body">
+					<ul class="list-group">
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Appointment Status
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch"
+								asp-for="IsAppointmentStatus" />
+							</div>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Appointment By Form
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch" asp-for="IsAppointmentFormService"
+									   checked />
+							</div>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Appointment By Contact
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch" asp-for="IsAppointmentContactService"
+									   checked />
+							</div>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Pre-Appointment Notify
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch"
+									   asp-for="IsAppointmentReminderEnabled" />
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- Card end -->
+		</div>
+		<div class="col-sm-6 col-12">
+			<!-- Card start -->
+			<label>Notification settings</label>
+			<div class="card">
+				<div class="card-body">
+					<ul class="list-group">
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Sms NotificationEnabled
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch"
+									   asp-for="IsSmsNotificationEnabled" />
+							</div>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							DoctorAvailabilityNotification
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch"
+									   asp-for="IsDoctorAvailabilityNotificationEnabled" />
+							</div>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							PrescriptionRefillReminder
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch"
+									   asp-for="IsPrescriptionRefillReminderEnabled" />
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- Card end -->
+		</div>
+	</div>
+
+	<div class="row gx-3">
+		<div class="col-sm-6 col-12">
+			<!-- Card start -->
+			<label>Lab Managment settings</label>
+			<div class="card">
+				<div class="card-body">
+					<ul class="list-group">
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Lab Managment Service
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch"
+									   asp-for="IsLabManagmentService" />
+							</div>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							LabResults Notification
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch"
+									   asp-for="IsLabResultsNotificationEnabled" />
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- Card end -->
+		</div>
+		<div class="col-sm-6 col-12">
+			<!-- Card start -->
+			<label>Other settings</label>
+			<div class="card">
+				<div class="card-body">
+					<ul class="list-group">
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							DB BackUp Service
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch"
+									   asp-for="IsBackUpService" />
+							</div>
+						</li>
+						
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Referral Service
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch"
+									   asp-for="IsReferral" />
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- Card end -->
+		</div>
+	</div>
+
+	<div class="row gx-3">
+		<div class="col-sm-6 col-12">
+			<!-- Card start -->
+			<label>MedicalStore settings</label>
+			<div class="card">
+				<div class="card-body">
+					<ul class="list-group">
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							MedicalStore Service
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch"
+									   asp-for="IsMSServiceEnabled" />
+							</div>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Low Storage Medicine Notification
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch"
+									   asp-for="IsLowStorageMedicineNotification" />
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- Card end -->
+		</div>
+		<div class="col-sm-6 col-12">
+			<!-- Card start -->
+			<label>Whatsapp settings</label>
+			<div class="card">
+				<div class="card-body">
+					<ul class="list-group">
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Whatsapp Marketing
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch"
+									   asp-for="IsWhatsappMarketing" />
+							</div>
+						</li>
+						@* <li class="list-group-item d-flex justify-content-between align-items-center">
+							Low Storage Medicine Notification
+							<div class="form-check form-switch m-0">
+								<input class="form-check-input" type="checkbox" role="switch"
+									   asp-for="IsLowStorageMedicineNotification" />
+							</div>
+						</li> *@
+					</ul>
+				</div>
+			</div>
+			<!-- Card end -->
+		</div>
+	</div>
+	<!-- Row end -->
+</div>

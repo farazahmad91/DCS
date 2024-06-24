@@ -1,0 +1,217 @@
+﻿@{
+    ViewData["Title"] = "ServiceList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="content-wrapper-scroll">
+
+    <!-- Main header starts -->
+    <div class="main-header">
+        <div class="d-flex align-items-center justify-content-center">
+            <div class="page-icon">
+                <i class="bi bi-window-split"></i>
+            </div>
+            <div class="page-title d-none d-md-block">
+                <h5>Services</h5>
+            </div>
+        </div>
+        <!-- Live updates start -->
+        <ul class="updates d-flex align-items-end flex-column overflow-hidden" id="updates">
+            <li>
+                <a href="javascript:void(0)">
+                    <i class="bi bi-envelope-paper text-primary font-1x me-2"></i>
+                    <span>12 emails from David Michaiah.</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)">
+                    <i class="bi bi-bar-chart text-primary font-1x me-2"></i>
+                    <span>15 new features updated successfully.</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)">
+                    <i class="bi bi-folder-check text-primary font-1x me-2"></i>
+                    <span>The media folder is created successfully.</span>
+                </a>
+            </li>
+        </ul>
+        <!-- Live updates end -->
+    </div>
+    <!-- Main header ends -->
+    <!-- Content wrapper start -->
+    <div class="content-wrapper">
+
+        <!-- Row start -->
+        <div class="row gx-3">
+            <div class="col-sm-12 col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+
+                            <p>
+                                <button id="btnaddservice" class="btn btn-outline-info">Add New Service </button>
+                            </p>
+                            <div class="col-sm-2">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="txtname" onchange=" Onload();" placeholder="Search Name.." />
+                                </div>
+                            </div>
+                            <table class="table table-striped border-primary m-0">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <label>Service ID</label>
+                                        </th>
+                                        <th>
+                                            <label>Service Name</label>
+                                        </th>
+                                        <th>
+                                            <label>Description</label>
+                                        </th>
+                                        <th>
+                                            <label>Price</label>
+                                        </th>
+                                        <th>
+                                            <label>Duration</label>
+                                        </th>
+                                        <th>
+                                            <label>Availability</label>
+                                        </th>
+                                        <th>
+                                            <label>Features</label>
+                                        </th>
+                                        <th>
+                                            <label>Service Level</label>
+                                        </th>
+                                        <th>
+                                            <label>Activation Date</label>
+                                        </th>
+                                        <th>
+                                            <label>Expiry Date</label>
+                                        </th>
+                                        <th>
+                                            <label>Renewal Option</label>
+                                        </th>
+                                        <th>
+                                            <label>Discounts</label>
+                                        </th>
+                                        <th>
+                                            <label>Customer Support Level</label>
+                                        </th>
+                                        <th>
+                                            <label>Terms and Conditions</label>
+                                        </th>
+                                        <th>
+                                            <label>Created At</label>
+                                        </th>
+                                        <th>
+                                            <label>Updated At</label>
+                                        </th>
+                                        <th>
+                                            <label>Usage Limits</label>
+                                        </th>
+                                        <th>
+                                            <label>Feedback Rating</label>
+                                        </th>
+                                        <th>
+                                            <label>Popularity</label>
+                                        </th>
+                                        <th>
+                                            <label>Email Marketing</label>
+                                        </th>
+                                        <th>
+                                            <label>Email Verification Service</label>
+                                        </th>
+                                        <th>
+                                            <label>Show Your User Password</label>
+                                        </th>
+                                        <th>
+                                            <label>Referral Service</label>
+                                        </th>
+                                        <th>
+                                            <label>Back Up Service</label>
+                                        </th>
+                                        <th>
+                                            <label>SMS Notification Service</label>
+                                        </th>
+                                        <th>
+                                            <label>Emergency Alert Service</label>
+                                        </th>
+                                        <th>
+                                            <label>User Appointment Reminder Service</label>
+                                        </th>
+                                        <th>
+                                            <label>Doctor Availability Notification Service</label>
+                                        </th>
+                                        <th>
+                                            <label>Medicine Store Management Service</label>
+                                        </th>
+                                        <th>
+                                            <label>Two Factor Authentication Service</label>
+                                        </th>
+                                        <th>
+                                            <label>Is Multiple Mobile Allowed</label>
+                                        </th>
+                                        <th>
+                                            <label>Is Dark Mode Enabled</label>
+                                        </th>
+                                        <th>
+                                            <label>Is Billing Notification Enabled</label>
+                                        </th>
+                                        <th>
+                                            <label>Is Prescription Refill Reminder Enabled</label>
+                                        </th>
+                                        <th>
+                                            <label>Max Login Attempts</label>
+                                        </th>
+                                        <th>
+                                            <label>Is Show Password</label>
+                                        </th>
+                                        <th>
+                                            <label>Is Social Alert</label>
+                                        </th>
+                                        <th>
+                                            <label>Is Password Only</label>
+                                        </th>
+                                        <th>
+                                            <label>Is Patient</label>
+                                        </th>
+                                        <th>
+                                            <label>Is Doctor</label>
+                                        </th>
+                                        <th>
+                                            <label>Super Admin</label>
+                                        </th>
+                                        <th>
+                                            <label>Is Admin</label>
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="sList">
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row end -->
+
+</div>
+<script>
+    function Onload() {
+        var param = {
+            name:$("#txtname").val(),
+        }
+        $.post('/_ServiceList',param).done(function (res) {
+            $("#sList").html(res);
+        }).fail(function () {
+            alert("error");
+        });
+    }
+    Onload();
+</script>

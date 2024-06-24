@@ -274,27 +274,7 @@ namespace DCS.Controllers
             }
             return PartialView(list);
         }
-        [HttpGet]
-        public async Task<IActionResult> Logout()
-        {
-            try
-            {
-                var email = User.FindFirstValue(ClaimTypes.Email);
-                //var apiResponse = await _apirequest.GetData<Entities.Response>($"Reviews/CheckUserReview?email={email}");
 
-                // User has a review, redirect to login 
-                string returnUrl = "/Login";
-                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                HttpContext.Response.Cookies.Delete(".AspNetCore.Cookies");
-                HttpContext.Response.Cookies.Delete(".AspNetCore.Identity.Application");
-
-                return LocalRedirect(returnUrl);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
         [Route("ForgotPassword")]
         [HttpGet]
         public async Task<IActionResult> ForgotPass()

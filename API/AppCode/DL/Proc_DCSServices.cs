@@ -48,13 +48,18 @@ namespace API.AppCode.DL
                     EmailVerificationService = req.EmailVerificationService,
                     ShowYourUserPassword=req.ShowYourUserPassword,
                     ReferralService=req.ReferralService,
-                    AutoBackUpService = req.AutoBackUpService,
+                    BackUpService = req.BackUpService,
                     SmsNotificationService = req.SmsNotificationService,
-                    EmergencyAlertService = req.EmergencyAlertService,
                     UserAppointmentReminderService = req.UserAppointmentReminderService,
                     DoctorAvailabilityNotificationService = req.DoctorAvailabilityNotificationService,
                     MedicineStoreManagementService = req.MedicineStoreManagementService,
                     TwoFactorAuthenticationService=req.TwoFactorAuthenticationService,
+                    IsLabManagmentService=req.IsLabManagmentService,
+                    IsLowStorageMedicineNotification=req.IsLowStorageMedicineNotification,
+                    IsAppointmentContactService=req.IsAppointmentContactService,
+                    IsAppointmentFormService=req.IsAppointmentFormService,
+                    IsAppointmentStatus=req.IsAppointmentStatus,
+                    IsWhatsappMarketing=req.IsWhatsappMarketing,
                 };
                 var i = await _dapper.GetAsync<Response>(GetName(), param);
                 res=i;
