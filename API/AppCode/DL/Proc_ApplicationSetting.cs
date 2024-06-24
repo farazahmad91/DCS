@@ -14,7 +14,8 @@ namespace API.AppCode.DL
         }
         public async Task<object> Call(object obj)
         {
-            var setting = (ApplicationSetting)obj;
+			ApplicationSetting application = new ApplicationSetting();
+			var setting = (ApplicationSetting)obj;
             var res = new Response()
             {
                 ResponseText="Somthing wrong!!",
@@ -26,39 +27,34 @@ namespace API.AppCode.DL
                 {
                     IsSocialAlert = setting.IsSocialAlert,
                     IsEmailVerificationRequired = setting.IsEmailVerificationRequired,
-                    IsBulkEmail = setting.IsBulkEmail,
+					IsEmailMarketing = setting.IsEmailMarketing,
                     IsShowPassword = setting.IsShowPassword,
                     IsMultipleMobileAllowed = setting.IsMultipleMobileAllowed,
-                    ProjectID = setting.ProjectID,
-                    IsPasswordOnly = setting.IsPasswordOnly,
-                    IsDefaultOTPDisabled = setting.IsDefaultOTPDisabled,
-                    IsShowPartner = setting.IsShowPartner,
+                    ProjectID = application.ProjectID,
+					IsBackUpService = setting.IsBackUpService,
+					IsPasswordOnly = setting.IsPasswordOnly,
                     IsReferral = setting.IsReferral,
                     IsPaymentGateway = setting.IsPaymentGateway,
-                    IsMultipleVendorAllowed = setting.IsMultipleVendorAllowed,
                     IsTwoFactorAuthenticationEnabled = setting.IsTwoFactorAuthenticationEnabled,
-                    IsDataEncryptionEnabled = setting.IsDataEncryptionEnabled,
                     MaxLoginAttempts = setting.MaxLoginAttempts,
-                    PasswordExpiryDays = setting.PasswordExpiryDays,
-                    IsUserActivityLoggingEnabled = setting.IsUserActivityLoggingEnabled,
                     IsDarkModeEnabled = setting.IsDarkModeEnabled,
-                    IsAutoUpdateEnabled = setting.IsAutoUpdateEnabled,
                     IsSmsNotificationEnabled = setting.IsSmsNotificationEnabled,
-                    SessionTimeoutMinutes = setting.SessionTimeoutMinutes,
-                    IsEmergencyAlertEnabled = setting.IsEmergencyAlertEnabled,
-                    IsPatientRecordEncryptionEnabled = setting.IsPatientRecordEncryptionEnabled,
                     IsAppointmentReminderEnabled = setting.IsAppointmentReminderEnabled,
                     IsDoctorAvailabilityNotificationEnabled = setting.IsDoctorAvailabilityNotificationEnabled,
-                    MaxPatientRecordsView = setting.MaxPatientRecordsView,
                     IsLabResultsNotificationEnabled = setting.IsLabResultsNotificationEnabled,
-                    IsInsuranceVerificationRequired = setting.IsInsuranceVerificationRequired,
-                    IsTelemedicineEnabled = setting.IsTelemedicineEnabled,
+					IsMSServiceEnabled = setting.IsMSServiceEnabled,
                     IsBillingNotificationEnabled = setting.IsBillingNotificationEnabled,
                     IsPrescriptionRefillReminderEnabled = setting.IsPrescriptionRefillReminderEnabled,
                     IsPatient = setting.IsPatient,
                     IsDoctor = setting.IsDoctor,
                     SuperAdmin = setting.SuperAdmin,
-                    IsAdmin = setting.IsAdmin
+                    IsAdmin = setting.IsAdmin,
+                    IsLabManagmentService = setting.IsLabManagmentService,
+                    IsLowStorageMedicineNotification = setting.IsLowStorageMedicineNotification,
+                    IsAppointmentContactService = setting.IsAppointmentContactService,
+                    IsAppointmentFormService = setting.IsAppointmentFormService,
+                    IsAppointmentStatus = setting.IsAppointmentStatus,
+                    IsWhatsappMarketing = setting.IsWhatsappMarketing,
                 };
                 res= await _dapper.GetAsync<Response>(GetName(), param);
                 return res;

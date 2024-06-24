@@ -2,7 +2,6 @@
 using API.SendEmail;
 using Entities.Response;
 using Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -12,7 +11,8 @@ namespace API.Controllers
     public class ProjectDetailsController : ControllerBase
     {
         private readonly IProjectDetails _details;
-        public ProjectDetailsController(IProjectDetails details)
+		
+		public ProjectDetailsController(IProjectDetails details)
         {
             _details=details;
         }
@@ -24,12 +24,12 @@ namespace API.Controllers
                 ResponseText ="An Error Occured Try After Some Time!",
                 StatusCode = ResponseStatus.FAILED
             };
-            var i = await _details.AddorUpdateProjectDetails(pdetails);
-            return Ok(i);
+             res = await _details.AddorUpdateProjectDetails(pdetails);
+            return Ok(res);
         }
 
         [HttpPost(nameof(GetProjectDetails))]
-        public async Task<IActionResult> GetProjectDetails(string name)
+        public async Task<IActionResult> GetProjectDetails(string? name)
         {
             var res = new Response
             {

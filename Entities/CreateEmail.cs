@@ -8,11 +8,11 @@ namespace Entities
 {
 	public class CreateEmail
 	{
-		public string Emails { get; set; }
-		public string Subject { get; set; }
-		public string ImagePath { get; set; }
-		public string Message { get; set; }
-        public string Template { get; set; }
+		public string? Emails { get; set; }
+		public string? Subject { get; set; }
+		public string? ImagePath { get; set; }
+		public string? Message { get; set; }
+        public string? Template { get; set; }
         public int WithImage { get; set; }
     }
 }

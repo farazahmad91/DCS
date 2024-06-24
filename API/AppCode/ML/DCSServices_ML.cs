@@ -18,7 +18,7 @@ namespace API.AppCode.ML
             var i = await proc.Call(req);
             return (Response)i;
         }
-        public async Task<IEnumerable<DCSService>> GetDCSService(string name)
+        public async Task<IEnumerable<DCSService>> GetDCSService(string? name)
         {
             IProcedureAsync proc = new Proc_GetPremiumServices(_dapper);
             var i = await proc.Call(name);
