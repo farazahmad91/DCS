@@ -19,7 +19,7 @@ namespace API.AppCode.ML
             return (Response)i;
         }
 
-        public async Task<IEnumerable<HospitalPolicy>> GetHospitalPolicies(string name)
+        public async Task<IEnumerable<HospitalPolicy>> GetHospitalPolicies(string? name)
         {
             IProcedureAsync proc = new Proc_GetAppointment(_dapper);
             var i = await proc.Call(name);

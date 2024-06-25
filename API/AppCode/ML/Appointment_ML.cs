@@ -1,7 +1,8 @@
 ﻿using API.AppCode.DL;
 using API.AppCode.IML;
-using DCS.Models;
+using Entities;
 using Entities.Response;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace API.AppCode.ML
 {
@@ -19,10 +20,15 @@ namespace API.AppCode.ML
             return (Response)i;
         }
 
-        public async Task<IEnumerable<Appointment>> GetAppointment(string Date)
+        public async Task<IEnumerable<Appointment>> GetAppointment(DateOnly? Date, int? PId)
         {
+            var param = new
+            {
+                Date = Date,
+                PId = PId
+            };
             IProcedureAsync proc = new Proc_GetAppointment(_dapper);
-            var i = await proc.Call(Date);
+            var i = await proc.Call(param);
             return (IEnumerable<Appointment>)i;
         }
 
@@ -33,9 +39,22 @@ namespace API.AppCode.ML
             return (Appointment)i;
         }
 
+        public async Task<Appointment> GetAppointmentStatusByUser(string email)
+        {
+            IProcedureAsync proc = new Proc_GetAppointmentStatusByUser(_dapper);
+            var i = await proc.Call(email);
+            return (Appointment)i;
+        }
         public int DeleteAppointment(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<Appointment> GetAppointmentStatus()
+        {
+            IProcedureAsync proc = new Proc_GetAppointmentStatus(_dapper);
+            var i = await proc.Call();
+            return (Appointment)i;
         }
     }
 }

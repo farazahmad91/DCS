@@ -13,22 +13,22 @@ namespace API.Controllers
         {
             _purchase =purchase;
         }
-        [HttpPost(nameof(AddTreatment))]
-        public async Task<IActionResult> AddTreatment(PurchaseService service)
+        [HttpPost(nameof(AddOrUpdatePurchaseService))]
+        public async Task<IActionResult> AddOrUpdatePurchaseService(PurchaseService service)
         {
             var i = await _purchase.AddOrUpdatePurchaseService(service);
             return Ok(i);
         }
 
-        [HttpPost(nameof(GetTreatment)+"/{email}")]
-        public async Task<IActionResult> GetTreatment(string email)
+        [HttpPost(nameof(GetPurchaseService)+"/{email}")]
+        public async Task<IActionResult> GetPurchaseService(string? email)
         {
             var i = await _purchase.GetPurchaseService(email);
             return Ok(i);
         }
 
-        [HttpPost(nameof(GetTreatmentByPId)+"/{Id}")]
-        public async Task<IActionResult> GetTreatmentByPId(int Id)
+        [HttpPost(nameof(GetPurchaseServiceById)+"/{Id}")]
+        public async Task<IActionResult> GetPurchaseServiceById(int Id)
         {
             var i =await _purchase.GetPurchaseServiceById(Id);
             return Ok(i);

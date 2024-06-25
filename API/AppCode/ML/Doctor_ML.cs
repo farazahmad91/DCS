@@ -1,8 +1,6 @@
 ﻿using API.AppCode.DL;
 using API.AppCode.IML;
 using API.AppCode.IService;
-using API.Data;
-using DCS.Models;
 using Entities;
 using Entities.Response;
 
@@ -22,7 +20,7 @@ namespace API.AppCode.ML
             return (Response)i;
         }
 
-        public async Task<IEnumerable<Doctor>> GetDoctor(string name)
+        public async Task<IEnumerable<Doctor>> GetDoctor(string? name)
         {
             IProcedureAsync proc = new Proc_GetDoctor(_dapper);
             var i = await proc.Call(name);

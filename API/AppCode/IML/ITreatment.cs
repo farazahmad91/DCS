@@ -8,6 +8,6 @@ namespace API.AppCode.IML
         public Task<Response> AddTreatment(Treatment req);
         public Task<Response> UpdateTreatment(Treatment req);
         public Task<Treatment> GetTreatmentByPId(int PId);
-        public Task<IEnumerable<TreatmentDetails>> GetTreatment(DateTime date);
+        public Task<IEnumerable<TreatmentDetails>> GetTreatment(DateTime? date,int? PId);
     }
 }

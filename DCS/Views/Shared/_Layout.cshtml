@@ -141,7 +141,7 @@
 
 				<!-- Sidebar brand starts -->
 				<div class="brand">
-					<a href="index.html" class="logo">
+					<a href="/admin" class="logo">
 						<img src="~/assets/images/logo.svg" class="d-none d-md-block me-4" alt="DCS Admin Dashboard" />
 						<img src="~/assets/images/logo-sm.svg" class="d-block d-md-none me-4" alt="DCS Admin Dashboard" />
 					</a>
@@ -149,7 +149,7 @@
 				<!-- Sidebar brand ends -->
 				<hr />
 				<!-- Sidebar quicklinks starts -->
-				<div class="sidebar-quick-links">
+				@* <div class="sidebar-quick-links">
 					<h6 class="fw-light mt-5 mb-3 text-center text-white">
 						Quick Links
 					</h6>
@@ -167,20 +167,20 @@
 							<i class="bi bi-DCS-fill"></i>
 						</a>
 					</div>
-				</div>
+				</div> *@
 				<!-- Sidebar quicklinks ends -->
 				<!-- Sidebar menu starts -->
 				<div class="sidebar-menu">
 					<div class="sidebarMenuScroll">
 						<ul>
 							<li class="active-page-link">
-								<a href="index.html">
+								<a href="/admin">
 									<i class="bi bi-house"></i>
 									<span class="menu-text">Dashboard</span>
 								</a>
 							</li>
 							<li>
-								<a href="/">
+								<a href="/AppointmentList">
 									<i class="bi bi-calendar-day-fill"></i>
 									<span class="menu-text">Appointment</span>
 									<span class="badge red">15</span>
@@ -195,14 +195,11 @@
 								<div class="sidebar-submenu">
 									<ul>
 										<li>
-											<a href="accordions.html">Patient</a>
+											<a href="/PatientList">Patient</a>
 										</li>
-										<li>
-											<a href="alerts.html">PatientService</a>
-										</li>
-										<li>
+										@* <li>
 											<a href="buttons.html">MedicalHistory</a>
-										</li>
+										</li> *@
 									</ul>
 								</div>
 							</li>
@@ -217,7 +214,7 @@
 									<div class="sidebar-submenu">
 										<ul>
 											<li>
-												<a href="accordions.html">Doctors</a>
+												<a href="/DoctorsList">Doctors</a>
 											</li>
 											@* <li>
 										<a href="alerts.html">PatientService</a>
@@ -237,7 +234,7 @@
 								</a>
 							</li>
 							<li>
-								<a href="tables.html">
+								<a href="/TreatmentList">
 									<i class="fa fa-medkit"></i>
 									<span class="menu-text">Treatment</span>
 								</a>
@@ -245,7 +242,7 @@
 							<li>
 								<a href="tables.html">
 									<i class="bi bi-wrench"></i>
-									<span class="menu-text">Services</span>
+									<span class="menu-text">Hospital Services</span>
 								</a>
 							</li>
 						
@@ -335,13 +332,13 @@
 											<a href="/MasterSetting">Manage Project Settings</a>
 										</li>
 										 <li>
-											<a href="buttons.html">Manage Clients</a>
+											<a href="/Project-List">Project List</a>
 										</li>
 										<li>
 											<a href="/Users">Manage Users</a>
 										</li>
 										<li>
-											<a href="buttons.html">Policies</a>
+											<a href="/DCSPoliciesList">Policies</a>
 										</li>
 									</ul>
 								</div>
@@ -363,7 +360,7 @@
 											<a href="alerts.html">Banners</a>
 										</li>
 										<li>
-											<a href="buttons.html">Policies</a>
+											<a href="/HospitalPoliciesList">Policies</a>
 										</li>
 										<li>
 											<a href="/db-backup">Database-Backup</a>
@@ -386,12 +383,14 @@
 							</li>
 							<li>
 								<a href="/Services">
-									<i class="bi bi-code-square"></i>
-									<span class="menu-text">Premium</span>
+									<i class="bi bi-wrench"></i>
+									<span class="menu-text">Upgrade Service</span>
 								</a>
 							</li>
 						</ul>
 					</div>
+					<br />
+					<br />
 				</div>
 				<!-- Sidebar menu ends -->
 

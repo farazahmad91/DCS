@@ -7,6 +7,6 @@ namespace API.AppCode.IML
     {
         public Task<Response> AddorUpdateDCSPolicies(DCSPolicies req);
         public Task<DCSPolicies> GetDCSPoliciesById(int Id);
-        public Task<IEnumerable<DCSPolicies>> GetDCSPolicies(string name);
+        public Task<IEnumerable<DCSPolicies>> GetDCSPolicies(string? name);
     }
 }

@@ -173,13 +173,14 @@ namespace API.AppCode.DL
         public async Task<object> Call(object obj)
         {
             IEnumerable<Treatment> items = new List<Treatment>();
-            DateTime Date = (DateTime)obj;
+            DateTime date = (DateTime)obj;
+            int PId = (int)obj;
             try
             {
                 var param = new
                 {
-                    Date = Date,
-
+                    CreatedDate = date,
+                    PId= PId
                 };
                 var i = await _dapper.GetAll<Treatment>(GetName(),param);
                 items=i.ToList();
@@ -230,12 +231,6 @@ namespace API.AppCode.DL
             IEnumerable<Medication> items = new List<Medication>();
             try
             {
-                var param = new
-                {
-                    PId = PId,
-                    Case = 1
-
-                };
                 var TreatmentData = await _dapper.GetAll<Treatment>(GetName(), new { PId = PId, Case = 1 });
                 items = await _dapper.GetAll<Medication>(GetName(), new { PId = PId, Case = 2 });
                 treatmentdetails.treatment = TreatmentData;

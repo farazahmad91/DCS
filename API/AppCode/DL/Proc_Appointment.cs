@@ -1,13 +1,7 @@
 ﻿using API.AppCode.IML;
 using Entities;
-using DCS.Models;
 using API.AppCode.ML;
-using API.Service;
-using Microsoft.AspNetCore.Identity;
-using API.DBContext;
 using Entities.Response;
-using System.Text;
-using System.Security.Cryptography;
 
 namespace API.AppCode.DL
 {
@@ -77,12 +71,14 @@ namespace API.AppCode.DL
         }
         public async Task<object> Call(object obj)
         {
-            string Date = (string)obj;
+            DateOnly Date = (DateOnly)obj;
+            int PId = (int)obj;
             try
             {
                 var param = new
                 {
                     Date = Date,
+                    PId= PId
 
                 };
                 var i = await _dapper.GetAll<Appointment>(GetName(), param);
@@ -154,6 +150,90 @@ namespace API.AppCode.DL
         public string GetName()
         {
             return "Proc_GetAppointmentIdById";
+        }
+    }
+    public class Proc_GetAppointmentStatusByUser : IProcedureAsync
+    {
+        private readonly IDapper _dapper;
+        public Proc_GetAppointmentStatusByUser(IDapper dapper)
+        {
+            _dapper=dapper;
+        }
+        public async Task<object> Call(object obj)
+        { int PId = 0;
+            string email = (string)obj;
+            var i = await _dapper.GetAsync<Response>("Proc_GetPatientId", new {Email = email });
+            i.PatientId =PId;
+            try
+            {
+                var param = new
+                {
+                    PId = PId,
+
+                };
+                var j = await _dapper.GetAll<Appointment>(GetName(), param);
+                return j;
+            }
+            catch (Exception ex)
+            {
+                var error = new ErrorLog
+                {
+                    ClassName = GetType().Name,
+                    FuncName = "call",
+                    Error = ex.Message,
+                    ProcName = GetName(),
+                };
+                var _ = new ErrorLog_ML(_dapper).Error(error);
+            }
+            return "error";
+        }
+
+        public Task<object> Call()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetName()
+        {
+            return "Proc_GetAppointmentStatusByPId";
+        }
+    }
+    public class Proc_GetAppointmentStatus : IProcedureAsync
+    {
+        private readonly IDapper _dapper;
+        public Proc_GetAppointmentStatus(IDapper dapper)
+        {
+            _dapper=dapper;
+        }
+        public async Task<object> Call()
+        {
+            try
+            {
+                var i = await _dapper.GetAll<Appointment>(GetName());
+                return i;
+            }
+            catch (Exception ex)
+            {
+                var error = new ErrorLog
+                {
+                    ClassName = GetType().Name,
+                    FuncName = "call",
+                    Error = ex.Message,
+                    ProcName = GetName(),
+                };
+                var _ = new ErrorLog_ML(_dapper).Error(error);
+            }
+            return "error";
+        }
+
+        public Task<object> Call(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetName()
+        {
+            return "Proc_GetAppointmentStatus";
         }
     }
 }

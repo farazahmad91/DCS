@@ -1,6 +1,5 @@
 ﻿using API.AppCode.IML;
-using DCS.Models;
-using Microsoft.AspNetCore.Http;
+using Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -21,17 +20,30 @@ namespace API.Controllers
             return Ok(i);
         }
 
-        [HttpPost(nameof(GetAppointment))]
-        public IActionResult GetAppointment(string Date)
+        [HttpPost(nameof(GetAppointment)+"/{Date}/{PId}")]
+        public IActionResult GetAppointment(DateOnly? Date, int? PId)
         {
-            var i = _appointment.GetAppointment(Date);
+            var i = _appointment.GetAppointment(Date, PId);
             return Ok(i);
         }
 
-        [HttpPost(nameof(GetAppointmentById))]
+        [HttpPost(nameof(GetAppointmentById)+"/{AppointmentId}")]
         public IActionResult GetAppointmentById(int AppointmentId)
         {
             var i = _appointment.GetAppointmentById(AppointmentId);
+            return Ok(i);
+        }
+        [HttpPost(nameof(GetAppointmentStatusByUser)+"/{email}")]
+        public IActionResult GetAppointmentStatusByUser(string? email)
+        {
+            var i = _appointment.GetAppointmentStatusByUser(email);
+            return Ok(i);
+        }
+
+        [HttpPost(nameof(GetAppointmentStatusByUser))]
+        public IActionResult GetAppointmentStatus()
+        {
+            var i = _appointment.GetAppointmentStatus();
             return Ok(i);
         }
     }

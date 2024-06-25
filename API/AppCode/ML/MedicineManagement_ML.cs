@@ -29,7 +29,7 @@ namespace API.AppCode.ML
                 return (Response)i;
         }
 
-        public async Task<IEnumerable<Medicines>> GetMedicines(string name)
+        public async Task<IEnumerable<Medicines>> GetMedicines(string? name)
         {
             IProcedureAsync procedure = new Proc_GetMedicines(_dapper);
             var i= await procedure.Call(name);
@@ -43,7 +43,7 @@ namespace API.AppCode.ML
             return (Medicines)i;
         }
 
-        public async Task<Medicines> GetMedicinesQtyByName(string name)
+        public async Task<Medicines> GetMedicinesQtyByName(string? name)
         {
             IProcedureAsync procedure = new Proc_GetMedicinesQty(_dapper);
             var i = await procedure.Call(name);

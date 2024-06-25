@@ -2,7 +2,6 @@
 using API.AppCode.ML;
 using Entities.Response;
 using Entities;
-using DCS.Models;
 
 namespace API.AppCode.DL
 {
@@ -87,11 +86,13 @@ namespace API.AppCode.DL
         public async Task<object> Call(object obj)
         {
             string email = (string)obj;
+            int PId = (int)obj;
             try
             {
                 var param = new
                 {
                     Email = email,
+                    PId = PId
 
                 };
                 var i = await _dapper.GetAll<Patient>(GetName(), param);

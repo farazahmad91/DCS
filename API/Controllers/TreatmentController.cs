@@ -28,9 +28,9 @@ namespace API.Controllers
         }
 
         [HttpPost(nameof(GetTreatment)+"/{date}")]
-        public async Task<IActionResult> GetTreatment(DateTime date)
+        public async Task<IActionResult> GetTreatment(DateTime? date,int? PId)
         {
-            var i =await _treatment.GetTreatment(date);
+            var i =await _treatment.GetTreatment(date,PId);
             return Ok(i);
         }
 

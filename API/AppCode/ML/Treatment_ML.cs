@@ -2,6 +2,7 @@
 using API.AppCode.IML;
 using Entities;
 using Entities.Response;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace API.AppCode.ML
 {
@@ -26,10 +27,15 @@ namespace API.AppCode.ML
             return (Treatment)i;
         }
 
-        public async Task<IEnumerable<TreatmentDetails>> GetTreatment(DateTime date)
+        public async Task<IEnumerable<TreatmentDetails>> GetTreatment(DateTime? date, int? PId)
         {
+            var param = new
+            {
+                date = date,
+                PId = PId
+            };
             IProcedureAsync proc = new Proc_GetTreatment(_dapper);
-            var i = await proc.Call(date);
+            var i = await proc.Call(param);
             return (IEnumerable<TreatmentDetails>)i;
         }
 

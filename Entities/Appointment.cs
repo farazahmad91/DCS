@@ -1,6 +1,6 @@
 ﻿using Entities;
 
-namespace DCS.Models
+namespace Entities
 {
     public class Appointment
     {

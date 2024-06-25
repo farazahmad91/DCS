@@ -7,6 +7,6 @@ namespace API.AppCode.IML
     {
         public Task<Response> AddorUpdateHospitalServices(HospitalServices req);
         public Task<HospitalServices> GetHospitalServicesById(int Id);
-        public Task<IEnumerable<HospitalServices>> GetHospitalServices(string name);
+        public Task<IEnumerable<HospitalServices>> GetHospitalServices(string? name);
     }
 }

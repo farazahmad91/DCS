@@ -1,5 +1,4 @@
 ﻿using API.AppCode.IML;
-using DCS.Models;
 using Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +22,7 @@ namespace API.Controllers
         }
 
         [HttpPost(nameof(GetDCSPolicies)+"/{name}")]
-        public async Task<IActionResult> GetDCSPolicies(string name)
+        public async Task<IActionResult> GetDCSPolicies(string? name)
         {
             var i =await _policies.GetDCSPolicies(name);
             return Ok(i);
