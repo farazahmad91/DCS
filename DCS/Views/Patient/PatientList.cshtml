@@ -1,0 +1,161 @@
+﻿@{
+    ViewData["Title"] = "PatientList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper-scroll">
+
+    <!-- Main header starts -->
+    <div class="main-header">
+        <div class="d-flex align-items-center justify-content-center">
+            <div class="page-icon">
+                <i class="bi bi-window-split"></i>
+            </div>
+            <div class="page-title d-none d-md-block">
+                <h5>Patients</h5>
+            </div>
+        </div>
+        <!-- Live updates start -->
+        <ul class="updates d-flex align-items-end flex-column overflow-hidden" id="updates">
+            <li>
+                <a href="javascript:void(0)">
+                    <i class="bi bi-envelope-paper text-primary font-1x me-2"></i>
+                    <span>12 emails from David Michaiah.</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)">
+                    <i class="bi bi-bar-chart text-primary font-1x me-2"></i>
+                    <span>15 new features updated successfully.</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)">
+                    <i class="bi bi-folder-check text-primary font-1x me-2"></i>
+                    <span>The media folder is created successfully.</span>
+                </a>
+            </li>
+        </ul>
+        <!-- Live updates end -->
+    </div>
+    <!-- Main header ends -->
+    <!-- Content wrapper start -->
+    <div class="content-wrapper">
+
+        <!-- Row start -->
+        <div class="row gx-3">
+            <div class="col-sm-12 col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+
+                            <p>
+                                <button id="btnaddservice" class="btn btn-outline-info">Add New Add Patient </button>
+                            </p>
+                            <div class="col-sm-2">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="txtemail" placeholder="Search Email.." />
+                                    <input type="text" class="form-control" id="txtpid"  placeholder="Search PId.." />
+                                    <button onclick="Onload">Search</button>
+                                </div>
+                            </div>
+                            <table class="table table-striped border-primary m-0">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            PId
+                                        </th>
+                                        <th>
+                                            Appointment Id
+                                        </th>
+                                        <th>
+                                            Name
+                                        </th>
+                                        <th>
+                                            Date of Birth
+                                        </th>
+                                        <th>
+                                            Gender
+                                        </th>
+                                        <th>
+                                            Email
+                                        </th>
+                                        <th>
+                                            Phone
+                                        </th>
+                                        <th>
+                                            PImage
+                                        </th>
+                                        <th>
+                                            Address
+                                        </th>
+                                        <th>
+                                            Medical History
+                                        </th>
+                                        <th>
+                                            Insurance Information
+                                        </th>
+                                        <th>
+                                            Emergency Contact Name
+                                        </th>
+                                        <th>
+                                            Emergency Contact Phone
+                                        </th>
+                                        <th>
+                                            Primary Care Physician Name
+                                        </th>
+                                        <th>
+                                            Primary Care Physician Phone
+                                        </th>
+                                        <th>
+                                            Allergies
+                                        </th>
+                                        <th>
+                                            Medications
+                                        </th>
+                                        <th>
+                                            Blood Type
+                                        </th>
+                                        <th>
+                                            Height
+                                        </th>
+                                        <th>
+                                            Weight
+                                        </th>
+                                        <th>
+                                            Preferred Language
+                                        </th>
+                                        <th>
+                                            Occupation
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+
+                                <tbody id="patientList">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row end -->
+
+</div>
+<script>
+    function Onload() {
+        var param = {
+            email: $("#txtemail").val(),
+            PId: $("#txtpid").val(),
+        }
+        $.post('/_PatientList', param).done(function (res) {
+            $("#patientList").html(res);
+        }).fail(function () {
+            alert("error");
+        });
+    }
+    Onload();
+</script>

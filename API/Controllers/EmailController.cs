@@ -45,17 +45,26 @@ namespace API.Controllers
         }
 
         [HttpPost(nameof(AddOrUpdateEmailTemplate))]
-        public IActionResult AddOrUpdateEmailTemplate(EmailTemplate template)
+		public async Task<IActionResult> AddOrUpdateEmailTemplate(EmailTemplate template)
         {
-            var i = _email.AddOrUpdateEmailTemplate(template);
-
-            return Ok(i);
-        }
+			var res = new Response
+			{
+				StatusCode = ResponseStatus.FAILED,
+				ResponseText = "An error han occurred try after sometime."
+			};
+           
+			res = await _email.AddOrUpdateEmailTemplate(template);
+			if (res.StatusCode==ResponseStatus.SUCCESS)
+			{
+				return Ok(res);
+			}
+			return BadRequest(res);
+		}
 
         [HttpPost(nameof(GetEmailTemplate))]
-        public IActionResult GetEmailTemplate()
+		public async Task<IActionResult> GetEmailTemplate()
         {
-            var i = _email.GetEmailTemplate();
+            var i = await _email.GetEmailTemplate();
             return Ok(i);
         }
     }

@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Entities.Doctor>
+
+@{
+    ViewData["Title"] = "DoctorsList";
+    Layout = null;
+}
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DrId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DrImage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Specialization)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Gender)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateOfBirth)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Qualifications)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExperienceYears)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Affiliations)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Languages)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ConsultationFee)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Availability)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EntryOn)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}

@@ -22,7 +22,7 @@ namespace API.Controllers
         }
 
         [HttpPost(nameof(GetHospitalPolicies)+"/{name}")]
-        public async Task<IActionResult> GetHospitalPolicies(string name)
+        public async Task<IActionResult> GetHospitalPolicies(string? name)
         {
             var i =await _policies.GetHospitalPolicies(name);
             return Ok(i);

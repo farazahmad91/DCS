@@ -54,7 +54,6 @@ namespace API.Extension
             services.AddScoped<IPatient, Patient_ML>();
             services.AddScoped<IPurchaseService, PurchaseService_ML>();
             services.AddScoped<ITreatment, Treatment_ML>();
-            services.AddScoped<IFileUploadService, FileUploadService>();
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(ch.Default);

@@ -22,58 +22,26 @@ namespace DCS.Controllers
             return View();
         }
         [Route("/Medicine_List")]
-        public async Task<IActionResult> _Lists(string name)
+        public async Task<IActionResult> _Lists(string? name)
         {
-            var res = new Response()
+            var list = new List<Medicines>();
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/MedicineManagement/GetMedicines/{name}", null, null);
+            if (apiRes.Result != null)
             {
-                ResponseText="something wrong!",
-                StatusCode = ResponseStatus.FAILED
-            };
-
-            try
-            {
-
-                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/MedicineManagement/GetMedicines{name}", null, null);
-                if (apiRes.Result != null)
-                {
-                    res = JsonConvert.DeserializeObject<Response>(apiRes.Result);
-                    return PartialView(res);
-                }
-                return Json(res);
+                list = JsonConvert.DeserializeObject<List<Medicines>>(apiRes.Result);
             }
-            catch (Exception ex)
-            {
-                res.ResponseText="Something wrong!!";
-                res.StatusCode = ResponseStatus.FAILED;
-                return Json(res);
-            }
+            return PartialView(list);
         }
         [Route("/EditMedicines")]
         public async Task<IActionResult> _EditMedicines( int id)
         {
-            var res = new Response()
+            var list = new Medicines();
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/MedicineManagement/GetDCSServiceById/{id}", null, null);
+            if (apiRes.Result != null)
             {
-                ResponseText="something wrong!",
-                StatusCode = ResponseStatus.FAILED
-            };
-
-            try
-            {
-
-                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/MedicineManagement/GetMedicinesById/{id}", null, null);
-                if (apiRes.Result != null)
-                {
-                    res = JsonConvert.DeserializeObject<Response>(apiRes.Result);
-                    return PartialView(res);
-                }
-                return Json(res);
+                list = JsonConvert.DeserializeObject<Medicines>(apiRes.Result);
             }
-            catch (Exception ex)
-            {
-                res.ResponseText="Something wrong!!";
-                res.StatusCode = ResponseStatus.FAILED;
-                return Json(res);
-            }
+            return View(list);
         }
 
         [HttpPost]
@@ -107,31 +75,15 @@ namespace DCS.Controllers
 
 
         [Route("/GetMedicine")]
-        public async Task<IActionResult> GetMedicine(string name)
+        public async Task<IActionResult> GetMedicine(string? name)
         {
-            var res = new Response()
+            var list = new List<Medicines>();
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/MedicineManagement/GetMedicinesQtyByName/{name}", null, null);
+            if (apiRes.Result != null)
             {
-                ResponseText="something wrong!",
-                StatusCode = ResponseStatus.FAILED
-            };
-
-            try
-            {
-
-                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/MedicineManagement/GetMedicines{name}", null, null);
-                if (apiRes.Result != null)
-                {
-                    res = JsonConvert.DeserializeObject<Response>(apiRes.Result);
-                    return Json(res);
-                }
-                return Json(res);
+                list = JsonConvert.DeserializeObject<List<Medicines>>(apiRes.Result);
             }
-            catch (Exception ex)
-            {
-                res.ResponseText="Something wrong!!";
-                res.StatusCode = ResponseStatus.FAILED;
-                return Json(res);
-            }
+            return PartialView(list);
         }
     }
 }

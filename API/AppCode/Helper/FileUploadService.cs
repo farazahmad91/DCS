@@ -1,107 +1,83 @@
 ﻿using API.RequestInfo;
 using Entities.Response;
+using Microsoft.AspNetCore.Http;
+using Microsoft.VisualBasic.FileIO;
+using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Headers;
 using System.Text;
 
 namespace API.AppCode.Helper
 {
-    public class FileUploadService : IFileUploadService
+    public class FileUploadService
     {
-        private readonly IRequestInfo _rinfo;
-        public FileUploadService(IRequestInfo requestInfo)
-        {
-            _rinfo = requestInfo;
-        }
-        public Response Upload(FileUploadModel request)
+        public static FileUploadService O => instance.Value;
+        private static Lazy<FileUploadService> instance = new Lazy<FileUploadService>(() => new FileUploadService());
+
+        public Response UploadFile(FileUploadModel request)
         {
             var response = new Response
             {
                 StatusCode = ResponseStatus.FAILED,
-                ResponseText = "Failed to upload image"
+                ResponseText = "An error han occurred try after sometime."
             };
-            try
+            if (response.StatusCode == ResponseStatus.SUCCESS)
             {
-                //if (_appsetting.CloudFlare != null && !string.IsNullOrEmpty(_appsetting.CloudFlare.BaseURL) && !string.IsNullOrEmpty(_appsetting.CloudFlare.ApiKey) && !string.IsNullOrEmpty(_appsetting.CloudFlare.Authorization))
-                //{
-                //    CloudFlareResponse res = new CloudFlareResponse();
-                //    using (var client = new HttpClient())
-                //    {
-                //        string URL = _appsetting.CloudFlare.BaseURL + _appsetting.CloudFlare.ApiKey + "/images/v1";
-                //        var cloudrequest = new HttpRequestMessage(HttpMethod.Post, URL);
-                //        cloudrequest.Headers.Add("Authorization", "Bearer " + _appsetting.CloudFlare.Authorization);
-                //        var content = new MultipartFormDataContent();
-                //        using (var ms = new MemoryStream())
-                //        {
-                //            request.file.CopyTo(ms);
-                //            var msArr = ms.ToArray();
-                //            var fileStream = new StreamContent(new MemoryStream(msArr));
-                //            content.Add(fileStream, "file", DateTime.Now.ToString("ddMMyyyyhhmmssff"));
-                //            cloudrequest.Content = content;
-                //            var cloudresponse = client.SendAsync(cloudrequest).Result;
-                //            if (cloudresponse.StatusCode == System.Net.HttpStatusCode.NotFound)
-                //            {
-                //                response.StatusCode = ResponseStatus.Failed;
-                //                response.ResponseText = "Invalid Cloud Url!";
-                //            }
-                //            else
-                //            {
-                //                res = JsonConvert.DeserializeObject<CloudFlareResponse>(cloudresponse.Content.ReadAsStringAsync().Result);
-                //                if (res.success)
-                //                {
-                //                    response.StatusCode = ResponseStatus.Success;
-                //                    response.ResponseText = res.result.variants.FirstOrDefault();
-                //                }
-                //                else
-                //                {
-                //                    response.StatusCode = ResponseStatus.Failed;
-                //                    response.ResponseText = res.errors.FirstOrDefault().message;
-                //                }
-                //            }
-                //        }
-                //    }
-                //}
-                //else
-                //{
+                try
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(request.FilePath);
+                    if (!Directory.Exists(sb.ToString()))
+                    {
+                        Directory.CreateDirectory(sb.ToString());
+                    }
+                    var filename = ContentDispositionHeaderValue.Parse(request.file.ContentDisposition).FileName.Trim('"');
+                    string originalExt = Path.GetExtension(filename).ToLower();
+                    if (request.formates != null)
+                    {
+                        if (request.formates.Count() > 0)
+                        {
+                            if (!request.formates.Any(x => x.ToUpper().Contains(originalExt.ToUpper())))
+                            {
+                                response.StatusCode = ResponseStatus.FAILED;
+                                response.ResponseText = "Invalid File Formate!";
+                                return response;
+                            }
+                        }
+                    }
+                    string[] Extensions = { ".png", ".jpeg", ".jpg" };
+                    if (Extensions.Contains(originalExt))
+                    {
+                    }
+                    string originalFileName = Path.GetFileNameWithoutExtension(filename).ToLower() + originalExt;
 
-                //}
-                StringBuilder sb = new StringBuilder();
-                sb.Append(request.FilePath);
-                if (!Directory.Exists(sb.ToString()))
-                {
-                    Directory.CreateDirectory(sb.ToString());
+                    if (string.IsNullOrEmpty(Path.GetExtension(request.FileName)))
+                    {
+                        request.FileName = string.Concat(request.FileName, originalExt);
+                    }
+                    request.FileName = string.IsNullOrEmpty(request.FileName) ? originalFileName.Trim() : request.FileName;
+                    sb.Append(request.FileName);
+                    using (FileStream fs = File.Create(sb.ToString()))
+                    {
+                        request.file.CopyTo(fs);
+                        fs.Flush();
+                    }
+                    response.StatusCode = ResponseStatus.SUCCESS;
+                    response.ResponseText = "File uploaded successfully";
+                    response.Filename = request.FileName;
                 }
-                var filename = ContentDispositionHeaderValue.Parse(request.file.ContentDisposition).FileName.Trim('"');
-                string originalExt = Path.GetExtension(filename).ToLower();
-                string[] Extensions = { ".png", ".jpeg", ".jpg", ".webp", ".pdf" };
-                if (!Extensions.Contains(originalExt))
+                catch (Exception ex)
                 {
-                    response.ResponseText = "You can only upload JPEG, JPG, and PNG files.";
-                    return response;
+                    response.ResponseText = "Error in file uploading. Try after sometime...";
                 }
-                if (string.IsNullOrEmpty(request.FileName))
-                {
-                    request.FileName = filename;
-                }
-                sb.Append($"{request.FileName}{originalExt}");
-                using (FileStream fs = File.Create(sb.ToString()))
-                {
-                    request.file.CopyTo(fs);
-                    fs.Flush();
-                }
-                response.StatusCode = ResponseStatus.SUCCESS;
-                response.ResponseText = $"{_rinfo.GetDomain()}/{request.FilePath.Replace(Directory.GetCurrentDirectory(), "").Replace("wwwroot/", "").Replace("\\", "/")}{request.FileName}{originalExt}"; ;
-            }
-            catch (Exception ex)
-            {
-                response.ResponseText = "Error in file uploading. Try after sometime...";
             }
             return response;
         }
     }
     public class FileUploadModel
     {
-        public IFormFile? file { get; set; }
-        public string? FileName { get; set; }
-        public string? FilePath { get; set; }
+        public IFormFile file { get; set; }
+        public string FileName { get; set; }
+        public string FilePath { get; set; }
+        public List<string> formates { get; set; }
     }
 }

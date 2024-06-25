@@ -19,7 +19,7 @@ namespace API.AppCode.ML
             return (Response)i;
         }
 
-        public async Task<IEnumerable<DCSPolicies>> GetDCSPolicies(string name)
+        public async Task<IEnumerable<DCSPolicies>> GetDCSPolicies(string? name)
         {
             IProcedureAsync proc = new Proc_GetDCSPolicies(_dapper);
             var i = await proc.Call(name);

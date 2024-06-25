@@ -20,7 +20,7 @@ namespace API.AppCode.ML
             return (Response)i;
         }
 
-        public async Task<IEnumerable<PurchaseService>> GetPurchaseService(string email)
+        public async Task<IEnumerable<PurchaseService>> GetPurchaseService(string? email)
         {
             IProcedureAsync proc = new Proc_GetPurchaseService(_dapper);
             var i = await proc.Call(email);

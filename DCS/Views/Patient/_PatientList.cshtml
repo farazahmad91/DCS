@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Entities.Patient>
+
+@{
+    ViewData["Title"] = "PatientList";
+    Layout = null;
+}
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AppointmentId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateOfBirth)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Gender)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PImage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MedicalHistory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InsuranceInformation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmergencyContactName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmergencyContactPhone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrimaryCarePhysicianName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrimaryCarePhysicianPhone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Allergies)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Medications)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BloodType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Height)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Weight)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PreferredLanguage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Occupation)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}

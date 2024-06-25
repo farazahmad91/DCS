@@ -1,10 +1,7 @@
 ﻿using API.AppCode.Helper;
-using API.AppCode.IML;
 using API.AppCode.IService;
-using API.AppCode.Utility;
 using Entities;
 using Entities.Response;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -14,41 +11,47 @@ namespace API.Controllers
     public class DoctorController : ControllerBase
     {
         private readonly IDoctor _doctor;
-        private readonly IFileUploadService _fileUploadService;
-        public DoctorController(IDoctor doctor, IFileUploadService fileUploadService)
+        public DoctorController(IDoctor doctor)
         {
              _doctor=doctor;
-            _fileUploadService = fileUploadService;
         }
         [HttpPost(nameof(AddOrUpdateDoctor))]
         public async Task<IActionResult> AddOrUpdateDoctor(Doctor doctors)
         {
+            var res = new Response
+            {
+                StatusCode = ResponseStatus.FAILED,
+                ResponseText = "An error han occurred try after sometime."
+            };
+            if (doctors.DrId == 0 && doctors.ImagePath == null)
+            {
+                res.StatusCode = ResponseStatus.FAILED;
+                res.ResponseText = "Attachment file is mandetory";
+                return BadRequest(res);
+            }
             if (doctors.ImagePath != null)
             {
-                var res = new Response
-                {
-                    StatusCode = ResponseStatus.FAILED,
-                    ResponseText = "An error han occurred try after sometime."
-                };
-                var uploadImage = _fileUploadService.Upload(new FileUploadModel
+                res = FileUploadService.O.UploadFile(new FileUploadModel
                 {
                     file = doctors.ImagePath,
-                    FileName = $"{DateTime.Now.ToString("ddmmyyhhssmmttt")}",
-                    FilePath =  FileDirectories.DictionaryImage,
+                    FileName = DateTime.Now.ToString("ddMMyyyyhhmmssfff"),
+                    FilePath = DOCType.DictionaryImage,
                 });
-                if (uploadImage.StatusCode != ResponseStatus.SUCCESS)
-                {
-                    res.ResponseText = uploadImage.ResponseText;
-                    return Ok(res);
-                }
-                doctors.DrImage = uploadImage.ResponseText;
             }
-            var i = await _doctor.AddOrUpdateDoctor(doctors);
-            return Ok(i);
+
+            if (res.StatusCode == ResponseStatus.SUCCESS)
+            {
+                if (doctors.ImagePath != null)
+                {
+                    doctors.DrImage = $"{DOCType.DictionaryPrefix}{res.Filename}";
+                }
+                res = await _doctor.AddOrUpdateDoctor(doctors);
+            }
+            return Ok(res);
         }
 
         [HttpPost(nameof(GetDoctor)+"/{name}")]
-        public async Task<IActionResult> GetDoctor(string name)
+        public async Task<IActionResult> GetDoctor(string? name)
         {
             var i = await _doctor.GetDoctor(name);
             return Ok(i);
