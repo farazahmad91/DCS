@@ -2,7 +2,7 @@
     ViewData["Title"] = "AddInvoice";
     Layout = "_Layout";
 }
-
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 <!-- Content wrapper start -->
 <div class="content-wrapper">
     <!-- Row start -->
@@ -16,7 +16,7 @@
                     <div class="create-invoice-wrapper">
                         <!-- Row start -->
                         <div class="row gx-3">
-                            <div class="col-sm-6 col-12">
+                            <div class="col-sm-6 col-6 card">
                                 <!-- Row start -->
                                 <div class="row gx-3">
                                     <div class="col-sm-6 col-12">
@@ -49,9 +49,50 @@
                                     </div>
                                 </div>
                             </div>
+                                <div class="col-sm-6 col-4 card" style="border:dotted 2px black; margin-top:15%;">
+                                    <!-- Row start -->
+                                    <div class="row gx-3">
+                                        <div class="col-sm-6 col-12">
+                                            <div class="mb-3">
+                                                <label for="customerName" class="form-label">Transaction Mode</label>
+                                            <select class="form-select" id="txtTMode" onchange="OnTransaction();">
+                                                    <option>select mode</option>
+                                                    <option>Online</option>
+                                                    <option>Cash</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Transaction Id</label>
+                                                <div class="input-group">
+                                                <input type="text" id="txtTransactionId" class="form-control" placeholder="enter transaction id" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-12">
+                                            <div class="mb-3">
+                                                <label  class="form-label">Due Date</label>
+                                            <div class="input-group">
+                                                <input type="text" id="txtduedate" class="form-control datepicker-time" disabled="disabled">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-calendar4"></i>
+                                                </span>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    <div class="col-sm-6 col-12">
+                                        <label class="form-label">IsPaid</label>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" role="switch" onchange="OnTransaction();" id="ckbIsPaid" checked="">
+                                            <label class="form-check-label" for="ckbIsPaid"></label>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <!-- Row end -->
-                    </div>
                     <hr />
                     <!-- Row start -->
                     <div class="row gx-3">
@@ -62,8 +103,8 @@
                                         <tr>
                                             <th>Service</th>
                                             <th>Product</th>
-                                            <th>Quantity</th>
                                             <th>Unit</th>
+                                            <th>Quantity</th>
                                             <th>Price</th>
                                             <th>VAT</th>
                                             <th>Discount</th>
@@ -83,12 +124,9 @@
                                             </td>
                                             <td>
                                                 <div class="m-0">
-                                                    <input type="text" class="form-control" id="txtProduct0" placeholder="Product" />
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="m-0">
-                                                    <input type="number" class="form-control" id="txtQty0" onchange="txtonChange();" placeholder="Qty" />
+                                                    <select class="form-select product-select" id="txtProduct0" style="width:150px;">
+                                                      
+                                                    </select>
                                                 </div>
                                             </td>
                                             <td>
@@ -97,6 +135,11 @@
                                                     <option>tablet</option>
                                                     <option>Books</option>
                                                 </select>
+                                            </td>
+                                            <td>
+                                                <div class="m-0">
+                                                    <input type="number" class="form-control" id="txtQty0" onchange="txtonChange();" placeholder="Qty" />
+                                                </div>
                                             </td>
                                             <td>
                                                 <!-- Form group start -->
@@ -147,7 +190,7 @@
                                                 <p class="m-0">Subtotal</p>
                                                 <p class="m-0">Discount</p>
                                                 <p class="m-0">VAT</p>
-                                                <h5 class="mt-2 text-red">Total USD</h5>
+                                                <h5 class="mt-2 text-red">Total INR</h5>
                                             </td>
                                             <td>
                                                 <p class="m-0" id="subtotal">₹0.00</p>
@@ -174,164 +217,125 @@
         </div>
     </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Select2 JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
 <script>
-    // $(document).ready(() => {
-    //     let count = 1;
+    function OnTransaction() {
+        var mode = $("#txtTMode").val();
 
-    //     $('#tbody').on('click', '#btnaddnew', function () {
-    //         let dynamicRowHTML = `
-    //                 <tr class="rowClass">
-    //                     <td>
-    //                         <select class="form-select" id="txtService${count}">
-    //                             <option>Select Service</option>
-    //                             <option>Mobiles</option>
-    //                             <option>Books</option>
-    //                         </select>
-    //                     </td>
-    //                     <td>
-    //                         <div class="m-0">
-    //                             <input type="text" class="form-control" id="txtProduct${count}" placeholder="Product" />
-    //                         </div>
-    //                     </td>
-    //                     <td>
-    //                         <div class="m-0">
-    //                             <input type="number" class="form-control" id="txtQty${count}" onchange="txtonChange();" placeholder="Qty" />
-    //                         </div>
-    //                     </td>
-    //                     <td>
-    //                         <select class="form-select" id="txtUnit${count}">
-    //                             <option>Select Unit</option>
-    //                             <option>tablet</option>
-    //                             <option>Books</option>
-    //                         </select>
-    //                     </td>
-    //                     <td>
-    //                         <div class="input-group m-0">
-    //                             <input type="text" id="txtPrice${count}" onchange="txtonChange();" class="form-control" placeholder="Price"/>
-    //                             <span class="input-group-text">₹</span>
-    //                         </div>
-    //                     </td>
-    //                     <td>
-    //                         <div class="input-group m-0">
-    //                             <input type="text" id="txtVat${count}" onchange="txtonChange();" class="form-control" placeholder="Vat"/>
-    //                             <span class="input-group-text">%</span>
-    //                         </div>
-    //                     </td>
-    //                     <td>
-    //                         <div class="input-group m-0">
-    //                             <input type="text" id="txtDiscount${count}" onchange="txtonChange();" class="form-control" placeholder="Discount"/>
-    //                             <span class="input-group-text">%</span>
-    //                         </div>
-    //                     </td>
-    //                     <td>
-    //                         <div class="input-group m-0">
-    //                             <input type="text" id="txtTotalAmount${count}" class="form-control" placeholder="Total Amount" readonly/>
-    //                             <span class="input-group-text">₹</span>
-    //                         </div>
-    //                     </td>
-    //                     <td>
-    //                         <div class="d-inline-flex gap-3">
-    //                             <button class="btn btn-outline-danger remove">
-    //                                 <i class="bi bi-trash m-0"></i>
-    //                             </button>
-    //                             <button class="btn btn-dark" id="btnaddnew">
-    //                                 Add
-    //                             </button>
-    //                         </div>
-    //                     </td>
-    //                 </tr>`;
-    //         $('#tbody').append(dynamicRowHTML);
-    //         count++;
-    //     });
+        if (mode === 'Cash') {
+            $("#txtTransactionId").val('not');
+            $("#txtTransactionId").prop("disabled", true);
+        } else {
+            $("#txtTransactionId").prop("disabled", false);
+        }
+        debugger;
+        var isPaid = $("#ckbIsPaid").prop('checked');
+        if (!isPaid) {
+            $("#txtduedate").val("");
+        }
+        else {
+            $("#txtduedate").val("");
+        }
+    }
+    OnTransaction();
 
-    //     $('#tbody').on('click', '.remove', function () {
-    //         $(this).closest('.rowClass').remove();
-    //         txtonChange();
-    //     });
-
-    //     $('body').on('change', '.form-control', function () {
-    //         txtonChange();
-    //     });
-
-    //     $('body').on('change', '.form-select', function () {
-    //         txtonChange();
-    //     });
-    // });
+    let count = 1;
     $(document).ready(() => {
-        let count = 1;
+        $('#tbody').on('click', '#btnaddnew', function (e) {
+            // Prevent default button action
+            e.preventDefault();
 
-        $('#tbody').on('click', '#btnaddnew', function () {
-            GetMedicines().then(options => {
-                let dynamicRowHTML = `
-                    <tr class="rowClass">
-                        <td>
-                            <select class="form-select" id="txtService${count}">
-                                <option>Select Service</option>
-                                <option>Mobiles</option>
-                                <option>Books</option>
-                            </select>
-                        </td>
-                        <td>
-                            <div class="m-0">
-                                <select class="form-control product-select" id="txtProduct${count}">
-                                    ${options}
+            // Get the current row
+            let currentRow = $(this).closest('.rowClass');
+
+            // Validate the current row inputs
+            let isValid = validateRow(currentRow);
+
+            if (isValid) {
+                GetMedicines().then(options => {
+                    let dynamicRowHTML = `
+                        <tr class="rowClass">
+                            <td>
+                                <select class="form-select Service_options" id="txtService${count}">
                                 </select>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="m-0">
-                                <input type="number" class="form-control" id="txtQty${count}" onchange="txtonChange();" placeholder="Qty" />
-                            </div>
-                        </td>
-                        <td>
-                            <select class="form-select" id="txtUnit${count}">
-                                <option>Select Unit</option>
-                                <option>tablet</option>
-                                <option>Books</option>
-                            </select>
-                        </td>
-                        <td>
-                            <div class="input-group m-0">
-                                <input type="text" id="txtPrice${count}" onchange="txtonChange();" class="form-control" placeholder="Price"/>
-                                <span class="input-group-text">₹</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="input-group m-0">
-                                <input type="text" id="txtVat${count}" onchange="txtonChange();" class="form-control" placeholder="Vat"/>
-                                <span class="input-group-text">%</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="input-group m-0">
-                                <input type="text" id="txtDiscount${count}" onchange="txtonChange();" class="form-control" placeholder="Discount"/>
-                                <span class="input-group-text">%</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="input-group m-0">
-                                <input type="text" id="txtTotalAmount${count}" class="form-control" placeholder="Total Amount" readonly/>
-                                <span class="input-group-text">₹</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="d-inline-flex gap-3">
-                                <button class="btn btn-outline-danger remove">
-                                    <i class="bi bi-trash m-0"></i>
-                                </button>
-                                <button class="btn btn-dark" id="btnaddnew">
-                                    Add
-                                </button>
-                            </div>
-                        </td>
-                    </tr>`;
-                $('#tbody').append(dynamicRowHTML);
-                $('.product-select').select2(); // Initialize Select2 on the new select element
-                count++;
-            }).fail(() => {
-                alert('Failed to fetch medicines.');
-            });
+                            </td>
+                            <td>
+                                <div class="m-0">
+                                    <select class="form-control product-select" id="txtProduct${count}">
+                                        ${options}
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <select class="form-select" id="txtUnit${count}">
+                                    <option>Select Unit</option>
+                                    <option>tablet</option>
+                                    <option>Books</option>
+                                </select>
+                            </td>
+                            <td>
+                                <div class="m-0">
+                                    <input type="number" class="form-control" id="txtQty${count}" onchange="txtonChange();" placeholder="Qty" />
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-group m-0">
+                                    <input type="text" id="txtPrice${count}" onchange="txtonChange();" class="form-control" placeholder="Price"/>
+                                    <span class="input-group-text">₹</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-group m-0">
+                                    <input type="text" id="txtVat${count}" onchange="txtonChange();" class="form-control" placeholder="Vat"/>
+                                    <span class="input-group-text">%</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-group m-0">
+                                    <input type="text" id="txtDiscount${count}" onchange="txtonChange();" class="form-control" placeholder="Discount"/>
+                                    <span class="input-group-text">%</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-group m-0">
+                                    <input type="text" id="txtTotalAmount${count}" class="form-control" placeholder="Total Amount" readonly/>
+                                    <span class="input-group-text">₹</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-inline-flex gap-3">
+                                    <button class="btn btn-outline-danger remove">
+                                        <i class="bi bi-trash m-0"></i>
+                                    </button>
+                                    <button class="btn btn-dark" id="btnaddnew">
+                                        Add
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>`;
+
+                    $('#tbody tr:last').before(dynamicRowHTML);
+                    $(`#txtProduct${count}`).select2({
+                        placeholder: "Select a product",
+                        allowClear: true
+                    });
+                    $(`#txtService${count}`).select2({
+                        placeholder: "Select a product",
+                        allowClear: true
+                    });
+                    GetService();
+                    count++;
+                }).fail(() => {
+                    alert('Failed to fetch medicines.');
+                });
+            } else {
+                Info(-1,'Please fill all the fields before adding a new row.');
+            }
         });
 
         $('#tbody').on('click', '.remove', function () {
@@ -346,12 +350,30 @@
         $('body').on('change', '.form-select', function () {
             txtonChange();
         });
+        jQuery.noConflict();
 
-        // Initialize Select2 on existing product-select elements if any
-        $('.product-select').select2();
+        $("#txtProduct0").select2({
+            placeholder: "Select a product",
+            allowClear: true
+        });
+        $("#txtService0").select2({
+            placeholder: "Select a product",
+            allowClear: true
+        });
+
+        GetMedicines();
+        GetService();
     });
 
-
+    function validateRow(row) {
+        let isValid = true;
+        row.find('select, input').each(function () {
+            if ($(this).val() === '' || $(this).val() == null) {
+                isValid = false;
+            }
+        });
+        return isValid;
+    }
 
     function txtonChange() {
         let subtotal = 0;
@@ -384,6 +406,12 @@
     }
 
     function CreateInvoice() {
+        // Validate required fields
+        if (!validateInvoiceFields()) {
+            Info(-1,'Please fill all the required fields.');
+            return;
+        }
+
         let invoiceData = {
             CustomerName: $('#txtName').val(),
             Email: $('#txtEmail').val(),
@@ -397,13 +425,13 @@
             Transactions: []
         };
 
-        let Transaction = {
+        let transaction = {
             Id: "ertre44",
             Mode: "fgfg",
             IsPaid: true,
             DueDate: "",
         };
-        invoiceData.Transactions.push(Transaction);
+        invoiceData.Transactions.push(transaction);
 
         $('.rowClass').each(function (index, element) {
             let quantity = parseFloat($(element).find('input[id^="txtQty"]').val()) || 0;
@@ -418,7 +446,7 @@
 
             let item = {
                 Service: $(element).find('select[id^="txtService"]').val(),
-                Product: $(element).find('input[id^="txtProduct"]').val(),
+                Product: $(element).find('select[id^="txtProduct"]').val(),
                 Quantity: quantity,
                 Unit: $(element).find('select[id^="txtUnit"]').val(),
                 Price: price,
@@ -437,9 +465,10 @@
             type: 'POST',
             data: JSON.stringify(invoiceData),
             contentType: 'application/json',
-            success: function (response) {
-                alert('Invoice Created Successfully');
-                //window.location.href = '@Url.Action("Index", "Invoices")';
+            success: function (res) {
+                Info(res.statusCode, res.responseText)
+                // Uncomment the next line to redirect after success
+                // window.location.href = '@Url.Action("Index", "Invoices")';
             },
             error: function (error) {
                 console.log(error);
@@ -448,56 +477,39 @@
         });
     }
 
+    function validateInvoiceFields() {
+        // Check if any required fields are empty
+        let isValid = true;
+        if ($('#txtName').val().trim() === '') {
+            isValid = false;
+        }
+        if ($('#txtEmail').val().trim() === '') {
+            isValid = false;
+        }
+        if ($('#txtPhone').val().trim() === '') {
+            isValid = false;
+        }
+        if ($('#txtAddress').val().trim() === '') {
+            isValid = false;
+        }
 
+        // Check each row for required fields
+        $('.rowClass').each(function (index, element) {
+            let isRowValid = true;
+            $(element).find('input[id^="txtQty"], input[id^="txtPrice"], input[id^="txtDiscount"], input[id^="txtVat"]').each(function () {
+                if ($(this).val().trim() === '') {
+                    isRowValid = false;
+                    return false; // Exit the loop early if any field in the row is empty
+                }
+            });
+            if (!isRowValid) {
+                isValid = false;
+                return false; // Exit the loop early if any row is invalid
+            }
+        });
 
-
-
-
-
-
-    // function CreateInvoice() {
-    //     let invoiceData = {
-    //         CustomerName: $('#txtName').val(),
-    //         Email: $('#txtEmail').val(),
-    //         Phone: $('#txtPhone').val(),
-    //         Address: $('#txtAddress').val(),
-    //         Subtotal: parseFloat($('#subtotal').text().replace('₹', '')) || 0,
-    //         DiscountAmount: parseFloat($('#discountAmount').text().replace('₹', '')) || 0,
-    //         TotalVAT: parseFloat($('#vatAmount').text().replace('₹', '')) || 0,
-    //         TotalAmount: parseFloat($('#totalAmount').text().replace('₹', '')) || 0,
-    //         Items: []
-    //     };
-
-    //     $('.rowClass').each(function (index, element) {
-    //         let item = {
-    //             Service: $(element).find('select[id^="txtService"]').val(),
-    //             Product: $(element).find('input[id^="txtProduct"]').val(),
-    //             Quantity: parseFloat($(element).find('input[id^="txtQty"]').val()) || 0,
-    //             Unit: $(element).find('select[id^="txtUnit"]').val(),
-    //             Price: parseFloat($(element).find('input[id^="txtPrice"]').val()) || 0,
-    //             VAT: parseFloat($(element).find('input[id^="txtVat"]').val()) || 0,
-    //             Discount: parseFloat($(element).find('input[id^="txtDiscount"]').val()) || 0,
-    //             TotalAmount: parseFloat($(element).find('input[id^="txtTotalAmount"]').val()) || 0
-    //         };
-
-    //         invoiceData.Items.push(item);
-    //     });
-
-    //     $.ajax({
-    //         url: '/AddInvoice',
-    //         type: 'POST',
-    //         data: JSON.stringify(invoiceData),
-    //         contentType: 'application/json',
-    //         success: function (response) {
-    //             alert('Invoice Created Successfully');
-    //             //window.location.href = '@Url.Action("Index", "Invoices")';
-    //         },
-    //         error: function (error) {
-    //             console.log(error);
-    //             alert('Error Creating Invoice');
-    //         }
-    //     });
-    // }
+        return isValid;
+    }
 
 
     function GetMedicines() {
@@ -505,9 +517,27 @@
             .then(function (med) {
                 let options = '<option>Select Product</option>';
                 med.forEach(function (item) {
-                    options += `<option value="${item.medicineID}">${item.name}</option>`;
+                    options += `<option value="${item.name}">${item.name}</option>`;
                 });
+                $('#txtProduct0').html(options);
                 return options;
+            })
+            .catch(function () {
+                alert('Failed to fetch medicines.');
+                return '<option>Select Product</option>';
+            });
+    }
+
+    function GetService() {
+        return $.post('/GetMedicine')
+            .then(function (med) {
+                let Service_options = '<option>Select Product</option>';
+                med.forEach(function (item) {
+                    Service_options += `<option value="${item.name}">${item.name}</option>`;
+                });
+
+                $("#txtService0").html(Service_options);
+                $(".Service_options").html(Service_options);
             })
             .catch(function () {
                 alert('Failed to fetch medicines.');
@@ -517,3 +547,7 @@
 
 
 </script>
+
+
+    
+   

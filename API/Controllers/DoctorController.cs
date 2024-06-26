@@ -3,6 +3,7 @@ using API.AppCode.IService;
 using Entities;
 using Entities.Response;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace API.Controllers
 {
@@ -11,9 +12,11 @@ namespace API.Controllers
     public class DoctorController : ControllerBase
     {
         private readonly IDoctor _doctor;
-        public DoctorController(IDoctor doctor)
+        private readonly FileUploadService _uploadService;
+        public DoctorController(IDoctor doctor, FileUploadService uploadService)
         {
              _doctor=doctor;
+            _uploadService=uploadService;
         }
         [HttpPost(nameof(AddOrUpdateDoctor))]
         public async Task<IActionResult> AddOrUpdateDoctor(Doctor doctors)
@@ -23,28 +26,14 @@ namespace API.Controllers
                 StatusCode = ResponseStatus.FAILED,
                 ResponseText = "An error han occurred try after sometime."
             };
-            if (doctors.DrId == 0 && doctors.ImagePath == null)
-            {
-                res.StatusCode = ResponseStatus.FAILED;
-                res.ResponseText = "Attachment file is mandetory";
-                return BadRequest(res);
-            }
+
             if (doctors.ImagePath != null)
             {
-                res = FileUploadService.O.UploadFile(new FileUploadModel
-                {
-                    file = doctors.ImagePath,
-                    FileName = DateTime.Now.ToString("ddMMyyyyhhmmssfff"),
-                    FilePath = DOCType.DictionaryImage,
-                });
+                doctors.DrImage = _uploadService.Image(doctors.ImagePath, FileUploadType.DoctorImage, FileUploadType.DoctorPrefix);
             }
 
-            if (res.StatusCode == ResponseStatus.SUCCESS)
+            if (doctors.DrImage!= null)
             {
-                if (doctors.ImagePath != null)
-                {
-                    doctors.DrImage = $"{DOCType.DictionaryPrefix}{res.Filename}";
-                }
                 res = await _doctor.AddOrUpdateDoctor(doctors);
             }
             return Ok(res);

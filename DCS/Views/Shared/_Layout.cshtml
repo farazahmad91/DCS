@@ -33,12 +33,13 @@
 	<link rel="stylesheet" href="~/dcs/css/site.css" />
     <link rel="stylesheet" href="~/assets/vendor/overlay-scroll/OverlayScrollbars.min.css" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+	<link rel="stylesheet" href="~/assets/vendor/daterange/daterange.css" />
 </head>
 <body>
 	<div class="page-wrapper">
 
 		<!-- Page header starts -->
-		<div class="page-header">
+		@* <div class="page-header">
 
 			<div class="toggle-sidebar" id="toggle-sidebar">
 				<i class="bi bi-list"></i>
@@ -131,13 +132,13 @@
 			</div>
 			<!-- Header actions ccontainer end -->
 
-		</div>
+		</div> *@
 		<!-- Page header ends -->
 		<!-- Main container start -->
 		<div class="main-container">
 
 			<!-- Sidebar wrapper start -->
-			<nav class="sidebar-wrapper">
+			@* <nav class="sidebar-wrapper">
 
 				<!-- Sidebar brand starts -->
 				<div class="brand">
@@ -167,7 +168,7 @@
 							<i class="bi bi-DCS-fill"></i>
 						</a>
 					</div>
-				</div> *@
+				</div> 
 				<!-- Sidebar quicklinks ends -->
 				<!-- Sidebar menu starts -->
 				<div class="sidebar-menu">
@@ -199,7 +200,7 @@
 										</li>
 										@* <li>
 											<a href="buttons.html">MedicalHistory</a>
-										</li> *@
+										</li> 
 									</ul>
 								</div>
 							</li>
@@ -221,7 +222,7 @@
 										</li>
 										<li>
 										<a href="buttons.html">MedicalHistory</a>
-										</li> *@
+										</li> 
 										</ul>
 									</div>
 								</li>
@@ -394,7 +395,7 @@
 				</div>
 				<!-- Sidebar menu ends -->
 
-			</nav>
+			</nav> *@
 			<!-- Sidebar wrapper end -->
 			<!-- Content wrapper scroll start -->
 			<div class="content-wrapper-scroll">
@@ -437,7 +438,8 @@
 		<!-- News ticker -->
 		<script src="~/assets/vendor/newsticker/newsTicker.min.js"></script>
 		<script src="~/assets/vendor/newsticker/custom-newsTicker.js"></script>
-
+	<script src="~/assets/vendor/daterange/daterange.js"></script>
+	<script src="~/assets/vendor/daterange/custom-daterange.js"></script>
 		<!-- Apex Charts -->
 		<script src="~/assets/vendor/apex/apexcharts.min.js"></script>
 		<script src="~/assets/vendor/apex/custom/dash1/sparkline.js"></script>

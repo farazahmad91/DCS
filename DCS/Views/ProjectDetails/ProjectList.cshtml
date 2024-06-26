@@ -51,18 +51,24 @@
         <!-- Row start -->
         <div class="row gx-3">
             <div class="col-sm-12 col-12">
+                <p>
+                    <button id="btnaddservice" class="btn btn-outline-info">Add New Project </button>
+                </p>
                 <div class="card">
                     <div class="card-body">
-                        <div class="table-responsive">
-
-                            <p>
-                                <button id="btnaddservice" class="btn btn-outline-info">Add New Project </button>
-                            </p>
-                            <div class="col-sm-2">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="txtname" onchange=" Onload();" placeholder="Search Name.." />
+                        <div class="col-xxl-4 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="txtname" placeholder="Search name.." />
+                                        <button class="btn btn-outline-secondary" onclick="Onload" type="button">
+                                            Search
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="table-responsive">
                             <table class="table table-striped border-primary m-0">
                                 <thead>
                                     <tr>
