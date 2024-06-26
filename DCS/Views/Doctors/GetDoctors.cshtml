@@ -50,13 +50,18 @@
                         <div class="table-responsive">
 
                             <p>
-                                <button id="btnaddservice" class="btn btn-outline-info">Add New Doctor </button>
-                            </p>
-                            <div class="col-sm-2">
+                                <div class="col-sm-6 col-6">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="txtname" onchange=" Onload();" placeholder="Search Name.." />
+                                    <input type="text" class="form-control" id="txtname" placeholder="search name.." />
+                                    <button class="btn btn-outline-secondary" onclick="Onload" type="button">
+                                        Search
+                                    </button>
+                                    <button id="btnaddservice" class="btn btn-outline-info" type="button">
+                                        Add New Doctor
+                                    </button>
+                                    </div>
                                 </div>
-                            </div>
+                            </p>
                             <table class="table table-striped border-primary m-0">
                                 <thead>
                                     <tr>
