@@ -75,15 +75,15 @@ namespace DCS.Controllers
 
 
         [Route("/GetMedicine")]
-        public async Task<IActionResult> GetMedicine(string? name)
+        public async Task<IActionResult> GetMedicine(string? name="All")
         {
             var list = new List<Medicines>();
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/MedicineManagement/GetMedicinesQtyByName/{name}", null, null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/MedicineManagement/GetMedicines/{name}", null, null);
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<List<Medicines>>(apiRes.Result);
             }
-            return PartialView(list);
+            return Json(list);
         }
     }
 }

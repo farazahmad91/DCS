@@ -1,4 +1,5 @@
-﻿using API.AppCode.IService;
+﻿using API.AppCode.Helper;
+using API.AppCode.IService;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,13 +10,19 @@ namespace API.Controllers
     public class PatientController : ControllerBase
     {
         private readonly IPatient _patient;
-        public PatientController(IPatient patient)
+        private readonly FileUploadService _uploadService;
+        public PatientController(IPatient patient, FileUploadService uploadService)
         {
             _patient =patient;
+            _uploadService=uploadService;
         }
         [HttpPost(nameof(AddOrUpdatePatient))]
         public async Task<IActionResult> AddOrUpdatePatient(Patient patients)
         {
+            if (patients.ImagePath != null)
+            {
+                patients.PImage = _uploadService.Image(patients.ImagePath, FileUploadType.PatientImage, FileUploadType.PatientPrefix);
+            }
             var i =await _patient.AddOrUpdatePatient(patients);
             return Ok(i);
         }

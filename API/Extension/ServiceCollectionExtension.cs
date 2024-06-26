@@ -34,6 +34,7 @@ namespace API.Extension
             services.AddScoped<IInvoice, Invoice_ML>();
             services.AddScoped<IUserValidation, UserValidation>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<FileUploadService>();
             services.AddSingleton<ConnectionStrings>(ch);
             services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
             services.AddTransient<Sendmail>();

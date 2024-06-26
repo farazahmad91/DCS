@@ -2,9 +2,7 @@
 using API.SendEmail;
 using Entities;
 using Entities.Response;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace API.Controllers
 {

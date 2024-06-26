@@ -4,6 +4,6 @@ namespace API.AppCode.Helper
 {
     public interface IFileUploadService
     {
-        public Response UploadFile(FileUploadModel request);
+        public Response UploadFile();
     }
 }
