@@ -441,27 +441,6 @@ html.os-html > .os-host > .os-scrollbar {
 	right: auto;
 	left: 0;
 }
-.os-scrollbar-auto-hidden,
-.os-padding + .os-scrollbar-corner,
-.os-host-resize-disabled.os-host-scrollbar-horizontal-hidden
-	> .os-scrollbar-corner,
-.os-host-scrollbar-horizontal-hidden > .os-scrollbar-horizontal,
-.os-host-resize-disabled.os-host-scrollbar-vertical-hidden
-	> .os-scrollbar-corner,
-.os-host-scrollbar-vertical-hidden > .os-scrollbar-vertical,
-.os-scrollbar-horizontal.os-scrollbar-auto-hidden
-	+ .os-scrollbar-vertical
-	+ .os-scrollbar-corner,
-.os-scrollbar-horizontal
-	+ .os-scrollbar-vertical.os-scrollbar-auto-hidden
-	+ .os-scrollbar-corner,
-.os-scrollbar-horizontal.os-scrollbar-auto-hidden
-	+ .os-scrollbar-vertical.os-scrollbar-auto-hidden
-	+ .os-scrollbar-corner {
-	opacity: 0;
-	visibility: hidden;
-	pointer-events: none;
-}
 .os-scrollbar-corner-resize-both {
 	cursor: nwse-resize;
 }
@@ -525,7 +504,7 @@ html.os-html > .os-host > .os-scrollbar {
 .os-theme-dark > .os-scrollbar-vertical,
 .os-theme-light > .os-scrollbar-vertical {
 	bottom: 10px;
-	width: 10px;
+	width: 22px;
 }
 .os-theme-dark.os-host-rtl > .os-scrollbar-horizontal,
 .os-theme-light.os-host-rtl > .os-scrollbar-horizontal {
@@ -646,7 +625,7 @@ html.os-html > .os-host > .os-scrollbar {
 .os-theme-light.os-host-scrollbar-vertical-hidden
 	> .os-scrollbar-vertical
 	.os-scrollbar-handle:before {
-	display: none;
+	
 }
 .os-theme-dark > .os-scrollbar-horizontal .os-scrollbar-handle:before,
 .os-theme-light > .os-scrollbar-horizontal .os-scrollbar-handle:before {
