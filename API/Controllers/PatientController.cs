@@ -27,10 +27,10 @@ namespace API.Controllers
             return Ok(i);
         }
 
-        [HttpPost(nameof(GetPatient)+"/{email}/{PId}")]
-        public async Task<IActionResult> GetPatient(string? email, int? PId)
+        [HttpPost(nameof(GetPatient)+"/{PId}")]
+        public async Task<IActionResult> GetPatient(int? PId)
         {
-            var i =await _patient.GetPatient(email, PId);
+            var i =await _patient.GetPatient(PId);
             return Ok(i);
         }
 

@@ -1,5 +1,158 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model Entities.Doctor
+<link rel="stylesheet" href="~/assets/vendor/dropzone/dropzone.min.css" />
+<div class="card">
+	<div class="card-body">
+		<!-- Modal -->
+		<div class="modal fade" id="Dr_Editmodal" tabindex="-1" aria-labelledby="Dr_EditmodalTitle" style="display: none;" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="Dr_EditmodalTitle">
+							Modal title
+						</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+
+
+
+						<div class="row gx-3">
+							<div class="col-sm-4 col-12">
+								<div id="update-profile" class="mb-3">
+									<form action="/upload" class="dropzone sm needsclick dz-clickable" id="update-profile-pic">
+										<div class="dz-message needsclick">
+											<button type="button" class="dz-button">
+												Update Image.
+											</button>
+										</div>
+									</form>
+								</div>
+							</div>
+							<div class="col-sm-8 col-12">
+								<div class="row gx-3">
+									<div class="col-6">
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Name" class="form-label">Full Name</label>
+											<input type="text" class="form-control" asp-for="Name" placeholder="Full Name">
+										</div>
+
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Phone" class="form-label">Contact</label>
+											<input type="tel" class="form-control" asp-for="Phone" placeholder="Contact">
+										</div>
+									</div>
+									<div class="col-6">
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Email" class="form-label">Email</label>
+											<input type="email" class="form-control" asp-for="Email" placeholder="Email ID">
+										</div>
+
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="DateOfBirth" class="form-label">Birthday</label>
+											<div class="input-group">
+												<input type="text" class="form-control datepicker-opens-left" asp-for="DateOfBirth" placeholder="DD/MM/YYYY">
+												<span class="input-group-text">
+													<i class="bi bi-calendar4"></i>
+												</span>
+											</div>
+										</div>
+									</div>
+									
+								</div>
+
+								<div class="row gx-3">
+									<div class="col-6">
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Specialization" class="form-label">Specialization</label>
+											<input type="text" class="form-control" asp-for="Specialization" placeholder="Full Name">
+										</div>
+
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Qualifications" class="form-label">Qualifications</label>
+											<input type="text" class="form-control" asp-for="Qualifications" placeholder="Contact">
+										</div>
+									</div>
+									<div class="col-6">
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Gender" class="form-label">Gender</label>
+											<input type="email" class="form-control" asp-for="Gender" placeholder="Email ID">
+										</div>
+
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Affiliations" class="form-label">Affiliations</label>
+											<input type="text" class="form-control" asp-for="Affiliations" placeholder="Email ID">
+										</div>
+									</div>
+
+								</div>
+
+
+								<div class="row gx-3">
+									<div class="col-6">
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Languages" class="form-label">Languages</label>
+											<input type="text" class="form-control" asp-for="Languages" placeholder="Full Name">
+										</div>
+
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="ConsultationFee" class="form-label">Consultation Fee</label>
+											<input type="text" class="form-control" asp-for="ConsultationFee" placeholder="Contact">
+										</div>
+									</div>
+									<div class="col-6">
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Availability" class="form-label">Availability</label>
+											<input type="text" class="form-control" asp-for="Availability" placeholder="Email ID">
+										</div>
+
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label class="form-label">IsActive</label>
+											<div class="form-check form-switch">
+												<input class="form-check-input" type="checkbox" role="switch" onchange="OnTransaction();" id="Status" checked="">
+												<label class="form-check-label" for="Status"></label>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+							Close
+						</button>
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+							@if (Model != null && Model.DrId != null)
+							{
+								<text>Save changes</text>
+
+							}
+							else
+							{
+								<text>Save</text>
+							}
+						</button>
+					</div> 
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script src="~/assets/vendor/dropzone/dropzone.min.js"></script>
+<script src="~/assets/vendor/daterange/daterange.js"></script>
+<script src="~/assets/vendor/daterange/custom-daterange.js"></script>

@@ -13,6 +13,6 @@ namespace API.AppCode.APIRequest
         string CallUsingHttpWebRequest_POST(string URL, string PostData, IDictionary<string, string> headers = null, string ContentType = "application/x-www-form-urlencoded");
         Task<HttpResponseMessage> SendFileAndContentAsync<TContent>(string apiUrl, string authToken, TContent contentData, Microsoft.AspNetCore.Http.IFormFile file, Microsoft.AspNetCore.Http.IFormFile file1 = null);
 
-        Task<HttpResponseMessage> SendFileAndContentAsync<TContent>(string apiUrl, string authToken, TContent contentData);
+        Task<HttpResponseMessage> SendFileAndContentAsync<TContent>(string apiUrl, TContent contentData, string authToken = "");
     }
 }

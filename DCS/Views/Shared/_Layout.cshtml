@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="~/assets/vendor/overlay-scroll/OverlayScrollbars.min.css" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
 	<link rel="stylesheet" href="~/assets/vendor/daterange/daterange.css" />
+	<link rel="stylesheet" href="~/assets/vendor/dropzone/dropzone.min.css" />
 </head>
 <body>
 	<div class="page-wrapper">
@@ -422,8 +423,10 @@
 		<!-- *************
 			************ Required JavaScript Files *************
 		************* -->
+	
+	@* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>*@
 		<!-- Required jQuery first, then Bootstrap Bundle JS -->
-		<script src="~/assets/js/jquery.min.js"></script>
+		<script src="~/assets/js/jquery.min.js"></script> 
 		<script src="~/assets/js/bootstrap.bundle.min.js"></script>
 		<script src="~/assets/js/modernizr.js"></script>
 		<script src="~/assets/js/moment.js"></script>
@@ -438,8 +441,9 @@
 		<!-- News ticker -->
 		<script src="~/assets/vendor/newsticker/newsTicker.min.js"></script>
 		<script src="~/assets/vendor/newsticker/custom-newsTicker.js"></script>
-	<script src="~/assets/vendor/daterange/daterange.js"></script>
-	<script src="~/assets/vendor/daterange/custom-daterange.js"></script>
+	    <script src="~/assets/vendor/daterange/daterange.js"></script>
+	    <script src="~/assets/vendor/daterange/custom-daterange.js"></script>
+	    
 		<!-- Apex Charts -->
 		<script src="~/assets/vendor/apex/apexcharts.min.js"></script>
 		<script src="~/assets/vendor/apex/custom/dash1/sparkline.js"></script>
@@ -452,10 +456,10 @@
 		<script src="~/assets/vendor/apex/custom/dash1/transactions.js"></script>
 		<script src="~/assets/vendor/apex/custom/dash1/transactions2.js"></script>
 		<script src="~/assets/vendor/apex/custom/dash1/analytics-sparkline.js"></script>
-
+	    <script src="~/assets/vendor/dropzone/dropzone.min.js"></script>
 		<!-- Main Js Required -->
 		<script src="~/assets/js/main.js"></script>
-	<script src="~/dcs/js/common.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+	    <script src="~/dcs/js/common.js"></script>
+        @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

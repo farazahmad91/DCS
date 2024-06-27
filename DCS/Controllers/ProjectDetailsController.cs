@@ -54,7 +54,7 @@ namespace DCS.Controllers
 
 
         [Route("/EditProject")]
-        public async Task<IActionResult> EditProjectDetails(int id)
+        public async Task<IActionResult> _EditProjectDetails(int id)
         {
             var list = new DCSService();
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/ProjectDetails/GetProjectDetailsByProjectId/{id}", null, null);

@@ -9,37 +9,18 @@
 {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.PId)
+            @Html.DisplayFor(modelItem => item.AppointmentId)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.AppointmentId)
+            <a class="fancybox" href="@item.PImage" data-fancybox data-caption="@item.Name">
+                <img src="@item.PImage" onerror="this.onerror=null;this.src='/images/noimage.jpg'" class="img-fluid rounded-circle" alt="No Image Found" width="90px" height="50px" />
+            </a>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DateOfBirth)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Gender)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Phone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PImage)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MedicalHistory)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.InsuranceInformation)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.EmergencyContactName)
@@ -47,37 +28,17 @@
         <td>
             @Html.DisplayFor(modelItem => item.EmergencyContactPhone)
         </td>
+       
         <td>
-            @Html.DisplayFor(modelItem => item.PrimaryCarePhysicianName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PrimaryCarePhysicianPhone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Allergies)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Medications)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BloodType)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Height)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Weight)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PreferredLanguage)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Occupation)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Actions
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" onclick="EditPatient(@item.PId)"><span class="fas fa-edit" style="color: Blue"></span> Edit</a>
+                    <a class="dropdown-item" onclick="PatientDetails(@item.PId)"><i class="fas fa-info-circle" style="color: darkgreen"></i> Show Detail</a>
+                </div>
+            </div>
         </td>
     </tr>
 }

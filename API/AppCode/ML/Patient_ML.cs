@@ -20,15 +20,10 @@ namespace API.AppCode.ML
             return (Response)i;
         }
 
-        public async Task<IEnumerable<Patient>> GetPatient(string? email, int? PId)
+        public async Task<IEnumerable<Patient>> GetPatient(int? PId)
         {
-            var param = new
-            {
-              email = email,
-              PId = PId
-            };
             IProcedureAsync proc = new Proc_GetPatient(_dapper);
-            var i = await proc.Call(param);
+            var i = await proc.Call(PId);
             return (IEnumerable<Patient>)i;
         }
 

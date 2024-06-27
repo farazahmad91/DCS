@@ -1,0 +1,92 @@
+﻿<div class="card">
+	<div class="card-body">
+		<!-- Modal -->
+		<div class="modal fade" id="AddProjectmodal" tabindex="-1" aria-labelledby="AddProjectmodalTitle" style="display: none;" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="AddProjectmodalTitle">
+							Modal title
+						</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="row gx-3">
+							<div class="col-sm-4 col-12">
+								<div id="ProjectLogo" class="mb-3">
+									<form action="/upload" class="dropzone sm needsclick dz-clickable" id="update-profile-pic">
+										<div class="dz-message needsclick">
+											<button type="button" class="dz-button">
+												Add Logo.
+											</button>
+										</div>
+									</form>
+								</div>
+							</div>
+							<div class="col-sm-8 col-12">
+								<div class="row gx-3">
+									<div class="col-6">
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Name" class="form-label">Full Name</label>
+											<input type="text" class="form-control" id="Name" placeholder="Full Name">
+										</div>
+
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Email" class="form-label">Email</label>
+											<input type="email" class="form-control" id="Email" placeholder="Contact">
+										</div>
+									</div>
+									<div class="col-6">
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Email" class="form-label">Phone No.</label>
+											<input type="number" class="form-control" id="Phone" placeholder="Email ID">
+										</div>
+
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Email" class="form-label">Project Name.</label>
+											<input type="text" class="form-control" id="ProjectName" placeholder="Email ID">
+										</div>
+									</div>
+
+								</div>
+
+								<div class="row gx-3">
+									<div class="col-6">
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<select class="form-control" id="ProjectType">
+												<option value="">select project type</option>
+												<option value="HMS">HMS</option>
+												<option value="SMS">SMS</option>
+											</select>
+											
+										</div>
+
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Gender" class="form-label"></label>
+											<input type="text" class="form-control" id="" placeholder="Gender">
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+							Close
+						</button>
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                         Create Now
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

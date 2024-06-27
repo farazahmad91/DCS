@@ -1,5 +1,229 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model Entities.Patient
+
+<link rel="stylesheet" href="../assets/vendor/dropzone/dropzone.min.css" />
+<div class="card">
+	<div class="card-body">
+		<!-- Modal -->
+		<div class="modal fade" id="Patient_Editmodal" tabindex="-1" aria-labelledby="Patient_EditmodalTitle" style="display: none;" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="Patient_EditmodalTitle">
+							Modal title
+						</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+
+
+						<div class="row gx-3">
+							<div class="col-sm-4 col-12">
+								<div id="update-profile" class="mb-3">
+									<form action="/upload" class="dropzone sm needsclick dz-clickable" id="update-profile-pic">
+										<div class="profile-pic">
+											<label class="-label" for="file">
+												<span class="glyphicon glyphicon-camera"></span>
+												<span>Change Image</span>
+											</label>
+											<input id="file" type="file" onchange="uploadImage(event)" />
+
+											<img src="https://cdn.pixaba.com/photo/2017/08/06/21/01/louvre-2596278_960_720.jpg" id="output" width="200" />
+
+										</div>
+									</form>
+								</div>
+							</div>
+							<div class="col-sm-8 col-12">
+								<div class="row gx-3">
+									<div class="col-6">
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Name" class="form-label">Full Name</label>
+											<input type="text" class="form-control" asp-for="Name" placeholder="Full Name">
+										</div>
+
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Phone" class="form-label">Contact</label>
+											<input type="tel" class="form-control" asp-for="Phone" placeholder="Contact">
+										</div>
+									</div>
+									<div class="col-6">
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Email" class="form-label">Email</label>
+											<input type="email" class="form-control" asp-for="Email" placeholder="Email ID">
+										</div>
+
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="DateOfBirth" class="form-label">Birthday</label>
+											<div class="input-group">
+												<input type="text" class="form-control datepicker-opens-left" asp-for="DateOfBirth" placeholder="DD/MM/YYYY">
+												<span class="input-group-text">
+													<i class="bi bi-calendar4"></i>
+												</span>
+											</div>
+										</div>
+									</div>
+
+								</div>
+
+								<div class="row gx-3">
+									<div class="col-6">
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Address" class="form-label">Address</label>
+											<input type="text" class="form-control" asp-for="Address" placeholder="Address">
+										</div>
+
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Gender" class="form-label">Gender</label>
+											<input type="text" class="form-control" asp-for="Gender" placeholder="Gender">
+										</div>
+									</div>
+									<div class="col-6">
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="MedicalHistory" class="form-label">Medical History</label>
+											<input type="text" class="form-control" asp-for="MedicalHistory" placeholder="Medical History">
+										</div>
+
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="InsuranceInformation" class="form-label">Insurance Information</label>
+											<input type="text" class="form-control" asp-for="InsuranceInformation" placeholder="Insurance Information">
+										</div>
+									</div>
+
+								</div>
+
+
+								<div class="row gx-3">
+									<div class="col-6">
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="EmergencyContactName" class="form-label">Emergency ContactName</label>
+											<input type="text" class="form-control" asp-for="EmergencyContactName" placeholder="Emergency ContactName">
+										</div>
+
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="EmergencyContactPhone" class="form-label">Emergency Contact</label>
+											<input type="text" class="form-control" asp-for="EmergencyContactPhone" placeholder="Emergency ContactPhone">
+										</div>
+									</div>
+									<div class="col-6">
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="PrimaryCarePhysicianName" class="form-label">PrimaryCare PhysicianName</label>
+											<input type="text" class="form-control" asp-for="PrimaryCarePhysicianName" placeholder="PrimaryCare PhysicianName">
+										</div>
+
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="PrimaryCarePhysicianPhone" class="form-label">PrimaryCare PhysicianPhone</label>
+											<input type="text" class="form-control" asp-for="PrimaryCarePhysicianPhone" placeholder="PrimaryCare PhysicianPhone">
+										</div>
+									</div>
+
+								</div>
+
+								<div class="row gx-3">
+									<div class="col-6">
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Allergies" class="form-label">Allergies</label>
+											<input type="text" class="form-control" asp-for="Allergies" placeholder="Allergies">
+										</div>
+
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Medications" class="form-label">Medications</label>
+											<input type="text" class="form-control" asp-for="Medications" placeholder="Medications">
+										</div>
+									</div>
+									<div class="col-6">
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="BloodType" class="form-label">BloodType</label>
+											<select class="form-control" asp-for="BloodType">
+												<option value="">select blood type</option>
+												<option value="A">A</option>
+												<option value="A+">A+</option>
+												<option value="AB">AB+</option>
+												<option value="O+">O+</option>
+											</select>
+										</div>
+
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Height" class="form-label">Height</label>
+											<input type="text" class="form-control" asp-for="Height" placeholder="Height">
+										</div>
+									</div>
+
+								</div>
+
+								<div class="row gx-3">
+									<div class="col-6">
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Weight" class="form-label">Weight</label>
+											<input type="text" class="form-control" asp-for="Weight" placeholder="Full Name">
+										</div>
+
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="PreferredLanguage" class="form-label">Preferred Language</label>
+											<input type="text" class="form-control" asp-for="PreferredLanguage" placeholder="Contact">
+										</div>
+									</div>
+									<div class="col-6">
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Occupation" class="form-label">Occupation</label>
+											<input type="text" class="form-control" asp-for="Occupation" placeholder="Email ID">
+										</div>
+
+										@* <!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Height" class="form-label">Height</label>
+											<input type="text" class="form-control" asp-for="Height" placeholder="Email ID">
+										</div> *@
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+							Close
+						</button>
+						<button type="button" class="btn btn-primary"  onclick="addPatient();">
+							@if (Model != null && Model.PId != null)
+							{
+								<text>Save changes</text>
+							
+							}
+							else
+							{
+								<text>Save</text>
+							}
+
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	var loadFile = function (event) {
+		var image = document.getElementById("output");
+		image.src = URL.createObjectURL(event.target.files[0]);
+	};
+</script>
