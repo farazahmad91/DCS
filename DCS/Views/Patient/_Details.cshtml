@@ -1,0 +1,198 @@
+﻿@model Entities.Patient
+@{
+    string status = "";
+    string classbadge = "";
+    ViewData["Title"] = "Details";
+    Layout = null;
+}
+@{
+
+    // @if (Model.I== 0)
+    // {
+    //     status = "Deactive";
+    //     classbadge = "badge badge-danger";
+    // }
+    // else
+    // {
+    //     status = "Active";
+    //     classbadge = "badge badge-primary";
+    // }
+    <style>
+
+        .border {
+            border: none;
+        }
+    </style>
+}
+
+<!-- Modal -->
+<div class="modal fade" id="Patient_detailmodal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">d Info</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="">
+                        <div class="">
+                            <div class="">
+
+                                <div class="row">
+                                    <div class="form-group col-sm-4">
+                                        <input type="number" disabled="disabled" name="id" asp-for="PId" />
+                                        <label for="photo" class="col-sm-6 input-form">Profile Image:</label>
+                                        <div class="col-sm-10">
+
+                                            <!-- Styled div acting as a button -->
+                                            <div id="selectImage" style="cursor: pointer; text-align:center;  border: 2px solid green; height: 147px; width: 141px; margin: 18px; padding:3px; ">
+                                                <!-- Hidden file input -->
+                                                <img src="@Model.PImage" class="img-fluid me-5" style="height: 137px; width: 150px;" alt="">
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-8 pt-30">
+                                        <div class="form-group col-sm-12">
+                                            <label for="name" class="col-sm-6 input-form">Name</label>
+                                            <div class="col-sm-11">
+                                                <input type="text" readonly class="form-control border" asp-for="@Model.Name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-12 ">
+                                            <label for="email" class="col-sm-6 input-form">Email:</label>
+                                            <div class="col-sm-11">
+                                                <input type="email" readonly class="form-control border" asp-for="@Model.Email">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-sm-6">
+                                        <label for="gender" class="col-sm-4 control-label">Phone:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" readonly class="form-control border" asp-for="@Model.Phone">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="daetofbirth" class="col-sm-4 control-label">Address:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" readonly class="form-control border" asp-for="@Model.Address">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-6 ">
+                                        <label for="Gender" class="col-sm-4 input-form">Gender:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" readonly class="form-control border" asp-for="@Model.Gender">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-6">
+                                        <label for="MedicalHistory" class="col-sm-4 input-form">Medical History:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" readonly class="form-control border" asp-for="@Model.MedicalHistory" />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group col-sm-6 ">
+                                        <label for="InsuranceInformation" class="col-sm-4 input-form">Insurance Information:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" readonly class="form-control border" asp-for="@Model.InsuranceInformation" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-6 ">
+                                        <label for="EmergencyContactName" class="col-sm-4 input-form">Emergency ContactName:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" readonly class="form-control border" asp-for="@Model.EmergencyContactName" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-sm-6">
+                                        <label for="EmergencyContactPhone" class="col-sm-4 input-form">Emergency ContactPhone:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" readonly class="form-control border" asp-for="@Model.EmergencyContactPhone" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-6 ">
+                                        <label for="PrimaryCarePhysicianName" class="col-sm-4 input-form">PrimaryCare PhysicianName:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" readonly class="form-control border" asp-for="@Model.PrimaryCarePhysicianName" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-sm-6">
+                                        <label for="PrimaryCarePhysicianPhone" class="col-sm-4 input-form">PrimaryCare PhysicianPhone:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" readonly class="form-control border" asp-for="@Model.PrimaryCarePhysicianPhone" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-6 ">
+                                        <label for="Allergies" class="col-sm-4 input-form">Allergies:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" readonly class="form-control border" asp-for="@Model.Allergies" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-sm-6 ">
+                                        <label for="Medications" class="col-sm-4 input-form">Medications:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" readonly class="form-control border" asp-for="@Model.Medications" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="BloodType" class="col-sm-4 input-form">BloodType:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" readonly class="form-control border" asp-for="@Model.BloodType" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-sm-6 ">
+                                        <label for="Height" class="col-sm-4 input-form">Height:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" readonly class="form-control border" asp-for="@Model.Height" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-6 ">
+                                        <label for="Weight" class="col-sm-4 input-form">Weight:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" readonly class="form-control border" asp-for="@Model.Weight" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-sm-6 ">
+                                        <label for="PreferredLanguage" class="col-sm-4 input-form">Preferred Language:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" readonly class="form-control border" asp-for="@Model.PreferredLanguage" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-6 ">
+                                        <label for="Occupation" class="col-sm-4 input-form">Occupation:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" readonly class="form-control border" asp-for="@Model.Occupation" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

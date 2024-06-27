@@ -33,7 +33,7 @@ namespace API.AppCode.ML
             i=res;
 			if (res.StatusCode==ResponseStatus.SUCCESS)
 			{
-				_sendmail.SendEmails(details.UserEmail, "Create New Project", $"your Project Id Is: {pId}");
+				//_sendmail.SendEmails(details.UserEmail, "Create New Project", $"your Project Id Is: {pId}");
 
 			}
 			return res;

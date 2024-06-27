@@ -39,7 +39,7 @@ namespace API.Extension
             services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
             services.AddTransient<Sendmail>();
             services.AddTransient<EmailHtmlBody>();
-            services.AddTransient<IEmail , Email_ML>();
+            services.AddScoped<IEmail , Email_ML>();
             services.AddTransient<EmailCredential>();
 			services.AddSingleton<IRequestInfo, RequestInfo.RequestInfo>();
             services.AddHttpContextAccessor();

@@ -23,7 +23,7 @@ namespace DCS.Controllers
             return View();
         }
         [Route("/D-List")]
-        public async Task<IActionResult> _DoctorsList(string? name)
+        public async Task<IActionResult> _DoctorsList(string? name="All")
         {
             var list = new List<Doctor>();
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Doctor/GetDoctor/{name}", null, null);
@@ -38,10 +38,9 @@ namespace DCS.Controllers
         {
             var list = new Doctor();
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Doctor/GetDoctorById/{id}", null, null);
-            if (apiRes.Result != null)
-            {
+           
                 list = JsonConvert.DeserializeObject<Doctor>(apiRes.Result);
-            }
+            
             return PartialView(list);
         }
 
@@ -74,6 +73,21 @@ namespace DCS.Controllers
         {
             return View();
         }
+
+        [Route("/D-detail")]
+        public async Task<IActionResult> _detail(int id)
+        {
+            var list = new Doctor();
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Doctor/GetDoctorById/{id}", null, null);
+            if (apiRes.Result != null)
+            {
+                list = JsonConvert.DeserializeObject<Doctor>(apiRes.Result);
+            }
+            return PartialView(list);
+        }
+
+
+
 
         [Route("/D-StatusUpdate")]
         public IActionResult StatusUpdate(int id)

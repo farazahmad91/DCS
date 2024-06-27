@@ -307,64 +307,11 @@ namespace API.AppCode.APIRequest
         }
 
 
-        public async Task<HttpResponseMessage> SendFileAndContentAsync<TContent>(string apiUrl, string authToken, TContent contentData, Microsoft.AspNetCore.Http.IFormFile file, Microsoft.AspNetCore.Http.IFormFile file1 = null)
-        {
-            try
-            {
-                using (var httpClient = new HttpClient())
-                {
-                    using (var request = new HttpRequestMessage(HttpMethod.Post, apiUrl))
-                    {
-
-                        if (!string.IsNullOrEmpty(authToken))
-                        {
-                            request.Headers.Add("Authorization", $"Bearer {authToken}");
-                        }
-                        var formData = new MultipartFormDataContent();
-                        if (contentData != null)
-                        {
-                            // Add content parameters
-                            foreach (var property in typeof(TContent).GetProperties())
-                            {
-                                var __value = property.GetValue(contentData);
-                                if (__value != null)
-                                {
-                                    if (__value.GetType().Name.ToUpper() == "FORMFILE")
-                                    {
-                                        file = (Microsoft.AspNetCore.Http.FormFile)__value;
-                                        if (file != null)
-                                        {
-                                            // Add the file to the FormData
-                                            var fileStream = file.OpenReadStream();
-                                            var fileContent = new StreamContent(fileStream);
-                                            formData.Add(fileContent, property.Name, file.FileName);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        formData.Add(new StringContent(__value.ToString()), property.Name);
-                                    }
-                                }
-                            }
-                        }
-                        request.Content = formData;
-                        // Send the request
-                        var res = await httpClient.SendAsync(request);
-                        return res;
-                    }
-
-                }
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
 
 
 
 
-        public async Task<HttpResponseMessage> SendFileAndContentAsync<TContent>(string apiUrl, string authToken, TContent contentData)
+        public async Task<HttpResponseMessage> SendFileAndContentAsync<TContent>(string apiUrl, TContent contentData, string authToken = "")
         {
             try
             {
@@ -419,6 +366,11 @@ namespace API.AppCode.APIRequest
             {
                 throw;
             }
+        }
+
+        public Task<HttpResponseMessage> SendFileAndContentAsync<TContent>(string apiUrl, string authToken, TContent contentData, IFormFile file, IFormFile file1 = null)
+        {
+            throw new NotImplementedException();
         }
 
 

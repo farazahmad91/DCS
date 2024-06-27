@@ -85,17 +85,16 @@ namespace API.AppCode.DL
         }
         public async Task<object> Call(object obj)
         {
-            string email = (string)obj;
             int PId = (int)obj;
-            try
-            {
-                var param = new
+            try 
+            { 
+            
+                var parm = new
                 {
-                    Email = email,
                     PId = PId
 
                 };
-                var i = await _dapper.GetAll<Patient>(GetName(), param);
+                var i = await _dapper.GetAll<Patient>(GetName(), parm);
                 return i;
             }
             catch (Exception ex)
@@ -137,7 +136,7 @@ namespace API.AppCode.DL
             {
                 var param = new
                 {
-                    PatientId = id,
+                    PId = id,
 
                 };
                 var i = await _dapper.GetAsync<Patient>(GetName(), param);

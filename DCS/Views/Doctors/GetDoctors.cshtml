@@ -51,37 +51,27 @@
 
                             <p>
                                 <div class="col-sm-6 col-6">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="txtname" placeholder="search name.." />
-                                    <button class="btn btn-outline-secondary" onclick="Onload" type="button">
-                                        Search
-                                    </button>
-                                    <button id="btnaddservice" class="btn btn-outline-info" type="button">
-                                        Add New Doctor
-                                    </button>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="txtname" placeholder="search name.." />
+                                        <button class="btn btn-outline-secondary" onclick="Onload();" type="button">
+                                            Search
+                                        </button>
+                                        <button id="btnaddservice" class="btn btn-outline-info" onclick="EditDoctor(0)" type="button">
+                                            Add New Doctor
+                                        </button>
                                     </div>
                                 </div>
                             </p>
-                            <table class="table table-striped border-primary m-0">
+                            <table class="table table-striped border-primary m-0" id="dTable">
                                 <thead>
                                     <tr>
-                                        <th>Dr ID</th>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Dr Image</th>
-                                        <th>Address</th>
+                                        <th>P Image</th>
                                         <th>Specialization</th>
-                                        <th>Gender</th>
-                                        <th>Date of Birth</th>
-                                        <th>Qualifications</th>
-                                        <th>Experience Years</th>
-                                        <th>Affiliations</th>
-                                        <th>Languages</th>
-                                        <th>Consultation Fee</th>
+                                        <th>Con. Fee</th>
                                         <th>Availability</th>
                                         <th>Status</th>
-                                        <th>Entry On</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -97,8 +87,12 @@
     <!-- Row end -->
 
 </div>
+<div id="Dr_modalPV"></div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+
     function Onload() {
+        debugger;
         var param = {
             name: $("#txtname").val(),
         }
@@ -108,5 +102,119 @@
             alert("error");
         });
     }
-    Onload();
+
+   // Onload();
+
+    jQuery(document).ready(function ($) {
+        $("#dTable").DataTable();
+    });
+
+    function doctorDetails(Id) {
+        let param = {
+            id: Id,
+        };
+        $.post("/D-detail", param)
+            .done(function (res) {
+                $("#Dr_modalPV").html(res);
+                $("#Dr_detailmodal").modal("show");
+            })
+            .fail(function () {
+                alert("error");
+            });
+    }
+
+    function EditDoctor(dId) {
+        let param = {
+            id: dId,
+        };
+        $.get("/D-Edit", param).done(function (res) {
+            console.log(res);
+            $("#Dr_modalPV").html(res);
+            $("#Dr_Editmodal").modal("show");
+        }).fail(function (hxr) {
+            console.log(hxr);
+            alert("errror");
+        })
+    }
+    function doctorStatus(dId) {
+        var id = $("#customSwitch3_" + dId).prop("checked");
+        if (id == true) {
+            id = 1;
+
+        }
+        else {
+            id = 0;
+        }
+        var param = {
+            DrId: dId,
+            Status: id,
+        };
+        console.log(param);
+        $.post("/Employee/UpdateEmployeeStatus", param).done(function () {
+            alert("succrssfully update");
+
+        }).fail(function () {
+            alert("error");
+
+        })
+    }
+
+
+
+    function AddOrUpdateEmployee() {
+        debugger;
+        Show_Loader();
+        setTimeout(function () {
+            if (validateEmployee()) {
+                let param = {
+                    EmpId: $("#EmpId").val(),
+                    Name: $("#Name").val(),
+                    Email: $("#Email").val(),
+                    RoleId: $("#RoleId").val(),
+                    Salary: $("#Salary").val(),
+                    Phone: $("#Phone").val(),
+                    Gender: $("#Gender").val(),
+                    DOB: $("#DOB").val(),
+                    AdharNo: $("#AdharNo").val(),
+                    Address: $("#Address").val(),
+                    IsActive: $("#IsActive").val(),
+                    password: $("#Password").val(),
+                };
+                if (param.EmpId <= 0) {
+                    RegisterUser(param.password);
+                }
+                var Employee = new FormData();
+                Employee.append("EmpId", param.EmpId);
+                Employee.append("Name", param.Name);
+                Employee.append("Email", param.Email);
+                Employee.append("RoleId", param.RoleId);
+                Employee.append("Salary", param.Salary);
+                Employee.append("Phone", param.Phone);
+                Employee.append("Gender", param.Gender);
+                Employee.append("DOB", param.DOB);
+                Employee.append("AdharNo", param.AdharNo);
+                Employee.append("Address", param.Address);
+                Employee.append("IsActive", param.IsActive);
+                Employee.append("ImagePath", $("#Image").prop('files')[0]);
+                $.ajax({
+                    url: '/Employee/AddOrUpdateEmployee',
+                    type: 'POST',
+                    data: Employee,
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        Hide_Loader();
+                        setTimeout(function () {
+                            QAlert(result.statusCode, result.responseText);
+                        }, 1000);
+                    },
+                    error: function () {
+                        Hide_Loader();
+                        showerrors("Something went wrong!!!");
+                    }
+                });
+            }
+        }, 1500)
+    }
 </script>
+

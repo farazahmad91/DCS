@@ -25,13 +25,13 @@ namespace API.AppCode.DL
 
 				var param = new
                 {
-					ProjectId = req.ProjectId,
-                    UserEmail=req.UserEmail,
-                    ProjectName = req.ProjectName,
-                    DomainName=req.DomainName,
-                    Validity = req.Validity,
-                    IsLifeTime = req.IsLifeTime,
-                    Status=req.Status,
+					//ProjectId = req.ProjectId,
+     //               UserEmail=req.UserEmail,
+     //               ProjectName = req.ProjectName,
+     //               DomainName=req.DomainName,
+     //               Validity = req.Validity,
+     //               IsLifeTime = req.IsLifeTime,
+     //               Status=req.Status,
                 };
                 var i = await _dapper.GetAsync<Response>(GetName(), param);
                 res=i;
