@@ -48,27 +48,23 @@ namespace DCS.Controllers
         }
 
         [Route("/PatientAddOrUpdate")]
-        public async Task<IActionResult> AddOrUpdate([FromForm] string patientData)
+        public async Task<IActionResult> AddOrUpdate([FromForm] string patientData, IFormFile file)
         {
             var response = new Response()
             {
                 ResponseText = "Failed To Add or Update Service",
                 StatusCode = ResponseStatus.FAILED,
             };
+
             var request = JsonConvert.DeserializeObject<Patient>(patientData);
-            var apiRes = await APIRequestML.O.SendFileAndContentAsync($"{_BaseUrl}/api/Product/AddOrUpdateProForAndriod", request, null);
-            //var apiRes = await APIRequestML.O.SendFileAndContentAsync($"{_BaseUrl}/api/Patient/AddOrUpdatePatient", request, null);
+            request.ImagePath=file;
+            var apiRes = await APIRequestML.O.SendFileAndContentAsync($"{_BaseUrl}/api/Patient/AddOrUpdatePatient", request, file, null, null);
             var res = await apiRes.Content.ReadAsStringAsync();
             if (apiRes != null && apiRes.IsSuccessStatusCode)
             {
                 response = JsonConvert.DeserializeObject<Response>(res);
                 return Json(response);
             }
-            //if (apiRes != null)
-            //{
-            //    response = JsonConvert.DeserializeObject<Response>(apiRes);
-            //    return Json(response);
-            //}
 
             return Json(response);
         }

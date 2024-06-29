@@ -1,13 +1,9 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
-using API.AppCode.DL;
 using API.AppCode.IML;
 using API.AppCode.ML;
 using Entities;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 
 namespace API.SendEmail
 {

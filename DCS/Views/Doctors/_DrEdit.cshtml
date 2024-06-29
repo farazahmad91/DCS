@@ -20,10 +20,15 @@
 							<div class="col-sm-4 col-12">
 								<div id="update-profile" class="mb-3">
 									<form action="/upload" class="dropzone sm needsclick dz-clickable" id="update-profile-pic">
-										<div class="dz-message needsclick">
-											<button type="button" class="dz-button">
-												Update Image.
-											</button>
+										<div class="profile-pic">
+											<label class="-label" for="file">
+												<span class="glyphicon glyphicon-camera"></span>
+												<span>Change Image</span>
+											</label>
+											<input id="file" type="file" onchange="uploadImage(event)" />
+
+											<img src="https://cdn.pixaba.com/photo/2017/08/06/21/01/louvre-2596278_960_720.jpg" id="output" width="200" />
+
 										</div>
 									</form>
 								</div>
@@ -134,7 +139,7 @@
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
 							Close
 						</button>
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+						<button type="button" class="btn btn-secondary" onclick="addDoctor();">
 							@if (Model != null && Model.DrId != null)
 							{
 								<text>Save changes</text>
@@ -151,8 +156,11 @@
 		</div>
 	</div>
 </div>
-
-
-<script src="~/assets/vendor/dropzone/dropzone.min.js"></script>
+<script>
+	var loadFile = function (event) {
+		var image = document.getElementById("output");
+		image.src = URL.createObjectURL(event.target.files[0]);
+	};
+</script>
 <script src="~/assets/vendor/daterange/daterange.js"></script>
 <script src="~/assets/vendor/daterange/custom-daterange.js"></script>

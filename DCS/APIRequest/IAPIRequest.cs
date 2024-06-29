@@ -11,8 +11,7 @@ namespace API.AppCode.APIRequest
         Task<HttpsResponse> CallUsingHttpWebRequest_POSTAsync(string URL, string PostData, string ContentType = "application/x-www-form-urlencoded");
        // Task<string> PostJsonDataUsingHWRTLS(string URL, object PostData);
         string CallUsingHttpWebRequest_POST(string URL, string PostData, IDictionary<string, string> headers = null, string ContentType = "application/x-www-form-urlencoded");
-        Task<HttpResponseMessage> SendFileAndContentAsync<TContent>(string apiUrl, string authToken, TContent contentData, Microsoft.AspNetCore.Http.IFormFile file, Microsoft.AspNetCore.Http.IFormFile file1 = null);
-
-        Task<HttpResponseMessage> SendFileAndContentAsync<TContent>(string apiUrl, TContent contentData, string authToken = "");
+        Task<HttpResponseMessage> SendFileAndContentAsync<TContent>(string apiUrl, TContent contentData, Microsoft.AspNetCore.Http.IFormFile file, Microsoft.AspNetCore.Http.IFormFile file1 = null, string authToken = "");
+        Task<string> PostAsyncObject(string URL, object PostData, string AccessToken = "", string ContentType = "application/json", int timeout = 0);
     }
 }

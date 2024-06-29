@@ -45,22 +45,62 @@ namespace DCS.Controllers
         }
 
         [Route("/D-AddOrUpdate")]
-        public async Task<IActionResult> DrAddOrUpdate(Doctor doctor)
+        public async Task<IActionResult> DrAddOrUpdate([FromForm] string doctorData, IFormFile file)
         {
             var response = new Response()
             {
-                ResponseText = "Failed To Add or Update Service",
+                ResponseText = "Failed To Add or Update Doctor",
                 StatusCode = ResponseStatus.FAILED,
             };
 
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Doctor/AddOrUpdateDoctor", JsonConvert.SerializeObject(doctor), null);
-            if (apiRes.Result != null)
+            try
             {
-                response = JsonConvert.DeserializeObject<Response>(apiRes.Result);
+                // Deserialize doctorData into a Doctor object
+                var request = JsonConvert.DeserializeObject<Doctor>(doctorData);
+                if (request == null)
+                {
+                    response.ResponseText = "Invalid doctor data";
+                    return Json(response);
+                }
+
+                // Add file to the request object
+                if (file != null)
+                {
+                    // Assuming ImagePath is a property to store the file path
+                    request.ImagePath = file;
+                }
+
+                // Send the request to the API
+                var apiRes = await APIRequestML.O.SendFileAndContentAsync(
+                    $"{_BaseUrl}/api/Doctor/AddOrUpdateDoctor",
+                    request,
+                    file,
+                    null,
+                    null
+                );
+
+                if (apiRes != null && apiRes.IsSuccessStatusCode)
+                {
+                    var res = await apiRes.Content.ReadAsStringAsync();
+                    response = JsonConvert.DeserializeObject<Response>(res);
+                    return Json(response);
+                }
+
+                response.ResponseText = "API request failed";
                 return Json(response);
             }
-            return Json(response);
+            catch (Exception ex)
+            {
+                // Log the exception (you could use a logging framework)
+                Console.WriteLine(ex.Message);
+
+                // Return a generic failure response
+                response.ResponseText = "An error occurred while processing the request";
+                response.StatusCode = ResponseStatus.FAILED;
+                return Json(response);
+            }
         }
+
 
         [Route("/Doctors")]
         public IActionResult Doctors()

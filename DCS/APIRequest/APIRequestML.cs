@@ -1,9 +1,13 @@
 ﻿using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using API.AppCode.IML;
 using API.AppCode.ML;
 using API.DBContext.Response;
 using Entities;
+using Newtonsoft.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace API.AppCode.APIRequest
 {
@@ -65,7 +69,6 @@ namespace API.AppCode.APIRequest
         #endregion
 
         #region HttpPost
-
         public async Task<HttpsResponse> PostAsync(string URL, string PostData = "", string AccessToken = "", string ContentType = "application/json", int timeout = 0)
         {
             HttpsResponse httpResponse = new HttpsResponse();
@@ -145,9 +148,6 @@ namespace API.AppCode.APIRequest
             }
             return httpResponse;
         }
-
-        #endregion
-        
         public async Task<HttpsResponse> CallUsingHttpWebRequest_POSTAsync(string URL, string PostData, string ContentType = "application/x-www-form-urlencoded")
         {
             HttpsResponse httpResponse = new HttpsResponse();
@@ -198,7 +198,6 @@ namespace API.AppCode.APIRequest
             }
             return httpResponse;
         }
-        
         public string CallUsingHttpWebRequest_POST(string URL, string PostData, IDictionary<string, string> headers = null, string ContentType = "application/x-www-form-urlencoded")
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
@@ -305,13 +304,8 @@ namespace API.AppCode.APIRequest
             return result;
 
         }
-
-
-
-
-
-
-        public async Task<HttpResponseMessage> SendFileAndContentAsync<TContent>(string apiUrl, TContent contentData, string authToken = "")
+        #endregion
+        public async Task<HttpResponseMessage> SendFileAndContentAsync<TContent>(string apiUrl,  TContent contentData, Microsoft.AspNetCore.Http.IFormFile file, Microsoft.AspNetCore.Http.IFormFile file1 = null, string authToken = "")
         {
             try
             {
@@ -331,20 +325,17 @@ namespace API.AppCode.APIRequest
                             foreach (var property in typeof(TContent).GetProperties())
                             {
                                 var __value = property.GetValue(contentData);
-                                if (__value != null)
+                                if (__value!=null)
                                 {
-                                    if (__value.GetType().IsGenericType && __value.GetType().GetGenericTypeDefinition() == typeof(List<>))
+                                    if (__value.GetType().Name.ToUpper()=="FORMFILE")
                                     {
-                                        foreach (var item in (List<Microsoft.AspNetCore.Http.IFormFile>)__value)
+                                        file = (Microsoft.AspNetCore.Http.FormFile)__value;
+                                        if (file != null)
                                         {
-                                            var file = (Microsoft.AspNetCore.Http.FormFile)item;
-                                            if (file != null)
-                                            {
-                                                // Add the file to the FormData
-                                                var fileStream = file.OpenReadStream();
-                                                var fileContent = new StreamContent(fileStream);
-                                                formData.Add(fileContent, property.Name, file.FileName);
-                                            }
+                                            // Add the file to the FormData
+                                            var fileStream = file.OpenReadStream();
+                                            var fileContent = new StreamContent(fileStream);
+                                            formData.Add(fileContent, property.Name, file.FileName);
                                         }
                                     }
                                     else
@@ -368,28 +359,66 @@ namespace API.AppCode.APIRequest
             }
         }
 
-        public Task<HttpResponseMessage> SendFileAndContentAsync<TContent>(string apiUrl, string authToken, TContent contentData, IFormFile file, IFormFile file1 = null)
+        public async Task<string> PostAsyncObject(string URL, object PostData, string AccessToken = "", string ContentType = "application/json", int timeout = 0)
         {
-            throw new NotImplementedException();
+            using (HttpClient httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType));
+
+                if (!string.IsNullOrEmpty(AccessToken))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+                }
+
+                if (timeout > 0)
+                {
+                    httpClient.Timeout = TimeSpan.FromSeconds(timeout);
+                }
+
+                var content = new StringContent(JsonConvert.SerializeObject(PostData), Encoding.UTF8, ContentType);
+
+                try
+                {
+                    using (HttpResponseMessage response = await httpClient.PostAsync(URL, content))
+                    {
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var responseContent = await response.Content.ReadAsStringAsync();
+                            return responseContent;
+                        }
+                    }
+                }
+                catch (UriFormatException ufx)
+                {
+                    var error = new ErrorLog
+                    {
+                        ClassName = GetType().Name,
+                        FuncName = nameof(PostAsyncObject),
+                        Error = ufx.Message,
+                        ProcName = "",
+                    };
+                    var _ = new ErrorLog_ML(_dapper).Error(error);
+                }
+                catch (Exception ex)
+                {
+                    var error = new ErrorLog
+                    {
+                        ClassName = GetType().Name,
+                        FuncName = nameof(PostAsyncObject),
+                        Error = ex.Message,
+                        ProcName = "",
+                    };
+                    var _ = new ErrorLog_ML(_dapper).Error(error);
+                }
+            }
+            return "error";
         }
-
-
-
-        //public string GetFormatedNotifications(string template, NotificationKeywordsReplacement param)
-        //{
-        //    StringBuilder sb = new StringBuilder(template);
-
-        //    sb.Replace("{AuctionOpenAt}", param.AuctionOpenAt);
-        //    sb.Replace("{AuctionEndAt}", param.AuctionEndAt);
-        //    return sb.ToString();
-        //}
-
-
-
-
     }
 
-    public class APIBaseURl
+
+
+public class APIBaseURl
     {
         public string BaseURl { get; set; }
     }

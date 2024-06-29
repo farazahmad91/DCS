@@ -306,7 +306,7 @@ a:hover {
 
         const formData = new FormData();
         formData.append("patientData", JSON.stringify(patientData));
-
+        formData.append("file", $("#file").prop('files')[0]);
         // Debug: Log the formData contents
         for (const pair of formData.entries()) {
             console.log(pair[0] + ': ' + pair[1]);

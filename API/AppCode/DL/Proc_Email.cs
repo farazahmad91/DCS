@@ -93,4 +93,48 @@ namespace API.AppCode.DL
             return "Proc_GetEmailTemplate";
         }
     }
+
+    public class Proc_GetEmailTemplateById : IProcedureAsync
+    {
+        private readonly IDapper _dapper;
+        public Proc_GetEmailTemplateById(IDapper dapper)
+        {
+            _dapper=dapper;
+        }
+        public async Task<object> Call()
+        {
+            
+            throw new NotImplementedException();
+        }
+
+        public async Task<object> Call(object obj)
+        {
+            int req = (int)obj;
+            try
+            {
+                var param = new
+                {
+                    TemplateID = req,
+                };
+                var res = await _dapper.GetAll<EmailTemplate>(GetName(), param);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                var error = new ErrorLog
+                {
+                    ClassName = GetType().Name,
+                    FuncName = "call",
+                    Error = ex.Message,
+                    ProcName = GetName(),
+                };
+                return "something went wrong!!";
+            }
+        }
+
+        public string GetName()
+        {
+            return "proc_GetEmailTemplateById";
+        }
+    }
 }

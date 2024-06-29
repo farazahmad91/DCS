@@ -43,7 +43,7 @@ namespace API.Controllers
         }
 
         [HttpPost(nameof(AddOrUpdateEmailTemplate))]
-		public async Task<IActionResult> AddOrUpdateEmailTemplate(EmailTemplate template)
+		public async Task<IActionResult> AddOrUpdateEmailTemplate([FromForm] EmailTemplate template)
         {
 			var res = new Response
 			{
@@ -63,6 +63,12 @@ namespace API.Controllers
 		public async Task<IActionResult> GetEmailTemplate()
         {
             var i = await _email.GetEmailTemplate();
+            return Ok(i);
+        }
+        [HttpPost(nameof(GetEmailTemplate)+"/{Id}")]
+        public async Task<IActionResult> GetEmailTemplate(int Id)
+        {
+            var i = await _email.GetEmailTemplateById(Id);
             return Ok(i);
         }
     }

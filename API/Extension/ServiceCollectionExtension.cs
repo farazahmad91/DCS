@@ -1,20 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using API.Connection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using API.Service;
 using API.DBContext;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using API.AppCode.Infrastructure;
 using API.AppCode.IML;
 using API.AppCode.ML;
 using API.SendEmail;
-using System.Configuration;
 using API.RequestInfo;
-using Entities;
 using API.AppCode.IService;
 using API.AppCode.Helper;
 
@@ -38,7 +34,7 @@ namespace API.Extension
             services.AddSingleton<ConnectionStrings>(ch);
             services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
             services.AddTransient<Sendmail>();
-            services.AddTransient<EmailHtmlBody>();
+            services.AddScoped<EmailHtmlBody>();
             services.AddScoped<IEmail , Email_ML>();
             services.AddTransient<EmailCredential>();
 			services.AddSingleton<IRequestInfo, RequestInfo.RequestInfo>();
