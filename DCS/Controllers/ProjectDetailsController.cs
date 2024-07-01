@@ -23,18 +23,45 @@ namespace DCS.Controllers
 		{
 			return View();
 		}
-		[HttpPost]
+
 		[Route("App-Setting")]
-		public async Task<IActionResult> Setting()
+		public async Task<IActionResult> Setting(int id=0)
 		{
-			var list = new List<ApplicationSetting>();
-			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/ApplicationSetting/GetApplicationSetting", null, null);
-			if (apiRes.Result != null)
-			{
-				list = JsonConvert.DeserializeObject<List<ApplicationSetting>>(apiRes.Result);
+			var list = new ApplicationSetting();
+            try
+            {
+				var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/ApplicationSetting/GetApplicationSettingByProjectId/{id}", null, null);
+				if (apiRes.Result != null)
+				{
+					list = JsonConvert.DeserializeObject<ApplicationSetting>(apiRes.Result);
+				}
+				return PartialView(list);
 			}
-			return PartialView(list);
+            catch (Exception)
+            {
+
+				return PartialView(list);
+			}
 		}
+        [Route("AppSetting-List")]
+        public IActionResult AppSettingList()
+        {
+            return View();
+        }
+
+        [Route("_SettingList")]
+        public async Task<IActionResult> _SettingList(int? id=0)
+        {
+            var list = new List<ApplicationSetting>();
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/ApplicationSetting/GetApplicationSetting/{id}", null, null);
+            if (apiRes.Result != null)
+            {
+                list = JsonConvert.DeserializeObject<List<ApplicationSetting>>(apiRes.Result);
+            }
+            return PartialView(list);
+        }
+
+
         [Route("Project-List")]
         public IActionResult ProjectList()
         {
@@ -56,11 +83,11 @@ namespace DCS.Controllers
         [Route("/EditProject")]
         public async Task<IActionResult> _EditProjectDetails(int id)
         {
-            var list = new DCSService();
+            var list = new PlanServices();
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/ProjectDetails/GetProjectDetailsByProjectId/{id}", null, null);
             if (apiRes.Result != null)
             {
-                list = JsonConvert.DeserializeObject<DCSService>(apiRes.Result);
+                list = JsonConvert.DeserializeObject<PlanServices>(apiRes.Result);
             }
             return PartialView(list);
         }
@@ -82,5 +109,24 @@ namespace DCS.Controllers
             }
             return Json(response);
         }
-    }
+
+		[HttpPost]
+		[Route("/AddOrUpdateAppSetting")]
+		public async Task<IActionResult> AddOrUpdateAppSetting(ApplicationSetting setting)
+		{
+			var response = new Response()
+			{
+				ResponseText = "Failed To Add or Update Service",
+				StatusCode = ResponseStatus.FAILED,
+			};
+
+			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/ApplicationSetting/UpdateApplicationSetting", JsonConvert.SerializeObject(setting), null);
+			if (apiRes.Result != null)
+			{
+				response = JsonConvert.DeserializeObject<Response>(apiRes.Result);
+				return Json(response);
+			}
+			return Json(response);
+		}
+	}
 }

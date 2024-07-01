@@ -12,23 +12,23 @@ namespace API.AppCode.ML
         {
             this._dapper = dapper;
         }
-        public async Task<Response> AddorUpdateDCSService(DCSService req)
+        public async Task<Response> AddorUpdateDCSService(PlanServices req)
         {
             IProcedureAsync proc = new Proc_AddPremiumServices(_dapper);
             var i = await proc.Call(req);
             return (Response)i;
         }
-        public async Task<IEnumerable<DCSService>> GetDCSService(string? name)
+        public async Task<IEnumerable<PlanServices>> GetDCSService(string? name)
         {
             IProcedureAsync proc = new Proc_GetPremiumServices(_dapper);
             var i = await proc.Call(name);
-            return (IEnumerable<DCSService>)i;
+            return (IEnumerable<PlanServices>)i;
         }
-        public async Task<DCSService> GetDCSServiceById(int Id)
+        public async Task<PlanServices> GetDCSServiceById(int Id)
         {
             IProcedureAsync proc = new Proc_GetPremiumServicesById(_dapper);
             var i = await proc.Call(Id);
-            return (DCSService)i;
+            return (PlanServices)i;
         }
     }
 }

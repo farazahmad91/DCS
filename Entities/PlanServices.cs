@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class DCSService
+    public class PlanServices
     {
         public int ServiceID { get; set; }
         public string ServiceName { get; set; }

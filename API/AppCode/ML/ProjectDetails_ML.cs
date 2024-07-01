@@ -12,31 +12,19 @@ namespace API.AppCode.ML
     {
         private readonly IDapper _dapper;
         private readonly IUserValidation _userValidation;
-		private readonly Sendmail _sendmail;
-		public ProjectDetails_ML(IDapper dapper, IUserValidation userValidation, Sendmail sendmail)
+		public ProjectDetails_ML(IDapper dapper, IUserValidation userValidation)
         {
             _dapper=dapper;
             _userValidation=userValidation;
-            _sendmail=sendmail;
+     
         }
         public async Task<Response> AddorUpdateProjectDetails(ProjectDetails details)
         {
-			var res = new Response()
-			{
-				ResponseText="Somthing wrong!!",
-				StatusCode=ResponseStatus.FAILED
-			};
 			var pId= _userValidation.GenerateOTP("ABCDEFGHIJKLMNOPQRSTUVWXYZ234567");
             details.ProjectId=Convert.ToInt32(pId);
             IProcedureAsync procedure = new Proc_AddProjectDetails(_dapper);
             var i = await procedure.Call(details);
-            i=res;
-			if (res.StatusCode==ResponseStatus.SUCCESS)
-			{
-				//_sendmail.SendEmails(details.UserEmail, "Create New Project", $"your Project Id Is: {pId}");
-
-			}
-			return res;
+			return (Response)i;
         }
         public async Task<IEnumerable<ProjectDetails>> GetProjectDetails(string name)
         {

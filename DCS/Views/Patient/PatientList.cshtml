@@ -319,13 +319,11 @@ a:hover {
             contentType: false,
             processData: false,
             success: function (result) {
-                Hide_Loader();
                 setTimeout(function () {
-                    QAlert(result.statusCode, result.responseText);
+                    Info(result.statusCode, result.responseText);
                 }, 1000);
             },
             error: function () {
-                Hide_Loader();
                 showerrors("Something went wrong!!!");
             }
         });
