@@ -4,9 +4,9 @@
     {
         public string? ResponseText { get; set; }
         public ResponseStatus StatusCode { get; set; }
-        public string? Filename { get; set; }
-        public int AppointmentId { get; set; }
-        public int PatientId { get; set; }
+		public int? ProjectId { get; set; }
+		public int? AppointmentId { get; set; }
+        public int? PatientId { get; set; }
 
     }
     public enum ResponseStatus

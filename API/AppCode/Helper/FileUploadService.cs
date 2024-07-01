@@ -47,5 +47,7 @@
         public static readonly string DoctorImage = DoctorPrefix;
         public const string PatientPrefix = "PatientImage/";
         public static readonly string PatientImage = PatientPrefix;
-    }
+		public const string ProjectPrefix = "ProjectLogo/";
+		public static readonly string ProjectImage = ProjectPrefix;
+	}
 }

@@ -1,5 +1,124 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model Entities.Medicines
+<link rel="stylesheet" href="~/assets/vendor/dropzone/dropzone.min.css" />
+<div class="card">
+	<div class="card-body">
+		<!-- Modal -->
+		<div class="modal fade" id="med_Editmodal" tabindex="-1" aria-labelledby="med_EditmodalTitle" style="display: none;" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="med_EditmodalTitle">
+							Add or Update Med
+						</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+
+
+
+						<div class="row gx-3">
+							<div class="col-sm-4 col-12">
+								<div id="update-profile" class="mb-3">
+									<form action="/upload" class="dropzone sm needsclick dz-clickable" id="update-profile-pic">
+										<div class="profile-pic">
+											<label class="-label" for="file">
+												<span class="glyphicon glyphicon-camera"></span>
+												<span>Change Image</span>
+											</label>
+											<input id="file" type="file" onchange="uploadImage(event)" />
+
+											<img src="https://cdn.pixaba.com/photo/2017/08/06/21/01/louvre-2596278_960_720.jpg" id="output" width="200" />
+
+										</div>
+									</form>
+								</div>
+							</div>
+							<div class="col-sm-8 col-12">
+								<div class="row gx-3">
+									<div class="col-6">
+										<!-- Form Field Start -->
+										<input type="MedicineID" hidden class="form-control" asp-for="MedicineID" placeholder="Full Name">
+										<div class="mb-3">
+											<label for="Name" class="form-label">Med Name</label>
+											<input type="text" class="form-control" asp-for="Name" placeholder="Full Name">
+										</div>
+
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Description" class="form-label">Description</label>
+											<input type="tel" class="form-control" asp-for="Description" placeholder="enter description">
+										</div>
+									</div>
+									<div class="col-6">
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Manufacturer" class="form-label">Manufacturer</label>
+											<input type="email" class="form-control" asp-for="Manufacturer" placeholder="enter manufacturer">
+										</div>
+
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Price" class="form-label">Med type</label>
+											<select id="MedTypeID" class="form-control">
+												<option value="">select med type</option>
+												<option value="1">1</option>
+											</select>
+											</div>
+										</div>
+									</div>
+
+								</div>
+
+								<div class="row">
+									<div class="col-4">
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Price" class="form-label">Price</label>
+										<input type="text" class="form-control" asp-for="Price" placeholder="enter price">
+										</div>
+									</div>
+									<div class="col-4">
+										<!-- Form Field Start -->
+										<div class="mb-3">
+											<label for="Quantity" class="form-label">Quantity</label>
+										<input type="email" class="form-control" asp-for="Quantity" placeholder="enter Quantity">
+										</div>
+									</div>
+								<div class="col-4">
+									<div class="mb-3">
+										<label for="Quantity" class="form-label">ExpiryDate</label>
+										<input type="date" class="form-control" asp-for="ExpiryDate" placeholder="DD/MM/YYYY">
+								</div>
+								</div>
+
+								</div>
+							</div>
+						</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+							Close
+						</button>
+						<button type="button" class="btn btn-secondary" onclick="addMedicine();">
+							@if (Model != null && Model.MedicineID != null)
+							{
+								<text>Save changes</text>
+
+							}
+							else
+							{
+								<text>Save</text>
+							}
+						</button>
+					</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+<script>
+	var loadFile = function (event) {
+		var image = document.getElementById("output");
+		image.src = URL.createObjectURL(event.target.files[0]);
+	};
+</script>

@@ -5,8 +5,8 @@ namespace API.AppCode.IML
 {
     public interface IDCSServices
     {
-        public Task<Response> AddorUpdateDCSService(DCSService req);
-        public Task<DCSService> GetDCSServiceById(int Id);
-        public Task<IEnumerable<DCSService>> GetDCSService(string? name);
+        public Task<Response> AddorUpdateDCSService(PlanServices req);
+        public Task<PlanServices> GetDCSServiceById(int Id);
+        public Task<IEnumerable<PlanServices>> GetDCSService(string? name);
     }
 }

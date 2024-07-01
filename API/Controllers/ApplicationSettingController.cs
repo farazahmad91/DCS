@@ -37,5 +37,17 @@ namespace API.Controllers
             var i = await _setting.GetApplicationSetting(id);
             return Ok(i);
         }
+
+        [HttpPost(nameof(GetApplicationSettingByProjectId)+"/{id}")]
+        public async Task<IActionResult> GetApplicationSettingByProjectId(int id)
+        {
+            var res = new Response
+            {
+                ResponseText ="An Error Occured Try After Some Time!",
+                StatusCode = ResponseStatus.FAILED
+            };
+            var i = await _setting.GetApplicationSettingByProjectId(id);
+            return Ok(i);
+        }
     }
 }

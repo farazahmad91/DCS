@@ -20,7 +20,7 @@ namespace API.AppCode.ML
 
         public async Task<ApplicationSetting> GetApplicationSettingByProjectId(int Id)
         {
-            IProcedureAsync procedure = new Proc_UpdateApplicationSetting(_dapper);
+            IProcedureAsync procedure = new Proc_GetApplicationSettingById(_dapper);
             var i = await procedure.Call(Id);
             return (ApplicationSetting)i;
         }

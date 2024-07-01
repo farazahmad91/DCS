@@ -8,11 +8,11 @@ using System.Collections.Generic;
 
 namespace DCS.Controllers
 {
-	public class DCSServicesController : Controller
+	public class PlanServicesController : Controller
 	{
 		private readonly IConfiguration _configuration;
 		private readonly string _BaseUrl;
-		public DCSServicesController(IConfiguration configuration)
+		public PlanServicesController(IConfiguration configuration)
 		{
 			this._configuration = configuration;
 			_BaseUrl =  _configuration["APIBaseURl:BaseURl"];
@@ -26,11 +26,11 @@ namespace DCS.Controllers
 		[Route("Pricing")]
 		public async Task<IActionResult> Pricing(string? name)
 		{
-			var list = new List<DCSService>();
+			var list = new List<PlanServices>();
 			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSServices/GetDCSService/{name}", null, null);
 			if (apiRes.Result != null)
 			{
-				list = JsonConvert.DeserializeObject<List<DCSService>>(apiRes.Result);
+				list = JsonConvert.DeserializeObject<List<PlanServices>>(apiRes.Result);
 			}
 			return PartialView(list);
 		}
@@ -42,11 +42,11 @@ namespace DCS.Controllers
         [Route("_ServiceList")]
         public async Task<IActionResult> _ServiceList(string? name)
 		{
-			var list = new List<DCSService>();
+			var list = new List<PlanServices>();
 			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSServices/GetDCSService/{name}", null, null);
 			if (apiRes.Result != null)
 			{
-				list = JsonConvert.DeserializeObject<List<DCSService>>(apiRes.Result);
+				list = JsonConvert.DeserializeObject<List<PlanServices>>(apiRes.Result);
 			}
 			return PartialView(list);
 		}
@@ -54,17 +54,17 @@ namespace DCS.Controllers
 		[Route("/EditService")]
 		public async Task<IActionResult> EditService(int id)
 		{
-			var list = new DCSService();
+			var list = new PlanServices();
 			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSServices/GetDCSServiceById/{id}", null, null);
 			if (apiRes.Result != null)
 			{
-				list = JsonConvert.DeserializeObject<DCSService>(apiRes.Result);
+				list = JsonConvert.DeserializeObject<PlanServices>(apiRes.Result);
 			}
 			return View(list);
 		}
 		[HttpPost]
 		[Route("/AddOrUpdateService")]
-		public async Task<IActionResult> AddOrUpdateService(DCSService services)
+		public async Task<IActionResult> AddOrUpdateService(PlanServices services)
 		{
 			var response = new Response()
 			{

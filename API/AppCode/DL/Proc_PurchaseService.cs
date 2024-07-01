@@ -30,7 +30,6 @@ namespace API.AppCode.DL
                     ProjectID = application.ProjectID,
                     UserEmail =req.UserEmail,
                     ServiceID=req.ServiceID,
-                    PurchaseDate=req.PurchaseDate,
                     ActivationDate=req.ActivationDate,
                     ExpiryDate= req.ExpiryDate,
                     Price=req.Price,

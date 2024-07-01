@@ -16,7 +16,7 @@ namespace API.AppCode.DL
         }
         public async Task<object> Call(object obj)
         {
-            var req = (DCSService)obj;
+            var req = (PlanServices)obj;
             var res = new Response()
             {
                 ResponseText="Somthing wrong!!",
@@ -40,7 +40,6 @@ namespace API.AppCode.DL
                     Discounts =req.Discounts, 
                     CustomerSupportLevel = req.CustomerSupportLevel,
                     TermsAndConditions = req.TermsAndConditions,
-                    UpdatedAt = req?.UpdatedAt,
                     UsageLimits = req.UsageLimits,
                     FeedbackRating =req.FeedbackRating, 
                     Popularity = req.Popularity,
@@ -107,7 +106,7 @@ namespace API.AppCode.DL
                     ServiceName = name,
 
                 };
-                var i = await _dapper.GetAll<DCSService>(GetName(), param);
+                var i = await _dapper.GetAll<PlanServices>(GetName(), param);
                 return i;
             }
             catch (Exception ex)
@@ -152,7 +151,7 @@ namespace API.AppCode.DL
                     ServiceId = id,
 
                 };
-                var i = await _dapper.GetAsync<DCSService>(GetName(), param);
+                var i = await _dapper.GetAsync<PlanServices>(GetName(), param);
                 return i;
             }
             catch (Exception ex)

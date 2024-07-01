@@ -11,6 +11,8 @@ namespace Entities
     {
 		public int ProjectId { get; set; }
 		public string? ProjectName { get; set; }
+		public string? UserEmail { get; set; }
+		public string? DomainName { get; set; }
 		public string? Logo { get; set; }
 		public IFormFile? ImagePath { get; set; }
 		public DateTime? CreatedDate { get; set; }

@@ -3,6 +3,8 @@ using API.SendEmail;
 using Entities.Response;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
+using API.AppCode.Helper;
+using API.AppCode.IService;
 
 namespace API.Controllers
 {
@@ -11,21 +13,38 @@ namespace API.Controllers
     public class ProjectDetailsController : ControllerBase
     {
         private readonly IProjectDetails _details;
-		
-		public ProjectDetailsController(IProjectDetails details)
+		private readonly FileUploadService _uploadService;
+		private readonly Sendmail _sendmail;
+		public ProjectDetailsController(IProjectDetails details, FileUploadService uploadService, Sendmail sendmail)
         {
             _details=details;
-        }
+			_uploadService=uploadService;
+            _sendmail=sendmail;
+		}
         [HttpPost(nameof(AddorUpdateProjectDetails))]
         public async Task<IActionResult> AddorUpdateProjectDetails(ProjectDetails pdetails)
         {
-            var res = new Response
+			var res = new Response
+			{
+				StatusCode = ResponseStatus.FAILED,
+				ResponseText = "An error han occurred try after sometime."
+			};
+
+			if (pdetails.ImagePath != null)
+			{
+				pdetails.Logo = _uploadService.Image(pdetails.ImagePath, FileUploadType.ProjectImage, FileUploadType.ProjectPrefix);
+			}
+            if (pdetails.Logo!= null)
             {
-                ResponseText ="An Error Occured Try After Some Time!",
-                StatusCode = ResponseStatus.FAILED
-            };
-             res = await _details.AddorUpdateProjectDetails(pdetails);
-            return Ok(res);
+                res = await _details.AddorUpdateProjectDetails(pdetails);
+				if (res.StatusCode==ResponseStatus.SUCCESS)
+				{
+					_sendmail.SendEmails(pdetails.UserEmail, "Create New Project", $"your Project Id Is: {res.ProjectId}");
+
+				}
+				return Ok(res);
+			}
+            return BadRequest(res);
         }
 
         [HttpPost(nameof(GetProjectDetails))]

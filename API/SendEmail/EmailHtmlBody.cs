@@ -14,9 +14,6 @@ namespace API.SendEmail
             _dapper=dapper;
 
         }
-
-
-
         public string GenerateHtmlBody(string body)
         {
             string FBlink = _configuration["SocialMedia:FB"];
@@ -25,7 +22,6 @@ namespace API.SendEmail
             string XIconLink = _configuration["SocialMedia:XIcon"];
             string InstaLink = _configuration["SocialMedia:Insta"];
             string InstaIconLink = _configuration["SocialMedia:InstaIcon"];
-
             var param = new
             {
                 TemplateID = 8,

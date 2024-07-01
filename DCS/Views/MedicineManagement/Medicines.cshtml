@@ -4,7 +4,59 @@
     ViewData["Title"] = "Medicines";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    ﻿.profile-pic {
+        color: transparent;
+        transition: all 0.3s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
 
+    .profile-pic input {
+        display: none;
+    }
+
+    .profile-pic img {
+        position: absolute;
+        object-fit: cover;
+        width: 165px; /* Set the desired circle size */
+        height: 165px; /* Set the desired circle size */
+        box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.35);
+        border-radius: 100px; /* Set the desired border-radius */
+        z-index: 0;
+    }
+
+    .profile-pic .-label {
+        cursor: pointer;
+        height: 165px; /* Set the desired circle size */
+        width: 165px; /* Set the desired circle size */
+    }
+
+    .profile-pic:hover .-label {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.8);
+        z-index: 10000;
+        color: rgb(250, 250, 250);
+        transition: background-color 0.2s ease-in-out;
+        border-radius: 100px; /* Set the desired border-radius */
+        margin-bottom: 0;
+    }
+
+    .profile-pic span {
+        display: inline-flex;
+        padding: 0.2em;
+        height: 2em;
+    }
+
+
+    a:hover {
+        text-decoration: none;
+    }
+</style>
 <div class="content-wrapper-scroll">
 
     <!-- Main header starts -->
@@ -47,35 +99,27 @@
         <!-- Row start -->
         <div class="row gx-3">
             <div class="col-sm-12 col-12">
-                <p>
-                    <button id="btnaddservice" class="btn btn-outline-info">Add New Medicine </button>
-                </p>
                 <div class="card">
                     <div class="card-body">
-                        <div class="col-xxl-4 col-sm-6 col-12">
-                            <div class="card">
-                                <div class="card-body">
+                        <div class="table-responsive">
+                            <p>
+                                <div class="col-sm-6 col-6">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="txtname"  placeholder="search name.." />
-                                        <button class="btn btn-outline-secondary" onclick="Onload" type="button">
+                                        <input type="text" class="form-control" id="txtname" placeholder="search name.." />
+                                        <button class="btn btn-outline-secondary" onclick="Onload();" type="button">
                                             Search
+                                        </button>
+                                        <button id="btnaddservice" class="btn btn-outline-info" onclick="editMed(0)" type="button">
+                                            Add New Medicine
                                         </button>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="table-responsive">
+                            </p>
                             <table class="table table-striped border-primary m-0">
                                 <thead>
                                     <tr>
                                         <th>
-                                            Medicine ID
-                                        </th>
-                                        <th>
-                                            Stock ID
-                                        </th>
-                                        <th>
-                                            Name
+                                            Med Name
                                         </th>
                                         <th>
                                             Description
@@ -84,31 +128,23 @@
                                             Manufacturer
                                         </th>
                                         <th>
-                                            Med Type ID
+                                            Med Type
                                         </th>
                                         <th>
                                             Price
                                         </th>
                                         <th>
-                                            Expiry Date
+                                            Quantity
                                         </th>
                                         <th>
-                                            Quantity
+                                            Expiry Date
                                         </th>
                                         <th>
                                             Med Status
                                         </th>
-                                        <th>
-                                            Created At
-                                        </th>
-                                        <th>
-                                            Updated At
-                                        </th>
                                         <th></th>
                                     </tr>
                                 </thead>
-
-
                                 <tbody id="medList">
                                 </tbody>
                             </table>
@@ -121,6 +157,8 @@
     <!-- Row end -->
 
 </div>
+<div id="med_modalPV"></div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function Onload() {
         var param = {
@@ -133,4 +171,64 @@
         });
     }
     Onload();
+    function medDetails(Id) {
+        let param = {
+            id: Id,
+        };
+        $.post("/details", param)
+            .done(function (res) {
+                $("#med_modalPV").html(res);
+                $("#med_detailmodal").modal("show");
+            })
+            .fail(function () {
+                alert("error");
+            });
+    }
+
+    function editMed(dId) {
+        let param = {
+            id: dId,
+        };
+        $.get("/EditMedicines", param).done(function (res) {
+            $("#med_modalPV").html(res);
+            $("#med_Editmodal").modal("show");
+        }).fail(function (hxr) {
+            console.log(hxr);
+            alert("errror");
+        })
+    }
+
+    function addMedicine() {
+        const
+            id = $("#MedicineID").val(),
+            name = $("#Name").val(),
+            description = $("#Description").val(),
+            manufacturer = $("#Manufacturer").val(),
+            medTypeID = $("#MedTypeID").val(),
+            price = $("#Price").val(),
+            quantity = $("#Quantity").val(),
+            expiryDate = $("#ExpiryDate").val();
+
+        const medicine = {
+            MedicineID:id,
+            Name: name,
+            Description: description,
+            Manufacturer: manufacturer,
+            MedTypeID: medTypeID,
+            Price: price,
+            Quantity: quantity,
+            ExpiryDate: expiryDate
+        };
+
+        $.post('/AddOrUpdateMedicines', medicine)
+            .done(function (result) {
+                setTimeout(function () {
+                    Info(result.statusCode, result.responseText);
+                }, 1000);
+            })
+            .fail(function () {
+                alert("error");
+            });
+    }
+
 </script>

@@ -1,6 +1,7 @@
 ﻿@model Entities.ApplicationSetting
 @{
 	Layout = null;
+	var Ischecked = "";
 }
 <div class="card-body">
 	<!-- Row start -->
@@ -8,22 +9,32 @@
 
 		<div class="col-sm-6 col-12">
 			<!-- Card start -->
-			<label>desktop settings</label>
+			<label><strong>Desktop settings</strong></label>
 			<div class="card">
 				<div class="card-body">
 					<ul class="list-group">
-						<li class="list-group-item d-flex justify-content-between align-items-center">
-							@* A Patient Status
+						@*<li class="list-group-item d-flex justify-content-between align-items-center">
+							 A Patient Status
 							<div class="form-check form-switch m-0">
 							<input class="form-check-input" type="checkbox" role="switch"
 							id="switchOne" />
-							</div> *@
-						</li>
+							</div>
+							</li>*@
+						<input class="form-check-input" type="text"  value="@Model.ProjectID"
+							   id="ProjectID" />
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							Dark Mode
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch"
-									   asp-for="IsDarkModeEnabled" />
+								@if (@Model.IsDarkModeEnabled)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="IsDarkModeEnabled" />
 							</div>
 						</li>
 					</ul>
@@ -33,22 +44,38 @@
 		</div>
 		<div class="col-sm-6 col-12">
 			<!-- Card start -->
-			<label>email settings</label>
+			<label><strong>Email settings</strong></label>
 			<div class="card">
 				<div class="card-body">
 					<ul class="list-group">
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							Email Verification
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch"
-									   asp-for="IsEmailVerificationRequired" />
+								@if (@Model.IsEmailVerificationRequired)
+								{
+									Ischecked = "checked";
+								}
+									else
+									{
+									Ischecked = "";
+									}
+									<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="IsEmailVerificationRequired" />
 							</div>
 						</li>
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							Email Marketing
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch"
-									   asp-for="IsEmailMarketing" />
+								@if (@Model.IsEmailMarketing)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="IsEmailMarketing" />
 							</div>
 						</li>
 						@* <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -68,43 +95,83 @@
 	<div class="row gx-3">
 		<div class="col-sm-6 col-12">
 			<!-- Card start -->
-			<label>Authentication settings</label>
+			<label><strong>Authentication settings</strong></label>
 			<div class="card">
 				<div class="card-body">
 					<ul class="list-group">
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							Show Password
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch"
-									   asp-for="IsShowPassword" />
+								@if (@Model.IsShowPassword)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="IsShowPassword" />
 							</div>
 						</li>
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							Multiple Mobile Allowed
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch" asp-for="IsMultipleMobileAllowed"
+								@if (@Model.IsMultipleMobileAllowed)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" id="IsMultipleMobileAllowed" @Ischecked
 									   checked />
 							</div>
 						</li>
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							Password Only
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch"
-									   asp-for="IsPasswordOnly" />
+								@if (@Model.IsPasswordOnly)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="IsPasswordOnly" />
 							</div>
 						</li>
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							TwoFactor Authentication
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch"
-									   asp-for="IsTwoFactorAuthenticationEnabled" />
+								@if (@Model.IsTwoFactorAuthenticationEnabled)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="IsTwoFactorAuthenticationEnabled" />
 							</div>
 						</li>
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							Max LoginAttempts Check
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch"
-									   asp-for="MaxLoginAttempts" />
+								@if (@Model.MaxLoginAttempts==1)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="MaxLoginAttempts" />
 							</div>
 						</li>
 					</ul>
@@ -114,22 +181,38 @@
 		</div>
 		<div class="col-sm-6 col-12">
 			<!-- Card start -->
-			<label>payment settings</label>
+			<label><strong>Payment settings</strong></label>
 			<div class="card">
 				<div class="card-body">
 					<ul class="list-group">
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							PaymentGateway Enable
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch"
-									   asp-for="IsPaymentGateway" />
+								@if (@Model.IsPaymentGateway)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="IsPaymentGateway" />
 							</div>
 						</li>
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							BillingNotification Enabled
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch"
-									   asp-for="IsBillingNotificationEnabled" />
+								@if (@Model.IsBillingNotificationEnabled)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="IsBillingNotificationEnabled" />
 							</div>
 						</li>
 						@* <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -149,36 +232,68 @@
 	<div class="row gx-3">
 		<div class="col-sm-6 col-12">
 			<!-- Card start -->
-			<label>Appointment settings</label>
+			<label><strong>Appointment settings</strong></label>
 			<div class="card">
 				<div class="card-body">
 					<ul class="list-group">
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							Appointment Status
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch"
-								asp-for="IsAppointmentStatus" />
+								@if (@Model.IsAppointmentStatus)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+								id="IsAppointmentStatus" />
 							</div>
 						</li>
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							Appointment By Form
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch" asp-for="IsAppointmentFormService"
+								@if (@Model.IsAppointmentFormService)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" id="IsAppointmentFormService" @Ischecked
 									   checked />
 							</div>
 						</li>
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							Appointment By Contact
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch" asp-for="IsAppointmentContactService"
+								@if (@Model.IsAppointmentContactService)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" id="IsAppointmentContactService" @Ischecked
 									   checked />
 							</div>
 						</li>
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							Pre-Appointment Notify
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch"
-									   asp-for="IsAppointmentReminderEnabled" />
+								@if (@Model.IsAppointmentReminderEnabled)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="IsAppointmentReminderEnabled" />
 							</div>
 						</li>
 					</ul>
@@ -188,29 +303,53 @@
 		</div>
 		<div class="col-sm-6 col-12">
 			<!-- Card start -->
-			<label>Notification settings</label>
+			<label><strong>Notification settings</strong></label>
 			<div class="card">
 				<div class="card-body">
 					<ul class="list-group">
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							Sms NotificationEnabled
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch"
-									   asp-for="IsSmsNotificationEnabled" />
+								@if (@Model.IsSmsNotificationEnabled)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="IsSmsNotificationEnabled" />
 							</div>
 						</li>
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							DoctorAvailabilityNotification
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch"
-									   asp-for="IsDoctorAvailabilityNotificationEnabled" />
+								@if (@Model.IsDoctorAvailabilityNotificationEnabled)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="IsDoctorAvailabilityNotificationEnabled" />
 							</div>
 						</li>
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							PrescriptionRefillReminder
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch"
-									   asp-for="IsPrescriptionRefillReminderEnabled" />
+								@if (@Model.IsPrescriptionRefillReminderEnabled)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="IsPrescriptionRefillReminderEnabled" />
 							</div>
 						</li>
 					</ul>
@@ -223,22 +362,38 @@
 	<div class="row gx-3">
 		<div class="col-sm-6 col-12">
 			<!-- Card start -->
-			<label>Lab Managment settings</label>
+			<label><strong>Lab Managment settings</strong></label>
 			<div class="card">
 				<div class="card-body">
 					<ul class="list-group">
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							Lab Managment Service
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch"
-									   asp-for="IsLabManagmentService" />
+								@if (@Model.IsSmsNotificationEnabled)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="IsLabManagmentService" />
 							</div>
 						</li>
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							LabResults Notification
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch"
-									   asp-for="IsLabResultsNotificationEnabled" />
+								@if (@Model.IsSmsNotificationEnabled)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="IsLabResultsNotificationEnabled" />
 							</div>
 						</li>
 					</ul>
@@ -248,23 +403,39 @@
 		</div>
 		<div class="col-sm-6 col-12">
 			<!-- Card start -->
-			<label>Other settings</label>
+			<label><strong>Other settings</strong></label>
 			<div class="card">
 				<div class="card-body">
 					<ul class="list-group">
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							DB BackUp Service
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch"
-									   asp-for="IsBackUpService" />
+								@if (@Model.IsBackUpService)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="IsBackUpService" />
 							</div>
 						</li>
 						
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							Referral Service
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch"
-									   asp-for="IsReferral" />
+								@if (@Model.IsReferral)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="IsReferral" />
 							</div>
 						</li>
 					</ul>
@@ -277,22 +448,38 @@
 	<div class="row gx-3">
 		<div class="col-sm-6 col-12">
 			<!-- Card start -->
-			<label>MedicalStore settings</label>
+			<label><strong>MedicalStore settings</strong></label>
 			<div class="card">
 				<div class="card-body">
 					<ul class="list-group">
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							MedicalStore Service
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch"
-									   asp-for="IsMSServiceEnabled" />
+								@if (@Model.IsMSServiceEnabled)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="IsMSServiceEnabled" />
 							</div>
 						</li>
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							Low Storage Medicine Notification
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch"
-									   asp-for="IsLowStorageMedicineNotification" />
+								@if (@Model.IsLowStorageMedicineNotification)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="IsLowStorageMedicineNotification" />
 							</div>
 						</li>
 					</ul>
@@ -302,22 +489,30 @@
 		</div>
 		<div class="col-sm-6 col-12">
 			<!-- Card start -->
-			<label>Whatsapp settings</label>
+			<label><strong>Whatsapp settings</strong></label>
 			<div class="card">
 				<div class="card-body">
 					<ul class="list-group">
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							Whatsapp Marketing
 							<div class="form-check form-switch m-0">
-								<input class="form-check-input" type="checkbox" role="switch"
-									   asp-for="IsWhatsappMarketing" />
+								@if (@Model.IsWhatsappMarketing)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="IsWhatsappMarketing" />
 							</div>
 						</li>
 						@* <li class="list-group-item d-flex justify-content-between align-items-center">
 							Low Storage Medicine Notification
 							<div class="form-check form-switch m-0">
 								<input class="form-check-input" type="checkbox" role="switch"
-									   asp-for="IsLowStorageMedicineNotification" />
+									   id="IsLowStorageMedicineNotification" />
 							</div>
 						</li> *@
 					</ul>
@@ -328,3 +523,43 @@
 	</div>
 	<!-- Row end -->
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+	$(document).ready(function () {
+		// Function to gather all checkbox states and send to server
+		function updateAllSettings() {
+			var settings = {
+				ProjectID: $("#ProjectID").val(),
+				checkboxes: {}
+			};
+
+			// Iterate through all checkboxes and gather their states
+			$('.form-check-input').each(function () {
+				var settingId = $(this).attr('id');
+				var value = $(this).is(':checked');
+				settings.checkboxes[settingId] = value;
+			});
+
+			console.table(settings);
+
+			// Send the gathered data to the server
+			$.ajax({
+				url: '/AddOrUpdateAppSetting', // Your endpoint to handle the update
+				type: 'POST',
+				contentType: 'application/json',
+				data: settings,
+				success: function (response) {
+					console.log('All settings updated successfully');
+				},
+				error: function (xhr, status, error) {
+					console.error('Update failed: ' + error);
+				}
+			});
+		}
+
+
+		// Attach change event listeners to all checkboxes
+		updateAllSettings();
+	});
+	
+</script>

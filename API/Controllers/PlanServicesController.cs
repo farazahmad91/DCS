@@ -7,15 +7,15 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DCSServicesController : ControllerBase
+    public class PlanServicesController : ControllerBase
     {
         private readonly IDCSServices _services;
-        public DCSServicesController(IDCSServices services)
+        public PlanServicesController(IDCSServices services)
         {
             _services =services;
         }
         [HttpPost(nameof(AddorUpdateDCSService))]
-        public async Task<IActionResult> AddorUpdateDCSService(DCSService services)
+        public async Task<IActionResult> AddorUpdateDCSService(PlanServices services)
         {
             var i =await _services.AddorUpdateDCSService(services);
             return Ok(i);

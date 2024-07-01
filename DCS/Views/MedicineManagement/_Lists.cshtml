@@ -4,50 +4,67 @@
     ViewData["Title"] = "Medicines";
     Layout = null;
 }
-
-@foreach (var item in Model)
+@if (Model == null || !Model.Any())
 {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.MedicineID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StockID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Manufacturer)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MedTypeID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ExpiryDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Quantity)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Med_Status)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedAt)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UpdatedAt)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+    <tr style="text-align: center;">
+        <td colspan="12" style="text-align: center;">
+            <label><strong>Data Not Found</strong></label>
         </td>
     </tr>
+}
+else
+{
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Manufacturer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MedTypeID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpiryDate)
+
+            </td>
+            <td>
+                @if (@item.Quantity >10)
+                {
+                    <label class="badge primary">available</label>
+                }
+                else if(@item.Quantity==0)
+                {
+                    <label class="badge red">not available</label>
+                }
+                else
+                {
+                    <label class="badge yellow">limited stock</label>
+                   
+                }
+            </td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Actions
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" onclick="editMed(@item.MedicineID)"><span class="fas fa-edit" style="color: Blue"></span> Edit</a>
+                        <a class="dropdown-item" onclick="doctorDetails(@item.MedicineID)"><i class="fas fa-info-circle" style="color: darkgreen"></i> Show Detail</a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
 }

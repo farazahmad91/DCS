@@ -22,7 +22,7 @@ namespace DCS.Controllers
             return View();
         }
         [Route("/Medicine_List")]
-        public async Task<IActionResult> _Lists(string? name)
+        public async Task<IActionResult> _Lists(string? name="All")
         {
             var list = new List<Medicines>();
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/MedicineManagement/GetMedicines/{name}", null, null);
@@ -36,12 +36,12 @@ namespace DCS.Controllers
         public async Task<IActionResult> _EditMedicines( int id)
         {
             var list = new Medicines();
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/MedicineManagement/GetDCSServiceById/{id}", null, null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/MedicineManagement/GetMedicinesById/{id}", null, null);
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<Medicines>(apiRes.Result);
             }
-            return View(list);
+            return PartialView(list);
         }
 
         [HttpPost]
@@ -84,6 +84,18 @@ namespace DCS.Controllers
                 list = JsonConvert.DeserializeObject<List<Medicines>>(apiRes.Result);
             }
             return Json(list);
+        }
+
+        [Route("/details")]
+        public async Task<IActionResult> details(string? name = "All")
+        {
+            var list = new List<Medicines>();
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/MedicineManagement/GetMedicines/{name}", null, null);
+            if (apiRes.Result != null)
+            {
+                list = JsonConvert.DeserializeObject<List<Medicines>>(apiRes.Result);
+            }
+            return PartialView(list);
         }
     }
 }
