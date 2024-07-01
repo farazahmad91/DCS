@@ -55,8 +55,8 @@
                                         <button class="btn btn-outline-secondary" onclick="Onload();" type="button">
                                             Search
                                         </button>
-                                        <button id="btnaddservice" class="btn btn-outline-info" onclick="EditDoctor(0)" type="button">
-                                            Add New Doctor
+                                        <button id="btnaddservice" class="btn btn-outline-info" onclick="addNewAppSetting(0)" type="button">
+                                            Add New Project
                                         </button>
                                     </div>
                                 </div>
@@ -81,12 +81,11 @@
         </div>
     </div>
     </div>
-<div id="Dr_modalPV"></div>
+<div id="Project_modalPV"></div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 
     function Onload() {
-        debugger;
         var param = {
             id: $("#txtid").val(),
         }
@@ -103,19 +102,6 @@
         $("#dTable").DataTable();
     });
 
-    function doctorDetails(Id) {
-        let param = {
-            id: Id,
-        };
-        $.post("/D-detail", param)
-            .done(function (res) {
-                $("#Dr_modalPV").html(res);
-                $("#Dr_detailmodal").modal("show");
-            })
-            .fail(function () {
-                alert("error");
-            });
-    }
 
     function EditAppSetting(dId) {
         let param = {
@@ -125,8 +111,8 @@
         $.get("/App-Setting", param)
             .done(function (res) {
                 console.log(res);
-                $("#Dr_modalPV").html(res);
-                //$("#Dr_Editmodal").modal("show");
+                $("#Project_modalPV").html(res);
+                $("#AddProjectmodal").modal("show");
             })
             .fail(function (xhr) {
                 console.log(xhr.statusText);
@@ -138,27 +124,25 @@
             });
     }
 
-    function doctorStatus(dId) {
-        var id = $("#customSwitch3_" + dId).prop("checked");
-        if (id == true) {
-            id = 1;
-
-        }
-        else {
-            id = 0;
-        }
-        var param = {
-            DrId: dId,
-            Status: id,
+    function addNewAppSetting(dId) {
+        let param = {
+            id: dId,
         };
-        console.log(param);
-        $.post("/Employee/UpdateEmployeeStatus", param).done(function () {
-            alert("succrssfully update");
 
-        }).fail(function () {
-            alert("error");
-
-        })
+        $.get("/EditProject", param)
+            .done(function (res) {
+                console.log(res);
+                $("#Project_modalPV").html(res);
+                $("#AddProjectmodal").modal("show");
+            })
+            .fail(function (xhr) {
+                console.log(xhr.statusText);
+                alert("Error: " + xhr.statusText);
+            })
+            .catch(function (error) {
+                console.error("An unexpected error occurred:", error);
+                alert("An unexpected error occurred. Please try again later.");
+            });
     }
 
 

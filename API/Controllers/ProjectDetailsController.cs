@@ -59,7 +59,7 @@ namespace API.Controllers
             return Ok(i);
         }
 
-        [HttpPost(nameof(GetProjectDetailsByProjectId))]
+        [HttpPost(nameof(GetProjectDetailsByProjectId)+"/{id}")]
         public async Task<IActionResult> GetProjectDetailsByProjectId(int id)
         {
             var res = new Response

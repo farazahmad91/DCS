@@ -147,7 +147,7 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            throw new NotImplementedException();
+            return "Proc_GetProjectDetailsById";
         }
     }
 }

@@ -14,7 +14,7 @@ namespace API.AppCode.DL
         }
         public async Task<object> Call(object obj)
         {
-			ApplicationSetting application = new ApplicationSetting();
+			//ApplicationSetting application = new ApplicationSetting();
 			var setting = (ApplicationSetting)obj;
             var res = new Response()
             {
@@ -30,7 +30,7 @@ namespace API.AppCode.DL
 					IsEmailMarketing = setting.IsEmailMarketing,
                     IsShowPassword = setting.IsShowPassword,
                     IsMultipleMobileAllowed = setting.IsMultipleMobileAllowed,
-                    ProjectID = application.ProjectID,
+                    ProjectID = setting.ProjectID,
 					IsBackUpService = setting.IsBackUpService,
 					IsPasswordOnly = setting.IsPasswordOnly,
                     IsReferral = setting.IsReferral,

@@ -29,26 +29,26 @@
 										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="Name" class="form-label">Full Name</label>
-											<input type="text" class="form-control" id="Name" placeholder="Full Name">
+											<input type="text" class="form-control" id="Name" placeholder="enter full name">
 										</div>
 
 										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="Email" class="form-label">Email</label>
-											<input type="email" class="form-control" id="Email" placeholder="Contact">
+											<input type="email" class="form-control" id="Email" placeholder="enter email">
 										</div>
 									</div>
 									<div class="col-6">
 										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="Email" class="form-label">Phone No.</label>
-											<input type="number" class="form-control" id="Phone" placeholder="Email ID">
+											<input type="number" class="form-control" id="Phone" placeholder="enter phone">
 										</div>
 
 										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="Email" class="form-label">Project Name.</label>
-											<input type="text" class="form-control" id="ProjectName" placeholder="Email ID">
+											<input type="text" class="form-control" id="ProjectName" placeholder="enter projec tName">
 										</div>
 									</div>
 
@@ -58,18 +58,15 @@
 									<div class="col-6">
 										<!-- Form Field Start -->
 										<div class="mb-3">
-											<select class="form-control" id="ProjectType">
-												<option value="">select project type</option>
-												<option value="HMS">HMS</option>
-												<option value="SMS">SMS</option>
-											</select>
+											<label for="DomainName" class="form-label">Domain Name</label>
+											<input type="text" class="form-control" id="DomainName" placeholder="enter domain Name">
 											
 										</div>
-
-										<!-- Form Field Start -->
+									</div>
+										<div class="col-6">
 										<div class="mb-3">
-											<label for="Gender" class="form-label"></label>
-											<input type="text" class="form-control" id="" placeholder="Gender">
+											<label for="Validity" class="form-label">Validity</label>
+											<input type="datetime" class="form-control" id="Validity" placeholder="enter Validity">
 										</div>
 									</div>
 
@@ -81,7 +78,7 @@
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
 							Close
 						</button>
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+						<button type="button" class="btn btn-primary" onclick="addProject();">
                          Create Now
 						</button>
 					</div>

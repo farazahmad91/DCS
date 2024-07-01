@@ -20,7 +20,7 @@
 							id="switchOne" />
 							</div>
 							</li>*@
-						<input class="form-check-input" type="text"  value="@Model.ProjectID"
+						<input class="form-check-input" type="text"  hidden value="@Model.ProjectID"
 							   id="ProjectID" />
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							Dark Mode
@@ -521,45 +521,132 @@
 			<!-- Card end -->
 		</div>
 	</div>
+
+	<div class="row gx-3">
+		<div class="col-sm-6 col-12">
+			<!-- Card start -->
+			<label><strong>Rolebase settings</strong></label>
+			<div class="card">
+				<div class="card-body">
+					<ul class="list-group">
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Super Admin
+							<div class="form-check form-switch m-0">
+								@if (@Model.SuperAdmin)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="SuperAdmin" />
+							</div>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							 Admin
+							<div class="form-check form-switch m-0">
+								@if (@Model.IsAdmin)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="IsAdmin" />
+							</div>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Doctor
+							<div class="form-check form-switch m-0">
+								@if (@Model.IsDoctor)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="IsDoctor" />
+							</div>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Patient
+							<div class="form-check form-switch m-0">
+								@if (@Model.IsPatient)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+								<input class="form-check-input" type="checkbox" role="switch" @Ischecked
+									   id="IsPatient" />
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- Card end -->
+		</div>
+	</div>
 	<!-- Row end -->
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	$(document).ready(function () {
-		// Function to gather all checkbox states and send to server
-		function updateAllSettings() {
-			var settings = {
-				ProjectID: $("#ProjectID").val(),
-				checkboxes: {}
-			};
-
-			// Iterate through all checkboxes and gather their states
-			$('.form-check-input').each(function () {
-				var settingId = $(this).attr('id');
-				var value = $(this).is(':checked');
-				settings.checkboxes[settingId] = value;
-			});
-
-			console.table(settings);
-
-			// Send the gathered data to the server
-			$.ajax({
-				url: '/AddOrUpdateAppSetting', // Your endpoint to handle the update
-				type: 'POST',
-				contentType: 'application/json',
-				data: settings,
-				success: function (response) {
-					console.log('All settings updated successfully');
-				},
-				error: function (xhr, status, error) {
-					console.error('Update failed: ' + error);
-				}
-			});
-		}
-
-
-		// Attach change event listeners to all checkboxes
-		updateAllSettings();
+		$('.form-check-input').on('change', function () {
+			updateAllSettings();
+		});
 	});
-	
+	function updateAllSettings() {
+		debugger;
+		var param = {
+			ProjectID: $("#ProjectID").val(),
+			IsSocialAlert: !!$("#IsSocialAlert").prop("checked"),
+			IsDarkModeEnabled: !!$("#IsDarkModeEnabled").prop("checked"),
+			IsEmailVerificationRequired: !!$("#IsEmailVerificationRequired").prop("checked"),
+			IsEmailMarketing: !!$("#IsEmailMarketing").prop("checked"),
+			IsShowPassword: !!$("#IsShowPassword").prop("checked"),
+			IsMultipleMobileAllowed: !!$("#IsMultipleMobileAllowed").val(),
+			IsPasswordOnly: !!$("#IsPasswordOnly").prop("checked"),
+			IsReferral: !!$("#IsReferral").prop("checked"),
+			IsPaymentGateway: !!$("#IsPaymentGateway").prop("checked"),
+			IsMultipleVendorAllowed: !!$("#IsMultipleVendorAllowed").prop("checked"),
+			IsTwoFactorAuthenticationEnabled: !!$("#IsTwoFactorAuthenticationEnabled").prop("checked"),
+			MaxLoginAttempts: !!$("#MaxLoginAttempts").prop("checked"),
+			IsBackUpService: !!$("#IsBackUpService").prop("checked"),
+			IsSmsNotificationEnabled: !!$("#IsSmsNotificationEnabled").prop("checked"),
+			IsAppointmentReminderEnabled: !!$("#IsAppointmentReminderEnabled").prop("checked"),
+			IsDoctorAvailabilityNotificationEnabled: !!$("#IsDoctorAvailabilityNotificationEnabled").prop("checked"),
+			IsLabResultsNotificationEnabled: !!$("#IsLabResultsNotificationEnabled").prop("checked"),
+			IsMSServiceEnabled: !!$("#IsMSServiceEnabled").prop("checked"),
+			IsBillingNotificationEnabled: !!$("#IsBillingNotificationEnabled").prop("checked"),
+			IsPrescriptionRefillReminderEnabled: !!$("#IsPrescriptionRefillReminderEnabled").prop("checked"),
+			IsPatient: !!$("#IsPatient").prop("checked"),
+			IsDoctor: !!$("#IsDoctor").prop("checked"),
+			SuperAdmin: !!$("#SuperAdmin").prop("checked"),
+			IsAdmin: !!$("#IsAdmin").prop("checked"),
+			IsLabManagmentService: !!$("#IsLabManagmentService").prop("checked"),
+			IsLowStorageMedicineNotification: !!$("#IsLowStorageMedicineNotification").prop("checked"),
+			IsAppointmentContactService: !!$("#IsAppointmentContactService").prop("checked"),
+			IsAppointmentFormService: !!$("#IsAppointmentFormService").prop("checked"),
+			IsAppointmentStatus: !!$("#IsAppointmentStatus").prop("checked"),
+			IsWhatsappMarketing: !!!!$("#IsWhatsappMarketing").prop("checked"),
+		};
+
+		console.table(param);
+		$.post('/AddOrUpdateAppSetting', param).done(function (res) {
+			Info(res.statusCode, res.responseText);
+
+		}).fail(function () {
+
+			alert("error");
+		});
+	}
 </script>
