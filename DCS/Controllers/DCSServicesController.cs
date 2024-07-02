@@ -24,7 +24,7 @@ namespace DCS.Controllers
 		}
 		[HttpPost]
 		[Route("Pricing")]
-		public async Task<IActionResult> Pricing(string? name)
+		public async Task<IActionResult> Pricing(string? name="All")
 		{
 			var list = new List<DCSService>();
 			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSServices/GetDCSService/{name}", null, null);
@@ -40,7 +40,7 @@ namespace DCS.Controllers
             return View();
         }
         [Route("_ServiceList")]
-        public async Task<IActionResult> _ServiceList(string? name)
+        public async Task<IActionResult> _ServiceList(string? name = "All")
 		{
 			var list = new List<DCSService>();
 			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSServices/GetDCSService/{name}", null, null);

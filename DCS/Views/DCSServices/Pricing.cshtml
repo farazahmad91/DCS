@@ -1,28 +1,493 @@
-﻿@{
+﻿@model IEnumerable<Entities.DCSService>
+@{
 	Layout = null;
 }
-<div class="col-sm-4 col-12">
-	<!-- Pricing plan start -->
-	<div class="pricing-plan shade-primary">
-		<div class="pricing-header">
-			<h4 class="fw-lighter text-uppercase">Basic</h4>
-			<h1>$29.00</h1>
-			<h5 class="fw-normal">Save $5.00</h5>
-		</div>
-		<div class="pricing-body">
-			<ul class="pricing-features">
-				<li>5GB Linux Web Space</li>
-				<li>5 MySQL Databases</li>
-				<li>500 Emails</li>
-				<li class="text-muted"><del>24/7 Tech Support</del></li>
-				<li class="text-muted"><del>Daily Backups</del></li>
-			</ul>
-			<div class="pricing-footer">
-				<div class="d-grid">
-					<a href="#" class="btn btn-light btn-lg">Select Plan</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Pricing plan end -->
-</div>
+<style>
+    @@import url("https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --color-1: #ee7344;
+  --color-2: #d1d4db;
+}
+
+body {
+  font-family: Montserrat, sans-serif;
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+.wrapper {
+  max-width: 1200px;
+  min-width: 300px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+footer {
+  margin-top: 20px;
+  font-size: 14px;
+  padding: 10px 20px;
+}
+
+footer a {
+  text-decoration: none;
+  color: #0575cc;
+}
+
+#main-container {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  box-shadow: 6px 0 15px rgba(0, 0, 0, 0.4);
+  padding: 30px 40px;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 10px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+  vertical-align: -40%;
+  margin-right: 5px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-1);
+  border-radius: 34px;
+  transition: 0.1s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 28px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.1s;
+}
+
+input:checked + .slider:before {
+  transform: translateX(-25.2px);
+  box-shadow: 0 0 2px #2196f3;
+}
+
+input:checked + .slider {
+  background-color: var(--color-2);
+}
+
+.decorated {
+  display: inline-block;
+  color: var(--color-1);
+  font-size: 18px;
+  white-space: nowrap;
+  position: relative;
+}
+
+.decorated::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 80px;
+  left: -10px;
+  bottom: -47px;
+  position: absolute;
+  background-image: url("https://assets.codepen.io/9277864/underline-1.svg");
+  background-repeat: no-repeat;
+  transform: rotate(6.19rad);
+}
+
+.pricing-plan {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.plan {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.4);
+  padding: 23px;
+  min-width: 220px;
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-direction: column;
+}
+
+.plan:hover,
+.button:hover {
+  transform: scale(1.009);
+}
+
+.price {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin-bottom: 20px;
+}
+
+.whole {
+  font-weight: bold;
+  font-size: 35px;
+}
+
+.cent {
+  font-weight: bold;
+}
+
+.button {
+  color: white;
+  text-decoration: none;
+  background-color: var(--color-1);
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  padding: 9px 20px;
+  border-radius: 6px;
+  box-shadow: 1px 0 4px rgba(0, 0, 0, 0.4);
+  margin-bottom: 20px;
+}
+
+.title {
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+ul li {
+  margin-bottom: 8px;
+}
+
+ul li::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-image: url("https://assets.codepen.io/9277864/check.svg");
+  margin-right: 5px;
+  filter: invert(56%) sepia(67%) saturate(5340%) hue-rotate(142deg)
+    brightness(105%) contrast(101%);
+}
+
+.first-cut {
+  display: flex;
+  flex-direction: column;
+}
+
+.best {
+  position: relative;
+}
+
+.popular {
+  position: absolute;
+  top: -65px;
+  right: -57.5px;
+  width: 100px;
+  height: 200px;
+  overflow: hidden;
+  transform: rotate(-45deg);
+}
+
+.inner {
+  transform: rotate(45deg);
+  background-color: #00ba96;
+  width: 100px;
+  height: 100px;
+  top: 20px;
+  left: -50px;
+  position: relative;
+  border-top-right-radius: 10px;
+}
+
+.popular p {
+  font-weight: bold;
+  font-size: 18px;
+  transform: rotate(46deg) translate(50px, -4px);
+  color: white;
+}
+
+li:last-child {
+  display: flex;
+  align-items: flex-end;
+}
+
+li:last-child::before {
+  align-self: center;
+}
+
+.label {
+  display: inline-block;
+  margin-right: 5px;
+  padding: 4px 12px;
+  background-color: #445566;
+  color: white;
+  border-radius: 6px;
+}
+
+.tooltip:hover {
+  cursor: help;
+}
+
+@@media only screen and (max-width: 1100px) {
+  .wrapper {
+    height: auto;
+  }
+
+  .first-cut {
+    gap: 40px;
+    flex-direction: row;
+  }
+
+  .pricing-plan {
+    flex-direction: column;
+  }
+
+  #main-container {
+    margin-top: 20px;
+    padding: 26px;
+    width: 960px;
+  }
+
+  .plan {
+    max-width: 100%;
+    padding: 20px;
+    flex-direction: row;
+    padding-right: 60px;
+  }
+}
+
+@@media only screen and (max-width: 870px) {
+  .first-cut {
+    gap: 0;
+    flex-direction: column;
+  }
+
+  .plan {
+    flex-direction: column;
+  }
+
+  .button {
+    /*     width: 75%; */
+  }
+}
+
+@@media only screen and (max-width: 620px) {
+  .plan {
+    padding: 16px;
+  }
+
+  #main-container {
+    padding: 20px;
+  }
+
+  .button {
+    width: 100%;
+  }
+}
+
+@@import url("https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap");
+
+.codepen-footer {
+  font-family: "Patrick Hand", cursive;
+  font-size: 17px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  background-color: #232323;
+  color: white;
+  text-align: center;
+  height: 38px;
+  font-size: 21px;
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 20px;
+}
+
+.codepen-footer a {
+  color: #ee7344;
+  text-decoration: none;
+}
+
+</style>
+@foreach (var item in Model)
+{
+    <div class="wrapper">
+        <main>
+            <div id="main-container">
+                <section class="header">
+                    <h1>Pricing</h1>
+                    <p>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                        <span>Yearly</span>
+                        <strong class="decorated">Save 20%</strong>
+                    </p>
+                </section>
+                <div class="pricing-plan">
+                    <div class="plan">
+                        <div class="first-cut">
+                            <div>
+                                <h2>Expert</h2>
+                                <div class="price">
+                                    <p class="whole">$59</p>
+                                    <div class="price-details">
+                                        <p class="cent">.99</p>
+                                        <p>monthly</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <a href="#" class="button">Get Started</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p class="title">For expert members:</p>
+                                <ul>
+                                    <li>Access to expert challenges</li>
+                                    <li>Join Slack community</li>
+                                    <li>Access to design specifications</li>
+                                    <li>Access to all assets</li>
+                                    <li class="tooltip"><span class="label">EXPERT</span>Label</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="title">Extra Benefits:</p>
+                            <p>All images, icons, and illustrations are free! </p>
+                        </div>
+                    </div>
+                    <div class="plan best">
+                        <div class="first-cut">
+                            <div>
+                                <h2>Pro</h2>
+                                <div class="price">
+                                    <p class="whole">$99</p>
+                                    <div class="price-details">
+                                        <p class="cent">.99</p>
+                                        <p>monthly</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <a href="#" class="button">Get Started</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p class="title">For pro members:</p>
+                                <ul>
+                                    <li>All Expert features plus</li>
+                                    <li>Detailed tutorials for each design</li>
+                                    <li>Full access to Web Academy</li>
+                                    <li class="tooltip"><span class="label">PRO</span>Label</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="title">Extra Benefits:</p>
+                            <p>All images, icons, and illustrations are free! </p>
+                        </div>
+
+                        <div class="popular">
+                            <div class="inner">
+                                <p>Most Popular</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="plan">
+                        <div class="first-cut">
+                            <div>
+                                <h2>Guru</h2>
+                                <div class="price">
+                                    <p class="whole">$199</p>
+                                    <div class="price-details">
+                                        <p class="cent">.99</p>
+                                        <p>monthly</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <a href="#" class="button">Get Started</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p class="title">For guru members:</p>
+                                <ul>
+                                    <li>All Pro features plus</li>
+                                    <li>Code reviews</li>
+                                    <li class="tooltip"><span class="label">GURU</span>Label</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="title">Extra Benefits:</p>
+                            <p>All images, icons, and illustrations are free! </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <small>Created by <a href="https://twitter.com/intent/follow?screen_name=TanGravam" target="_top">@@TanGravam</a></small>
+        </footer>
+    </div>
+    <div class="codepen-footer">
+        <small>Created by <a href="https://twitter.com/intent/follow?screen_name=TanGravam" target="_top">@@TanGravam</a></small>
+        <small><a href="https://www.gravam.com/" target="_top">Go to My Website</a></small>
+    </div>
+}

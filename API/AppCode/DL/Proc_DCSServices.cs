@@ -40,7 +40,6 @@ namespace API.AppCode.DL
                     Discounts =req.Discounts, 
                     CustomerSupportLevel = req.CustomerSupportLevel,
                     TermsAndConditions = req.TermsAndConditions,
-                    UpdatedAt = req?.UpdatedAt,
                     UsageLimits = req.UsageLimits,
                     FeedbackRating =req.FeedbackRating, 
                     Popularity = req.Popularity,
@@ -60,6 +59,9 @@ namespace API.AppCode.DL
                     IsAppointmentFormService=req.IsAppointmentFormService,
                     IsAppointmentStatus=req.IsAppointmentStatus,
                     IsWhatsappMarketing=req.IsWhatsappMarketing,
+                    IsMultipleMobileAllowed = req.IsMultipleMobileAllowed,
+                    IsDarkModeEnabled = req.IsDarkModeEnabled,
+                    IsBillingNotificationEnabled = req.IsBillingNotificationEnabled
                 };
                 var i = await _dapper.GetAsync<Response>(GetName(), param);
                 res=i;
