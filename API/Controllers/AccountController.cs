@@ -201,5 +201,13 @@ namespace API.Controllers
             var i = await _userValidation.VerifyOTP(validateEmail);
             return Ok(i);
         }
+
+        [Route(nameof(UpdateUserStatus))]
+        [HttpPost]
+        public async Task<IActionResult> UpdateUserStatus(UserStatus userStatus)
+        {
+            var i = await _userservice.UpdateUserStatus(userStatus);
+            return Ok(i);
+        }
     }
 }

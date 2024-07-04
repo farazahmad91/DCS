@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<API.DBContext.Entities.User>
-
+@{
+	Layout = null;
+	var Ischecked = "";
+}
 @foreach (var item in Model)
 {
     <tr>
@@ -7,9 +10,6 @@
             @Html.DisplayFor(modelItem => item.Id)
         </td>
         <td><input type="checkbox" class="userCheckbox"></td>
-        <td>
-            @item.Email
-        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
@@ -23,22 +23,63 @@
             <span class="btn btn-sm btn-outline-danger" onclick="ShowPassword('@item.PasswordHash', '@item.Name');"><i class="fa fa-eye"></i> Show</span>
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.IsActive)
+            @* @Html.DisplayFor(modelItem => item.IsActive) *@
+            <div class="form-check form-switch">
+                @if (@item.IsActive==true)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+                <input class="form-check-input" type="checkbox" role="switch" onchange="UserStatus(@item.Id)" id="IsActive" @Ischecked>
+												<label class="form-check-label" for="Status"></label>
+											</div>
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.IsVerified)
+            @* @Html.DisplayFor(modelItem => item.IsVerified) *@
+            <div class="form-check form-switch">
+                 @if (@item.IsVerified==true)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+                <input class="form-check-input" type="checkbox" role="switch" onchange="UserStatus(@item.Id)" id="IsVerified" @Ischecked>
+												<label class="form-check-label" for="Status"></label>
+											</div>
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.IsLocked)
+           @*  @Html.DisplayFor(modelItem => item.IsLocked) *@
+               <div class="form-check form-switch">
+                @if (@item.IsLocked==true)
+								{
+									Ischecked = "checked";
+								}
+								else
+								{
+									Ischecked = "";
+								}
+                <input class="form-check-input" type="checkbox" role="switch" onchange="UserStatus(@item.Id)" id="IsLocked" @Ischecked>
+                                                    <label class="form-check-label" for="Status"></label>
+                                                </div>
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+         <td>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Actions
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" onclick="EditDoctor(@item.Id)"><span class="fas fa-edit" style="color: Blue"></span> Edit</a>
+                    <a class="dropdown-item" onclick="doctorDetails(@item.Id)"><i class="fas fa-info-circle" style="color: darkgreen"></i> Show Detail</a>
+                </div>
+            </div>
         </td>
     </tr>
 }
-
 <!-- Your script below -->
 <script>
     $(document).ready(function () {
@@ -130,16 +171,4 @@
             }
         }
     });
-
-    function ShowPassword(pass, name) {
-        $.post('/DecriptPassword', { HashPass: pass }).done(function (res) {
-            debugger;
-            console.log("Decrypted password:", res);
-            $("#decpass").text(res);
-            $("#username").text(name);
-            $("#mpassword").modal("Show");
-        }).fail(function (xhr) {
-            console.log("Error:", xhr.responseText);
-        });
-    }
 </script>

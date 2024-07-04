@@ -7,6 +7,6 @@ namespace API.AppCode.IML
     {
         public Task<Response> AddorUpdateProjectDetails(ProjectDetails details);
         public Task<ProjectDetails> GetProjectDetailsByProjectId(int Id);
-        public Task<IEnumerable<ProjectDetails>> GetProjectDetails(string name);
+        public Task<IEnumerable<ProjectDetails>> GetProjectDetails(string? name);
     }
 }

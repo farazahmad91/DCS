@@ -26,11 +26,10 @@ namespace API.AppCode.DL
 				var param = new
                 {
                     ProjectId = req.ProjectId,
-                    UserEmail = req.UserEmail,
+                    UserEmail = req.Email,
 					Logo = req.Logo,
 					ProjectName = req.ProjectName,
                     DomainName = req.DomainName,
-                    Validity = req.Validity,
                     Status = req.Status,
                 };
                 var i = await _dapper.GetAsync<Response>(GetName(), param);
@@ -102,7 +101,7 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            throw new NotImplementedException();
+            return "Proc_GetProjects";
         }
     }
     public class Proc_GetProjectDetailsById : IProcedureAsync

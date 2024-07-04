@@ -71,7 +71,11 @@ namespace API.Service
                     EmailConfirmed = true,
                 };
                 var result = await userManager.CreateAsync(user, model.Password);
-
+                if (!result.Succeeded)
+                {
+                    response.ResponseText = "SignUp Sucessfully";
+                    response.StatusCode = ResponseStatus.FAILED;
+                }
                 if (result.Succeeded)
                 {
                     response.ResponseText = "SignUp Sucessfully";
@@ -166,6 +170,7 @@ namespace API.Service
                     var counts = _dapper.GetById<User>(param,"Proc_IncrementInvalidLoginAttempts");
                     if (counts.InvalidLoginAttempts > 3)
                     {
+                        _dapper.GetById<User>(param, "Proc_LockedUser");
                         response.StatusCode = ResponseStatus.FAILED;
                         response.ResponseText = "Account locked due to multiple incorrect password attempts";
 
@@ -188,15 +193,19 @@ namespace API.Service
                     var i = await _userValidation.IsUserVerified(model.Email);
                     response.ResponseText= i.ResponseText;
                     response.StatusCode= i.StatusCode;
-                    if (response.StatusCode== ResponseStatus.ISEmailVerifiedField)
+                    if (i.StatusCode==ResponseStatus.FAILED || i.StatusCode==ResponseStatus.IsDeactiveUser)
                     {
-                        _userValidation.ValidateEmail(model.Email);
-                        response.ResponseText = i.ResponseText;
-                        response.StatusCode = i.StatusCode;
                         return response;
                     }
                     
 
+                }
+                if (response.StatusCode== ResponseStatus.EmailNotVerified)
+                {
+                   var j= await _userValidation.ValidateEmail(model.Email);
+                    response.ResponseText = j.ResponseText;
+                    response.StatusCode = j.StatusCode;
+                    return response;
                 }
                 await _signInManager.SignInAsync(userExists, isPersistent: true);
                 var roleDetails = await userManager.GetRolesAsync(userExists);
@@ -346,6 +355,42 @@ namespace API.Service
             return response;
         }
 
+        public async Task<Response<bool>> UpdateUserStatus(UserStatus userStatus)
+        {
+            var response = new Response<bool>
+            {
+                ResponseText = "An error has ocurred try after sometime!",
+                StatusCode = ResponseStatus.SUCCESS,
+                Result =false,
+        };
+            string sp = "Proc_UpdateUserStatus";
 
+            try
+            {
+                var param = new
+                {
+                    Id = userStatus.Id,
+                    IsVerified = userStatus.IsVerified,
+                    IsLocked = userStatus.IsLocked,
+                    IsActive = userStatus.IsActive
+                };
+                var i = await _dapper.GetAsync<Response>(sp, param);
+                response.ResponseText = i.ResponseText;
+                response.StatusCode = ResponseStatus.SUCCESS;
+                response.Result =true;
+            }
+            catch (Exception ex)
+            {
+                var error = new ErrorLog
+                {
+                    ClassName = GetType().Name,
+                    FuncName = "Proc_UpdateUserStatus",
+                    Error = ex.Message,
+                    ProcName = sp,
+                };
+                var _ = new ErrorLog_ML(_dapper).Error(error);
+            }
+            return response;
+        }
     }
 }

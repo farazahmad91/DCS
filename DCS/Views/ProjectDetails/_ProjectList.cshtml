@@ -4,39 +4,54 @@
     ViewData["Title"] = "_ProjectList";
     Layout = null;
 }
-
-        @* @foreach (var item in Model)
+@if (Model == null || !Model.Any())
+{
+    <tr style="text-align: center;">
+        <td colspan="12" style="text-align: center;">
+            <label><strong>Data Not Found</strong></label>
+        </td>
+    </tr>
+}
+else
+{
+         @foreach (var item in Model)
         {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.ProjectId)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UserEmail)
+                @Html.DisplayFor(modelItem => item.Email)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ProjectName)
                 </td>
+            <td>
+                <a class="fancybox" href="@item.Logo" data-fancybox data-caption="@item.ProjectName">
+                    <img src="@item.Logo" onerror="this.onerror=null;this.src='/images/noimage.jpg'" class="img-fluid rounded-circle" alt="No Image Found" width="90px" height="50px" />
+                </a>
+            </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DomainName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PurchaseDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Validity)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsLifeTime)
+                    @Html.DisplayFor(modelItem => item.Purchase_Date)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Status)
                 </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Actions
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" onclick="editProject(@item.ProjectId)"><span class="fas fa-edit" style="color: Blue"></span> Edit</a>
+                        <a class="dropdown-item" onclick="doctorDetails(@item.ProjectId)"><i class="fas fa-info-circle" style="color: darkgreen"></i> Show Detail</a>
+                    </div>
+                </div>
+            </td>
             </tr>
-        } *@
+        } 
+}
     

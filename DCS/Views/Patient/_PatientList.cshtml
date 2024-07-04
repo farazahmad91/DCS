@@ -4,7 +4,16 @@
     ViewData["Title"] = "PatientList";
     Layout = null;
 }
-
+@if (Model == null || !Model.Any())
+{
+    <tr style="text-align: center;">
+        <td colspan="12" style="text-align: center;">
+            <label><strong>Data Not Found</strong></label>
+        </td>
+    </tr>
+}
+else
+{
 @foreach (var item in Model)
 {
     <tr>
@@ -41,4 +50,5 @@
             </div>
         </td>
     </tr>
+}
 }

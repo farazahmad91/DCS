@@ -447,6 +447,38 @@ namespace DCS.Controllers
 
         }
 
+        [Route("UpdateUserStatus")]
+        [HttpPost]
+        public async Task<IActionResult> UpdateUserStatus(UserStatus userStatus)
+        {
+            var res = new Response()
+            {
+                ResponseText="email not register",
+                StatusCode = ResponseStatus.FAILED
+            };
+
+            try
+            {
+
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Account/UpdateUserStatus", JsonConvert.SerializeObject(userStatus), null);
+                if (apiRes.Result != null)
+                {
+                    res = JsonConvert.DeserializeObject<Response>(apiRes.Result);
+                    return Json(res);
+                }
+                return Json(res);
+            }
+            catch (Exception ex)
+            {
+                res.ResponseText="Something wrong!!";
+                res.StatusCode = ResponseStatus.FAILED;
+                return Json(res);
+            }
+
+        }
+
+
+
         [HttpGet]
         [Route("Logout")]
         public async Task<IActionResult> Logout(string returnUrl = "/Account/Login")

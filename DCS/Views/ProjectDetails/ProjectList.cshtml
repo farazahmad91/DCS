@@ -51,23 +51,21 @@
         <!-- Row start -->
         <div class="row gx-3">
             <div class="col-sm-12 col-12">
-                <p>
-                    <button id="btnaddservice" class="btn btn-outline-info">Add New Project </button>
-                </p>
                 <div class="card">
                     <div class="card-body">
-                        <div class="col-xxl-4 col-sm-6 col-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="txtname" placeholder="Search name.." />
-                                        <button class="btn btn-outline-secondary" onclick="Onload" type="button">
-                                            Search
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                         <p>
+                    <div class="col-sm-6 col-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="txtname" onchange="Onload();" placeholder="search name.." />
+                            <button class="btn btn-outline-secondary" onclick="Onload();" type="button">
+                                Search
+                            </button>
+                            <button id="btnaddservice" class="btn btn-outline-info" onclick="editProject(0)" type="button">
+                                Add New Project
+                            </button>
                         </div>
+                    </div>
+                </p>
                         <div class="table-responsive">
                             <table class="table table-striped border-primary m-0">
                                 <thead>
@@ -82,21 +80,18 @@
                                             <label for="projectName">Project Name</label>
                                         </th>
                                         <th>
+                                            <label for="Logo">Logo</label>
+                                        </th>
+                                        <th>
                                             <label for="domainName">Domain Name</label>
                                         </th>
                                         <th>
                                             <label for="purchaseDate">Purchase Date</label>
                                         </th>
                                         <th>
-                                            <label for="validity">Validity</label>
-                                        </th>
-                                        <th>
-                                            <label for="isLifeTime">Is LifeTime</label>
-                                        </th>
-                                        <th>
                                             <label for="status">Status</label>
                                         </th>
-                                        <th></th>
+                                        <th> <label for="Action">Action</label></th>
                                     </tr>
                                 </thead>
 
@@ -113,6 +108,8 @@
     <!-- Row end -->
 
 </div>
+<div id="project_modalPV"></div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function Onload() {
         var param = {
@@ -125,4 +122,60 @@
         });
     }
     Onload();
+    function editProject(pId) {
+        let param = {
+            id: pId,
+        };
+        $.get("/EditProject", param).done(function (res) {
+            console.log(res);
+            $("#project_modalPV").html(res);
+            $("#AddProjectmodal").modal("show");
+        }).fail(function (hxr) {
+            console.log(hxr);
+            alert("errror");
+        })
+    }
+    function addProject() {
+        debugger;
+       var  status =0;
+       var  PStatus= $("#Status").prop('checked');
+        if(PStatus){
+         status = 1;
+        }
+        else{
+            status = 0;
+        }
+        const projectData = {
+            ProjectId: $("#ProjectId").val(),
+            Name: $("#Name").val(),
+            PhoneNo: $("#Phone").val(),
+            Email: $("#Email").val(),
+            ProjectName: $("#ProjectName").val(),
+            DomainName: $("#DomainName").val(),
+            Status: status 
+        };
+
+        const formData = new FormData();
+        formData.append("projectData", JSON.stringify(projectData));
+        formData.append("file", $("#file").prop('files')[0]);
+        for (const pair of formData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+
+        $.ajax({
+            url: '/AddOrUpdateProject',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                setTimeout(function () {
+                    Info(result.statusCode, result.responseText);
+                }, 1000);
+            },
+            error: function () {
+                showerrors("Something went wrong!!!");
+            }
+        });
+    }
 </script>
