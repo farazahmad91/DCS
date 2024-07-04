@@ -65,9 +65,11 @@ namespace API.Service
             return clearText;
         }
         public string DecodeFrom64(string cipherText)
-            {
-                string encryptionKey = _configuration["HashPassword:EncryptionKey"];
-                byte[] cipherBytes = Convert.FromBase64String(cipherText);
+        {
+            string encryptionKey = _configuration["HashPassword:EncryptionKey"];
+
+            byte[] cipherBytes = Convert.FromBase64String(cipherText);
+
             try
             {
                 using (Aes encryptor = Aes.Create())
@@ -105,7 +107,13 @@ namespace API.Service
             }
 
             return cipherText;
-            }
+        }
+
+        private bool IsBase64String(string base64)
+        {
+            Span<byte> buffer = new Span<byte>(new byte[base64.Length]);
+            return Convert.TryFromBase64String(base64, buffer, out _);
+        }
     }
     }
 

@@ -39,15 +39,22 @@ namespace API.Controllers
                 res = await _details.AddorUpdateProjectDetails(pdetails);
 				if (res.StatusCode==ResponseStatus.SUCCESS)
 				{
-					_sendmail.SendEmails(pdetails.UserEmail, "Create New Project", $"your Project Id Is: {res.ProjectId}");
+                    if (pdetails.ProjectId==0)
+                    {
+                        _sendmail.SendEmails(pdetails.Email, "Create New Project", $"your Project Id Is: {res.ProjectId}");
+                    }
 
 				}
 				return Ok(res);
 			}
+            if (pdetails.ProjectId!=0)
+            {
+                res = await _details.AddorUpdateProjectDetails(pdetails);
+            }
             return BadRequest(res);
         }
 
-        [HttpPost(nameof(GetProjectDetails))]
+        [HttpPost(nameof(GetProjectDetails)+"/{name}")]
         public async Task<IActionResult> GetProjectDetails(string? name)
         {
             var res = new Response

@@ -36,28 +36,25 @@
             </th>
             <th></th>
             <th>
-                <label>Email</label>
-            </th>
-            <th>
                 <label>Name</label>
             </th>
             <th>
-                <label>UserName</label>
+                <label>Email</label>
             </th>
             <th>
                 <label>Role</label>
             </th>
             <th>
-                <label>PasswordHash</label>
+                <label>Password</label>
             </th>
             <th>
-                <label>IsActive</label>
+                <label>Account Active</label>
             </th>
             <th>
-                <label>IsVerified</label>
+                <label>Email Verified</label>
             </th>
             <th>
-                <label>IsLocked</label>
+                <label>Temp Locked</label>
             </th>
 
             <th></th>
@@ -115,12 +112,14 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Mr. <span id="username"></span> Password</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Mr. <span id="username"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="container">
-                        <label>Password: <span id="decpass"></span></label>
+                        <center>
+                            <label> Your Password: <span><strong id="decpass" style="Color:Green"></strong></span></label>
+                        </center>
                     </div>
                 </div>
             </div>
@@ -139,5 +138,32 @@
         }).fail(function (xhr) {
              console.log(xhr.responseText);
         });
+    }
+     function ShowPassword(pass, name) {
+        $.post('/DecriptPassword', { HashPass: pass }).done(function (res) {
+            debugger;
+            console.log("Decrypted password:", res);
+            $("#decpass").text(res);
+            $("#username").text(name);
+            $("#mpassword").modal("show");
+        }).fail(function (xhr) {
+            console.log("Error:", xhr.responseText);
+        });
+    }
+    function UserStatus(id) {
+        var param = {
+            Id: id,
+            IsActive: $("#IsActive" + id).prop("checked"),
+            IsVerified: $("#IsVerified" + id).prop("checked"),
+            IsLocked: $("#IsLocked" + id).prop("checked"),
+        };
+        console.log(param);
+        $.post("/UpdateUserStatus", param).done(function () {
+            alert("succrssfully update");
+
+        }).fail(function () {
+            alert("error");
+
+        })
     }
 </script>

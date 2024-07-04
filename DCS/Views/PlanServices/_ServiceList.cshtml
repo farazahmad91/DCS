@@ -4,7 +4,16 @@
     ViewData["Title"] = "_ServiceList";
     Layout = null;
 }
-
+@if (Model == null || !Model.Any())
+{
+    <tr style="text-align: center;">
+        <td colspan="12" style="text-align: center;">
+            <label><strong>Data Not Found</strong></label>
+        </td>
+    </tr>
+}
+else
+{
 @foreach (var item in Model)
 {
     <tr>
@@ -134,10 +143,17 @@
         <td>
             @Html.DisplayFor(modelItem => item.IsAdmin)
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Actions
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" onclick="EditDoctor(@item.ServiceID)"><span class="fas fa-edit" style="color: Blue"></span> Edit</a>
+                        <a class="dropdown-item" onclick="doctorDetails(@item.ServiceID)"><i class="fas fa-info-circle" style="color: darkgreen"></i> Show Detail</a>
+                    </div>
+                </div>
+            </td>
     </tr>
+}
 }

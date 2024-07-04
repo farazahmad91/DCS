@@ -12,5 +12,6 @@ namespace API.Service
         public Task<Response<LoginResponse>> LoginAsync(LoginViewModel model);
         public Task<Response<bool>> ForgetPassword(ForgotPasswordViewModel forgetPasswordReq);
         public Task<IEnumerable<User>> GetAllUsers();
+        public Task<Response<bool>> UpdateUserStatus(UserStatus userStatus);
     }
 }

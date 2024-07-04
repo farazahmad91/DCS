@@ -1,4 +1,6 @@
-﻿<div class="card">
+﻿@model Entities.ProjectDetails
+
+<div class="card">
 	<div class="card-body">
 		<!-- Modal -->
 		<div class="modal fade" id="AddProjectmodal" tabindex="-1" aria-labelledby="AddProjectmodalTitle" style="display: none;" aria-hidden="true">
@@ -6,7 +8,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="AddProjectmodalTitle">
-							Modal title
+							Add or Update Project Details
 						</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
@@ -15,10 +17,15 @@
 							<div class="col-sm-4 col-12">
 								<div id="ProjectLogo" class="mb-3">
 									<form action="/upload" class="dropzone sm needsclick dz-clickable" id="update-profile-pic">
-										<div class="dz-message needsclick">
-											<button type="button" class="dz-button">
-												Add Logo.
-											</button>
+										<div class="profile-pic">
+											<label class="-label" for="file">
+												<span class="glyphicon glyphicon-camera"></span>
+												<span>Add Logo</span>
+											</label>
+											<input id="file" type="file" onchange="uploadImage(event)" />
+
+											<img src="https://cdn.pixaba.com/photo/2017/08/06/21/01/louvre-2596278_960_720.jpg" id="output" width="200" />
+
 										</div>
 									</form>
 								</div>
@@ -26,29 +33,56 @@
 							<div class="col-sm-8 col-12">
 								<div class="row gx-3">
 									<div class="col-6">
-										<!-- Form Field Start -->
-										<div class="mb-3">
-											<label for="Name" class="form-label">Full Name</label>
-											<input type="text" class="form-control" id="Name" placeholder="enter full name">
-										</div>
+										<input type="text" class="form-control" asp-for="ProjectId" hidden placeholder="enter full name">
+										@if (Model != null && Model.ProjectId != null)
+										{
+												<div class="mb-3" hidden>
+													<label for="Name" class="form-label">Full Name</label>
+													<input type="text" class="form-control" id="Name" placeholder="enter full name">
+												</div>
+										}
+										else
+										{
+												<div class="mb-3">
+													<label for="Name" class="form-label">Full Name</label>
+													<input type="text" class="form-control" id="Name" placeholder="enter full name">
+												</div>
+										}
 
-										<!-- Form Field Start -->
-										<div class="mb-3">
-											<label for="Email" class="form-label">Email</label>
-											<input type="email" class="form-control" id="Email" placeholder="enter email">
-										</div>
+										@if (Model != null && Model.ProjectId != null)
+										{
+											<div class="mb-3">
+												<label for="Email" class="form-label">Email</label>
+											<input type="email" class="form-control" disabled=true asp-for="Email" placeholder="enter email">
+											</div>
+										}
+										else
+										{
+											<div class="mb-3">
+												<label for="Email" class="form-label">Email</label>
+											<input type="email" class="form-control" asp-for="Email" placeholder="enter email">
+											</div>
+										}
 									</div>
 									<div class="col-6">
-										<!-- Form Field Start -->
-										<div class="mb-3">
-											<label for="Email" class="form-label">Phone No.</label>
-											<input type="number" class="form-control" id="Phone" placeholder="enter phone">
-										</div>
-
+										@if (Model != null && Model.ProjectId != null)
+										{
+											<div class="mb-3" hidden>
+												<label for="Email" class="form-label">Phone No.</label>
+												<input type="number" class="form-control" id="Phone" placeholder="enter phone">
+											</div>
+										}
+										else
+										{
+											<div class="mb-3">
+												<label for="Email" class="form-label">Phone No.</label>
+												<input type="number" class="form-control" id="Phone" placeholder="enter phone">
+											</div>
+										}
 										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="Email" class="form-label">Project Name.</label>
-											<input type="text" class="form-control" id="ProjectName" placeholder="enter projec tName">
+											<input type="text" class="form-control" asp-for="ProjectName" placeholder="enter projec tName">
 										</div>
 									</div>
 
@@ -56,20 +90,20 @@
 
 								<div class="row gx-3">
 									<div class="col-6">
-										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="DomainName" class="form-label">Domain Name</label>
-											<input type="text" class="form-control" id="DomainName" placeholder="enter domain Name">
+											<input type="text" class="form-control" asp-for="DomainName" placeholder="enter domain Name">
 											
 										</div>
+									
 									</div>
-										<div class="col-6">
-										<div class="mb-3">
-											<label for="Validity" class="form-label">Validity</label>
-											<input type="datetime" class="form-control" id="Validity" placeholder="enter Validity">
-										</div>
-									</div>
-
+									<div class="col-6">
+										<label class="form-label">IsActive</label>
+											<div class="form-check form-switch">
+												<input class="form-check-input" type="checkbox" role="switch"  id="Status" checked="">
+												<label class="form-check-label" for="Status"></label>
+											</div>
+                                    </div>
 								</div>
 							</div>
 						</div>
@@ -78,8 +112,16 @@
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
 							Close
 						</button>
-						<button type="button" class="btn btn-primary" onclick="addProject();">
-                         Create Now
+						<button type="button" class="btn btn-secondary" onclick="addProject();">
+							@if (Model != null && Model.ProjectId!= null)
+							{
+								<text>Save changes</text>
+
+							}
+							else
+							{
+								<text>Save</text>
+							}
 						</button>
 					</div>
 				</div>
