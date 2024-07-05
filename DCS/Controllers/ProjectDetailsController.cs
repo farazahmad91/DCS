@@ -6,6 +6,7 @@ using Entities.Response;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Security.Claims;
 using System.Text;
 
 namespace DCS.Controllers
@@ -202,5 +203,26 @@ namespace DCS.Controllers
 			}
 			return Json(response);
 		}
-	}
+
+        [Route("GetApplicationSettingByIdOnload")]
+        public async Task<IActionResult> GetApplicationSettingByIdOnload()
+        {
+            var Email = User.FindFirstValue(ClaimTypes.Email);
+            var list = new ApplicationSetting();
+            try
+            {
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/ApplicationSetting/GetApplicationSettingByIdOnload/{Email}", null, null);
+                if (apiRes.Result != null)
+                {
+                    list = JsonConvert.DeserializeObject<ApplicationSetting>(apiRes.Result);
+                }
+                return Json(list);
+            }
+            catch (Exception)
+            {
+
+                return Json(list);
+            }
+        }
+    }
 }

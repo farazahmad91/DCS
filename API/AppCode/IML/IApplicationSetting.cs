@@ -8,5 +8,6 @@ namespace API.AppCode.IML
         public Task<Response> UpdateApplicationSetting(ApplicationSetting setting);
         public Task<ApplicationSetting> GetApplicationSettingByProjectId(int Id);
         public  Task<IEnumerable<ApplicationSetting>> GetApplicationSetting(int? Id);
+        public Task<ApplicationSetting> GetApplicationSettingByIdOnload(string email);
     }
 }

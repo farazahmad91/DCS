@@ -5,16 +5,10 @@
         <td>
             @Html.DisplayFor(modelItem => item.ProjectID)
         </td>
-        <td>
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Actions
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" onclick="EditAppSetting(@item.ProjectID)"><span class="fas fa-edit" style="color: Blue"></span> Edit</a>
-                    <a class="dropdown-item" onclick="doctorDetails(@item.ProjectID)"><i class="fas fa-info-circle" style="color: darkgreen"></i> Show Detail</a>
-                </div>
-            </div>
+        <td class="table-action">
+            @* <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye" onclick="EditAppSetting(@item.ProjectID)"></i></a> *@
+            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline" onclick="EditAppSetting(@item.ProjectID)"></i></a>
+            @*  <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a> *@
         </td>
     </tr>
 }

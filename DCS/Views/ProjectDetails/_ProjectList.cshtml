@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "_ProjectList";
     Layout = null;
+    var Ischecked = "";
 }
 @if (Model == null || !Model.Any())
 {
@@ -37,19 +38,24 @@ else
                 <td>
                     @Html.DisplayFor(modelItem => item.Purchase_Date)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
             <td>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Actions
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" onclick="editProject(@item.ProjectId)"><span class="fas fa-edit" style="color: Blue"></span> Edit</a>
-                        <a class="dropdown-item" onclick="doctorDetails(@item.ProjectId)"><i class="fas fa-info-circle" style="color: darkgreen"></i> Show Detail</a>
-                    </div>
+                <div class="form-check form-switch">
+                    @if (@item.Status==1)
+                    {
+                        Ischecked = "checked";
+                    }
+                    else
+                    {
+                        Ischecked = "";
+                    }
+                    <input type="checkbox" name="switch3" onchange="UserStatus(@item.ProjectId)" id="IsVerified_@item.ProjectId" data-switch="success" @Ischecked>
+                    <label for="IsVerified_@item.ProjectId" data-on-label="Active" data-off-label="Deactive"></label>
                 </div>
+            </td>
+            <td class="table-action">
+                <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye" onclick="ProjectDetails(@item.ProjectId)"></i></a>
+                <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline" onclick="editProject(@item.ProjectId)"></i></a>
+                @*  <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a> *@
             </td>
             </tr>
         } 
