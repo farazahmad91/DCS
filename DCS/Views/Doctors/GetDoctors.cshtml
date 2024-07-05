@@ -55,7 +55,85 @@
         text-decoration: none;
     }
 </style>
-<div class="content-wrapper-scroll">
+<!-- Start Content-->
+<div class="content">
+
+
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
+                            <li class="breadcrumb-item active">Form Advanced</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">Form Advanced</h4>
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-sm-5">
+                                <div class="input-group">
+                                    <input type="text" class="form-control mb-2" id="txtname" placeholder="search name.." />
+                                    <button class="btn btn-info mb-2" onclick="Onload();" type="button">
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="text-sm-end">
+                                    <button id="btnaddAppointment" class="btn btn-danger mb-2" onclick="EditDoctor(0)" type="button">
+                                        <i class="mdi mdi-plus-circle me-2"></i>  Add New
+                                    </button>
+                                    @* <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog-outline"></i></button> *@
+                                    <button type="button" class="btn btn-light mb-2">Export</button>
+                                </div>
+                            </div><!-- end col-->
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-striped dt-responsive nowrap w-100" id="dTable">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Profile Image</th>
+                                        <th>Specialization</th>
+                                        <th>Con. Fee</th>
+                                        <th>Availability</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="drList">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div> <!-- end card-->
+            </div> <!-- end col-->
+        </div>
+        <!-- end row-->
+    </div> <!-- container -->
+
+</div> <!-- content -->
+
+
+
+
+
+@* <div class="content-wrapper-scroll">
 
     <!-- Main header starts -->
     <div class="main-header">
@@ -138,7 +216,7 @@
     </div>
     <!-- Row end -->
 
-</div>
+</div> *@
 <div id="Dr_modalPV"></div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>

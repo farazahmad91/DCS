@@ -31,5 +31,11 @@ namespace API.AppCode.ML
            var i = await procedure.Call(setting);
             return (Response)i;
         }
+        public async Task<ApplicationSetting> GetApplicationSettingByIdOnload(string email)
+        {
+            IProcedureAsync procedure = new Proc_GetApplicationSettingByIdOnload(_dapper);
+            var i = await procedure.Call(email);
+            return (ApplicationSetting)i;
+        }
     }
 }

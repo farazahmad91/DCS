@@ -171,4 +171,51 @@ namespace API.AppCode.DL
 			return "Proc_GetApplicationSetting";
 		}
 	}
+
+
+    public class Proc_GetApplicationSettingByIdOnload : IProcedureAsync
+    {
+        private readonly IDapper _dapper;
+        public Proc_GetApplicationSettingByIdOnload(IDapper dapper)
+        {
+            _dapper=dapper;
+        }
+        public async Task<object> Call(object obj)
+        {
+            string email = (string)obj;
+            var id = await _dapper.GetAsync<Response>("Proc_GetApplicationSettingByIdOnload", new {Email= email });
+            try
+            {
+                var param = new
+                {
+                    ProjectId = id.ProjectId,
+
+                };
+                var i = await _dapper.GetAsync<ApplicationSetting>(GetName(), param);
+                return i;
+            }
+            catch (Exception ex)
+            {
+                var error = new ErrorLog
+                {
+                    ClassName = GetType().Name,
+                    FuncName = "call",
+                    Error = ex.Message,
+                    ProcName = GetName(),
+                };
+                var _ = new ErrorLog_ML(_dapper).Error(error);
+            }
+            return "error";
+        }
+
+        public Task<object> Call()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetName()
+        {
+            return "Proc_GetApplicationSettingById";
+        }
+    }
 }

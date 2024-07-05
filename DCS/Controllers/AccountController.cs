@@ -146,9 +146,9 @@ namespace DCS.Controllers
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
-                if (authenticateResponse.Result.Role == "Admin")
+                if (authenticateResponse.Result.Role == "Merchant")
                 {
-                    string redirectUrl = "/Admin";
+                    string redirectUrl = "/admin";
                     return Json(redirectUrl);
                 }
                 else if (authenticateResponse.Result.Role == "User")

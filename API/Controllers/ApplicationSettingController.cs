@@ -49,5 +49,17 @@ namespace API.Controllers
             var i = await _setting.GetApplicationSettingByProjectId(id);
             return Ok(i);
         }
+
+        [HttpPost(nameof(GetApplicationSettingByIdOnload)+"/{email}")]
+        public async Task<IActionResult> GetApplicationSettingByIdOnload(string email)
+        {
+            var res = new Response
+            {
+                ResponseText ="An Error Occured Try After Some Time!",
+                StatusCode = ResponseStatus.FAILED
+            };
+            var i = await _setting.GetApplicationSettingByIdOnload(email);
+            return Ok(i);
+        }
     }
 }

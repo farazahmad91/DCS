@@ -25,45 +25,91 @@
     <label for="singleSelect">Single Select</label>
     <input type="radio" id="multiSelect" name="selectionMode">
     <label for="multiSelect">Multi Select</label>
-    <input type="radio" id="selectAll" name="selectionMode">
+   @*  <input type="radio" id="selectAll" name="selectionMode"> *@
     <label for="selectAll">Select All</label>
 </div>
-<table class="table" id="tbluser">
-    <thead>
-        <tr>
-            <th hidden>
-                <label>Id</label>
-            </th>
-            <th></th>
-            <th>
-                <label>Name</label>
-            </th>
-            <th>
-                <label>Email</label>
-            </th>
-            <th>
-                <label>Role</label>
-            </th>
-            <th>
-                <label>Password</label>
-            </th>
-            <th>
-                <label>Account Active</label>
-            </th>
-            <th>
-                <label>Email Verified</label>
-            </th>
-            <th>
-                <label>Temp Locked</label>
-            </th>
 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+                        <div class="container-fluid">
 
-    </tbody>
-</table>
+                            <!-- start page title -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="page-title-box">
+                                        <div class="page-title-right">
+                                            <ol class="breadcrumb m-0">
+                                                <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
+                                                <li class="breadcrumb-item"><a href="javascript: void(0);">eCommerce</a></li>
+                                                <li class="breadcrumb-item active">Products</li>
+                                            </ol>
+                                        </div>
+                                        <h4 class="page-title">Products</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end page title -->
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row mb-2">
+                                                <div class="col-sm-5">
+                                                    <a href="javascript:void(0);" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i> Add Products</a>
+                                                </div>
+                                                <div class="col-sm-7">
+                                                    <div class="text-sm-end">
+                                                        <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog-outline"></i></button>
+                                                        <button type="button" class="btn btn-light mb-2 me-1">Import</button>
+                                                        <button type="button" class="btn btn-light mb-2">Export</button>
+                                                    </div>
+                                                </div><!-- end col-->
+                                            </div>
+
+                                            <div class="table-responsive">
+                                                <table class="table table-centered w-100 dt-responsive nowrap" id="tbluser">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th hidden>
+                                                                <label>Id</label>
+                                                            </th>
+                                                            <th><input type="radio" id="selectAll" name="selectionMode"></th>
+                                                            <th>
+                                                                <label>Name</label>
+                                                            </th>
+                                                            <th>
+                                                                <label class="all">Email</label>
+                                                            </th>
+                                                            <th>
+                                                                <label>Role</label>
+                                                            </th>
+                                                            <th>
+                                                                <label>Password</label>
+                                                            </th>
+                                                            <th>
+                                                                <label>Account Active</label>
+                                                            </th>
+                                                            <th>
+                                                                <label>Email Verified</label>
+                                                            </th>
+                                                            <th>
+                                                                <label>Temp Locked</label>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div> <!-- end card-body-->
+                                    </div> <!-- end card-->
+                                </div> <!-- end col -->
+                            </div>
+                            <!-- end row -->
+
+                        </div>
+
+
+
 <div class="card-body">
     <div class="modal fade" id="bulkemail" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -129,8 +175,9 @@
 </div></div></div></div></div></div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-    $(document).ready(function () {
-        loadData();
+    jQuery(document).ready(function ($) {
+        $("#tbluser").DataTable();
+        
     });
     var loadData = function () {
         $.get('/_UserList').done(function (res) {
@@ -139,6 +186,7 @@
              console.log(xhr.responseText);
         });
     }
+    loadData();
      function ShowPassword(pass, name) {
         $.post('/DecriptPassword', { HashPass: pass }).done(function (res) {
             debugger;
@@ -166,4 +214,7 @@
 
         })
     }
+
+
+
 </script>

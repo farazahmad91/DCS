@@ -17,16 +17,13 @@ else
 @foreach (var item in Model)
 {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.AppointmentId)
-        </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
         <td>
             <a class="fancybox" href="@item.PImage" data-fancybox data-caption="@item.Name">
                 <img src="@item.PImage" onerror="this.onerror=null;this.src='/images/noimage.jpg'" class="img-fluid rounded-circle" alt="No Image Found" width="90px" height="50px" />
             </a>
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Phone)
@@ -37,18 +34,11 @@ else
         <td>
             @Html.DisplayFor(modelItem => item.EmergencyContactPhone)
         </td>
-       
-        <td>
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Actions
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" onclick="EditPatient(@item.PId)"><span class="fas fa-edit" style="color: Blue"></span> Edit</a>
-                    <a class="dropdown-item" onclick="PatientDetails(@item.PId)"><i class="fas fa-info-circle" style="color: darkgreen"></i> Show Detail</a>
-                </div>
-            </div>
-        </td>
+            <td class="table-action">
+                <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye" onclick="PatientDetails(@item.PId)"></i></a>
+                <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline" onclick="EditPatient(@item.PId)"></i></a>
+               @*  <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a> *@
+            </td>
     </tr>
 }
 }
