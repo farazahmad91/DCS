@@ -79,8 +79,6 @@
     function loginUser() {
         var className = "cls";
         //var clss = document.querySelector("." + className);
-
-        // Ensure the class exists before proceeding
         if (IsValidate(className)) {
             document.getElementById("btnhide2").hidden = true;
             document.getElementById("btnhide1").hidden = false;
@@ -105,7 +103,7 @@
                         Info(-1, res.responseText);
                     }, 3000);
                 }
-                if (res.statusCode == 2) {
+                if (res.statusCode == -2) {
 
                     window.location.href = "/IsVerified-User";
                 }

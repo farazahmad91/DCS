@@ -44,25 +44,23 @@
         <!-- Row start -->
         <div class="row gx-3">
             <div class="col-sm-12 col-12">
-                <p>
-                    <button id="btnaddservice" class="btn btn-outline-info">Add New Appointment </button>
-                </p>
                 <div class="card">
-                    <div class="table-responsive">
-                        <div class="col-xxl-4 col-sm-6 col-12">
-                            <div class="card">
-                                <div class="card-body">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <p>
+                                <div class="col-xxl-4 col-sm-6 col-6">
                                     <div class="input-group">
                                         <input type="date" class="form-control" id="txtdate" placeholder="search date.." />
                                         <input type="text" class="form-control" id="txtpid" placeholder="search PatientId.." />
                                         <button class="btn btn-outline-secondary" onclick="Onload" type="button">
                                             Search
                                         </button>
+                                        <button id="btnaddAppointment" class="btn btn-outline-info" onclick="editAppointment(0)" type="button">
+                                            Add New Appointment
+                                        </button>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    <div class="card-body">
+                            </p>
                             <table class="table table-striped border-primary m-0">
                                 <thead>
                                     <tr>
@@ -93,6 +91,8 @@
     <!-- Row end -->
 
 </div>
+<div id="Appointment_modalPV"></div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function Onload() {
         var param = {
@@ -105,5 +105,33 @@
             alert("error");
         });
     }
-    Onload();
+    //Onload();
+
+    function editAppointment(dId) {
+        let param = {
+            id: dId,
+        };
+        $.get("/editAppointment", param).done(function (res) {
+            console.log(res);
+            $("#Appointment_modalPV").html(res);
+            $("#Appointment_Editmodal").modal("show");
+        }).fail(function (hxr) {
+            console.log(hxr);
+            alert("errror");
+        })
+    }
+
+    function doctorAppointment(Id) {
+        let param = {
+            id: Id,
+        };
+        $.post("/D-detail", param)
+            .done(function (res) {
+                $("#Appointment_modalPV").html(res);
+                $("#Dr_detailmodal").modal("show");
+            })
+            .fail(function () {
+                alert("error");
+            });
+    }
 </script>

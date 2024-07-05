@@ -7,7 +7,7 @@
 <div class="container">
     <div class="login-box rounded-2 p-5">
             <h5 class="my-5">Create an Account.</h5>
-            <form id="registerForm" method="post" action="/Account/Register">
+            <form id="registerForm">
                 <div class="mb-3">
                     <label class="form-label">Name</label>
                     <input type="text" id="Name" name="Name" class="form-control" placeholder="Enter your name" required>
@@ -41,12 +41,12 @@
                     <label class="form-check-label" for="agreeTerms">I agree to the terms and conditions</label>
                 </div>
                 <div class="d-grid py-3">
-                    <button type="submit" class="btn btn-lg btn-primary">
+                    <button type="submit" id="btnregister" class="btn btn-lg btn-primary">
                         Sign up
                     </button>
                 </div>
             </form>
-            <div class="text-center py-3">or Signup with</div>
+           @*  <div class="text-center py-3">or Signup with</div>
             <div class="d-flex gap-2 justify-content-center">
                 <button type="button" class="btn btn-outline-light">
                     <img src="assets/images/google.svg" class="login-icon" alt="Login with Google" />
@@ -54,7 +54,7 @@
                 <button type="button" class="btn btn-outline-light">
                     <img src="assets/images/facebook.svg" class="login-icon" alt="Login with Facebook" />
                 </button>
-            </div>
+            </div> *@
             <div class="text-center pt-3">
                 <span>Already have an account?</span>
                 <a href="login.html" class="text-blue text-decoration-underline ms-2">Login here</a>
@@ -72,50 +72,47 @@
             passwordInput.attr("type", type);
             $(this).toggleClass("fa-eye fa-eye-slash");
         });
-    });
-
-    $(function () {
-        $("#registerForm").submit(function (e) {
-            e.preventDefault();
-            if (validateUser()) {
-                var formData = $(this).serialize();
-                $.post("/Account/Register", formData)
-                    .done(function (res) {
-                        showinsertsuccess("Register Successful");
-                        if (res == 1) {
-                            window.location.href = "/Account/Login";
-                        }
-                    })
-                    .fail(function () {
-                        showerrors("Something went wrong!!");
-                    });
-            }
+        $("#btnregister").click(function () {
+            RegisterUsers();
+        
         });
     });
 
-    function validateUser() {
-        // Validation logic here
-        return true; // Return true if validation passes, false otherwise
+    function RegisterUsers() {
+        var param = {
+            Name: $("#Name").val(),
+            Email: $("#Email").val(),
+            PhoneNo: $("#PhoneNo").val(),
+            Role: $("#Role").val(),
+            Password: $("#Password").val(),
+            ConfirmPassword: $("#ConfirmPassword").val(),
+        };
+
+        if (validateUser(param)) {
+            $.post("/Account/Register", param)
+                .done(function (res) {
+                    if (res === 1) {
+                        setTimeout(function () {
+                            Info(1, "Register Successful!");
+                        }, 1000);
+
+                        window.location.href = "/Account/Login";
+                    } else {
+                        Info(-1,"Registration failed. Please try again.");
+                    }
+                })
+                .fail(function (xhr) {
+                    Info(-1, xhr.responseText);
+                });
+        }
     }
 
-    function showinsertsuccess(msg) {
-        var x = document.getElementById("snackbar");
-        x.className = "show";
-        setTimeout(function () { x.className = x.className.replace("show", ""); }, 4000);
-        $("#snackbar").html(msg);
+    function validateUser(param) {
+        if (param.Password !== param.ConfirmPassword) {
+            showerrors("Passwords do not match!");
+            return false;
+        }
+        return true;
     }
 
-    function showupdatesuccess(msg) {
-        var x = document.getElementById("snackbar2");
-        x.className = "show2";
-        setTimeout(function () { x.className = x.className.replace("show2", ""); }, 4000);
-        $("#snackbar2").html(msg);
-    }
-
-    function showerrors(msg) {
-        var x = document.getElementById("snackbar3");
-        x.className = "show3";
-        setTimeout(function () { x.className = x.className.replace("show3", ""); }, 4000);
-        $("#snackbar3").html(msg);
-    }
 </script>

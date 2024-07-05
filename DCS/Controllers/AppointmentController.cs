@@ -23,7 +23,7 @@ namespace DCS.Controllers
             return View();
         }
         [Route("/A-List")]
-        public async Task<IActionResult> _AppointmentList(DateOnly? Date,int? PId)
+        public async Task<IActionResult> _AppointmentList(DateOnly? Date,int? PId=0)
         {
             var list = new List<Appointment>();
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Appointment/GetAppointment/{Date}/{PId}", null, null);
@@ -33,7 +33,7 @@ namespace DCS.Controllers
             }
             return PartialView(list);
         }
-        [Route("/A-Edit")]
+        [Route("/editAppointment")]
         public async Task<IActionResult> EditAppointment(int id)
         {
             var list = new Appointment();
