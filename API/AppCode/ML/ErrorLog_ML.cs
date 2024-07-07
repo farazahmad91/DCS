@@ -30,7 +30,7 @@ namespace API.AppCode.ML
             catch (Exception)
             {
 
-                throw;
+                return 0;
             }
 
         }

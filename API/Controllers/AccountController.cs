@@ -83,16 +83,24 @@ namespace API.Controllers
         public async Task<IActionResult> Logout()
         {
             var response = new Response();
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            await _signInManager.SignOutAsync();
-            HttpContext.Response.Cookies.Delete(".AspNetCore.Cookies");
-            HttpContext.Response.Cookies.Delete(".AspNetCore.Identity.Application");
-            response.ResponseText = "Cookies are deleted!";
-            response.StatusCode = ResponseStatus.SUCCESS;
-            if (response.StatusCode == ResponseStatus.SUCCESS)
+            try
             {
-               // _dapper.Update()
-                return Ok(response);
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                await _signInManager.SignOutAsync();
+                HttpContext.Response.Cookies.Delete(".AspNetCore.Cookies");
+                HttpContext.Response.Cookies.Delete(".AspNetCore.Identity.Application");
+                response.ResponseText = "Cookies are deleted!";
+                response.StatusCode = ResponseStatus.SUCCESS;
+                if (response.StatusCode == ResponseStatus.SUCCESS)
+                {
+                    // _dapper.Update()
+                    return Ok(response);
+                }
+            }
+            catch (Exception)
+            {
+
+                return BadRequest(response);
             }
             return BadRequest(response);
         }

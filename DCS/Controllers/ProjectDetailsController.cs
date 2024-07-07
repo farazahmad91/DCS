@@ -216,6 +216,7 @@ namespace DCS.Controllers
                 {
                     list = JsonConvert.DeserializeObject<ApplicationSetting>(apiRes.Result);
                 }
+                HttpContext.Session.SetString("ApplicationSettingList", JsonConvert.SerializeObject(list));
                 return Json(list);
             }
             catch (Exception)

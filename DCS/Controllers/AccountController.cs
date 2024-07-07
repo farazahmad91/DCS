@@ -481,19 +481,10 @@ namespace DCS.Controllers
 
         [HttpGet]
         [Route("Logout")]
-        public async Task<IActionResult> Logout(string returnUrl = "/Account/Login")
+        public async Task<IActionResult> Logout()
         {
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Account/Logout", null, null);
-            if (apiRes.Result != null)
-            {
-              var  res = JsonConvert.DeserializeObject<Response>(apiRes.Result);
-                if (res.StatusCode==ResponseStatus.SUCCESS)
-                {
-                    return LocalRedirect(returnUrl);
-                }
-               
-            }
-            return Json(apiRes.Result);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return LocalRedirect("/Login");
         }
         //[Route("/Profile")]
         //public async Task<IActionResult> UserProfile()

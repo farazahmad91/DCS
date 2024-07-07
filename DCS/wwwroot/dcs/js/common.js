@@ -42,12 +42,5 @@ function IsValidate(cls) {
     });
     return isValid;
 }
-function AppSetting() {
-    $.get("/GetApplicationSettingByIdOnload").done(function (res) {
-        console.table(res);
-    }).fail(function (hxr) {
-        console.log(hxr);
-        alert("errror");
-    })
-}
-AppSetting();
+
+   
