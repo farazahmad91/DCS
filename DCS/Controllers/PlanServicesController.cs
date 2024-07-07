@@ -22,12 +22,12 @@ namespace DCS.Controllers
 		{
 			return View();
 		}
-		[HttpPost]
+
 		[Route("Pricing")]
-		public async Task<IActionResult> Pricing(string? name)
+		public async Task<IActionResult> Pricing(string? name="All")
 		{
 			var list = new List<PlanServices>();
-			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSServices/GetDCSService/{name}", null, null);
+			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PlanServices/GetDCSService/{name}", null, null);
 			if (apiRes.Result != null)
 			{
 				list = JsonConvert.DeserializeObject<List<PlanServices>>(apiRes.Result);
@@ -40,10 +40,10 @@ namespace DCS.Controllers
             return View();
         }
         [Route("_ServiceList")]
-        public async Task<IActionResult> _ServiceList(string? name)
+        public async Task<IActionResult> _ServiceList(string? name = "All")
 		{
 			var list = new List<PlanServices>();
-			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSServices/GetDCSService/{name}", null, null);
+			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PlanServices/GetDCSService/{name}", null, null);
 			if (apiRes.Result != null)
 			{
 				list = JsonConvert.DeserializeObject<List<PlanServices>>(apiRes.Result);
@@ -55,7 +55,7 @@ namespace DCS.Controllers
 		public async Task<IActionResult> EditService(int id)
 		{
 			var list = new PlanServices();
-			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSServices/GetDCSServiceById/{id}", null, null);
+			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PlanServices/GetDCSServiceById/{id}", null, null);
 			if (apiRes.Result != null)
 			{
 				list = JsonConvert.DeserializeObject<PlanServices>(apiRes.Result);
@@ -72,7 +72,7 @@ namespace DCS.Controllers
 				StatusCode = ResponseStatus.FAILED,
 			};
 
-			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSServices/AddorUpdateDCSService", JsonConvert.SerializeObject(services), null);
+			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PlanServices/AddorUpdateDCSService", JsonConvert.SerializeObject(services), null);
 			if (apiRes.Result != null)
 			{
 				response = JsonConvert.DeserializeObject<Response>(apiRes.Result);

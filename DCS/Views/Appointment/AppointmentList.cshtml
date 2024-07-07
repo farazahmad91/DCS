@@ -48,7 +48,10 @@
                         <div class="row mb-2">
                             <div class="col-sm-5">
                                 <div class="input-group">
-                                    <input type="date" class="form-control mb-2" id="txtdate" placeholder="search date.."  style="width:70px;"/>
+                                    <input type="text" class="form-control form-control-light mb-2" id="dash-daterange" style="width:70px;"/>
+                                    <span class="input-group-text bg-primary border-primary text-white mb-2">
+                                        <i class="mdi mdi-calendar-range font-13"></i>
+                                    </span>
                                     <input type="text" class="form-control mb-2" id="txtpid" placeholder="enter patient id" />
                                     <button class="btn btn-info mb-2" onclick="Onload" type="button">
                                         Search
@@ -108,8 +111,9 @@
     });
 
     function Onload() {
+        debugger;
         var param = {
-            date: $("#txtdate").val(),
+            date: $("#dash-daterange").val(),
             PId: $("#txtpid").val(),
         }
         $.post('/A-List', param).done(function (res) {

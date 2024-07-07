@@ -10,5 +10,10 @@ namespace DCS.Controllers
         {
             return View();
         }
+        [Route("/DCS")]
+        public IActionResult LandingPage()
+        {
+            return View();
+        }
     }
 }
