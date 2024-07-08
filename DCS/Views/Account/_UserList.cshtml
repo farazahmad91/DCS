@@ -7,7 +7,7 @@
 {
     <tr>
         <td hidden>
-            @Html.DisplayFor(modelItem => item.Id)
+            @Html.DisplayFor(modelItem => item.UserId)
         </td>
         <td><input type="checkbox" class="userCheckbox"></td>
         <td>
@@ -20,7 +20,7 @@
             @Html.DisplayFor(modelItem => item.Role)
         </td>
         <td>
-            <span class="btn btn-sm btn-outline-danger" onclick="ShowPassword('@item.PasswordHash', '@item.Name');"><i class="fa fa-eye"></i> Show</span>
+            <span class="btn btn-sm btn-outline-danger" onclick="ShowPassword('@item.PasswordHash', '@item.UserId');"><i class="fa fa-eye"></i> Show</span>
         </td>
         <td>
             @* @Html.DisplayFor(modelItem => item.IsActive) *@
@@ -33,8 +33,8 @@
 								{
 									Ischecked = "";
 								}
-                <input type="checkbox" name="switch3" onchange="UserStatus(@item.Id)" id="IsActive_@item.Name" data-switch="success" @Ischecked>
-                <label for="IsActive_@item.Name" data-on-label="Yes" data-off-label="No"></label>
+                <input type="checkbox" name="switch3" onchange="UserStatus(@item.UserId)" id="IsActive_@item.UserId" data-switch="success" @Ischecked>
+                <label for="IsActive_@item.UserId" data-on-label="ON" data-off-label="OFF"></label>
 											</div>
         </td>
         <td>
@@ -48,8 +48,8 @@
 								{
 									Ischecked = "";
 								}
-                <input type="checkbox" name="switch3" onchange="UserStatus(@item.Id)" id="IsVerified_@item.Name" data-switch="success" @Ischecked>
-                <label for="IsVerified_@item.Name" data-on-label="Yes" data-off-label="No"></label>
+                <input type="checkbox" name="switch3" onchange="UserStatus(@item.UserId)" id="IsVerified_@item.UserId" data-switch="success" @Ischecked>
+                <label for="IsVerified_@item.UserId" data-on-label="ON" data-off-label="OFF"></label>
 											</div>
         </td>
         <td>
@@ -63,8 +63,8 @@
 								{
 									Ischecked = "";
 								}
-                <input type="checkbox" name="switch3" onchange="UserStatus(@item.Id)" id="IsLocked_@item.Name" data-switch="success" @Ischecked>
-                <label for="IsLocked_@item.Name" data-on-label="Yes" data-off-label="No"></label>
+                <input type="checkbox" name="switch3" onchange="UserStatus(@item.UserId)" id="IsLocked_@item.UserId" data-switch="success" @Ischecked>
+                <label for="IsLocked_@item.UserId" data-on-label="ON" data-off-label="OFF"></label>
                                                 </div>
         </td>
         
@@ -161,4 +161,21 @@
             }
         }
     });
+    function UserStatus(id) {
+        var param = {
+            UserId: id,
+            IsActive: $("#IsActive_" + id).prop("checked"),
+            IsVerified: $("#IsVerified_" + id).prop("checked"),
+            IsLocked: $("#IsLocked_" + id).prop("checked"),
+        };
+        console.log(param);
+        $.post("/UpdateUserStatus", param).done(function (result) {
+            Info(result.statusCode, result.responseText);
+
+        }).fail(function (xhr) {
+            Info(-1, xhr.responseText);
+
+        })
+    }
+
 </script>

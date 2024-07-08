@@ -16,17 +16,17 @@ namespace DCS.Controllers
             this._configuration = configuration;
             _BaseUrl =  _configuration["APIBaseURl:BaseURl"];
         }
-
+        
         [Route("Purchase-List")]
         public IActionResult PurchaseList()
         {
             return View();
         }
         [Route("_PurchaseList")]
-        public async Task<IActionResult> _PurchaseServiceList(string? name)
+        public async Task<IActionResult> _PurchaseServiceList(string? email = "All")
         {
             var list = new List<PurchaseService>();
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PurchaseService/GetPurchaseService/{name}", null, null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PurchaseService/GetPurchaseService/{email}", null, null);
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<List<PurchaseService>>(apiRes.Result);
@@ -55,7 +55,7 @@ namespace DCS.Controllers
             };
             var email = User.FindFirstValue(ClaimTypes.Email);
             purchase.UserEmail=email;
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PurchaseService/AddorUpdateDCSService", JsonConvert.SerializeObject(purchase), null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PurchaseService/AddOrUpdatePurchaseService", JsonConvert.SerializeObject(purchase), null);
             if (apiRes.Result != null)
             {
                 response = JsonConvert.DeserializeObject<Response>(apiRes.Result);

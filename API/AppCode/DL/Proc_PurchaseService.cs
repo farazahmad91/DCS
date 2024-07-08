@@ -2,7 +2,6 @@
 using API.AppCode.ML;
 using Entities.Response;
 using Entities;
-using API.AppCode.Configuration;
 
 namespace API.AppCode.DL
 {
@@ -15,7 +14,6 @@ namespace API.AppCode.DL
         }
         public async Task<object> Call(object obj)
         {
-            ApplicationSetting application = new ApplicationSetting();
             var req = (PurchaseService)obj;
             var res = new Response()
             {
@@ -24,16 +22,17 @@ namespace API.AppCode.DL
             };
             try
             {
+                var projectid = await _dapper.GetAsync<Response>("Proc_GetApplicationSettingByIdOnload", new { Email = req.UserEmail });
+                var servicedetail = await _dapper.GetAsync<PlanServices>("Proc_GetPremiumServiceById", new { ServiceId = req.ServiceID });
                 var param = new
                 {
                     PurchaseID=req.PurchaseID,
-                    ProjectID = application.ProjectID,
+                    ProjectID = projectid.ProjectId,
                     UserEmail =req.UserEmail,
                     ServiceID=req.ServiceID,
-                    ActivationDate=req.ActivationDate,
-                    ExpiryDate= req.ExpiryDate,
-                    Price=req.Price,
-                    Discount=req.Discount,
+                    ExpiryYear = servicedetail.Duration,
+                    Price= servicedetail.Price,
+                    Discount= servicedetail.Discounts,
                     FinalPrice=req.FinalPrice,
                     RenewalOption=req.RenewalOption,
                 };

@@ -525,3 +525,30 @@
     </script>
 
 [Authorize(AuthenticationSchemes = "Bearer", Roles = $"{nameof(ApplicationRoles.Admin)}")]
+alter PROCEDURE Proc_GetPurchasesService
+@UserEmail nvarchar(255)
+AS
+BEGIN
+IF(@UserEmail ='All')
+BEGIN
+SELECT * FROM Purchases;
+END
+ELSE
+BEGIN
+SELECT * FROM Purchases WHERE UserEmail LIKE '%' + @UserEmail + '%';
+END
+END  
+
+alter PROCEDURE Proc_GetPremiumService
+@ServiceName NVARCHAR(100) = NULL
+AS
+BEGIN
+IF(@ServiceName = 'All')
+BEGIN
+SELECT * FROM PremiumServices;
+END
+ELSE
+BEGIN
+SELECT * FROM PremiumServices WHERE ServiceName LIKE '%' + @ServiceName + '%';
+END
+END 

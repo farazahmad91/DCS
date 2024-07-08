@@ -1,14 +1,19 @@
-﻿
+﻿@model DCS.Layout.Project
+@{
+    DCS.Layout.Project project = new DCS.Layout.Project();
+}
+@{
+    ViewData["Title"] = "AppointmentList";
+    Layout = null;
+}
 <!DOCTYPE html>
 <html lang="en">
 
-    
-<!-- Mirrored from coderthemes.com/hyper/saas/landing.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Dec 2023 10:44:11 GMT -->
 <head>
         <meta charset="utf-8" />
-        <title>Landing Page | Hyper - Responsive Bootstrap 5 Admin Dashboard</title>
+        <title>DCS</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+        <meta content="Free Clicnic Management Software" name="description" />
         <meta content="Coderthemes" name="author" />
 
         <!-- App favicon -->
@@ -294,7 +299,8 @@
                         <div class="text-center">
                             <h1 class="mt-0"><i class="mdi mdi-heart-multiple-outline"></i></h1>
                             <h3>Features you'll <span class="text-danger">love</span></h3>
-                            <p class="text-muted mt-2">Hyper comes with next generation ui design and have multiple benefits
+                        <p class="text-muted mt-2">
+                            The DCS next-generation Clinic Management Software is designed to revolutionize clinic operations, offering a multitude of benefits
                             </p>
                         </div>
                     </div>
@@ -304,14 +310,16 @@
                         <img src="../assets/images/svg/features-1.svg" class="img-fluid" alt="">
                     </div>
                     <div class="col-lg-6 offset-md-1 col-md-5">
-                        <h3 class="fw-normal">Inbuilt applications and pages</h3>
-                        <p class="text-muted mt-3">Hyper comes with a variety of ready-to-use applications and pages that help to speed up the development</p>
+                    <h3 class="fw-normal">Integrated Applications and Pages</h3>
 
+                    <p class="text-muted mt-3">Our Clinic Management Software includes a variety of ready-to-use applications and pages designed to expedite and enhance clinic operations.</p>
                         <div class="mt-4">
-                            <p class="text-muted"><i class="mdi mdi-circle-medium text-primary"></i> Projects & Tasks</p>
-                            <p class="text-muted"><i class="mdi mdi-circle-medium text-primary"></i> Ecommerce Application Pages</p>
-                            <p class="text-muted"><i class="mdi mdi-circle-medium text-primary"></i> Profile, pricing, invoice</p>
-                            <p class="text-muted"><i class="mdi mdi-circle-medium text-primary"></i> Login, signup, forget password</p>
+                        <p class="text-muted"><i class="mdi mdi-circle-medium text-primary"></i><strong>Enhanced Efficiency</strong>:Streamlines administrative processes, reducing time spent on routine tasks.</p>
+                        <p class="text-muted"><i class="mdi mdi-circle-medium text-primary"></i><strong>Patient Management</strong>: Provides comprehensive tools for managing patient information, appointments, and medical records.</p>
+                        <p class="text-muted"><i class="mdi mdi-circle-medium text-primary"></i><strong>Improved Communication</strong>: Facilitates seamless communication between staff and patients through integrated messaging systems.</p>
+                        <p class="text-muted"><i class="mdi mdi-circle-medium text-primary"></i><strong>Data Security</strong>: Ensures patient data is securely stored and compliant with industry regulations</p>
+                        <p class="text-muted"><i class="mdi mdi-circle-medium text-primary"></i><strong>Customizable Features</strong>: Allows clinics to tailor the software to their specific needs and workflows.</p>
+                        <p class="text-muted"><i class="mdi mdi-circle-medium text-primary"></i><strong>Scalability</strong>: Designed to grow with your clinic, accommodating increasing patient loads and expanding services.</p>
                         </div>
 
                         <a href="#" class="btn btn-primary rounded-pill mt-3">Read More <i class="mdi mdi-arrow-right ms-1"></i></a>
@@ -319,25 +327,25 @@
                     </div>
                 </div>
 
-                <div class="row pb-3 pt-5 align-items-center">
-                    <div class="col-lg-6 col-md-5">
-                        <h3 class="fw-normal">Simply beautiful design</h3>
-                        <p class="text-muted mt-3">The simplest and fastest way to build dashboard or admin panel. Hyper is built using the latest tech and tools and provide an easy way to customize anything, including an overall color schemes, layout, etc.</p>
+            <div class="row pb-3 pt-5 align-items-center">
+                <div class="col-lg-6 col-md-5">
+                    <h3 class="fw-normal">Effortless Clinic Management</h3>
+                    <p class="text-muted mt-3">Manage your clinic with ease and efficiency. Our clinic management software is built using the latest technologies and tools, offering an intuitive interface and customizable features, including patient management, scheduling, and more.</p>
 
-                        <div class="mt-4">
-                            <p class="text-muted"><i class="mdi mdi-circle-medium text-success"></i> Built with latest Bootstrap</p>
-                            <p class="text-muted"><i class="mdi mdi-circle-medium text-success"></i> Extensive use of SCSS variables</p>
-                            <p class="text-muted"><i class="mdi mdi-circle-medium text-success"></i> Well documented and structured code</p>
-                            <p class="text-muted"><i class="mdi mdi-circle-medium text-success"></i> Detailed Documentation</p>
-                        </div>
-
-                        <a href="#" class="btn btn-success rounded-pill mt-3">Read More <i class="mdi mdi-arrow-right ms-1"></i></a>
-
+                    <div class="mt-4">
+                        <p class="text-muted"><i class="mdi mdi-circle-medium text-success"></i> Built with the latest technologies</p>
+                        <p class="text-muted"><i class="mdi mdi-circle-medium text-success"></i> Comprehensive patient management</p>
+                        <p class="text-muted"><i class="mdi mdi-circle-medium text-success"></i> Secure and compliant data storage</p>
+                        <p class="text-muted"><i class="mdi mdi-circle-medium text-success"></i> Detailed documentation and support</p>
                     </div>
-                    <div class="col-lg-5 col-md-6 offset-md-1">
-                        <img src="../assets/images/svg/features-2.svg" class="img-fluid" alt="">
-                    </div>
+
+                    <a href="#" class="btn btn-success rounded-pill mt-3">Read More <i class="mdi mdi-arrow-right ms-1"></i></a>
                 </div>
+                <div class="col-lg-5 col-md-6 offset-md-1">
+                    <img src="../assets/images/svg/clinic-management.svg" class="img-fluid" alt="Clinic Management">
+                </div>
+            </div>
+
 
             </div>
         </section>
@@ -628,8 +636,9 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="mt-5">
-                            <p class="text-light text-opacity-50 mt-4 text-center mb-0">© 2018 - <script>document.write(new Date().getFullYear())</script> Hyper. Design and coded by
-                                Coderthemes</p>
+                        <p class="text-light text-opacity-50 mt-4 text-center mb-0">>&copy; <a class="text-white" href="#">@project.ProjectName</a>. All Rights Reserved. @DateTime.Now.Year</p>
+                            @* <p class="text-light text-opacity-50 mt-4 text-center mb-0">© 2018 - <script>document.write(new Date().getFullYear())</script> Hyper. Design and coded by
+                                Coderthemes</p> *@
                         </div>
                     </div>
                 </div>

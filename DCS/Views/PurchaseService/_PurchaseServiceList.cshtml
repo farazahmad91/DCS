@@ -3,24 +3,19 @@
 @{
     ViewData["Title"] = "PurchaseList";
     Layout = null;
+    var Ischecked = "";
 }
 @foreach (var item in Model)
 {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.PurchaseID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserEmail)
+            @Html.DisplayFor(modelItem => item.ProjectId)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ServiceID)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PurchaseDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ActivationDate)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ExpiryDate)
@@ -35,12 +30,21 @@
             @Html.DisplayFor(modelItem => item.FinalPrice)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.RenewalOption)
+            @if (@item.RenewalOption)
+            {
+                Ischecked = "checked";
+            }
+            else
+            {
+                Ischecked = "";
+            }
+            <input type="checkbox" name="switch3" onchange="UserSttus(@item.PurchaseID)" id="IsVerified_@item.PurchaseID" data-switch="success" @Ischecked>
+            <label for="RenewalOption_@item.PurchaseID" data-on-label="ON" data-off-label="OFF"></label>
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        <td class="table-action">
+            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye text-primary" onclick="doctorDetails(@item.PurchaseID)"></i></a>
+            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline text-danger" onclick="EditDoctor(@item.PurchaseID)"></i></a>
+            @* <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a> *@
         </td>
     </tr>
 }

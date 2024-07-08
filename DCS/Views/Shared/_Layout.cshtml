@@ -1454,31 +1454,18 @@
         </div>
     </div>
 <script>
-        function AppSetting(callback) {
-            debugger;
+        function AppSetting() {
+           
             $.get("/GetApplicationSettingByIdOnload")
                 .done(function (res) {
-                    console.table(res);
-                    if (callback) callback(null, res); // Result ko callback ke through pass karte hain
                 })
                 .fail(function (hxr) {
                     console.log(hxr);
-                    alert("error");
-                    if (callback) callback(hxr); // Error ko callback ke through pass karte hain
+                    alert("error GetApplicationSettingByIdOnload");
                 });
         }
-
-        // AppSetting function ko call karte hain aur ek callback function pass karte hain
-        window.addEventListener('load', function () {
-         var items=   AppSetting(function (error, res) {
-                if (error) {
-                    console.error("Failed to get application settings:", error);
-                } else {
-                    console.log("Application settings:", res);
-                }
-            });
-        });
-        console.log("Application settings:", items);
+    AppSetting();
+        
     </script>
     <!-- Vendor js -->
     <script src="~/assets/js/vendor.min.js"></script>

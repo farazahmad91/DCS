@@ -19,7 +19,7 @@ namespace API.DBContext.Entities
     }
     public class UserStatus
     {
-        public string Id { get; set; }
+        public int UserId { get; set; }
         public bool? IsVerified { get; set; }
         public bool? IsLocked { get; set; }
         public bool? IsActive { get; set; }
