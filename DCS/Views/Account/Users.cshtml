@@ -199,8 +199,9 @@
         });
     }
     function UserStatus(id) {
+        debugger;
         var param = {
-            Id: id,
+            UserId: id,
             IsActive: $("#IsActive" + id).prop("checked"),
             IsVerified: $("#IsVerified" + id).prop("checked"),
             IsLocked: $("#IsLocked" + id).prop("checked"),

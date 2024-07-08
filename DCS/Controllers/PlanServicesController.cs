@@ -51,8 +51,8 @@ namespace DCS.Controllers
 			return PartialView(list);
 		}
 
-		[Route("/EditService")]
-		public async Task<IActionResult> EditService(int id)
+		[Route("/EditPlan")]
+		public async Task<IActionResult> EditPlan(int id)
 		{
 			var list = new PlanServices();
 			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PlanServices/GetDCSServiceById/{id}", null, null);
@@ -60,11 +60,11 @@ namespace DCS.Controllers
 			{
 				list = JsonConvert.DeserializeObject<PlanServices>(apiRes.Result);
 			}
-			return View(list);
+			return PartialView(list);
 		}
 		[HttpPost]
-		[Route("/AddOrUpdateService")]
-		public async Task<IActionResult> AddOrUpdateService(PlanServices services)
+		[Route("/AddOrUpdatePlan")]
+		public async Task<IActionResult> AddOrUpdatePlan(PlanServices services)
 		{
 			var response = new Response()
 			{

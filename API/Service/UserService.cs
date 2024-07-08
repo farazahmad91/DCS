@@ -369,7 +369,7 @@ namespace API.Service
             {
                 var param = new
                 {
-                    Id = userStatus.Id,
+                    Id = userStatus.UserId,
                     IsVerified = userStatus.IsVerified,
                     IsLocked = userStatus.IsLocked,
                     IsActive = userStatus.IsActive

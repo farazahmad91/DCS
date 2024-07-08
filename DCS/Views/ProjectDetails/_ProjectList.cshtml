@@ -28,9 +28,18 @@ else
                     @Html.DisplayFor(modelItem => item.ProjectName)
                 </td>
             <td>
-                <a class="fancybox" href="@item.Logo" data-fancybox data-caption="@item.ProjectName">
-                    <img src="@item.Logo" onerror="this.onerror=null;this.src='/images/noimage.jpg'" class="img-fluid rounded-circle" alt="No Image Found" width="90px" height="50px" />
-                </a>
+                @if (@item.Logo.Length!=0 && @item.Logo!=null)
+                {
+                    <a class="fancybox" href="@item.Logo" data-fancybox data-caption="@item.ProjectName">
+                        <img src="@item.Logo" onerror="this.onerror=null;this.src='/images/noimage.jpg'" class="img-fluid rounded-circle" alt="No Image Found" width="90px" height="50px" />
+                    </a>
+                }
+                else
+                {
+                    <a class="fancybox" href="@item.Logo" data-fancybox data-caption="@item.ProjectName">
+                        <img src="../assets/images/noimage.jpg" onerror="this.onerror=null;this.src='/images/noimage.jpg'" class="img-fluid rounded-circle" alt="No Image Found" width="90px" height="50px" />
+                    </a>
+                }
             </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DomainName)

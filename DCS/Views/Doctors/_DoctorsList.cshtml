@@ -25,9 +25,19 @@ else
             @Html.DisplayFor(modelItem => item.Email)
         </td>
         <td>
-            <a class="fancybox" href="@item.DrImage" data-fancybox data-caption="@item.Name">
-                <img src="@item.DrImage" onerror="this.onerror=null;this.src='/images/noimage.jpg'" class="img-fluid rounded-circle" alt="No Image Found" width="90px" height="50px" />
-            </a>
+                @if (@item.DrImage.Length!=0 && @item.DrImage!=null)
+                {
+                    <a class="fancybox" href="@item.DrImage" data-fancybox data-caption="@item.Name">
+                        <img src="@item.DrImage" onerror="this.onerror=null;this.src='/images/noimage.jpg'" class="img-fluid rounded-circle" alt="No Image Found" width="90px" height="50px" />
+                    </a>
+                }
+                else
+                {
+                    <a class="fancybox" href="@item.DrImage" data-fancybox data-caption="@item.Name">
+                        <img src="../assets/images/noimage.jpg" onerror="this.onerror=null;this.src='/images/noimage.jpg'" class="img-fluid rounded-circle" alt="No Image Found" width="90px" height="50px" />
+                    </a>
+                }
+                
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Specialization)

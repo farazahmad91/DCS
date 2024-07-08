@@ -1,0 +1,333 @@
+﻿@model Entities.PlanServices
+@{
+    Layout = null;
+    var Ischecked = "";
+}
+<div class="card-body">
+    <!-- Modal -->
+    <div class="modal fade" id="Plan_Editmodal" tabindex="-1" aria-labelledby="Plan_EditmodalTitle" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="Plan_EditmodalTitle">Add or Update Plan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="serviceForm">
+                        <input type="hidden" class="form-control" asp-for="ServiceID" name="ServiceID">
+                        <div class="row g-2">
+                            <div class="mb-3 col-md-6">
+                                <label for="ServiceName" class="form-label">Service Name</label>
+                                <input type="text" class="form-control" asp-for="ServiceName" name="ServiceName" placeholder="Service Name">
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="Description" class="form-label">Description</label>
+                                <input type="text" class="form-control" asp-for="Description" name="Description" placeholder="Description">
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="mb-3 col-md-6">
+                                <label for="Price" class="form-label">Price</label>
+                                <input type="number" class="form-control" asp-for="Price" name="Price" placeholder="Price">
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="LastPrice" class="form-label">Last Price</label>
+                                <input type="number" class="form-control" asp-for="LastPrice" name="LastPrice" placeholder="Last Price">
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="mb-3 col-md-6">
+                                <label for="Duration" class="form-label">Duration</label>
+                                <input type="number" class="form-control" asp-for="Duration" name="Duration" placeholder="Duration">
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="Discounts" class="form-label">Discounts</label>
+                                <input type="number" class="form-control" asp-for="Discounts" name="Discounts" placeholder="Discounts">
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="mb-3 col-md-6">
+                                <label for="CustomerSupportLevel" class="form-label">Customer Support Level</label>
+                                <input type="text" class="form-control" asp-for="CustomerSupportLevel" name="CustomerSupportLevel" placeholder="Customer Support Level">
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="TermsAndConditions" class="form-label">Terms and Conditions</label>
+                                <input type="text" class="form-control" asp-for="TermsAndConditions" name="TermsAndConditions" placeholder="Terms and Conditions">
+                            </div>
+                        </div>
+
+                        <div class="row g-2">
+                            <div class="mb-3 col-md-6">
+                                <div class="form-check form-switch">
+                                    @if (Model != null && @Model.EmailVerificationService==true)
+                                    {
+                                        Ischecked = "checked";
+                                    }
+                                    else
+                                    {
+                                        Ischecked = "false";
+                                    }
+                                    <input class="form-check-input" type="checkbox" role="switch" name="EmailVerificationService" @Ischecked>
+                                    <label class="form-check-label" for="EmailVerificationService">Email Verification Service</label>
+                                </div>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <div class="form-check form-switch">
+                                    @if (Model != null && @Model.ShowYourUserPassword==true)
+                                    {
+                                        Ischecked = "checked";
+                                    }
+                                    else
+                                    {
+                                        Ischecked = "";
+                                    }
+                                    <input class="form-check-input" type="checkbox" role="switch" name="ShowYourUserPassword" checked="@Ischecked">
+                                    <label class="form-check-label" for="ShowYourUserPassword">Show Your User Password</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="mb-3 col-md-6">
+                                <div class="form-check form-switch">
+                                    @if (Model != null && @Model.ReferralService==true)
+                                    {
+                                        Ischecked = "checked";
+                                    }
+                                    else
+                                    {
+                                        Ischecked = "";
+                                    }
+                                    <input class="form-check-input" type="checkbox" role="switch" name="ReferralService" checked="@Ischecked">
+                                    <label class="form-check-label" for="ReferralService">Referral Service</label>
+                                </div>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <div class="form-check form-switch">
+                                    @if (Model != null && @Model.BackUpService==true)
+                                    {
+                                        Ischecked = "checked";
+                                    }
+                                    else
+                                    {
+                                        Ischecked = "";
+                                    }
+                                    <input class="form-check-input" type="checkbox" role="switch" name="BackUpService" checked="@Ischecked">
+                                    <label class="form-check-label" for="BackUpService">BackUp Service</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="mb-3 col-md-6">
+                                <div class="form-check form-switch">
+                                    @if (Model != null && @Model.SmsNotificationService==true)
+                                    {
+                                        Ischecked = "checked";
+                                    }
+                                    else
+                                    {
+                                        Ischecked = "";
+                                    }
+                                    <input class="form-check-input" type="checkbox" role="switch" name="SmsNotificationService" checked="@Ischecked">
+                                    <label class="form-check-label" for="SmsNotificationService">Sms Notification Service</label>
+                                </div>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <div class="form-check form-switch">
+                                    @if (Model != null && @Model.UserAppointmentReminderService==true)
+                                    {
+                                        Ischecked = "checked";
+                                    }
+                                    else
+                                    {
+                                        Ischecked = "";
+                                    }
+                                    <input class="form-check-input" type="checkbox" role="switch" name="UserAppointmentReminderService" checked="@Ischecked">
+                                    <label class="form-check-label" for="UserAppointmentReminderService">User Appointment Reminder Service</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="mb-3 col-md-6">
+                                <div class="form-check form-switch">
+                                    @if (Model != null && @Model.DoctorAvailabilityNotificationService==true)
+                                    {
+                                        Ischecked = "checked";
+                                    }
+                                    else
+                                    {
+                                        Ischecked = "";
+                                    }
+                                    <input class="form-check-input" type="checkbox" role="switch" name="DoctorAvailabilityNotificationService" checked="@Ischecked">
+                                    <label class="form-check-label" for="DoctorAvailabilityNotificationService">Doctor Availability Notification Service</label>
+                                </div>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <div class="form-check form-switch">
+                                    @if (Model != null && @Model.MedicineStoreManagementService==true)
+                                    {
+                                        Ischecked = "checked";
+                                    }
+                                    else
+                                    {
+                                        Ischecked = "";
+                                    }
+                                    <input class="form-check-input" type="checkbox" role="switch" name="MedicineStoreManagementService" checked="@Ischecked">
+                                    <label class="form-check-label" for="MedicineStoreManagementService">Medicine Management Service</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="mb-3 col-md-6">
+                                <div class="form-check form-switch">
+                                    @if (Model != null && @Model.TwoFactorAuthenticationService==true)
+                                    {
+                                        Ischecked = "checked";
+                                    }
+                                    else
+                                    {
+                                        Ischecked = "";
+                                    }
+                                    <input class="form-check-input" type="checkbox" role="switch" name="TwoFactorAuthenticationService" checked="@Ischecked">
+                                    <label class="form-check-label" for="TwoFactorAuthenticationService">TwoFactor Authentication Service</label>
+                                </div>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <div class="form-check form-switch">
+                                    @if (Model != null && @Model.IsLabManagmentService==true)
+                                    {
+                                        Ischecked = "checked";
+                                    }
+                                    else
+                                    {
+                                        Ischecked = "";
+                                    }
+                                    <input class="form-check-input" type="checkbox" role="switch" name="IsLabManagmentService" checked="@Ischecked">
+                                    <label class="form-check-label" for="IsLabManagmentService">Lab Managment Service</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="mb-3 col-md-6">
+                                <div class="form-check form-switch">
+                                    @if (Model != null && @Model.IsLowStorageMedicineNotification==true)
+                                    {
+                                        Ischecked = "checked";
+                                    }
+                                    else
+                                    {
+                                        Ischecked = "";
+                                    }
+                                    <input class="form-check-input" type="checkbox" role="switch" name="IsLowStorageMedicineNotification" checked="@Ischecked">
+                                    <label class="form-check-label" for="IsLowStorageMedicineNotification">Low Storage Medicine Notification</label>
+                                </div>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <div class="form-check form-switch">
+                                    @if (Model != null && @Model.IsAppointmentContactService==true)
+                                    {
+                                        Ischecked = "checked";
+                                    }
+                                    else
+                                    {
+                                        Ischecked = "";
+                                    }
+                                    <input class="form-check-input" type="checkbox" role="switch" name="IsAppointmentContactService" checked="@Ischecked">
+                                    <label class="form-check-label" for="IsAppointmentContactService">Appointment Contact Service</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="mb-3 col-md-6">
+                                <div class="form-check form-switch">
+                                    @if (Model != null && @Model.IsAppointmentFormService==true)
+                                    {
+                                        Ischecked = "checked";
+                                    }
+                                    else
+                                    {
+                                        Ischecked = "";
+                                    }
+                                    <input class="form-check-input" type="checkbox" role="switch" name="IsAppointmentFormService" checked="@Ischecked">
+                                    <label class="form-check-label" for="IsAppointmentFormService">Appointment Form Service</label>
+                                </div>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <div class="form-check form-switch">
+                                    @if (Model != null && @Model.IsAppointmentStatus==true)
+                                    {
+                                        Ischecked = "checked";
+                                    }
+                                    else
+                                    {
+                                        Ischecked = "";
+                                    }
+                                    <input class="form-check-input" type="checkbox" role="switch" name="IsAppointmentStatus" checked="@Ischecked">
+                                    <label class="form-check-label" for="IsAppointmentStatus">Appointment Status</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="mb-3 col-md-6">
+                                <div class="form-check form-switch">
+                                    @if (Model != null && @Model.IsWhatsappMarketing==true)
+                                    {
+                                        Ischecked = "checked";
+                                    }
+                                    else
+                                    {
+                                        Ischecked = "";
+                                    }
+                                    <input class="form-check-input" type="checkbox" role="switch" name="IsWhatsappMarketing" checked="@Ischecked">
+                                    <label class="form-check-label" for="IsWhatsappMarketing">Whatsapp Marketing</label>
+                                </div>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <div class="form-check form-switch">
+                                    @if (Model != null && @Model.EmailMarketing==true)
+                                    {
+                                        Ischecked = "checked";
+                                    }
+                                    else
+                                    {
+                                        Ischecked = "";
+                                    }
+                                    <input class="form-check-input" type="checkbox" role="switch" name="EmailMarketing" checked="@Ischecked">
+                                    <label class="form-check-label" for="EmailMarketing">Email Marketing</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="mb-3 col-md-6">
+                                <div class="form-check form-switch">
+                                    @if (Model != null && @Model.RenewalOption==true)
+                                    {
+                                        Ischecked = "checked";
+                                    }
+                                    else
+                                    {
+                                        Ischecked = "";
+                                    }
+                                    <input class="form-check-input" type="checkbox" role="switch" name="RenewalOption" checked="@Ischecked">
+                                    <label class="form-check-label" for="RenewalOption">Renewal Option</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" onclick="AddorUpdatePlan();">
+                            @if (Model != null && Model.ServiceID != null)
+                            {
+                                <text>Save changes</text>
+                            }
+                            else
+                            {
+                                <text>Save</text>
+                            }
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
