@@ -59,6 +59,7 @@ namespace API.Controllers
 			return BadRequest(res);
 		}
 
+
         [HttpPost(nameof(GetEmailTemplate))]
 		public async Task<IActionResult> GetEmailTemplate()
         {

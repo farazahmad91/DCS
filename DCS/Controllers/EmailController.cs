@@ -104,6 +104,27 @@ namespace DCS.Controllers
                 return StatusCode(-1, $"Internal server error: {ex.Message}");
             }
         }
+        [Route("AllEmailTemplate")]
+        public IActionResult AllEmailTemplate(int id)
+        {
+            return View();
+        }
+        [Route("TemplateList")]
+        public IActionResult _TemplateList(int id)
+        {
+            return View();
+        }
+
+        [Route("AddOrUpdateEmailTemplate")]
+        public IActionResult AddOrUpdateEmail(int id)
+        {
+            return View();
+        }
+        [Route("AddOrUpdateMasterEmailType")]
+        public IActionResult AddOrUpdateMasterEmailType(int id)
+        {
+            return View();
+        }
     }
 }
 

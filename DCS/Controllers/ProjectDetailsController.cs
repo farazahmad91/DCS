@@ -225,5 +225,10 @@ namespace DCS.Controllers
                 return Json(list);
             }
         }
+        //[Route("Project-List")]
+        //public IActionResult ProjectList()
+        //{
+        //    return View();
+        //}
     }
 }
