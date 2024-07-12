@@ -38,7 +38,7 @@ namespace API.SendEmail
                     Error = ex.Message,
                     ProcName = "",
                 };
-                var _ = new ErrorLog_ML(_dapper).Error(error);
+                 new ErrorLog_ML(_dapper).Error(error);
                 return -1;
             }
         }

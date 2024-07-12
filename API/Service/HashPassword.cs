@@ -58,7 +58,7 @@ namespace API.Service
                     Error = ex.Message,
                     ProcName = "",
                 };
-                var _ = new ErrorLog_ML(_dapper).Error(error);
+                 new ErrorLog_ML(_dapper).Error(error);
                 return Convert.ToBase64String(Encoding.UTF8.GetBytes(responseMessage));
             }
 
@@ -102,7 +102,7 @@ namespace API.Service
                     Error = ex.Message,
                     ProcName = "",
                 };
-                var _ = new ErrorLog_ML(_dapper).Error(error);
+                 new ErrorLog_ML(_dapper).Error(error);
                 return Convert.ToBase64String(Encoding.UTF8.GetBytes(responseMessage));
             }
 

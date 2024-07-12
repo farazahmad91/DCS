@@ -1,4 +1,5 @@
-﻿using API.AppCode.IML;
+﻿using API.AppCode.Helper;
+using API.AppCode.IML;
 using API.SendEmail;
 using Entities;
 using Entities.Response;
@@ -12,10 +13,12 @@ namespace API.Controllers
     {
         private readonly IEmail _email;
         private readonly Sendmail _emailsend;
-        public EmailController(IEmail email, Sendmail emailsend)
+        private readonly FileUploadService _uploadService;
+        public EmailController(IEmail email, Sendmail emailsend, FileUploadService uploadService)
         {
             _email=email;
             _emailsend=emailsend;
+            _uploadService=uploadService;
         }
         [HttpPost(nameof(SendBulkEmails))]
         public async Task<IActionResult> SendBulkEmails(List<CreateEmail> createEmail)
@@ -50,8 +53,12 @@ namespace API.Controllers
 				StatusCode = ResponseStatus.FAILED,
 				ResponseText = "An error han occurred try after sometime."
 			};
-           
-			res = await _email.AddOrUpdateEmailTemplate(template);
+
+            if (template.ImagePath != null)
+            {
+                template.TemplateImage = _uploadService.Image(template.ImagePath, FileUploadType.DoctorImage, FileUploadType.DoctorPrefix);
+            }
+            res = await _email.AddOrUpdateEmailTemplate(template);
 			if (res.StatusCode==ResponseStatus.SUCCESS)
 			{
 				return Ok(res);
@@ -59,17 +66,10 @@ namespace API.Controllers
 			return BadRequest(res);
 		}
 
-
-        [HttpPost(nameof(GetEmailTemplate))]
-		public async Task<IActionResult> GetEmailTemplate()
+        [HttpPost(nameof(GetEmailTemplateListOrById))]
+		public async Task<IActionResult> GetEmailTemplateListOrById(Common common)
         {
-            var i = await _email.GetEmailTemplate();
-            return Ok(i);
-        }
-        [HttpPost(nameof(GetEmailTemplate)+"/{Id}")]
-        public async Task<IActionResult> GetEmailTemplate(int Id)
-        {
-            var i = await _email.GetEmailTemplateById(Id);
+            var i = await _email.GetEmailTemplateListOrById(common);
             return Ok(i);
         }
     }

@@ -110,16 +110,53 @@ namespace DCS.Controllers
             return View();
         }
         [Route("TemplateList")]
-        public IActionResult _TemplateList(int id)
+        public async Task<IActionResult> _TemplateList(Common common)
         {
-            return View();
+            var list = new List<EmailTemplate>();
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/GetEmailTemplateListOrById", JsonConvert.SerializeObject(common), null);
+            if (apiRes.Result != null)
+            {
+                list = JsonConvert.DeserializeObject<List<EmailTemplate>>(apiRes.Result);
+            }
+            return PartialView(list);
         }
 
         [Route("AddOrUpdateEmailTemplate")]
-        public IActionResult AddOrUpdateEmail(int id)
+        public async Task<IActionResult> AddOrUpdateEmail(Common common)
         {
-            return View();
+            var res = new EmailTemplate();
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/GetEmailTemplateListOrById", JsonConvert.SerializeObject(common), null);
+            if (apiRes.Result != null)
+            {
+                var list = JsonConvert.DeserializeObject<List<EmailTemplate>>(apiRes.Result);
+                res = list.FirstOrDefault();
+
+            }
+            return PartialView(res);
         }
+
+        [Route("/EmailTemplateAddOrUpdate")]
+        public async Task<IActionResult> AddOrUpdate([FromForm] string emailTemplate, IFormFile file)
+        {
+            var response = new Response()
+            {
+                ResponseText = "Failed To Add or Update Service",
+                StatusCode = ResponseStatus.FAILED,
+            };
+
+            var request = JsonConvert.DeserializeObject<EmailTemplate>(emailTemplate);
+            request.ImagePath=file;
+            var apiRes = await APIRequestML.O.SendFileAndContentAsync($"{_BaseUrl}/api/Email/AddOrUpdateEmailTemplate", request, file, null, null);
+            var res = await apiRes.Content.ReadAsStringAsync();
+            if (apiRes != null && apiRes.IsSuccessStatusCode)
+            {
+                response = JsonConvert.DeserializeObject<Response>(res);
+                return Json(response);
+            }
+
+            return Json(response);
+        }
+
         [Route("AddOrUpdateMasterEmailType")]
         public IActionResult AddOrUpdateMasterEmailType(int id)
         {

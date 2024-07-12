@@ -51,7 +51,7 @@ namespace API.AppCode.DL
                     Error = ex.Message,
                     ProcName = GetName(),
                 };
-                var _ = new ErrorLog_ML(_dapper).Error(error);
+                 new ErrorLog_ML(_dapper).Error(error);
             }
             return res;
         }
@@ -128,7 +128,7 @@ namespace API.AppCode.DL
                     Error = ex.Message,
                     ProcName = GetName(),
                 };
-                var _ = new ErrorLog_ML(_dapper).Error(error);
+                 new ErrorLog_ML(_dapper).Error(error);
             }
             return res;
         }
@@ -195,7 +195,7 @@ namespace API.AppCode.DL
                     Error = ex.Message,
                     ProcName = GetName(),
                 };
-                var _ = new ErrorLog_ML(_dapper).Error(error);
+                 new ErrorLog_ML(_dapper).Error(error);
             }
             return items;
         }
@@ -247,7 +247,7 @@ namespace API.AppCode.DL
                     Error = ex.Message,
                     ProcName = GetName(),
                 };
-                var _ = new ErrorLog_ML(_dapper).Error(error);
+                 new ErrorLog_ML(_dapper).Error(error);
             }
             return treatmentdetails;
         }

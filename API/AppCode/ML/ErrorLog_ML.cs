@@ -12,7 +12,7 @@ namespace API.AppCode.ML
         {
             this._dapper = dapper;
         }
-        public int Error(ErrorLog res)
+        public void Error(ErrorLog res)
         {
             try
             {
@@ -25,12 +25,10 @@ namespace API.AppCode.ML
                     ProcName = res.ProcName,
                 };
                 var i = _dapper.Update(param, sp);
-                return i;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                return 0;
             }
 
         }

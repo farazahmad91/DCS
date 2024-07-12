@@ -1,36 +1,42 @@
 ﻿using API.AppCode.IML;
 using API.AppCode.ML;
-using Entities;
 using Entities.Response;
+using Entities;
 using Microsoft.CodeAnalysis;
 
 namespace API.AppCode.DL
 {
-    public class Proc_AddOrUpdateEmailTemplate: IProcedureAsync
+    public class Proc_AddOrUpdateSocialMedia : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_AddOrUpdateEmailTemplate(IDapper dapper)
+        public Proc_AddOrUpdateSocialMedia(IDapper dapper)
         {
-            _dapper=dapper;
+            this._dapper = dapper;
         }
 
         public async Task<object> Call(object obj)
         {
-            var req = (EmailTemplate)obj;
-            Response res = new Response();
+            var req = (SocialMedia)obj;
+            var res = new Response()
+            {
+                ResponseText="Somthing wrong!!",
+                StatusCode=ResponseStatus.FAILED,
+                AppointmentId=0
+            };
             try
             {
                 var param = new
                 {
-                    TemplateID=req.TemplateID,
-                    ProjectId = req.ProjectId,
-                    EmailType = req.EmailType,
-                    Subject=req.Subject,
-                    Content = req.Content,
-                    TemplateImage = req.TemplateImage,
-                    Status=req.Status,
+                    SMId = req.SMId,
+                    ProjectId=req.ProjectId,
+                    PlateformName = req.PlateformName,
+                    PlateformLink = req.PlateformLink,
+                    Icons = req.Icons,
+                    Status = req.Status,
                 };
-                res = await _dapper.GetAsync<Response>(GetName(),param);
+
+                var i = await _dapper.GetAsync<Response>(GetName(), param);
+                res=i;
                 return res;
             }
             catch (Exception ex)
@@ -42,11 +48,9 @@ namespace API.AppCode.DL
                     Error = ex.Message,
                     ProcName = GetName(),
                 };
-                 new ErrorLog_ML(_dapper).Error(error);
-
-                return res;
+                new ErrorLog_ML(_dapper).Error(error);
             }
-            
+            return res;
         }
 
         public Task<object> Call()
@@ -56,29 +60,37 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            return "usp_UpsertEmailTemplate";
+            return "Proc_AddOrUpdateSocialMedia";
         }
     }
-    public class Proc_GetEmailTemplate : IProcedureAsync
+    public class Proc_GetAllSocialMedia : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_GetEmailTemplate(IDapper dapper)
+        public Proc_GetAllSocialMedia(IDapper dapper)
         {
-            _dapper=dapper;
+            this._dapper = dapper;
         }
+
         public async Task<object> Call(object obj)
         {
             var req = (Common)obj;
+            var res = new Response()
+            {
+                ResponseText="Somthing wrong!!",
+                StatusCode=ResponseStatus.FAILED,
+                AppointmentId=0
+            };
             try
             {
                 var param = new
-                {
+                {   
                     Id=req.Id,
-                    Subject = req.name,
-                    ProjectId = req.ProjectId,
+                    PlateformName = req.name,
+                    ProjectId=req.ProjectId,
                     PageLength = req.PageLength
                 };
-                var res = await _dapper.GetAll<EmailTemplate>(GetName());
+
+                var i = await _dapper.GetAll<SocialMedia>(GetName(), param);
                 return res;
             }
             catch (Exception ex)
@@ -90,9 +102,9 @@ namespace API.AppCode.DL
                     Error = ex.Message,
                     ProcName = GetName(),
                 };
-                return "something went wrong!!";
+                new ErrorLog_ML(_dapper).Error(error);
             }
-            throw new NotImplementedException();
+            return res;
         }
 
         public Task<object> Call()
@@ -102,9 +114,8 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            return "Proc_GetEmailTemplate";
+            return "Proc_GetAllSocialMedia";
         }
     }
-
 
 }
