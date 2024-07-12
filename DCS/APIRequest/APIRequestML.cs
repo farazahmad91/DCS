@@ -105,7 +105,7 @@ namespace API.AppCode.APIRequest
                     Error = ufx.Message,
                     ProcName = "",
                 };
-                var _ = new ErrorLog_ML(_dapper).Error(error);
+                 new ErrorLog_ML(_dapper).Error(error);
             }
             catch (WebException wx)
             {
@@ -128,7 +128,7 @@ namespace API.AppCode.APIRequest
                         Error = wx.Message,
                         ProcName = "",
                     };
-                    var _ = new ErrorLog_ML(_dapper).Error(error);
+                     new ErrorLog_ML(_dapper).Error(error);
                 }
                 else
                 {
@@ -144,7 +144,7 @@ namespace API.AppCode.APIRequest
                     Error = ex.Message,
                     ProcName = "",
                 };
-                var _ = new ErrorLog_ML(_dapper).Error(error);
+                 new ErrorLog_ML(_dapper).Error(error);
             }
             return httpResponse;
         }
@@ -398,7 +398,7 @@ namespace API.AppCode.APIRequest
                         Error = ufx.Message,
                         ProcName = "",
                     };
-                    var _ = new ErrorLog_ML(_dapper).Error(error);
+                     new ErrorLog_ML(_dapper).Error(error);
                 }
                 catch (Exception ex)
                 {
@@ -409,7 +409,7 @@ namespace API.AppCode.APIRequest
                         Error = ex.Message,
                         ProcName = "",
                     };
-                    var _ = new ErrorLog_ML(_dapper).Error(error);
+                     new ErrorLog_ML(_dapper).Error(error);
                 }
             }
             return "error";

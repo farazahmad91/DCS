@@ -57,7 +57,7 @@ namespace API.SendEmail
                     Error = ex.Message,
                     ProcName = "",
                 };
-                var _ = new ErrorLog_ML(_dapper).Error(error);
+                 new ErrorLog_ML(_dapper).Error(error);
 
             }
         }
@@ -112,7 +112,7 @@ namespace API.SendEmail
                     Error = ex.Message,
                     ProcName = "",
                 };
-                var _ = new ErrorLog_ML(_dapper).Error(error);
+                 new ErrorLog_ML(_dapper).Error(error);
             }
         }
         public string GetIPAddress()
@@ -341,7 +341,7 @@ namespace API.SendEmail
                             Error = ex.Message,
                             ProcName = "",
                         };
-                        var _ = new ErrorLog_ML(_dapper).Error(error);
+                         new ErrorLog_ML(_dapper).Error(error);
 
                         var LogEmail = new EmailLog
                         {
@@ -365,7 +365,7 @@ namespace API.SendEmail
                     Error = fnfEx.Message,
                     ProcName = "",
                 };
-                var _ = new ErrorLog_ML(_dapper).Error(error);
+                 new ErrorLog_ML(_dapper).Error(error);
 
 
 
@@ -380,7 +380,7 @@ namespace API.SendEmail
                     Error = ex.Message,
                     ProcName = "",
                 };
-                var _ = new ErrorLog_ML(_dapper).Error(error);
+                 new ErrorLog_ML(_dapper).Error(error);
 
                 throw new Exception("Error sending email", ex);
             }

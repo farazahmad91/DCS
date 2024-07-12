@@ -36,7 +36,7 @@ namespace API.AppCode.ML
                     Error = ex.Message,
                     ProcName = "",
                 };
-                var _ = new ErrorLog_ML(_dapper).Error(error);
+                 new ErrorLog_ML(_dapper).Error(error);
             }
             return res;
         }

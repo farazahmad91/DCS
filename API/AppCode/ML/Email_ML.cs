@@ -27,18 +27,11 @@ namespace API.AppCode.ML
             return (Response)i;
         }
         
-        public async Task<IEnumerable<EmailTemplate>> GetEmailTemplate()
+        public async Task<IEnumerable<EmailTemplate>> GetEmailTemplateListOrById(Common common)
         {
             IProcedureAsync procedure = new Proc_GetEmailTemplate(_dapper);
-            var i = await procedure.Call();
+            var i = await procedure.Call(common);
             return (IEnumerable<EmailTemplate>)i;
-        }
-
-        public async Task<EmailTemplate> GetEmailTemplateById(int id)
-        {
-            IProcedureAsync procedure = new Proc_GetEmailTemplateById(_dapper);
-            var i = await procedure.Call(id);
-            return (EmailTemplate)i;
         }
 
         public Response SendBulkEmails(CreateEmail emails)

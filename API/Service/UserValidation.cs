@@ -77,7 +77,7 @@ namespace API.Service
                     Error = ex.Message,
                     ProcName = "",
                 };
-                var _ = new ErrorLog_ML(_dapper).Error(error);
+                 new ErrorLog_ML(_dapper).Error(error);
                 return response;
             }
         }
@@ -114,7 +114,7 @@ namespace API.Service
                     Error = ex.Message,
                     ProcName = sp,
                 };
-                var _ = new ErrorLog_ML(_dapper).Error(error);
+                 new ErrorLog_ML(_dapper).Error(error);
                 return res;
             }
         }
@@ -159,7 +159,7 @@ namespace API.Service
                     Error = ex.Message,
                     ProcName = sp,
                 };
-                var _ = new ErrorLog_ML(_dapper).Error(error);
+                 new ErrorLog_ML(_dapper).Error(error);
                 return res;
             }
         }
@@ -197,7 +197,7 @@ namespace API.Service
                     Error = ex.Message,
                     ProcName = sp,
                 };
-                var _ = new ErrorLog_ML(_dapper).Error(error);
+                 new ErrorLog_ML(_dapper).Error(error);
                 return res;
             }
         }
@@ -248,7 +248,7 @@ namespace API.Service
                     Error = ex.Message,
                     ProcName = "",
                 };
-                var _ = new ErrorLog_ML(_dapper).Error(error);
+                 new ErrorLog_ML(_dapper).Error(error);
                 return response.ResponseText;
             }
 

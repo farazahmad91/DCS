@@ -7,7 +7,6 @@ namespace API.AppCode.IML
     {
         public Response SendBulkEmails(CreateEmail emails);
         public Task<Response> AddOrUpdateEmailTemplate(EmailTemplate template);
-        public Task<IEnumerable<EmailTemplate>> GetEmailTemplate();
-        public Task<EmailTemplate> GetEmailTemplateById(int id);
+        public Task<IEnumerable<EmailTemplate>> GetEmailTemplateListOrById(Common common);
     }
 }

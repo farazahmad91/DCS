@@ -5,6 +5,6 @@ namespace API.AppCode.IML
 {
     public interface IErrorLog
     {
-        public int Error(ErrorLog res);
+        public void Error(ErrorLog res);
     }
 }

@@ -27,7 +27,7 @@ namespace API.SendEmail
                 TemplateID = 8,
             };
             var res = _dapper.GetById<EmailTemplate>(param, "proc_GetEmailTemplateById");
-            string htmlBody = res.Body;
+            string htmlBody = res.Content;
             return htmlBody;
         }
 
@@ -44,7 +44,7 @@ namespace API.SendEmail
                 TemplateID = 8,
             };
             var res = _dapper.GetById<EmailTemplate>(param, "proc_GetEmailTemplateById");
-            string htmlBody  = res.Body; 
+            string htmlBody  = res.Content; 
 
             return htmlBody;
         }

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Entities.SocialMedia>
+
+@{
+    ViewData["Title"] = "_SocialMediaList";
+    Layout = null;
+}
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SMId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProjectId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlateformName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlateformLink)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Icons)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EntryOn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdateOn)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
