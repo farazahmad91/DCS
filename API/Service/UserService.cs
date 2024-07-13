@@ -67,7 +67,7 @@ namespace API.Service
                     Email = model.Email,
                     Name = model.Name,
                     PhoneNo = model.PhoneNo,
-
+                    ProjectId = model.ProjectId,
                     EmailConfirmed = true,
                 };
                 var result = await userManager.CreateAsync(user, model.Password);
@@ -243,6 +243,7 @@ namespace API.Service
                 {
                     Email = userExists.Email,
                     UserId = userExists.Id,
+                    ProjectId = userExists.ProjectId,
                     UserName = userExists.UserName,
                     Name = userExists.Name, // Make sure 'Name' property exists in your user model
                     Token = tokenAsString,

@@ -4,8 +4,8 @@ namespace API.DBContext.Entities
 {
     public class RegisterViewModel
     {
-       
-            [Required]
+            public int ProjectId { get; set; }
+           [Required]
             [StringLength(50)]
 
             public string Name { get; set; }

@@ -1,4 +1,4 @@
-﻿using API.Migrations;
+﻿
 
 namespace API.DBContext.Entities
 {
@@ -6,6 +6,7 @@ namespace API.DBContext.Entities
     {
         public string Id { get; set; }
         public int UserId { get; set; }
+        public int ProjectId { get; set; }
         public string Email { get; set; }
         public string Name { get; set; }
         public string UserName { get; set; }
