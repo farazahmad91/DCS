@@ -117,7 +117,8 @@
         let param = {
             id: pId,
         };
-        $.get("/EditProject", param).done(function (res) {
+        $.post("/EditProject", param).done(function (res) {
+            debugger;
             console.log(res);
             $("#project_modalPV").html(res);
             $("#AddProjectmodal").modal("show");

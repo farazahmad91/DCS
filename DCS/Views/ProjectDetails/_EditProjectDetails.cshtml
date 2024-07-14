@@ -1,5 +1,8 @@
 ﻿@model Entities.ProjectDetails
 
+
+
+
 <div class="card">
 	<div class="card-body">
 		<!-- Modal -->
@@ -13,58 +16,29 @@
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						<div class="row gx-3">
-							<div class="col-sm-4 col-12">
-								<div id="ProjectLogo" class="mb-3">
-									<form action="/upload" class="dropzone sm needsclick dz-clickable" id="update-profile-pic">
-										<div class="profile-pic">
-											<label class="-label" for="file">
-												<span class="glyphicon glyphicon-camera"></span>
-												<span>Add Logo</span>
-											</label>
-											<input id="file" type="file" onchange="uploadImage(event)" />
-
-											<img src="https://cdn.pixaba.com/photo/2017/08/06/21/01/louvre-2596278_960_720.jpg" id="output" width="200" />
-
-										</div>
-									</form>
-								</div>
-							</div>
-							<div class="col-sm-8 col-12">
-								<div class="row gx-3">
-									<div class="col-6">
-										<input type="text" class="form-control" asp-for="ProjectId" hidden placeholder="enter full name">
+						<div>
+							<h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle me-1"></i> Personal Info</h5>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="mb-3">
 										@if (Model != null && Model.ProjectId != null)
 										{
-												<div class="mb-3" hidden>
-													<label for="Name" class="form-label">Full Name</label>
-													<input type="text" class="form-control" id="Name" placeholder="enter full name">
-												</div>
-										}
-										else
-										{
-												<div class="mb-3">
-													<label for="Name" class="form-label">Full Name</label>
-													<input type="text" class="form-control" id="Name" placeholder="enter full name">
-												</div>
-										}
-
-										@if (Model != null && Model.ProjectId != null)
-										{
-											<div class="mb-3">
-												<label for="Email" class="form-label">Email</label>
-											<input type="email" class="form-control" disabled=true asp-for="Email" placeholder="enter email">
+											<div class="mb-3" hidden>
+												<label for="Name" class="form-label">Full Name</label>
+												<input type="text" class="form-control" id="Name" placeholder="enter full name">
 											</div>
 										}
 										else
 										{
 											<div class="mb-3">
-												<label for="Email" class="form-label">Email</label>
-											<input type="email" class="form-control" asp-for="Email" placeholder="enter email">
+												<label for="Name" class="form-label">Full Name</label>
+												<input type="text" class="form-control" id="Name" placeholder="enter full name">
 											</div>
 										}
 									</div>
-									<div class="col-6">
+								</div>
+								<div class="col-md-6">
+									<div class="mb-3">
 										@if (Model != null && Model.ProjectId != null)
 										{
 											<div class="mb-3" hidden>
@@ -79,41 +53,138 @@
 												<input type="number" class="form-control" id="Phone" placeholder="enter phone">
 											</div>
 										}
-										<!-- Form Field Start -->
-										<div class="mb-3">
-											<label for="Email" class="form-label">Project Name.</label>
-											<input type="text" class="form-control" asp-for="ProjectName" placeholder="enter projec tName">
-										</div>
-									</div>
 
-								</div>
 
-								<div class="row gx-3">
-									<div class="col-6">
-										<div class="mb-3">
-											<label for="DomainName" class="form-label">Domain Name</label>
-											<input type="text" class="form-control" asp-for="DomainName" placeholder="enter domain Name">
-											
-										</div>
-									
+										
 									</div>
-									<div class="col-6">
-										<label class="form-label">IsActive</label>
-											<div class="form-check form-switch">
-												<input class="form-check-input" type="checkbox" role="switch"  id="Status" checked="">
-												<label class="form-check-label" for="Status"></label>
+								</div> <!-- end col -->
+							</div> <!-- end row -->
+
+							<div class="row">
+								<div class="col-12">
+									<div class="mb-3">
+										@if (Model != null && Model.ProjectId != null)
+										{
+											<div class="mb-3">
+												<label for="Email" class="form-label">Email</label>
+												<input type="email" class="form-control" disabled=true asp-for="Email" placeholder="enter email">
 											</div>
-                                    </div>
+										}
+										else
+										{
+											<div class="mb-3">
+												<label for="Email" class="form-label">Email</label>
+												<input type="email" class="form-control" asp-for="Email" placeholder="enter email">
+											</div>
+										}
+									</div>
+								</div> <!-- end col -->
+							</div> <!-- end row -->
+
+							@* <div class="row">
+								<div class="col-md-6">
+									<div class="mb-3">
+										<label for="useremail" class="form-label">Email Address</label>
+										<input type="email" class="form-control" id="useremail" placeholder="Enter email">
+										<span class="form-text text-muted"><small>If you want to change email please <a href="javascript: void(0);">click</a> here.</small></span>
+									</div>
 								</div>
-							</div>
+								<div class="col-md-6">
+									<div class="mb-3">
+										<label for="userpassword" class="form-label">Password</label>
+										<input type="password" class="form-control" id="userpassword" placeholder="Enter password">
+										<span class="form-text text-muted"><small>If you want to change password please <a href="javascript: void(0);">click</a> here.</small></span>
+									</div>
+								</div> <!-- end col -->
+							</div> <!-- end row --> *@
+
+							<h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-office-building me-1"></i> Company Info</h5>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="mb-3">
+										<label for="companyname" class="form-label">Company Name</label>
+										<input type="text" class="form-control" asp-for="ProjectName" placeholder="Enter company name">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="mb-3">
+										<label for="cwebsite" class="form-label">Website</label>
+										<input type="text" class="form-control" asp-for="DomainName" placeholder="enter domain Name">
+									</div>
+								</div> <!-- end col -->
+							</div> <!-- end row -->
+
+							<h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-earth me-1"></i> Social</h5>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="mb-3">
+										<label for="social-fb" class="form-label">Facebook</label>
+										<div class="input-group">
+											<span class="input-group-text"><i class="mdi mdi-facebook"></i></span>
+											<input type="text" class="form-control" id="social-fb" placeholder="Url">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="mb-3">
+										<label for="social-tw" class="form-label">Twitter</label>
+										<div class="input-group">
+											<span class="input-group-text"><i class="mdi mdi-twitter"></i></span>
+											<input type="text" class="form-control" id="social-tw" placeholder="Username">
+										</div>
+									</div>
+								</div> <!-- end col -->
+							</div> <!-- end row -->
+
+							<div class="row">
+								<div class="col-md-6">
+									<div class="mb-3">
+										<label for="social-insta" class="form-label">Instagram</label>
+										<div class="input-group">
+											<span class="input-group-text"><i class="mdi mdi-instagram"></i></span>
+											<input type="text" class="form-control" id="social-insta" placeholder="Url">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="mb-3">
+										<label for="social-lin" class="form-label">Linkedin</label>
+										<div class="input-group">
+											<span class="input-group-text"><i class="mdi mdi-linkedin"></i></span>
+											<input type="text" class="form-control" id="social-lin" placeholder="Url">
+										</div>
+									</div>
+								</div> <!-- end col -->
+							</div> <!-- end row -->
+
+							<div class="row">
+								<div class="col-md-6">
+									<div class="mb-3">
+										<label for="social-sky" class="form-label">Skype</label>
+										<div class="input-group">
+											<span class="input-group-text"><i class="mdi mdi-skype"></i></span>
+											<input type="text" class="form-control" id="social-sky" placeholder="username">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="mb-3">
+										<label for="social-gh" class="form-label">Github</label>
+										<div class="input-group">
+											<span class="input-group-text"><i class="mdi mdi-github"></i></span>
+											<input type="text" class="form-control" id="social-gh" placeholder="Username">
+										</div>
+									</div>
+								</div> <!-- end col -->
+							</div> <!-- end row -->
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+						<button type="button" class="btn btn-success mt-2" data-bs-dismiss="modal">
 							Close
 						</button>
-						<button type="button" class="btn btn-secondary" onclick="addProject();">
-							@if (Model != null && Model.ProjectId!= null)
+						<button type="submit" class="btn btn-success mt-2" onclick="addProject();>
+							<i class="mdi mdi-content-save"></i> @if (Model != null && Model.ProjectId != null)
 							{
 								<text>Save changes</text>
 

@@ -132,7 +132,7 @@ namespace DCS.Controllers
                     return Json(authenticateResponse);
                 }
 
-                if (authenticateResponse.StatusCode == ResponseStatus.ISEmailVerifiedField)
+                if (authenticateResponse.StatusCode == ResponseStatus.EmailNotVerified)
                 {
                       return Json(authenticateResponse);
                 }
@@ -146,20 +146,33 @@ namespace DCS.Controllers
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
-                if (authenticateResponse.Result.Role == "Merchant")
+                if (authenticateResponse.Result.Role == "Merchant" || authenticateResponse.Result.Role == "Admin" || authenticateResponse.Result.Role == "Client")
                 {
-                    string redirectUrl = "/admin";
-                    return Json(redirectUrl);
+                    var respons = new {
+                        statusCode =1,
+                        redirectUrl = "/admin",
+                };
+
+                    //string redirectUrl = "/admin";
+                    return Json(respons);
                 }
                 else if (authenticateResponse.Result.Role == "User")
                 {
-                    string Url = "/User/Index";
-                    return Json(Url);
+                    var respons = new
+                    {
+                        statusCode = 1,
+                        redirectUrl = "/User/Index",
+                    };
+                    return Json(respons);
                 }
                 else if (authenticateResponse.Result.Role == "Employee")
                 {
-                    string Url = "/Employee/Index";
-                    return Json(Url);
+                    var respons = new
+                    {
+                        statusCode = 1,
+                        redirectUrl = "/Employee/Index",
+                    };
+                    return Json(respons);
                 }
                 else
                 {
