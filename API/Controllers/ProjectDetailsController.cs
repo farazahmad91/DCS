@@ -77,5 +77,17 @@ namespace API.Controllers
             var i = await _details.GetProjectDetailsByProjectId(id);
             return Ok(i);
         }
+
+        [HttpPost(nameof(GetProjectDetailsByEmail)+"/{email}")]
+        public async Task<IActionResult> GetProjectDetailsByEmail(string email)
+        {
+            var res = new Response
+            {
+                ResponseText ="An Error Occured Try After Some Time!",
+                StatusCode = ResponseStatus.FAILED
+            };
+            var i = await _details.GetProjectDetailsByEmail(email);
+            return Ok(i);
+        }
     }
 }

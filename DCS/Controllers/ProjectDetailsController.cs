@@ -3,6 +3,7 @@ using API.Claims;
 using API.DBContext.Entities;
 using Entities;
 using Entities.Response;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -93,6 +94,7 @@ namespace DCS.Controllers
             }
             return PartialView(list);
         }
+        [AllowAnonymous]
         [HttpPost]
         [Route("/AddOrUpdateProject")]
         public async Task<IActionResult> AddOrUpdateService([FromForm] string projectData, IFormFile file)

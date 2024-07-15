@@ -204,7 +204,7 @@ namespace API.Service
                 {
                    var j= await _userValidation.ValidateEmail(model.Email);
                     response.ResponseText = j.ResponseText;
-                    response.StatusCode = j.StatusCode;
+                    response.StatusCode = ResponseStatus.EmailNotVerified;
                     return response;
                 }
                 await _signInManager.SignInAsync(userExists, isPersistent: true);
