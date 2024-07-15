@@ -43,5 +43,20 @@ namespace API.AppCode.ML
             var i = await procedure.Call(Id);
             return (ProjectDetails)i;
         }
+
+        public async Task<ProjectDetails> GetProjectDetailsByEmail(string email)
+        {
+            try
+            {
+                IProcedureAsync procedure = new Proc_GetProjectDetailsByEmail(_dapper);
+                var i = await procedure.Call(email);
+                return (ProjectDetails)i;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

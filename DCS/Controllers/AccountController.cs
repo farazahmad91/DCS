@@ -127,6 +127,10 @@ namespace DCS.Controllers
                 {
                     return Json(authenticateResponse);
                 }
+                if (authenticateResponse.Result==null || authenticateResponse.StatusCode==ResponseStatus.FAILED)
+                {
+                    return Json(authenticateResponse);
+                }
                 if (authenticateResponse.StatusCode == ResponseStatus.IsDeactiveUser)
                 {
                     return Json(authenticateResponse);
@@ -134,8 +138,9 @@ namespace DCS.Controllers
 
                 if (authenticateResponse.StatusCode == ResponseStatus.EmailNotVerified)
                 {
-                      return Json(authenticateResponse);
+                    return Json(authenticateResponse);
                 }
+               
 
                 var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                 identity.AddClaim(new Claim("Token", authenticateResponse.Result.Token));
@@ -143,9 +148,20 @@ namespace DCS.Controllers
                 identity.AddClaim(new Claim(ClaimTypes.Email, authenticateResponse.Result.Email));
                 identity.AddClaim(new Claim(ClaimTypes.Name, authenticateResponse.Result.Name));
                 identity.AddClaim(new Claim("UserId", authenticateResponse.Result.UserId.ToString()));
+				identity.AddClaim(new Claim("ProjectId", authenticateResponse.Result.ProjectId.ToString()));
 
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+				await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
+                if (authenticateResponse.StatusCode == ResponseStatus.SUCCESS)
+                {
+                    var list = new ProjectDetails();
+                    var projectRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/ProjectDetails/GetProjectDetailsByEmail/{loginRequest.Email}", null, null);
+                    if (projectRes.Result != null)
+                    {
+                        list = JsonConvert.DeserializeObject<ProjectDetails>(projectRes.Result);
+                        HttpContext.Session.SetString("projectdetail", JsonConvert.SerializeObject(list));
+                    }
+                }
                 if (authenticateResponse.Result.Role == "Merchant" || authenticateResponse.Result.Role == "Admin" || authenticateResponse.Result.Role == "Client")
                 {
                     var respons = new {

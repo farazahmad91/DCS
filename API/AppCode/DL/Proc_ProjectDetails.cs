@@ -22,19 +22,23 @@ namespace API.AppCode.DL
             };
             try
             {
-
-				var param = new
+				var i = await _dapper.GetAsync<Response>("Proc_UpdateProjectId", new { Email = req.Email, ProjectId = req.ProjectId, });
+                if (i.StatusCode==ResponseStatus.SUCCESS)
                 {
-                    ProjectId = req.ProjectId,
-                    UserEmail = req.Email,
-					Logo = req.Logo,
-					ProjectName = req.ProjectName,
-                    DomainName = req.DomainName,
-                    Status = req.Status,
-                };
-                var i = await _dapper.GetAsync<Response>(GetName(), param);
-                res=i;
-                return res;
+					var param = new
+					{
+						ProjectId = req.ProjectId,
+						UserEmail = req.Email,
+						Logo = req.Logo,
+						ProjectName = req.ProjectName,
+						DomainName = req.DomainName,
+						Status = req.Status,
+					};
+					var j = await _dapper.GetAsync<Response>(GetName(), param);
+					res=j;
+					return res;
+				}
+				
             }
             catch (Exception ex)
             {
@@ -147,6 +151,51 @@ namespace API.AppCode.DL
         public string GetName()
         {
             return "Proc_GetProjectDetailsById";
+        }
+    }
+
+    public class Proc_GetProjectDetailsByEmail : IProcedureAsync
+    {
+        private readonly IDapper _dapper;
+        public Proc_GetProjectDetailsByEmail(IDapper dapper)
+        {
+            _dapper=dapper;
+        }
+        public async Task<object> Call(object obj)
+        {
+            string name = (string)obj;
+            try
+            {
+                var param = new
+                {
+                    Email = name,
+
+                };
+                var i = await _dapper.GetAsync<ProjectDetails>(GetName(), param);
+                return i;
+            }
+            catch (Exception ex)
+            {
+                var error = new ErrorLog
+                {
+                    ClassName = GetType().Name,
+                    FuncName = "call",
+                    Error = ex.Message,
+                    ProcName = GetName(),
+                };
+                new ErrorLog_ML(_dapper).Error(error);
+            }
+            return "error";
+        }
+
+        public Task<object> Call()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetName()
+        {
+            return "Proc_GetProjectsByEmail";
         }
     }
 }

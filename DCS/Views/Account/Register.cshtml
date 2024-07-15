@@ -1,136 +1,200 @@
-﻿@model API.DBContext.Entities.RegisterViewModel
+﻿@model Entities.ProjectDetails
 @{
-    ViewData["Title"] = "Register";
-    Layout = "~/Views/Shared/_Account.cshtml";
+	ViewData["Title"] = "Register";
+	Layout = "~/Views/Shared/_Account.cshtml";
 }
-<div class="my-auto">
-    <!-- title-->
-    <h4 class="mt-3">Free Sign Up</h4>
-    <p class="text-muted mb-4">Don't have an account? Create your account, it takes less than a minute</p>
 
-    <!-- form -->
-    <form>
-        <div class="mb-3">
-            <label for="Name" class="form-label">Full Name</label>
-            <input class="form-control" type="text" id="Name" placeholder="Enter your name" required>
-        </div>
-        <div class="mb-3">
-            <label for="Email" class="form-label">Email address</label>
-            <input class="form-control" type="email" id="Email" required placeholder="Enter your email">
-        </div>
-        <div class="mb-3">
-            <label for="PhoneNo" class="form-label">Phone No</label>
-            <input class="form-control" type="text" id="PhoneNo" placeholder="Enter your Phone No" required>
-        </div>
-        <div class="mb-3" hidden>
-            <select class="form-control" id="Role" name="Role" hidden>
-                <option value="">:: Select Role ::</option>
-                <option value="Admin">Admin</option>
-                <option value="Client" selected>Client</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="Password" class="form-label">Password</label>
-                    <input class="form-control" type="Password" required id="Password" placeholder="Enter your password">
-                </div>
-                <div class="col-md-6">
-                    <label for="ConfirmPassword" class="form-label">Confirm Password</label>
-                    <input class="form-control" type="Password" required id="ConfirmPassword" placeholder="Enter your password">
-                </div>
-            </div>
-            
-        </div>
-        <div class="mb-3">
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="checkbox-signup">
-                <label class="form-check-label" for="checkbox-signup">I accept <a href="javascript: void(0);" class="text-muted">Terms and Conditions</a></label>
-            </div>
-        </div>
-        <div class="mb-0 d-grid text-center">
-            <button class="btn btn-primary" type="submit" id="btnregister"><i class="mdi mdi-account-circle"></i> Sign Up </button>
-        </div>
-        <!-- social-->
-@*         <div class="text-center mt-4">
-            <p class="text-muted font-16">Sign up using</p>
-            <ul class="social-list list-inline mt-3">
-                <li class="list-inline-item">
-                    <a href="javascript: void(0);" class="social-list-item border-primary text-primary"><i class="mdi mdi-facebook"></i></a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="javascript: void(0);" class="social-list-item border-danger text-danger"><i class="mdi mdi-google"></i></a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="javascript: void(0);" class="social-list-item border-info text-info"><i class="mdi mdi-twitter"></i></a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="javascript: void(0);" class="social-list-item border-secondary text-secondary"><i class="mdi mdi-github"></i></a>
-                </li>
-            </ul>
-        </div> *@
-    </form>
-    <!-- end form-->
+
+<div class="my-auto">
+
+	<div>
+		<h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle me-1"></i> Personal Info</h5>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="mb-3">
+						<div class="mb-3">
+							<label for="Name" class="form-label">Full Name</label>
+							<input type="text" class="form-control" id="Name" placeholder="enter full name">
+						</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="mb-3">
+						<div class="mb-3">
+							<label for="Email" class="form-label">Phone No.</label>
+							<input type="number" class="form-control" id="Phone" placeholder="enter phone">
+						</div>
+				</div>
+			</div> <!-- end col -->
+		</div> <!-- end row -->
+
+		<div class="row">
+			<div class="col-6">
+				<div class="mb-3">
+						<div class="mb-3">
+							<label for="Email" class="form-label">Email</label>
+							<input type="email" class="form-control" id="Email" placeholder="enter email">
+						</div>
+				</div></div>
+			<div class="col-6">
+				<div class="mb-3">
+					<div class="mb-3">
+						<label for="Email" class="form-label">Logo</label>
+						<input type="file" class="form-control" id="file" placeholder="enter email">
+					</div>
+				</div>
+			</div>
+		</div>
+			@* <div class="row">
+		<div class="col-md-6">
+		<div class="mb-3">
+		<label for="useremail" class="form-label">Email Address</label>
+		<input type="email" class="form-control" id="useremail" placeholder="Enter email">
+		<span class="form-text text-muted"><small>If you want to change email please <a href="javascript: void(0);">click</a> here.</small></span>
+		</div>
+		</div>
+		<div class="col-md-6">
+		<div class="mb-3">
+		<label for="userpassword" class="form-label">Password</label>
+		<input type="password" class="form-control" id="userpassword" placeholder="Enter password">
+		<span class="form-text text-muted"><small>If you want to change password please <a href="javascript: void(0);">click</a> here.</small></span>
+		</div>
+		</div> <!-- end col -->
+		</div> <!-- end row --> *@
+
+		<h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-office-building me-1"></i> Company Info</h5>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label for="companyname" class="form-label">Company Name</label>
+					<input type="text" class="form-control" asp-for="ProjectName" placeholder="Enter company name">
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label for="cwebsite" class="form-label">Website</label>
+					<input type="text" class="form-control" asp-for="DomainName" placeholder="enter domain Name">
+				</div>
+			</div> <!-- end col -->
+		</div> <!-- end row -->
+@* 
+		<h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-earth me-1"></i> Social</h5>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label for="social-fb" class="form-label">Facebook</label>
+					<div class="input-group">
+						<span class="input-group-text"><i class="mdi mdi-facebook"></i></span>
+						<input type="text" class="form-control" id="social-fb" placeholder="Url">
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label for="social-tw" class="form-label">Twitter</label>
+					<div class="input-group">
+						<span class="input-group-text"><i class="mdi mdi-twitter"></i></span>
+						<input type="text" class="form-control" id="social-tw" placeholder="Username">
+					</div>
+				</div>
+			</div> <!-- end col -->
+		</div> <!-- end row -->
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label for="social-insta" class="form-label">Instagram</label>
+					<div class="input-group">
+						<span class="input-group-text"><i class="mdi mdi-instagram"></i></span>
+						<input type="text" class="form-control" id="social-insta" placeholder="Url">
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label for="social-lin" class="form-label">Linkedin</label>
+					<div class="input-group">
+						<span class="input-group-text"><i class="mdi mdi-linkedin"></i></span>
+						<input type="text" class="form-control" id="social-lin" placeholder="Url">
+					</div>
+				</div>
+			</div> <!-- end col -->
+		</div> <!-- end row -->
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label for="social-sky" class="form-label">Skype</label>
+					<div class="input-group">
+						<span class="input-group-text"><i class="mdi mdi-skype"></i></span>
+						<input type="text" class="form-control" id="social-sky" placeholder="username">
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label for="social-gh" class="form-label">Github</label>
+					<div class="input-group">
+						<span class="input-group-text"><i class="mdi mdi-github"></i></span>
+						<input type="text" class="form-control" id="social-gh" placeholder="Username">
+					</div>
+				</div>
+			</div> <!-- end col -->
+		</div> <!-- end row --> *@
+	</div>
+	<button type="submit" class="btn btn-success mt-2" onclick="addProject();">
+		<i class="mdi mdi-content-save"></i> @if (Model != null && Model.ProjectId != null)
+			{
+				<text>Save changes</text>
+
+			}
+			else
+			{
+				<text>Create Free</text>
+			}
+	</button>
 </div>
 
-<!-- Footer-->
 <footer class="footer footer-alt">
-    <p class="text-muted">Already have account? <a href="/Login" class="text-muted ms-1"><b>Log In</b></a></p>
+	<p class="text-muted">Already have account? <a href="/Login" class="text-muted ms-1"><b>Log In</b></a></p>
 </footer>
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function () {
-        $("#togglePassword").click(function () {
-            var passwordInput = $("#Password");
-            var type = passwordInput.attr("type") === "password" ? "text" : "password";
-            passwordInput.attr("type", type);
-            $(this).toggleClass("fa-eye fa-eye-slash");
-        });
-        $("#btnregister").click(function () {
-            RegisterUsers();
-        
-        });
-    });
+	function addProject() {
+		debugger;
+		const projectData = {
+			Name: $("#Name").val(),
+			PhoneNo: $("#Phone").val(),
+			Email: $("#Email").val(),
+			ProjectName: $("#ProjectName").val(),
+			DomainName: $("#DomainName").val(),
+			Status: status
+		};
 
-    function RegisterUsers() {
-        debugger;
-        var param = {
-            Name: $("#Name").val(),
-            Email: $("#Email").val(),
-            PhoneNo: $("#PhoneNo").val(),
-            Role: $("#Role").val(),
-            Password: $("#Password").val(),
-            ConfirmPassword: $("#ConfirmPassword").val(),
-        };
+		const formData = new FormData();
+		formData.append("projectData", JSON.stringify(projectData));
+		formData.append("file", $("#file").prop('files')[0]);
+		for (const pair of formData.entries()) {
+			console.log(pair[0] + ': ' + pair[1]);
+		}
 
-        if (validateUser(param)) {
-            $.post("/Account/Register", param)
-                .done(function (res) {
-
-                    if (res.status === 1) {
-                        setTimeout(function () {
-                            Info(1, "Register Successful!");
-                        }, 1000);
-
-                        window.location.href = "/Account/Login";
-                    } else {
-                        Info(-1,"Registration failed. Please try again.");
-                    }
-                })
-                .fail(function (xhr) {
-                    Info(-1, xhr.responseText);
-                });
-        }
-    }
-
-    function validateUser(param) {
-        if (param.Password !== param.ConfirmPassword) {
-            showerrors("Passwords do not match!");
-            return false;
-        }
-        return true;
-    }
+		$.ajax({
+			url: '/AddOrUpdateProject',
+			type: 'POST',
+			data: formData,
+			contentType: false,
+			processData: false,
+			success: function (result) {
+				setTimeout(function () {
+					Info(result.statusCode, result.responseText);
+				}, 1000);
+			},
+			error: function () {
+				showerrors("Something went wrong!!!");
+			}
+		});
+	}
 
 </script>
