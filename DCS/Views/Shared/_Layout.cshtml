@@ -12,6 +12,10 @@
     var applicationSetting = !string.IsNullOrEmpty(listJson)
         ? JsonConvert.DeserializeObject<ApplicationSetting>(listJson)
         : null;
+   var listprojectJson = session.GetString("projectdetail");
+   var projectdetails = !string.IsNullOrEmpty(listprojectJson)
+        ? JsonConvert.DeserializeObject<ProjectDetails>(listprojectJson)
+        : null;
 }
 @model Entities.ApplicationSetting
 
@@ -20,7 +24,7 @@
 	//ApplicationSetting setting = new ApplicationSetting();
 	var nameClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
 	var name = nameClaim != null ? nameClaim.Value : "Guest";
-	var role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+	//var role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
 	// //var Urole = role != null ? role.Value : "Guest";
 }
 <!DOCTYPE html>
@@ -30,16 +34,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <!-- Meta -->
-	<meta name="description" content="@project.ProjectName" />
-    <meta name="author" content="Bootstrap Gallery" />
-    <link rel="canonical" href="https://www.bootstrap.gallery/">
-    <meta property="og:url" content="https://www.bootstrap.gallery">
-	<meta property="og:title" content="Admin @project.ProjectName">
-    <meta property="og:description" content="Marketplace for Bootstrap Admin Dashboards">
+    @if (projectdetails != null)
+    {
+     <meta name="description" content="@projectdetails.ProjectName" />
+    <meta name="author" content="@projectdetails.ProjectName" />
+    <link rel="canonical" href="@projectdetails.ProjectName">
+    <meta property="og:url" content="@projectdetails.ProjectName">
+	<meta property="og:title" content="@projectdetails.ProjectName">
+    <meta property="og:description" content="@projectdetails.ProjectName"> 
     <meta property="og:type" content="Website">
-    <meta property="og:site_name" content="Bootstrap Gallery">
+    <meta property="og:site_name" content="@projectdetails.ProjectName">
+    }
     <link rel="shortcut icon" href="~/assets/images/favicon.svg" />
-    <title>@project.ProjectName</title>
+     @if (projectdetails != null)
+        {
+        <title>@projectdetails.ProjectName</title>
+        }
+ 
 	<link rel="stylesheet" href="~/dcs/css/site.css" />
 	<link rel="shortcut icon" href="~/assets/images/favicon.ico">
 	<!-- Daterangepicker css -->
@@ -52,14 +63,9 @@
     <link href="~/assets/css/app-saas.min.css" rel="stylesheet" type="text/css" id="app-style" />
 	<!-- Icons css -->
     <link href="~/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-         <!-- Bootstrap Datepicker css -->
-        <link href="~/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
-
-        <!-- Bootstrap Timepicker css -->
-        <link href="~/assets/vendor/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css" />
-
-        <!-- Flatpickr Timepicker css -->
-        <link href="~/assets/vendor/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/vendor/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/vendor/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <!-- Begin page -->
@@ -73,21 +79,34 @@
                     <div class="logo-topbar">
                         <!-- Logo light -->
                         <a href="/Admin" class="logo-light">
-                            <span class="logo-lg">
-                                <img src="../assets/images/logo.png" alt="logo">
+                            <span class="logo-lg"> 
+                                @if (projectdetails != null)
+                                 {
+                                     <img src="@projectdetails.Logo" alt="logo">
+                                 }
+                                
                             </span>
                             <span class="logo-sm">
-                                <img src="../assets/images/logo-sm.png" alt="small logo">
+                                @if (projectdetails != null)
+                                {
+                                    <img src="@projectdetails.Logo" alt="logo-sm">
+                                }
                             </span>
                         </a>
 
                         <!-- Logo Dark -->
                         <a href="/Admin" class="logo-dark">
                             <span class="logo-lg">
-                                <img src="../assets/images/logo-dark.png" alt="dark logo">
+                               @if (projectdetails != null)
+                                {
+                                    <img src="@projectdetails.Logo" alt="logo-dark">
+                                }
                             </span>
                             <span class="logo-sm">
-                                <img src="../assets/images/logo-dark-sm.png" alt="small logo">
+                                @if (projectdetails != null)
+                                {
+                                    <img src="@projectdetails.Logo" alt="logo-dark">
+                                }
                             </span>
                         </a>
                     </div>
@@ -449,6 +468,10 @@
                                 <i class="mdi mdi-account-edit me-1"></i>
                                 <span>Settings</span>
                             </a>
+                            <a href="/ChangePassword" class="dropdown-item">
+                                <i class="mdi mdi-account-edit me-1"></i>
+                                <span>Change Password</span>
+                            </a>
 
                             @if (applicationSetting != null && applicationSetting.IsDarkModeEnabled)
  {
@@ -571,12 +594,18 @@
                         </a>
                         <div class="collapse" id="sidebarEmail">
                             <ul class="side-nav-second-level">
-                                <li>
+                                @if (applicationSetting != null && applicationSetting.IsEmailMarketing)
+                                     {
+                                 <li>
                                     <a href="/ComposeBulkEmail">Email Marketing</a>
                                 </li>
+                                     }
+                                 @if (applicationSetting != null && applicationSetting.IsWhatsappMarketing)
+                                     {
                                 <li>
                                     <a href="apps-email-read.html">WhatsApp Marketing</a>
                                 </li>
+                                     }
                                 <li>
                                     <a href="apps-email-read.html">Inboxs</a>
                                 </li>
@@ -604,13 +633,16 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="side-nav-item">
-                        <a href="/Medicines" target="_blank" class="side-nav-link">
+                    @if (applicationSetting != null && applicationSetting.IsMSServiceEnabled)
+                    {
+                        <li class="side-nav-item">
+                            <a href="/Medicines" target="_blank" class="side-nav-link">
                             <i class="uil-globe"></i>
                             <span class="badge text-bg-secondary float-end">New</span>
                             <span> Medicine Managements </span>
                         </a>
                     </li>
+                    }
                     <li class="side-nav-item">
                         <a data-bs-toggle="collapse" href="#sidebarInvoice" aria-expanded="false" aria-controls="sidebarInvoice" class="side-nav-link">
                             <i class="uil-envelope"></i>
@@ -627,7 +659,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </li
+                    </li>
                     <li class="side-nav-item">
                         <a data-bs-toggle="collapse" href="#sidebarInvoice" aria-expanded="false" aria-controls="sidebarInvoice" class="side-nav-link">
                             <i class="uil-envelope"></i>
@@ -656,7 +688,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </li
+                    </li>
                     <li class="side-nav-item">
                         <a data-bs-toggle="collapse" href="#sidebarInvoice" aria-expanded="false" aria-controls="sidebarInvoice" class="side-nav-link">
                             <i class="uil-envelope"></i>
@@ -670,16 +702,18 @@
                                 </li>
                             </ul>
                         </div>
-                    </li
+                    </li>
 
-                    
 
+                    @if (applicationSetting != null && applicationSetting.IsBackUpService)
+                    {
                         <li class="side-nav-item">
-                        <a href="/DoctorsList" class="side-nav-link">
+                            <a href="/DoctorsList" class="side-nav-link">
                             <i class="uil-comments-alt"></i>
                             <span> Backup Files </span>
                         </a>
                     </li>
+                    }
                    <li class="side-nav-item">
                         <a data-bs-toggle="collapse" href="#sidebarInvoice" aria-expanded="false" aria-controls="sidebarInvoice" class="side-nav-link">
                             <i class="uil-envelope"></i>
@@ -696,7 +730,7 @@
                                     <a href="/Project-List">Projects Settings</a>
                                 </li>
                                 <li>
-                                    <a href="/Service-List">Application Service</a>
+                                    <a href="/Service-List">App Service</a>
                                 </li>
                                 <li>
                                     <a href="/Purchase-List">Order Lists</a>
@@ -704,12 +738,15 @@
                                 <li>
                                     <a href="/Users">Clients</a>
                                 </li>
+                                <li>
+                                    <a href="/AllEmailTemplate">Email Template</a>
+                                </li>
                                   <li>
                                     <a href="/DCSPoliciesList">Our Policy</a>
                                 </li>
                                   <li>
-    <a href="/DCS">Application Landing Page</a>
-</li>
+                                 <a href="/DCS">Application Landing Page</a>
+                                  </li>
                                 </li>
                             </ul>
                         </div>
@@ -743,8 +780,16 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-6">
-                                <span>&copy; @project.ProjectName All Rights Reserved. @DateTime.Now.Year</span>
-                            </div>
+                                 
+                            @if (projectdetails != null)
+                            {
+                            <span>&copy;    @projectdetails.ProjectName All Rights Reserved. @DateTime.Now.Year   </span>
+                        }
+                        else
+                        {
+                            <span>&copy; DCS All Rights Reserved. @DateTime.Now.Year   </span>
+                        }
+                    </div>
                             <div class="col-md-6">
                                 <div class="text-md-end footer-links d-none d-md-block">
                                     <a href="javascript: void(0);">About</a>
@@ -757,7 +802,7 @@
                 </footer>
                 <!-- end Footer -->
 
-            </div>
+          
 
             <!-- ============================================================== -->
             <!-- End Page content -->
