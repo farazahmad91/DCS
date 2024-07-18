@@ -210,9 +210,9 @@
             ServiceID: $("#ServiceID").val(),
             ServiceName: $("#ServiceName").val(),
             Description: $("#Description").val(),
-            Price: $("#Price").val(),
-            LastPrice: $("#LastPrice").val(),
-            Duration: $("#Duration").val(),
+            Price: parseFloat($("#Price").val()),
+            LastPrice: parseFloat($("#LastPrice").val()),
+            Duration: parseInt($("#Duration").val()),
             RenewalOption: $("#RenewalOption").val(),
             Discounts: $("#Discounts").val(),
             CustomerSupportLevel: $("#CustomerSupportLevel").val(),
@@ -235,11 +235,13 @@
             IsWhatsappMarketing: $("#IsWhatsappMarketing").prop('checked')
         };
 
-        $.post('/AddOrUpdatePlan', param).done(function (result) {
-            Info(result.statusCode, result.responseText);
-        }).fail(function (xhr) {
-            Info(-1, xhr.responseText);
-        });
+        $.post('/AddOrUpdatePlan', param)
+            .done(function (result) {
+                Info(result.statusCode, result.responseText);
+            })
+            .fail(function (xhr) {
+                Info(-1, xhr.responseText);
+            });
     }
 
 </script>

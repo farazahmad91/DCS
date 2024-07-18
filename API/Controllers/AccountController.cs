@@ -181,9 +181,9 @@ namespace API.Controllers
             return Ok(i);
         }
 
-        [Route(nameof(ValidateEmail)+"/{email}")]
+        [Route(nameof(SendOTP) +"/{email}")]
         [HttpPost]
-        public async Task<IActionResult> ValidateEmail(string email)
+        public async Task<IActionResult> SendOTP(string email)
         {
             var response = new Entities.Response.Response<bool>
             {
@@ -198,7 +198,7 @@ namespace API.Controllers
                 response.StatusCode=ResponseStatus.FAILED;
                 return BadRequest(response);
             }
-            var i = await _userValidation.ValidateEmail(email);
+            var i = await _userValidation.SendOTP(email);
                 return Ok(i);
         }
 

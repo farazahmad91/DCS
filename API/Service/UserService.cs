@@ -94,7 +94,7 @@ namespace API.Service
                 if (result.Succeeded)
                 {
                     Register(model.Email, model.ConfirmPassword);
-                    _userValidation.ValidateEmail(model.Email);
+                    _userValidation.SendOTP(model.Email);
 					response.ResponseText = "OTP has been sent your email address for verify Account!!";
 					response.StatusCode = ResponseStatus.SUCCESS;
 				}
@@ -193,8 +193,9 @@ namespace API.Service
                     var i = await _userValidation.IsUserVerified(model.Email);
                     response.ResponseText= i.ResponseText;
                     response.StatusCode= i.StatusCode;
-                    if (i.StatusCode==ResponseStatus.FAILED || i.StatusCode==ResponseStatus.IsDeactiveUser)
+                    if (i.StatusCode==ResponseStatus.FAILED || i.StatusCode==ResponseStatus.IsTempLock)
                     {
+                        response.StatusCode = ResponseStatus.IsTempLock;
                         return response;
                     }
                     
@@ -202,7 +203,7 @@ namespace API.Service
                 }
                 if (response.StatusCode== ResponseStatus.EmailNotVerified)
                 {
-                   var j= await _userValidation.ValidateEmail(model.Email);
+                   var j= await _userValidation.SendOTP(model.Email);
                     response.ResponseText = j.ResponseText;
                     response.StatusCode = ResponseStatus.EmailNotVerified;
                     return response;
