@@ -31,7 +31,6 @@ namespace API.AppCode.DL
                     Description = req.Description,
                     Price = req.Price,
                     Duration = req.Duration,
-                    ExpiryDate = req.ExpiryDate,
                     RenewalOption = req.RenewalOption,
                     Discounts =req.Discounts, 
                     CustomerSupportLevel = req.CustomerSupportLevel,

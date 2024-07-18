@@ -24,7 +24,7 @@ namespace API.Service
             _dapper=dapper;
             _sendmail=sendmail;
         }
-        public async Task<Response> ValidateEmail(string email)
+        public async Task<Response> SendOTP(string email)
         {
             var response = new Response();
 
@@ -73,7 +73,7 @@ namespace API.Service
                 var error = new ErrorLog
                 {
                     ClassName = GetType().Name,
-                    FuncName = "ValidateEmail",
+                    FuncName = "SendOTP",
                     Error = ex.Message,
                     ProcName = "",
                 };
@@ -97,6 +97,10 @@ namespace API.Service
                     Email = Email,
                 };
                 var i = await _dapper.GetAsync<Response>(sp, param);
+                if (i.StatusCode == ResponseStatus.IsTempLock)
+                {
+                    SendOTP(Email);
+                }
                 if (i.StatusCode == ResponseStatus.SUCCESS)
                 {
                     res.ResponseText = "OTP Verified";
@@ -132,21 +136,11 @@ namespace API.Service
                 var param = new
                 {
                     Email = validateEmail.Email,
-                    OTP = validateEmail.OTP
+                    OTP = validateEmail.OTP,
+                    Type=validateEmail.Type
                 };
                 var i = await _dapper.GetAsync<Response>(sp, param);
                 res = i;
-                if (i.StatusCode==ResponseStatus.SUCCESS)
-                {
-                    var par = new
-                    {
-                        IsVerfied = 1,
-                        Email= validateEmail.Email,
-                    };
-                    var j = await _dapper.GetAsync<Response>("Proc_ConfirmEmail", par);
-                    res = j;
-                    return res;
-                }
                 res = i;
                 return res;
             }

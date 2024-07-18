@@ -40,7 +40,7 @@
             <input class="form-control" type="email" id="Email" required="" placeholder="Enter your email">
         </div>
         <div class="mb-3">
-            <a href="/ForgotPass" class="text-muted float-end"><small>Forgot your password?</small></a>
+            <a href="/ForgotPassword" class="text-muted float-end"><small>Forgot your password?</small></a>
             <label for="Password" class="form-label">Password</label>
             <input class="form-control" type="password" required="" id="Password" placeholder="Enter your password">
         </div>
@@ -87,6 +87,7 @@
             var email = $("#Email").val();
             var password = $("#Password").val();
             sessionStorage.setItem('loginuseremail', email);
+
             var formData = {
                 Email: email,
                 Password: password
@@ -100,16 +101,20 @@
                         window.location.href = `${res.redirectUrl}`;
                     }, 2000);
                 }
-                if (res.statusCode == 3) {
+                if (res.statusCode == 4) {
                     setTimeout(function () {
-                        Info(-1, res.responseText);
+                        sessionStorage.setItem('emailtype', "EVFUNLOCK");
+                        window.location.href = "/IsVerified-User";
                     }, 3000);
                 }
                 if (res.statusCode == -2) {
-
+                    sessionStorage.setItem('emailtype', "NEV");
                     window.location.href = "/IsVerified-User";
                 }
-
+                if (res.statusCode == -1) {
+                    Info(res.statusCode, res.responseText);
+                }
+                    
             }).fail(function () {
                 showerrors("Something went wrong!!!");
             });

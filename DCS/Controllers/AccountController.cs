@@ -313,7 +313,7 @@ namespace DCS.Controllers
 
         }
 
-        [Route("Validate-Email")]
+        [Route("SendOTP")]
         [HttpPost]
         public async Task<IActionResult> ValidateEmail(string useremail)
         {
@@ -325,7 +325,7 @@ namespace DCS.Controllers
 
             try
             {
-                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Account/ValidateEmail/{useremail}", null, null);
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Account/SendOTP/{useremail}", null, null);
                 if (apiRes.Result != null)
                 {
                      res = JsonConvert.DeserializeObject<Response>(apiRes.Result);

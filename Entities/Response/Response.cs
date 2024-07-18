@@ -16,7 +16,9 @@
         FAILED = -1,
 		EmailNotVerified = -2,
         ISEmailVerifiedField = 2,
-        IsDeactiveUser =3
+        IsDeactiveUser =3,
+        IsTempLock = 4,
+        ISEmailVerifiedForForgotPassword = 5
     }
 
     public class RespnseToken : Response

@@ -90,13 +90,8 @@
         <div class="p-2 text-center">
             <h6>Please enter the one time password <br> to verify your account</h6>
             <div style="color:red;"><span id="resendemail">A code has been sent to</span> <small id="Lemail"></small> </div>
-            <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
-                <input class="m-2 text-center form-control rounded cls" type="text" id="first" maxlength="1" />
-                <input class="m-2 text-center form-control rounded cls" type="text" id="second" maxlength="1" />
-                <input class="m-2 text-center form-control rounded cls" type="text" id="third" maxlength="1" />
-                <input class="m-2 text-center form-control rounded cls" type="text" id="fourth" maxlength="1" />
-                <input class="m-2 text-center form-control rounded cls" type="text" id="fifth" maxlength="1" />
-                <input class="m-2 text-center form-control rounded cls" type="text" id="sixth" maxlength="1" />
+            <div class="d-flex">
+                <input class="form-control  cls" type="text" id="txtotp"  placeholder="enter OTP..."/>
             </div>
             <div class="mt-4">
                 <button class="btn btn-danger px-4 validate" id="btnValidatehide2" onclick="validateOTP();">
@@ -133,22 +128,27 @@
     });
 
     function validateOTP() {
+        debugger;
         const email = sessionStorage.getItem('loginuseremail');
-        document.getElementById("Validspinn").classList.add("spinner-border", "spinner-border-sm", "spinner-1x");
-        document.getElementById("btnValidatehide2").innerHTML = "Requesting...";
-
-        const otp = Array.from(document.querySelectorAll('#otp > *[id]')).map(input => input.value).join('');
-       
-
+        const eType = sessionStorage.getItem('emailtype');
+        console.log(eType);
+        var otp = $("#txtotp").val();
         if (otp.length === 6) {
-            var formData = { otp: otp, email: email };
+            var formData = { 
+                OTP: otp, 
+                Email: email,
+                Type: eType
+            };
 
             $.post('/Account/VerifyConfirmationEmail', formData)
                 .done(function (res) {
-                    if (res.statusCode === 1) {
+                    if (res.statusCode === 5) {
                         window.location.href = "/ResetPassword";
-                    } else {
-                        document.getElementById("Validspinn").classList.remove("spinner-border", "spinner-border-sm", "spinner-1x");
+                    } else if (res.statusCode === 1) {
+                        window.location.href = "/Login";
+                        Info(res.statusCode, res.responseText);
+                    }
+                    else {
                         Info(res.statusCode, res.responseText);
                     }
                 })
@@ -158,7 +158,6 @@
                 });
         } else {
             Info(-1, "Please enter a valid OTP");
-            document.getElementById("Validspinn").classList.remove("spinner-border", "spinner-border-sm", "spinner-1x");
         }
     }
 
@@ -208,21 +207,19 @@
     }
 
     function reSendEmail() {
-        document.getElementById("resendspinn").classList.add("spinner-border", "spinner-border-sm");
-        document.getElementById("btnrohide2").innerHTML = "Sending...";
+        debugger;
         document.getElementById("btnValidatehide2").hidden = true;
-        var email = $("#Email").val();
+        const email = sessionStorage.getItem('loginuseremail');
         if (validateEmail(email)) {
             sessionStorage.setItem('email', email);
             var formData = { useremail: email };
 
-            $.post("/Validate-Email", formData)
+            $.post("/SendOTP", formData)
                 .done(function (res) {
                     console.log(res);
                     if (res.statusCode === 1) {
                         document.getElementById("resendemail").innerHTML = "A code has been resent to";
                         document.getElementById("Lemail").innerHTML = maskEmail(email);
-                        document.getElementById("resendspinn").classList.remove("spinner-border", "spinner-border-sm");
                         document.getElementById("btnrohide2").hidden = true;
                         document.getElementById("btnValidatehide2").hidden = false;
                         var timer = 60;
