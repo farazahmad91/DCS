@@ -1,0 +1,65 @@
+﻿@model Entities.MasterEmailTemplateType
+
+<div class="card">
+    <div class="card-body">
+        <!-- Modal -->
+        <div class="modal fade" id="editEmailmodal" tabindex="-1" aria-labelledby="editEmailmodalTitle" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editEmailmodalTitle">
+                            Add or Update Doctor
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control" hidden asp-for="EmailTypeId">
+                        <div class="form-horizontal">
+                            <div class="row mb-3">
+                                <label for="EmailType" class="col-3 col-form-label">Template Type</label>
+                                <div class="col-9">
+                                    <input type="email" class="form-control" asp-for="EmailType" placeholder="EmailType">
+                                </div>
+                            </div>
+                            <div class="row mb-3 justify-content-end">
+                                <div class="col-9">
+                                    <div class="form-check">
+                                        <input type="checkbox" id="Status" name="Status" @Html.Raw(Model.Status==true ? "checked" : "")>
+                                        <label class="form-check-label" for="Status">Active</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3 justify-content-end">
+                                <div class="col-9">
+                                    <div class="form-check">
+                                        <input type="checkbox" id="IsDefault" name="IsDefault" @Html.Raw(Model.IsDefault==true ? "checked" : "")>
+                                        <label class="form-check-label" for="IsDefault">IsDefault</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="addEmailTemplate();">
+                            @if (Model != null && Model.EmailTypeId != null)
+                            {
+                                <text>Update</text>
+                            }
+                            else
+                            {
+                                <text>Save</text>
+                            }
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

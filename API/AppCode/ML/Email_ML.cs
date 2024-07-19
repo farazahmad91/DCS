@@ -19,21 +19,6 @@ namespace API.AppCode.ML
             _dapper=dapper;
             
         }
-
-        public async Task<Response> AddOrUpdateEmailTemplate(EmailTemplate template)
-        {
-            IProcedureAsync procedure = new Proc_AddOrUpdateEmailTemplate(_dapper);
-            var i = await procedure.Call(template);
-            return (Response)i;
-        }
-        
-        public async Task<IEnumerable<EmailTemplate>> GetEmailTemplateListOrById(Common common)
-        {
-            IProcedureAsync procedure = new Proc_GetEmailTemplate(_dapper);
-            var i = await procedure.Call(common);
-            return (IEnumerable<EmailTemplate>)i;
-        }
-
         public Response SendBulkEmails(CreateEmail emails)
         {
             var response = new Response()
@@ -42,8 +27,8 @@ namespace API.AppCode.ML
                 StatusCode = ResponseStatus.FAILED
             };
             var failedEmails = new List<string>();
-                try
-                {
+            try
+            {
                 if (setting.IsEmailMarketing)
                 {
                     _sendmail.Sendmailss(emails);
@@ -54,13 +39,13 @@ namespace API.AppCode.ML
                     response.StatusCode = ResponseStatus.FAILED;
                     return response;
                 }
-                   
-                }
-                catch (Exception ex)
-                {
-                    failedEmails.Add(emails.Emails);
 
-                }
+            }
+            catch (Exception ex)
+            {
+                failedEmails.Add(emails.Emails);
+
+            }
             if (failedEmails.Count > 0)
             {
                 response.ResponseText = $"Failed to send emails to the following recipients: {string.Join(", ", failedEmails)}";
@@ -75,5 +60,35 @@ namespace API.AppCode.ML
             return response;
         }
 
+        #region Email Template
+        public async Task<Response> AddOrUpdateEmailTemplate(EmailTemplate template)
+        {
+            IProcedureAsync procedure = new Proc_AddOrUpdateEmailTemplate(_dapper);
+            var i = await procedure.Call(template);
+            return (Response)i;
+        }
+        
+        public async Task<IEnumerable<EmailTemplate>> GetEmailTemplateListOrById(Common common)
+        {
+            IProcedureAsync procedure = new Proc_GetEmailTemplate(_dapper);
+            var i = await procedure.Call(common);
+            return (IEnumerable<EmailTemplate>)i;
+        }
+        #endregion
+
+        #region Email Template Type
+        public async Task<Response> AddOrUpdateMasterEmailTemplateType(MasterEmailTemplateType type)
+        {
+            IProcedureAsync procedure = new Proc_MasterEmailTemplateType(_dapper);
+            var i = await procedure.Call(type);
+            return (Response)i;
+        }
+        public async Task<IEnumerable<MasterEmailTemplateType>> GetMasterEmailTemplateTypeListOrById(Common common)
+        {
+            IProcedureAsync procedure = new Proc_GetMasterEmailTemplateType(_dapper);
+            var i = await procedure.Call(common);
+            return (IEnumerable<MasterEmailTemplateType>)i;
+        }
+        #endregion
     }
 }
