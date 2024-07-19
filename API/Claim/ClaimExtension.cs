@@ -21,6 +21,16 @@ namespace API.Claims
             }
         }
 
+        public static int? GetProjectId(this ClaimsPrincipal principal)
+        {
+            var projectidClaim = principal.FindFirst("projectId");
+            if (projectidClaim != null && int.TryParse(projectidClaim.Value, out int projectid))
+            {
+                return projectid;
+            }
+            return null;
+        }
+
         public static string GetLoggedInUserToken(this ClaimsPrincipal principal)
         {
             var tokenClaim = principal.FindFirst("Token");

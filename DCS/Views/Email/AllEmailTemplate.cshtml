@@ -17,7 +17,7 @@
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);"></a></li>
                             <li class="breadcrumb-item active">Form Advanced</li>
                         </ol>
                     </div>
@@ -33,7 +33,22 @@
                     <div class="card-body">
                         <div class="row mb-2">
                             <div class="col-sm-5">
+                                
                                 <div class="input-group">
+                                    <div class="row d-flex justify-content-end align-items-center" style="margin-right: 0px;">
+                                        <div class="col-auto">
+                                            <label for="Criteria" class="form-label mb-2">Top</label>
+                                        </div>
+                                        <div class="col-auto mb-2">
+                                            <select class="form-control" id="ddltop">
+                                                <option value="10">10</option>
+                                                <option value="20">20</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                                <option value="0">All</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <input type="text" class="form-control mb-2" id="txtname" onchange=" Onload();" placeholder="search name.." />
                                     <button class="btn btn-info mb-2" onclick="Onload();" type="button">
                                         Search
@@ -42,7 +57,7 @@
                             </div>
                             <div class="col-sm-7">
                                 <div class="text-sm-end">
-                                    <button id="btnaddAppointment" class="btn btn-danger mb-2" onclick="EditDoctor(0)" type="button">
+                                    <button id="btnaddAppointment" class="btn btn-danger mb-2" onclick="editEmailTemplate(0)" type="button">
                                         <i class="mdi mdi-plus-circle me-2"></i>  Add New
                                     </button>
                                     @* <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog-outline"></i></button> *@
@@ -56,22 +71,22 @@
                                 <thead>
                                     <tr>
                                         <th>
-                                            <label>TemplateID</label>
+                                            <label>TEMPLATE ID</label>
                                         </th>
                                         <th>
-                                            <label>EmailType</label>
+                                            <label>EMAIL TYPE</label>
                                         </th>
                                         <th>
-                                            <label>Subject</label>
+                                            <label>SUBJECT</label>
                                         </th>
                                         <th>
-                                            <label>Body</label>
+                                            <label>CONTENT</label>
                                         </th>
                                         <th>
-                                            <label>CreatedAt</label>
+                                            <label>CREATED ON</label>
                                         </th>
                                         <th>
-                                            <label>Status</label>
+                                            <label>STATUS</label>
                                         </th>
                                         <th></th>
                                     </tr>
@@ -81,11 +96,10 @@
                             </table>
                         </div>
                     </div>
-                </div> <!-- end card-->
-            </div> <!-- end col-->
+                </div>
+            </div>
         </div>
-        <!-- end row-->
-    </div> <!-- container -->
+    </div> 
 
 </div>
 <div id="emailTemp_modalPV"></div>
@@ -124,14 +138,14 @@
             });
     }
 
-    function editEmailTemplate(dId) {
+    function editEmailTemplate(TId) {
         let param = {
-            id: dId,
+            id: TId,
         };
-        $.get("/D-Edit", param).done(function (res) {
+        $.get("/_EditEmail", param).done(function (res) {
             console.log(res);
             $("#emailTemp_modalPV").html(res);
-            $("#Dr_Editmodal").modal("show");
+            $("#editEmailmodal").modal("show");
         }).fail(function (hxr) {
             console.log(hxr);
             alert("errror");
@@ -162,24 +176,22 @@
 
 
     function addEmailTemplate() {
-        // Collect form data
-        let emailTemplateData = {
-            Name: $("#Name").val(),
-            Phone: $("#Phone").val(),
-            Email: $("#Email").val(),
-            DateOfBirth: $("#DateOfBirth").val(),
-            Specialization: $("#Specialization").val(),
-            Qualifications: $("#Qualifications").val(),
-            Gender: $("#Gender").val(),
-            Affiliations: $("#Affiliations").val(),
-            Languages: $("#Languages").val(),
-            ConsultationFee: $("#ConsultationFee").val(),
-            Availability: $("#Availability").val(),
-            Status: $("#IsActive").prop('checked')  // Corrected line
+       var status= $("#Status").prop('checked')
+        var emailstatus = 0;
+        if (status == true) {
+            emailstatus = 1;
+        }
+        let emailTemplate = {
+            TemplateID: $("#TemplateID").val(),
+            ProjectId: $("#ProjectId").val(),
+            EmailType: $("#EmailType").val(),
+            Subject: $("#Subject").val(),
+            Content: $("#Content").val(),
+            Status: emailstatus,
         };
 
         const formData = new FormData();
-        formData.append("emailTemplateData", JSON.stringify(emailTemplateData));  // Corrected line
+        formData.append("emailTemplate", JSON.stringify(emailTemplate));  // Corrected line
         formData.append("file", $("#file").prop('files')[0]);
 
         // Debug: Log the formData contents
@@ -188,7 +200,7 @@
         }
 
         $.ajax({
-            url: '/D-AddOrUpdate',
+            url: '/EmailTemplateAddOrUpdate',
             type: 'POST',
             data: formData,
             contentType: false,

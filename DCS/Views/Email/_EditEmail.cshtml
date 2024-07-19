@@ -1,0 +1,82 @@
+﻿@model Entities.EmailTemplate
+
+<div class="card">
+	<div class="card-body">
+		<!-- Modal -->
+		<div class="modal fade" id="editEmailmodal" tabindex="-1" aria-labelledby="editEmailmodalTitle" style="display: none;" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="editEmailmodalTitle">
+							Add or Update Doctor
+						</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+                        <input type="text" class="form-control" hidden asp-for="TemplateID">
+                        <input type="text" class="form-control" hidden asp-for="ProjectId">
+                        <div class="form-horizontal">
+                            <div class="row mb-3">
+                                <label for="EmailType" class="col-3 col-form-label">Template Type</label>
+                                <div class="col-9">
+                                    <input type="email" class="form-control" asp-for="EmailType" placeholder="EmailType">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="TemplateImage" class="col-3 col-form-label">Preview Template Image</label>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" asp-for="TemplateImage" placeholder="Template Image">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="Subject" class="col-3 col-form-label">Subject</label>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" asp-for="Subject" placeholder="Subject">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="Subject" class="col-3 col-form-label">Template Image</label>
+                                <div class="col-9">
+                                    <input type="file" class="form-control" id="file" placeholder="select Image">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="Body" class="col-3 col-form-label">Content</label>
+                                <div class="col-9">
+                                    <textarea class="form-control" asp-for="Content" placeholder="Content"></textarea>
+                                </div>
+                            </div>
+                            <div class="row mb-3 justify-content-end">
+                                <div class="col-9">
+                                    <div class="form-check">
+                                        <input type="checkbox" id="Status" name="Status" @Html.Raw(Model.Status==1 ? "checked" : "")>
+                                        <label class="form-check-label" for="Status">Active</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+							Close
+						</button>
+                        <button type="button" class="btn btn-secondary" onclick="addEmailTemplate();">
+                            @if (Model != null && Model.TemplateID != null)
+                            {
+                                <text>Update</text>
+                            }
+                            else
+                            {
+                                <text>Save</text>
+                            }
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+

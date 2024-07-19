@@ -1,5 +1,6 @@
 ﻿using API.AppCode.Helper;
 using API.AppCode.IML;
+using API.Claims;
 using API.SendEmail;
 using Entities;
 using Entities.Response;
@@ -45,6 +46,8 @@ namespace API.Controllers
             return Ok("");
         }
 
+        #region Email Template
+
         [HttpPost(nameof(AddOrUpdateEmailTemplate))]
 		public async Task<IActionResult> AddOrUpdateEmailTemplate([FromForm] EmailTemplate template)
         {
@@ -69,8 +72,41 @@ namespace API.Controllers
         [HttpPost(nameof(GetEmailTemplateListOrById))]
 		public async Task<IActionResult> GetEmailTemplateListOrById(Common common)
         {
+            common.name="All";
+            common.email="All";
             var i = await _email.GetEmailTemplateListOrById(common);
             return Ok(i);
         }
+        # endregion
+
+        #region Master Email type
+
+        [HttpPost(nameof(AddOrUpdateMasterEmailTemplateType))]
+        public async Task<IActionResult> AddOrUpdateMasterEmailTemplateType(MasterEmailTemplateType type)
+        {
+            var res = new Response
+            {
+                StatusCode = ResponseStatus.FAILED,
+                ResponseText = "An error han occurred try after sometime."
+            };
+
+            res = await _email.AddOrUpdateMasterEmailTemplateType(type);
+            if (res.StatusCode==ResponseStatus.SUCCESS)
+            {
+                return Ok(res);
+            }
+            return BadRequest(res);
+        }
+
+        [HttpPost(nameof(GetMasterEmailTemplateTypeListOrById))]
+        public async Task<IActionResult> GetMasterEmailTemplateTypeListOrById(Common common)
+        {
+            common.name="All";
+            common.email="All";
+            var i = await _email.GetMasterEmailTemplateTypeListOrById(common);
+            return Ok(i);
+        }
+
+       # endregion
     }
 }

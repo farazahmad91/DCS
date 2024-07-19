@@ -11,14 +11,17 @@ namespace Entities
         public string? TemplateImage { get; set; }
         public string? Content { get; set; }
         public IFormFile? ImagePath { get; set; } = null;
-        public DateTime? CreatedAt { get; set; }
+        public string? CreatedAt { get; set; }
+        public string? UpdateOn { get; set; }
         public int? Status { get; set; }
     }
 	public class MasterEmailTemplateType
 	{
         public int? EmailTypeId { get; set; }
+        public int? ProjectId { get; set; }
         public string? EmailType { get; set; }
-        public int? Status { get; set; }
+        public bool? Status { get; set; }
+        public bool? IsDefault { get; set; }
     }
 
     
