@@ -177,9 +177,8 @@ namespace API.Service
                         // Send email alert
                         var userip = _sendmail.GetIPAddress();
                         string email = model.Email;
-                        string subject = "Account Login Alert";
-                        string body = $"Dear Customer, We have detected multiple invalid login attempts to your account. For your account's security, it has been temporarily deactivated. If you did not initiate these login attempts, please contact our support team immediately for assistance. Additionally, the login attempts were made from the following IP address: {userip}. Thank you for your prompt attention to this matter. Best regards, The DCS Team";
-                        _sendmail.SendEmails(email, subject, body);
+                        var template = _dapper.GetById<EmailTemplate>(new { EmailType  = EmailTemplateType.InvalidLoginAttempt}, "proc_GetEmailTemplateById");
+                        _sendmail.SendEmails(email, template.Subject, template.Content);
                         return response;
                     }
 

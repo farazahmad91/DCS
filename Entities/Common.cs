@@ -10,8 +10,8 @@ namespace Entities
     {
         public int? Id { get; set; } = 0;
         public int? ProjectId { get; set; } = 0;
-        public string? name { get; set; } = string.Empty;
-        public string? email { get; set; } = string.Empty;
+        public string? name { get; set; }
+        public string? email { get; set; }
         public int? PageLength { get; set; } = 10;
     }
 }

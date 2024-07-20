@@ -3,11 +3,11 @@
 <div class="card">
     <div class="card-body">
         <!-- Modal -->
-        <div class="modal fade" id="editEmailmodal" tabindex="-1" aria-labelledby="editEmailmodalTitle" style="display: none;" aria-hidden="true">
+        <div class="modal fade" id="editEmailTypemodal" tabindex="-1" aria-labelledby="editEmailTypemodalTitle" style="display: none;" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editEmailmodalTitle">
+                        <h5 class="modal-title" id="editEmailTypemodalTitle">
                             Add or Update Doctor
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -18,22 +18,39 @@
                             <div class="row mb-3">
                                 <label for="EmailType" class="col-3 col-form-label">Template Type</label>
                                 <div class="col-9">
-                                    <input type="email" class="form-control" asp-for="EmailType" placeholder="EmailType">
+                                    <select class="form-control" asp-for="EmailType">
+                                        <option value="">Select Type</option>
+                                        <option value="SendOTP">Send OTP</option>
+                                        <option value="NewRegister">New Register</option>
+                                        <option value="InvalidLoginAttempt">Invalid Login Attempt</option>
+                                        <option value="ChangePasswordRequest">Change Password Request</option>
+                                        <option value="ForgotPasswordRequest">Forgot Password Request</option>
+                                        <option value="PromotionEmail">Promotion Email</option>
+                                        <option value="AccountDe-Activation">Account De-Activation</option>
+                                        <option value="AccountActivation">Account Activation</option>
+                                        <option value="AnniversaryWisess">Invalid Login Attempt</option>
+                                        <option value="NewsletterSubscription">Newsletter Subscription</option>
+                                        <option value="UserFeedback">User Feedback</option>
+                                        <option value="AnniversaryWishes">Anniversary Wishes - Celebrating Your Milestone</option>
+                                    </select>
+
                                 </div>
                             </div>
-                            <div class="row mb-3 justify-content-end">
+                            <div class="row mb-3">
+                                <label for="EmailType" class="col-3 col-form-label">IsDefault</label>
                                 <div class="col-9">
-                                    <div class="form-check">
-                                        <input type="checkbox" id="Status" name="Status" @Html.Raw(Model.Status==true ? "checked" : "")>
-                                        <label class="form-check-label" for="Status">Active</label>
+                                    <div class="form-check form-switch m-0">
+                                    <input class="form-check-input" type="checkbox" role="switch" @Html.Raw(Model.IsDefault==true ? "checked" : "")
+                                           id="IsDefault" />
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mb-3 justify-content-end">
+                            <div class="row mb-3">
+                                <label for="EmailType" class="col-3 col-form-label">Status</label>
                                 <div class="col-9">
-                                    <div class="form-check">
-                                        <input type="checkbox" id="IsDefault" name="IsDefault" @Html.Raw(Model.IsDefault==true ? "checked" : "")>
-                                        <label class="form-check-label" for="IsDefault">IsDefault</label>
+                                    <div class="form-check form-switch m-0">
+                                        <input class="form-check-input" type="checkbox" role="switch" @Html.Raw(Model.Status==true ? "checked" : "")
+                                               id="Status" />
                                     </div>
                                 </div>
                             </div>
@@ -43,7 +60,7 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             Close
                         </button>
-                        <button type="button" class="btn btn-secondary" onclick="addEmailTemplate();">
+                        <button type="button" class="btn btn-secondary" onclick="addEmailType();">
                             @if (Model != null && Model.EmailTypeId != null)
                             {
                                 <text>Update</text>

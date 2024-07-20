@@ -1,10 +1,7 @@
-﻿
-
-@{
-    ViewData["Title"] = "EmailTemplateList";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@{
+    ViewData["Title"] = "_EmailTypeList";
+    Layout = null;
 }
-
 <div class="content">
 
 
@@ -15,13 +12,13 @@
             <div class="col-12">
                 <div class="page-title-box">
                     <div class="page-title-right">
-                        <ol class="breadcrumb m-0">
+                       @*  <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0);"></a></li>
                             <li class="breadcrumb-item active">Form Advanced</li>
-                        </ol>
+                        </ol> *@
                     </div>
-                    <h4 class="page-title">Email Template</h4>
+                    <h4 class="page-title">Email Types</h4>
                 </div>
             </div>
         </div>
@@ -33,11 +30,14 @@
                     <div class="card-body">
                         <div class="row mb-2">
                             <div class="col-sm-5">
-                                
+
                                 <div class="input-group">
                                     <div class="row d-flex justify-content-end align-items-center" style="margin-right: 0px;">
+                                       @*  <div class="col-auto">
+                                            <label for="Criteria" class="form-label mb-2">Top</label>
+                                        </div> *@
                                         <div class="col-auto mb-2">
-                                            <select class="form-control" id="ddltop">
+                                            <select class="form-control" id="ddltypetop">
                                                 <option value="10">TOP</option>
                                                 <option value="10">10</option>
                                                 <option value="20">20</option>
@@ -47,7 +47,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <input type="text" class="form-control mb-2" id="txtname" onchange=" Onload();" placeholder="search subject.." />
+                                    <input type="text" class="form-control mb-2" id="txttypename" onchange=" Onload();" placeholder="search email type.." />
                                     <button class="btn btn-info mb-2" onclick="Onload();" type="button">
                                         Search
                                     </button>
@@ -55,46 +55,38 @@
                             </div>
                             <div class="col-sm-7">
                                 <div class="text-sm-end">
-                                    <button id="btnaddAppointment" class="btn btn-danger mb-2" onclick="editEmailTemplate(0)" type="button">
+                                    <button id="btnaddAppointment" class="btn btn-danger mb-2" onclick="editEmailType(0)" type="button">
                                         <i class="mdi mdi-plus-circle me-2"></i>  Add New
                                     </button>
-                                    @* <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog-outline"></i></button> *@
-                                    <button type="button" class="btn btn-dark mb-2" onclick="NewEmailType();">
-                                        <i class="mdi mdi-plus-circle me-2"></i>New Type
-                                        </button>
+                                    @* <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog-outline"></i></button> 
+                                    <button type="button" class="btn btn-light mb-2">Export</button>*@
                                 </div>
                             </div><!-- end col-->
                         </div>
 
-                        <div class="table-responsive card">
-                            <table class="table table-hover dt-responsive nowrap w-100" id="dTable">
+                        <div class="table-responsive">
+                            <table class="table table-hover dt-responsive nowrap w-100" id="emailtypeTable">
                                 <thead class="table-dark">
                                     <tr class="text-white">
                                         <th>
                                             <label>ID</label>
                                         </th>
                                         <th>
-                                            <label>TYPE</label>
+                                            <label>PROJECT ID</label>
                                         </th>
                                         <th>
-                                            <label>SUBJECT</label>
-                                        </th>
-                                        <th>
-                                            <label>Image</label>
-                                        </th>
-                                        <th>
-                                            <label>CONTENT</label>
-                                        </th>
-                                        <th>
-                                            <label>CREATED ON</label>
+                                            <label>EMAIL TYPE</label>
                                         </th>
                                         <th>
                                             <label>STATUS</label>
                                         </th>
+                                        <th>
+                                            <label>IS DEFAULT</label>
+                                        </th>
                                         <th>ACTION</th>
                                     </tr>
                                 </thead>
-                                <tbody id="emailTemplateList">
+                                <tbody id="emType">
                                 </tbody>
                             </table>
                         </div>
@@ -102,20 +94,20 @@
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 
 </div>
-<div id="emailTemp_modalPV"></div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<div id="emailTemptype_modalPV"></div>
 <script>
 
     function Onload() {
+        debugger;
         var param = {
-            name: $("#txtname").val(),
-            PageLength: $("#ddltop").val(),
+            name: $("#txttypename").val(),
+            PageLength: $("#ddltypetop").val(),
         }
-        $.post('/TemplateList', param).done(function (res) {
-            $("#emailTemplateList").html(res);
+        $.post('/_EmailTypeList', param).done(function (res) {
+            $("#emType").html(res);
         }).fail(function () {
             alert("error");
         });
@@ -126,14 +118,6 @@
     jQuery(document).ready(function ($) {
         $("#dTable").DataTable();
     });
-    function NewEmailType() {
-        $.post('/IndexEmailType').done(function (res) {
-            $("#emailTemp_modalPV").html(res);
-        }).fail(function () {
-            alert("error");
-        });
-    }
-
 
     function emailTemplateDetails(Id) {
         let param = {
@@ -141,7 +125,7 @@
         };
         $.post("/D-detail", param)
             .done(function (res) {
-                $("#emailTemp_modalPV").html(res);
+                $("#emailTemptype_modalPV").html(res);
                 $("#Dr_detailmodal").modal("show");
             })
             .fail(function () {
@@ -149,14 +133,14 @@
             });
     }
 
-    function editEmailTemplate(TId) {
+    function editEmailType(TId) {
         let param = {
-            id: TId,
+            Id: TId,
         };
-        $.get("/_EditEmail", param).done(function (res) {
+        $.get("/_EditEmailTemplateType", param).done(function (res) {
             console.log(res);
-            $("#emailTemp_modalPV").html(res);
-            $("#editEmailmodal").modal("show");
+            $("#emailTemptype_modalPV").html(res);
+            $("#editEmailTypemodal").modal("show");
         }).fail(function (hxr) {
             console.log(hxr);
             alert("errror");
@@ -186,46 +170,23 @@
     }
 
 
-    function addEmailTemplate() {
-        debugger;
-       var status= $("#Status").prop('checked')
-        var emailstatus = 0;
-        if (status == true) {
-            emailstatus = 1;
-        }
-        let emailTemplate = {
-            TemplateID: $("#EmailTemplates_TemplateID").val(),
-            ProjectId: $("#EmailTemplates_ProjectId").val(),
-            EmailType: $("#EmailTemplates_EmailType").val(),
-            Subject: $("#EmailTemplates_Subject").val(),
-            Content: $("#EmailTemplates_Content").val(),
-            Status: emailstatus,
+    function addEmailType() 
+    {
+        let param = 
+        {
+            EmailTypeId: $("#EmailTypeId").val(),
+            EmailType: $("#EmailType").val(),
+            Status: $("#Status").prop('checked'),
+            IsDefault: $("#IsDefault").prop('checked'),
         };
+        $.post("/EmailTemplateTypeAddOrUpdate", param).done(function (res) {
+            Info(res.statusCode, res.responseText);
+            Onload();
 
-        const formData = new FormData();
-        formData.append("emailTemplate", JSON.stringify(emailTemplate));  // Corrected line
-        formData.append("file", $("#file").prop('files')[0]);
+        }).fail(function (xhr) {
+            Info(xhr.statusCode, xhr.responseText);
 
-        // Debug: Log the formData contents
-        for (const pair of formData.entries()) {
-            console.log(pair[0] + ': ' + pair[1]);
-        }
-
-        $.ajax({
-            url: '/EmailTemplateAddOrUpdate',
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (result) {
-                Info(result.statusCode, result.responseText);
-                Onload();
-            },
-            error: function () {
-                showerrors("Something went wrong!!!");
-            }
-        });
+        })
     }
 
 </script>
-

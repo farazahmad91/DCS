@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Entities.MasterEmailTemplateType>
+
+@{
+    ViewData["Title"] = "_EmailTypeList";
+    Layout = null;
+    var status = "";
+    var badge = "";
+}
+@if (Model == null || !Model.Any())
+{
+    <tr style="text-align: center;">
+        <td colspan="12" style="text-align: center;">
+            <label><strong>Data Not Found</strong></label>
+        </td>
+    </tr>
+}
+else
+{
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmailTypeId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProjectId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmailType)
+        </td>
+        <td>
+            @if (item.Status==true)
+            {
+                status = "Active";
+                badge = "badge bg-success rounded-pill";
+            }
+            else
+            {
+                status = "deactive";
+                badge = "badge bg-danger rounded-pill";
+            }
+
+            <label class="@badge">@status</label>
+        </td>
+        <td>
+            @if (item.IsDefault==true)
+            {
+                status = "Active";
+                badge = "badge bg-success rounded-pill";
+            }
+            else
+            {
+                status = "deactive";
+                badge = "badge bg-danger rounded-pill";
+            }
+            <label class="@badge">@status</label>
+        </td>
+        <td class="table-action">
+            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline" onclick="editEmailType(@item.EmailTypeId)"></i></a>
+        </td>
+    </tr>
+}
+}

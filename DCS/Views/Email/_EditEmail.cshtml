@@ -1,4 +1,9 @@
-﻿@model Entities.EmailTemplate
+﻿@model Entities.EmailTemplateVM
+@{
+    @Model.EmailTemplates;
+    @Model.MasterEmailTemplateTypes;
+
+}
 
 <div class="card">
 	<div class="card-body">
@@ -13,43 +18,63 @@
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-                        <input type="text" class="form-control" hidden asp-for="TemplateID">
-                        <input type="text" class="form-control" hidden asp-for="ProjectId">
+                        <input type="text" class="form-control" hidden asp-for="EmailTemplates.TemplateID">
+                        <input type="text" class="form-control" hidden asp-for="EmailTemplates.ProjectId">
                         <div class="form-horizontal">
                             <div class="row mb-3">
                                 <label for="EmailType" class="col-3 col-form-label">Template Type</label>
                                 <div class="col-9">
-                                    <input type="email" class="form-control" asp-for="EmailType" placeholder="EmailType">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="TemplateImage" class="col-3 col-form-label">Preview Template Image</label>
-                                <div class="col-9">
-                                    <input type="text" class="form-control" asp-for="TemplateImage" placeholder="Template Image">
+                                    <select class="form-control" asp-for="EmailTemplates.EmailType">
+                                        <option value="">select type</option>
+                                        @foreach (var item in @Model.MasterEmailTemplateTypes)
+                                        {
+                                            <option value="@item.EmailTypeId">@item.EmailType</option>
+                                        }
+                                        
+                                    </select>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label for="Subject" class="col-3 col-form-label">Subject</label>
                                 <div class="col-9">
-                                    <input type="text" class="form-control" asp-for="Subject" placeholder="Subject">
+                                    <select class="form-control" asp-for="EmailTemplates.Subject">
+                                        <option value="">Select Subject</option>
+                                        <option value="Send OTP - Verify your identity">Send OTP - Verify your identity</option>
+                                        <option value="New Register - Welcome to our platform">New Register - Welcome to our platform</option>
+                                        <option value="Invalid Login Attempt - Security alert">Invalid Login Attempt - Security alert</option>
+                                        <option value="Change Password Request - Instructions enclosed">Change Password Request - Instructions enclosed</option>
+                                        <option value="Forgot Password Request - Reset your password">Forgot Password Request - Reset your password</option>
+                                        <option value="Exclusive Offer Just for You!">Exclusive Offer Just for You!</option>
+                                        <option value="Account De-Activation - Your account has been deactivated">Account De-Activation - Your account has been deactivated</option>
+                                        <option value="Account Activation - Activate your account">Account Activation - Activate your account</option>
+                                        <option value="Newsletter Subscription - Thank you for subscribing">Newsletter Subscription - Thank you for subscribing</option>
+                                        <option value="User Feedback - We value your feedback">User Feedback - We value your feedback</option>
+                                        <option value="Anniversary Wishes - Celebrating Your Milestone">Anniversary Wishes - Celebrating Your Milestone</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label for="Subject" class="col-3 col-form-label">Template Image</label>
                                 <div class="col-9">
+                                    @if (Model.EmailTemplates.TemplateImage!=null)
+                                    {
+                                        <a class="fancybox" href="@Model.EmailTemplates.TemplateImage" data-fancybox data-caption="@Model.EmailTemplates.EmailType">
+                                            <img src="@Model.EmailTemplates.TemplateImage" onerror="this.onerror=null;this.src='/images/noimage.jpg'" class="img-fluid rounded-circle" alt="No Image Found" width="90px" height="50px" />
+                                        </a>
+                                    }
                                     <input type="file" class="form-control" id="file" placeholder="select Image">
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label for="Body" class="col-3 col-form-label">Content</label>
                                 <div class="col-9">
-                                    <textarea class="form-control" asp-for="Content" placeholder="Content"></textarea>
+                                    <textarea class="form-control" asp-for="EmailTemplates.Content" placeholder="Content"></textarea>
                                 </div>
                             </div>
                             <div class="row mb-3 justify-content-end">
                                 <div class="col-9">
                                     <div class="form-check">
-                                        <input type="checkbox" id="Status" name="Status" @Html.Raw(Model.Status==1 ? "checked" : "")>
+                                        <input type="checkbox" id="Status" name="Status" @Html.Raw(Model.EmailTemplates.Status==1 ? "checked" : "")>
                                         <label class="form-check-label" for="Status">Active</label>
                                     </div>
                                 </div>
@@ -61,7 +86,7 @@
 							Close
 						</button>
                         <button type="button" class="btn btn-secondary" onclick="addEmailTemplate();">
-                            @if (Model != null && Model.TemplateID != null)
+                            @if (Model != null && Model.EmailTemplates.TemplateID != null)
                             {
                                 <text>Update</text>
                             }
