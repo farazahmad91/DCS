@@ -2,6 +2,8 @@
 @{
     ViewData["Title"] = "EmailTemplateList";
     Layout = null;
+    var status = "";
+    var badge = "";
 }
 @if (Model == null || !Model.Any())
 {
@@ -25,17 +27,31 @@ else
         <td>
             @Html.DisplayFor(modelItem => item.Subject)
         </td>
+        <td>
+                    <a class="fancybox" href="@item.TemplateImage" data-fancybox data-caption="@item.EmailType">
+                        <img src="@item.TemplateImage" onerror="this.onerror=null;this.src='../assets/images/noimage.jpg'" class="img-fluid rounded-circle" alt="No Image Found" width="90px" height="50px" />
+                    </a>
+        </td>
         <td><textarea class="form-control bg-transparent border-0" cols="60">@item.Content</textarea></td>
         <td>
             @Html.DisplayFor(modelItem => item.CreatedAt)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Status)
+                @if (item.Status==1)
+                {
+                    status = "Active";
+                    badge = "badge bg-success rounded-pill";
+                }
+                else
+                {
+                    status = "deactive";
+                    badge = "badge bg-danger rounded-pill";
+                }
+
+                <label class="@badge">@status</label>
         </td>
         <td class="table-action">
-            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a>
                 <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline" onclick="editEmailTemplate(@item.TemplateID)"></i></a>
-            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
         </td>
     </tr>
 }

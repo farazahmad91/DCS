@@ -24,6 +24,25 @@ namespace Entities
         public bool? IsDefault { get; set; }
     }
 
-    
-    
+    public class EmailTemplateVM
+    {
+        public EmailTemplate EmailTemplates { get; set; }
+        public IEnumerable<MasterEmailTemplateType> MasterEmailTemplateTypes { get; set; }
+    }
+    public enum EmailTemplateType
+    {
+        SendOTP =1,
+        NewRegister=2,
+        InvalidLoginAttempt=3,
+        ChangePasswordRequest=4,
+        ForgotPasswordRequest=5,
+        PromotionEmail=6,
+        AccountDeActivation=7, // Removed the hyphen
+        AccountActivation=8,
+        NewsletterSubscription=9,
+        UserFeedback =10,
+        AnniversaryWishes = 11,
+    }
+
+
 }

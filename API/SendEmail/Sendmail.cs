@@ -40,7 +40,7 @@ namespace API.SendEmail
                     mail.To.Add(email);
                     mail.Subject = subject;
                     mail.IsBodyHtml = true;
-                    mail.Body = _emailHtmlBody.GenerateHtmlBody(body);
+                    mail.Body = body;
                     smtpServer.Port = port;
                     smtpServer.Credentials = new System.Net.NetworkCredential(userName, pass);
                     smtpServer.EnableSsl = true;
@@ -53,7 +53,7 @@ namespace API.SendEmail
                 var error = new Entities.ErrorLog
                 {
                     ClassName = GetType().Name,
-                    FuncName = "RegisterAsync",
+                    FuncName = "SendEmails",
                     Error = ex.Message,
                     ProcName = "",
                 };

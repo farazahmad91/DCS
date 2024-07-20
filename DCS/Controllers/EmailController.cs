@@ -125,22 +125,39 @@ namespace DCS.Controllers
         [Route("_EditEmail")]
         public async Task<IActionResult> _EditEmail(Common common)
         {
+            Common common1 = new  Common();
             int? projectId = User.GetProjectId();
             var res = new EmailTemplate();
+            var  EmailTypelist = new List<MasterEmailTemplateType>();
+            common1.ProjectId = projectId;
+            var apiEmailTypeRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/GetMasterEmailTemplateTypeListOrById", JsonConvert.SerializeObject(common1), null);
+            
             if (common.Id!=0)
             {
                 common.ProjectId = projectId;
                 var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/GetEmailTemplateListOrById", JsonConvert.SerializeObject(common), null);
-                if (apiRes.Result != null)
+               
+                if (apiRes.Result != null && apiEmailTypeRes.Result != null)
                 {
                     var list = JsonConvert.DeserializeObject<List<EmailTemplate>>(apiRes.Result);
+                     EmailTypelist = JsonConvert.DeserializeObject<List<MasterEmailTemplateType>>(apiEmailTypeRes.Result);
                     res = list.FirstOrDefault()?? new EmailTemplate();
 
+
                 }
+                
 
             }
-
-            return PartialView(res);
+            if (apiEmailTypeRes.Result != null)
+            {
+                EmailTypelist = JsonConvert.DeserializeObject<List<MasterEmailTemplateType>>(apiEmailTypeRes.Result);
+            }
+            var emailTemplateVM = new EmailTemplateVM
+            {
+                EmailTemplates = res,
+                MasterEmailTemplateTypes = EmailTypelist
+            };
+            return PartialView(emailTemplateVM);
         }
 
         [Route("/EmailTemplateAddOrUpdate")]
@@ -179,10 +196,10 @@ namespace DCS.Controllers
         }
 
         #region Email Template Type
-        [Route("AllEmailType")]
-        public IActionResult AllEmailType()
+        [Route("IndexEmailType")]
+        public IActionResult IndexEmailType()
         {
-            return View();
+            return PartialView();
         }
         [Route("_EmailTypeList")]
         public async Task<IActionResult> _EmailTypeList(Common common)
@@ -232,7 +249,7 @@ namespace DCS.Controllers
             {
                 int? projectId = User.GetProjectId();
                 type.ProjectId= projectId;
-                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/GetMasterEmailTemplateTypeListOrById", JsonConvert.SerializeObject(type), null);
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/AddOrUpdateMasterEmailTemplateType", JsonConvert.SerializeObject(type), null);
 
                 if (apiRes.Result != null)
                 {

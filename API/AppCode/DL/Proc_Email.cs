@@ -74,7 +74,7 @@ namespace API.AppCode.DL
                 var param = new
                 {
                     Id=req.Id,
-                    Subject = req.name,
+                    Subject = req?.name,
                     ProjectId = req.ProjectId,
                     PageLength = req.PageLength
                 };
@@ -122,6 +122,7 @@ namespace API.AppCode.DL
                 var param = new
                 {
                     EmailTypeId = req.EmailTypeId,
+                    ProjectId=req.ProjectId,
                     EmailType = req.EmailType,
                     Status = req.Status,
                     IsDefault = req.IsDefault,

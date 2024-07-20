@@ -72,8 +72,6 @@ namespace API.Controllers
         [HttpPost(nameof(GetEmailTemplateListOrById))]
 		public async Task<IActionResult> GetEmailTemplateListOrById(Common common)
         {
-            common.name="All";
-            common.email="All";
             var i = await _email.GetEmailTemplateListOrById(common);
             return Ok(i);
         }
@@ -101,8 +99,6 @@ namespace API.Controllers
         [HttpPost(nameof(GetMasterEmailTemplateTypeListOrById))]
         public async Task<IActionResult> GetMasterEmailTemplateTypeListOrById(Common common)
         {
-            common.name="All";
-            common.email="All";
             var i = await _email.GetMasterEmailTemplateTypeListOrById(common);
             return Ok(i);
         }
