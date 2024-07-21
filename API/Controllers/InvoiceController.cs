@@ -38,7 +38,7 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [HttpPost(nameof(GetInvoiceDataByInvoiceId))]
+        [HttpPost(nameof(GetInvoiceDataByInvoiceId)+"/{Id}")]
         public async Task<ActionResult> GetInvoiceDataByInvoiceId(int Id)
         {
             var result = await _invoice.GetInvoiceDataByInvoiceId(Id);
