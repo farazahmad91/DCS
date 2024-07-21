@@ -70,5 +70,34 @@ namespace DCS.Controllers
 		{
 			return View();
 		}
-	}
+        [Route("EmailInvoiceTemplate")]
+        public async Task<IActionResult> EmailInvoiceTemplate(int id = 1)
+        {
+            var res = new Response()
+            {
+                ResponseText = "something wrong!",
+                StatusCode = ResponseStatus.FAILED
+            };
+            var list = new InvoiceViewModelDetails();
+            try
+            {
+                var token = User.GetLoggedInUserToken();
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Invoice/GetInvoiceDataByInvoiceId/{id}", null, null);
+                if (apiRes.Result != null)
+                {
+                    list = JsonConvert.DeserializeObject<InvoiceViewModelDetails>(apiRes.Result);
+                    
+                    
+                    return PartialView(list);
+                }
+                return PartialView(res);
+            }
+            catch (Exception ex)
+            {
+                res.ResponseText = "Something wrong!!";
+                res.StatusCode = ResponseStatus.FAILED;
+                return Json(res);
+            }
+        }
+    }
 }
