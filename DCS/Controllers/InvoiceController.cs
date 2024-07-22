@@ -13,19 +13,48 @@ namespace DCS.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly string _BaseUrl;
-        public InvoiceController(IConfiguration configuration)
+        private readonly Sendmail _sendmail;
+        public InvoiceController(IConfiguration configuration, Sendmail sendmail)
         {
             this._configuration = configuration;
             _BaseUrl =  _configuration["APIBaseURl:BaseURl"];
+            _sendmail=sendmail;
         }
         [Route("Invoice")]
 		public IActionResult Invoice()
         {
             return View();
         }
-		public IActionResult List()
+        [Route("_InvoiceList")]
+        public async Task<IActionResult> _InvoiceList(Common common)
 		{
-			return PartialView();
+			var res = new Response()
+			{
+				ResponseText = "something wrong!",
+				StatusCode = ResponseStatus.FAILED
+			};
+			var list = new List<InvoiceViewModel>();
+			try
+			{
+				var token = User.GetLoggedInUserToken();
+                int? projectId = User.GetProjectId();
+                common.ProjectId = projectId;
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Invoice/GetInvoiceListAndBYId", JsonConvert.SerializeObject(common), null);
+				if (apiRes.Result != null)
+				{
+					list = JsonConvert.DeserializeObject<List<InvoiceViewModel>>(apiRes.Result);
+
+
+					return PartialView(list);
+				}
+				return PartialView(res);
+			}
+			catch (Exception ex)
+			{
+				res.ResponseText = "Something wrong!!";
+				res.StatusCode = ResponseStatus.FAILED;
+				return Json(res);
+			}
 		}
 		[Route("Add-Invoice")]
 		[HttpGet]
@@ -66,12 +95,36 @@ namespace DCS.Controllers
 
 
 		[Route("Invoice-Report")]
-		public IActionResult InvoiceView()
+		public async Task<IActionResult> InvoiceView(int id)
 		{
-			return View();
-		}
+            var res = new Response()
+            {
+                ResponseText = "something wrong!",
+                StatusCode = ResponseStatus.FAILED
+            };
+            var list = new InvoiceViewModelDetails();
+            try
+            {
+                var token = User.GetLoggedInUserToken();
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Invoice/GetInvoiceDataByInvoiceId/{id}", null, null);
+                if (apiRes.Result != null)
+                {
+                    list = JsonConvert.DeserializeObject<InvoiceViewModelDetails>(apiRes.Result);
+
+
+                    return View(list);
+                }
+                return View(res);
+            }
+            catch (Exception ex)
+            {
+                res.ResponseText = "Something wrong!!";
+                res.StatusCode = ResponseStatus.FAILED;
+                return View(res);
+            }
+        }
         [Route("EmailInvoiceTemplate")]
-        public async Task<IActionResult> EmailInvoiceTemplate(int id = 1)
+        public async Task<IActionResult> EmailInvoiceTemplate(int id)
         {
             var res = new Response()
             {
@@ -91,6 +144,31 @@ namespace DCS.Controllers
                     return PartialView(list);
                 }
                 return PartialView(res);
+            }
+            catch (Exception ex)
+            {
+                res.ResponseText = "Something wrong!!";
+                res.StatusCode = ResponseStatus.FAILED;
+                return Json(res);
+            }
+        }
+
+        [Route("SendEmailInvoice")]
+        public async Task<IActionResult> SendEmailInvoice(SendEmailInvoice sendEmailInvoice)
+        {
+            var res = new Response()
+            {
+                ResponseText = "something wrong!",
+                StatusCode = ResponseStatus.FAILED
+            };
+            //var req = JsonConvert.DeserializeObject<SendEmailInvoice>(invoiceDate);
+            try
+            {
+                _sendmail.SendEmails(sendEmailInvoice.Email, sendEmailInvoice.Subject, sendEmailInvoice.Invoice);
+
+                res.ResponseText = "Invoice Sent Successfully";
+                res.StatusCode=ResponseStatus.SUCCESS;
+                return Json(res);
             }
             catch (Exception ex)
             {

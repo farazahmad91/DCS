@@ -24,10 +24,10 @@ namespace DCS.Controllers
             return View();
         }
         [Route("/_TreatmentList")]
-        public async Task<IActionResult> _TreatmentList(DateTime? Date, int? PId)
+        public async Task<IActionResult> _TreatmentList(Common common)
         {
             var list = new List<TreatmentDetails>();
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Treatment/GetTreatment/{Date}/{PId}", null, null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Treatment/GetTreatmentListOrById", JsonConvert.SerializeObject(common), null);
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<List<TreatmentDetails>>(apiRes.Result);

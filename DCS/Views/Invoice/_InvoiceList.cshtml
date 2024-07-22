@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Entities.InvoiceViewModel>
+
+@{
+    ViewData["Title"] = "_InvoiceList";
+    Layout = null;
+}
+
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvoiceID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EntryOn)
+            </td>
+        <td class="table-action">
+            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye" onclick="invoiceReport(@item.InvoiceID)"></i></a>
+            <a href="javascript:void(0);" class="action-icon"> <i class="ri-mail-send-fill" onclick="sendInvoiceInEmail('@item.InvoiceID', '@item.Email')"></i></a>
+            @*  <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a> *@
+        </td>
+        </tr>
+}

@@ -27,10 +27,10 @@ namespace API.Controllers
             return Ok(i);
         }
 
-        [HttpPost(nameof(GetTreatment)+"/{date}")]
-        public async Task<IActionResult> GetTreatment(DateTime? date,int? PId)
+        [HttpPost(nameof(GetTreatmentListOrById))]
+        public async Task<IActionResult> GetTreatmentListOrById(Common common)
         {
-            var i =await _treatment.GetTreatment(date,PId);
+            var i =await _treatment.GetTreatmentListOrById(common);
             return Ok(i);
         }
 

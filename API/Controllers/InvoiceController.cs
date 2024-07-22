@@ -27,14 +27,10 @@ namespace API.Controllers
             }
             return Ok(result);
         }
-        [HttpPost(nameof(GetInvoiceData))]
-        public async Task<ActionResult> GetInvoiceData()
+        [HttpPost(nameof(GetInvoiceListAndBYId))]
+        public async Task<ActionResult> GetInvoiceListAndBYId(Common common)
         {
-            var result = await _invoice.GetInvoiceData();
-            //if (result.StatusCode==ResponseStatus.FAILED)
-            //{
-            //    return BadRequest(result);
-            //}
+            var result = await _invoice.GetInvoiceListAndBYId(common);
             return Ok(result);
         }
 

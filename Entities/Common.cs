@@ -12,6 +12,7 @@ namespace Entities
         public int? ProjectId { get; set; } = 0;
         public string? name { get; set; }
         public string? email { get; set; }
+        public string? Date { get; set; }
         public int? PageLength { get; set; } = 10;
     }
 }

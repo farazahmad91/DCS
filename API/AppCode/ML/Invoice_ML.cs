@@ -41,11 +41,11 @@ namespace API.AppCode.ML
             return res;
         }
 
-        public async Task<IEnumerable<InvoiceItem>> GetInvoiceData()
+        public async Task<IEnumerable<InvoiceViewModel>> GetInvoiceListAndBYId(Common common)
         {
             IProcedureAsync procedure = new Proc_GetInvoice(_dapper);
-              var i = await  procedure.Call();
-            return (IEnumerable<InvoiceItem>)i;
+              var i = await  procedure.Call(common);
+            return (IEnumerable<InvoiceViewModel>)i;
         }
 
         public async Task<InvoiceViewModelDetails> GetInvoiceDataByInvoiceId(int Id)

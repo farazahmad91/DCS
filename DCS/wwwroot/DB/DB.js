@@ -7501,3 +7501,41 @@ Else IF(@Id > 0)
             SELECT -1 AS StatusCode, ERROR_MESSAGE() AS ResponseText;
             END CATCH
             END;
+
+
+            update Invoice set ProjectId = 266188
+
+            CREATE PROCEDURE [dbo].[Proc_Proc_GetInvoiceListAndBYId]
+            @Id INT = 0,
+            @PatientName VARCHAR(100) = null,
+            @ProjectId INT,
+            @PageLength INT = 10
+            AS
+            BEGIN
+            IF (@PatientName IS NULL OR @PatientName = '')
+            BEGIN
+            SET @PatientName = 'All';
+            END
+
+            IF (@PatientName = 'All' AND @Id = 0)
+            BEGIN
+            SELECT TOP (@PageLength) *
+            FROM Invoice
+            WHERE ProjectId = @ProjectId;
+            END                   
+    ELSE IF (@Id > 0)
+            BEGIN
+            SELECT *
+            FROM Invoice
+            WHERE ProjectId = @ProjectId AND (InvoiceID = @Id OR @Id = 0);
+            END
+            ELSE
+            BEGIN
+            SELECT TOP (@PageLength) *
+            FROM Invoice
+            WHERE PatientName LIKE '%' + @PatientName + '%'
+            AND ProjectId = @ProjectId;
+            END
+            END 
+
+            update Invoice set Email = 'farazshaikh8960@gmail.com' ;
