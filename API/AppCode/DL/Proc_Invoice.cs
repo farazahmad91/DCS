@@ -128,15 +128,21 @@ namespace API.AppCode.DL
         {
             this._dapper = dapper;
         }
-        public async Task<object> Call()
+        public async Task<object> Call(object obj)
         {
-            IEnumerable<InvoiceItem> items = new List<InvoiceItem>();
-            try
-            {
-                var i = await _dapper.GetAll<InvoiceItem>(GetName());
-                items=i.ToList();
-                return items;
-            }
+			var req = (Common)obj;
+			try
+			{
+				var param = new
+				{
+					Id = req.Id,
+					PatientName = req.name,
+					ProjectId = req.ProjectId,
+					PageLength = req.PageLength
+				};
+				var res = await _dapper.GetAll<InvoiceViewModel>(GetName(), param);
+				return res;
+			}
             catch (Exception ex)
             {
                 var error = new ErrorLog
@@ -147,18 +153,19 @@ namespace API.AppCode.DL
                     ProcName = GetName(),
                 };
                  new ErrorLog_ML(_dapper).Error(error);
-            }
-            return items;
-        }
+				return "something went wrong!!";
+			}
+			
+		}
 
-        public Task<object> Call(object obj)
+        public Task<object> Call()
         {
             throw new NotImplementedException();
         }
 
         public string GetName()
         {
-            return "Proc_GetInvoiceList";
+            return "Proc_Proc_GetInvoiceListAndBYId";
         }
     }
 

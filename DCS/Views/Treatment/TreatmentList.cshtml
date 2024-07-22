@@ -136,11 +136,12 @@
     <!-- Row end -->
 
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function Onload() {
         var param = {
             name: $("#txtname").val(),
-        }
+        };
         $.post('/_TreatmentList', param).done(function (res) {
             $("#tList").html(res);
         }).fail(function () {

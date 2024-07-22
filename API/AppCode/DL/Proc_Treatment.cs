@@ -4,6 +4,7 @@ using Entities.Response;
 using Entities;
 using System.Data;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Security.AccessControl;
 
 namespace API.AppCode.DL
 {
@@ -27,9 +28,8 @@ namespace API.AppCode.DL
             {
                 var param = new
                 {
-                    TreatmentId = treatment.TreatmentId,
-                    PId = treatment.PId,
-                    DrId = treatment.DrId,
+                    PatientId = treatment.PId,
+                    DoctorId = treatment.DrId,
                     Diagnosis = treatment.Diagnosis,
                     TreatmentDate = treatment.TreatmentDate,
                     Description = treatment.Description,
@@ -62,7 +62,7 @@ namespace API.AppCode.DL
 
             dataTable.Columns.Add("Name", typeof(string));
             dataTable.Columns.Add("Dosage", typeof(string));
-            dataTable.Columns.Add("Frequency", typeof(double));
+            dataTable.Columns.Add("Frequency", typeof(string));
             dataTable.Columns.Add("FollowUpDate", typeof(string));
 
             foreach (var item in medication)
@@ -162,29 +162,26 @@ namespace API.AppCode.DL
         public string GetName() => "Proc_UpdateTreatment";
     }
 
-    public class Proc_GetTreatment : IProcedureAsync
+    public class Proc_GetTreatmentListOrById : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_GetTreatment(IDapper dapper)
+        public Proc_GetTreatmentListOrById(IDapper dapper)
         {
             this._dapper = dapper;
         }
         
         public async Task<object> Call(object obj)
         {
-            IEnumerable<Treatment> items = new List<Treatment>();
-            DateTime date = (DateTime)obj;
-            int PId = (int)obj;
+            var common = (Common)obj;
             try
             {
                 var param = new
                 {
-                    CreatedDate = date,
-                    PId= PId
+                    CreatedDate = common.Date,
+                    PId= common.Id
                 };
                 var i = await _dapper.GetAll<Treatment>(GetName(),param);
-                items=i.ToList();
-                return items;
+                return i;
             }
             catch (Exception ex)
             {
@@ -197,7 +194,7 @@ namespace API.AppCode.DL
                 };
                  new ErrorLog_ML(_dapper).Error(error);
             }
-            return items;
+            return "something went wrong";
         }
 
         public Task<object> Call()

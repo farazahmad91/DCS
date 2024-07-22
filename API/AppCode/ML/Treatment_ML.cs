@@ -27,15 +27,10 @@ namespace API.AppCode.ML
             return (Treatment)i;
         }
 
-        public async Task<IEnumerable<TreatmentDetails>> GetTreatment(DateTime? date, int? PId)
+        public async Task<IEnumerable<TreatmentDetails>> GetTreatmentListOrById(Common common)
         {
-            var param = new
-            {
-                date = date,
-                PId = PId
-            };
-            IProcedureAsync proc = new Proc_GetTreatment(_dapper);
-            var i = await proc.Call(param);
+            IProcedureAsync proc = new Proc_GetTreatmentListOrById(_dapper);
+            var i = await proc.Call(common);
             return (IEnumerable<TreatmentDetails>)i;
         }
 

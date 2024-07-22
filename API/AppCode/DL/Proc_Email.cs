@@ -190,7 +190,6 @@ namespace API.AppCode.DL
                 };
                 return "something went wrong!!";
             }
-            throw new NotImplementedException();
         }
 
         public Task<object> Call()

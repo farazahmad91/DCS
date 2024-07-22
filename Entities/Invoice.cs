@@ -47,5 +47,10 @@ namespace Entities
         public IEnumerable<InvoiceItem> InvoiceItems { get; set; }
         public IEnumerable<TransactionDetails> TransactionDetail { get; set; }
     }
-
+    public class SendEmailInvoice
+    {
+        public string? Invoice { get; set; }
+        public string? Email { get; set; }
+        public string? Subject { get; set; }
+    }
 }
