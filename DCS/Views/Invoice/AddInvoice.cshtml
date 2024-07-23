@@ -1,64 +1,75 @@
-﻿@{
+﻿@model IEnumerable<Entities.Medicines>
+@{
     ViewData["Title"] = "AddInvoice";
-    Layout = "_Layout";
+    Layout = null;
 }
+<style>
+    .border-right {
+        border-right: 1px solid #ccc; /* Adjust color and width as needed */
+        padding-right: 15px; /* Optional: add padding to the right for spacing */
+    }
+
+</style>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 <!-- Content wrapper start -->
-<div class="content-wrapper">
-    <!-- Row start -->
-    <div class="row justify-content-center">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Create Invoice</div>
-                </div>
-                <div class="card-body">
-                    <div class="create-invoice-wrapper">
-                        <!-- Row start -->
-                        <div class="row gx-3">
-                            <div class="col-sm-6 col-6 card">
-                                <!-- Row start -->
-                                <div class="row gx-3">
-                                    <div class="col-sm-6 col-12">
-                                        <div class="mb-3">
-                                            <label for="customerName" class="form-label">Customer Name</label>
-                                            <input type="text" id="txtName" class="form-control" placeholder="Enter Customer Name" />
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 col-12">
-                                        <div class="mb-3">
-                                            <label for="txtEmail" class="form-label">Email</label>
-                                            <div class="input-group">
-                                                <input type="email" id="txtEmail" class="form-control" placeholder="Enter Email" />
+
+<div class="modal fade" id="AddInvoice_Modal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add New Invoice</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card">
+                            <!-- Row start -->
+                            <div class="row gx-3">
+                                <div class="col-sm-6 col-6 card border-right">
+                                    <!-- User details section -->
+                                    <div class="row gx-3">
+                                        <div class="col-sm-6 col-12">
+                                            <div class="mb-3">
+                                                <label for="customerName" class="form-label">Customer Name</label>
+                                                <input type="text" id="txtName" class="form-control" placeholder="Enter Customer Name" />
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-6 col-12">
-                                        <div class="mb-3">
-                                            <label for="txtPhone" class="form-label">Mobile No.</label>
-                                            <input type="text" id="txtPhone" class="form-control" placeholder="Enter Mobile Number" />
+                                        <div class="col-sm-6 col-12">
+                                            <div class="mb-3">
+                                                <label for="txtEmail" class="form-label">Email</label>
+                                                <div class="input-group">
+                                                    <input type="email" id="txtEmail" class="form-control" placeholder="Enter Email" />
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-6 col-12">
-                                        <div class="mb-3">
-                                            <label for="txtAddress" class="form-label">Address</label>
-                                            <div class="input-group">
-                                                <input type="text" id="txtAddress" class="form-control" placeholder="Enter Address" />
+                                        <div class="col-sm-6 col-12">
+                                            <div class="mb-3">
+                                                <label for="txtPhone" class="form-label">Mobile No.</label>
+                                                <input type="text" id="txtPhone" class="form-control" placeholder="Enter Mobile Number" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-12">
+                                            <div class="mb-3">
+                                                <label for="txtAddress" class="form-label">Address</label>
+                                                <div class="input-group">
+                                                    <input type="text" id="txtAddress" class="form-control" placeholder="Enter Address" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                                <div class="col-sm-6 col-4 card" style="border:dotted 2px black; margin-top:15%;">
-                                    <!-- Row start -->
+                                <div class="col-sm-6 col-4 card">
+                                    <!-- Transaction details section -->
                                     <div class="row gx-3">
                                         <div class="col-sm-6 col-12">
                                             <div class="mb-3">
                                                 <label for="customerName" class="form-label">Transaction Mode</label>
-                                            <select class="form-select" id="txtTMode" onchange="OnTransaction();">
-                                                    <option>select mode</option>
-                                                    <option>Online</option>
-                                                    <option>Cash</option>
+                                                <select class="form-select" id="txtTMode" onchange="OnTransaction();">
+                                                    <option value="">Select Mode</option>
+                                                    <option value="Online">Online</option>
+                                                    <option value="Cash">Cash</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -66,159 +77,172 @@
                                             <div class="mb-3">
                                                 <label class="form-label">Transaction Id</label>
                                                 <div class="input-group">
-                                                <input type="text" id="txtTransactionId" class="form-control" placeholder="enter transaction id" />
+                                                    <input type="text" id="txtTransactionId" class="form-control" placeholder="Enter Transaction Id" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-12">
                                             <div class="mb-3">
-                                                <label  class="form-label">Due Date</label>
-                                            <div class="input-group">
-                                                <input type="text" id="txtduedate" class="form-control datepicker-time" disabled="disabled">
-                                                <span class="input-group-text">
-                                                    <i class="bi bi-calendar4"></i>
-                                                </span>
-                                            </div>
+                                                <label class="form-label">Due Date</label>
+                                                <div class="input-group">
+                                                    <input type="text" id="txtduedate" class="form-control datepicker-time" disabled="disabled">
+                                                    <span class="input-group-text">
+                                                        <i class="bi bi-calendar4"></i>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    <div class="col-sm-6 col-12">
-                                        <label class="form-label">IsPaid</label>
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" role="switch" onchange="OnTransaction();" id="ckbIsPaid" checked="">
-                                            <label class="form-check-label" for="ckbIsPaid"></label>
+                                        <div class="col-sm-6 col-12">
+                                            <label class="form-label">IsPaid</label>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch" onchange="OnTransaction();" id="ckbIsPaid" checked="">
+                                                <label class="form-check-label" for="ckbIsPaid"></label>
+                                            </div>
                                         </div>
                                     </div>
-                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- Row end -->
+                        <hr />
+                        <!-- Row start -->
+                        <div class="row gx-3">
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:15%;">Service</th>
+                                                <th>Product</th>
+                                                @* <th>Unit</th> *@
+                                                <th style="width:12%;">Quantity</th>
+                                                <th style="width:12%;">Price (₹) </th>
+                                                <th style="width:12%;">VAT (%) </th>
+                                                <th style="width:12%;">Discount (%) </th>
+                                                <th style="width:12%;">Amount (₹ Net)</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbody">
+                                            <tr class="rowClass">
+                                                <td>
+                                                    <!-- Form group start -->
+                                                    <input type="text" class="form-control" id="txtService0" placeholder="please enter service" />
+                                                </td>
+                                                <td>
+                                                    <div class="m-0">
+                                                        <select class="form-select product-select" id="txtProduct0" style="width:150px;">
+                                                            <option value="">Select medicine</option>
+                                                            @foreach (var item in Model)
+                                                            {
+
+                                                                <option value="@item.MedicineID">@item.Name</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                @*   <td>
+                                                <select class="form-select" id="txtUnit0">
+                                                <option>Select Unit</option>
+                                                <option>tablet</option>
+                                                <option>Books</option>
+                                                </select>
+                                                </td> *@
+                                                <td>
+                                                    <div class="m-0">
+                                                        <input type="number" class="form-control" id="txtQty0" onchange="txtonChange();" placeholder="Qty" />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <!-- Form group start -->
+                                                    <div class="input-group m-0">
+                                                        <input type="text" id="txtPrice0" onchange="txtonChange();" class="form-control" placeholder="Price" />
+
+                                                    </div>
+                                                    <!-- Form group end -->
+                                                </td>
+                                                <td>
+                                                    <!-- Form group start -->
+                                                    <div class="input-group m-0">
+                                                        <input type="text" id="txtVat0" onchange="txtonChange();" class="form-control" placeholder="Vat" />
+
+                                                    </div>
+                                                    <!-- Form group end -->
+                                                </td>
+                                                <td>
+                                                    <!-- Form group start -->
+                                                    <div class="input-group m-0">
+                                                        <input type="text" id="txtDiscount0" onchange="txtonChange();" class="form-control" placeholder="Discount" />
+
+                                                    </div>
+                                                    <!-- Form group end -->
+                                                </td>
+                                                <td>
+                                                    <!-- Form group start -->
+                                                    <div class="input-group m-0">
+                                                        <input type="text" id="txtTotalAmount0" class="form-control" placeholder="Total Amount" readonly />
+
+                                                    </div>
+                                                    <!-- Form group end -->
+                                                </td>
+                                                <td>
+                                                    <div class="d-inline-flex gap-1">
+                                                        <button class="btn btn-danger remove">
+                                                            <i class="mdi mdi-delete"></i>
+                                                        </button>
+                                                        <button class="btn btn-dark" id="btnaddnew">
+                                                            <i class=" uil-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">&nbsp;</td>
+                                                <td>
+                                                    <p class="m-0">Subtotal</p>
+                                                    <p class="m-0">Discount</p>
+                                                    <p class="m-0">VAT</p>
+                                                    <h5 class="mt-2 text-red">Total INR</h5>
+                                                </td>
+                                                <td>
+                                                    <p class="m-0" id="subtotal">₹0.00</p>
+                                                    <p class="m-0" id="discountAmount">₹0.00</p>
+                                                    <p class="m-0" id="vatAmount">₹0.00</p>
+                                                    <h5 class="mt-2 text-red" id="totalAmount">₹0.00</h5>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="text-end">
+                                    <button class="btn btn-outline-success" onclick="CreateInvoice();">
+                                        Create Invoice
+                                    </button>
                                 </div>
                             </div>
                         </div>
                         <!-- Row end -->
-                    <hr />
-                    <!-- Row start -->
-                    <div class="row gx-3">
-                        <div class="col-12">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Service</th>
-                                            <th>Product</th>
-                                            <th>Unit</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                            <th>VAT</th>
-                                            <th>Discount</th>
-                                            <th>Amount (Net)</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tbody">
-                                        <tr class="rowClass">
-                                            <td>
-                                                <!-- Form group start -->
-                                                <select class="form-select" id="txtService0">
-                                                    <option>Select Service</option>
-                                                    <option>Mobiles</option>
-                                                    <option>Books</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <div class="m-0">
-                                                    <select class="form-select product-select" id="txtProduct0" style="width:150px;">
-                                                      
-                                                    </select>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <select class="form-select" id="txtUnit0">
-                                                    <option>Select Unit</option>
-                                                    <option>tablet</option>
-                                                    <option>Books</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <div class="m-0">
-                                                    <input type="number" class="form-control" id="txtQty0" onchange="txtonChange();" placeholder="Qty" />
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <!-- Form group start -->
-                                                <div class="input-group m-0">
-                                                    <input type="text" id="txtPrice0" onchange="txtonChange();" class="form-control" placeholder="Price" />
-                                                    <span class="input-group-text">₹</span>
-                                                </div>
-                                                <!-- Form group end -->
-                                            </td>
-                                            <td>
-                                                <!-- Form group start -->
-                                                <div class="input-group m-0">
-                                                    <input type="text" id="txtVat0" onchange="txtonChange();" class="form-control" placeholder="Vat" />
-                                                    <span class="input-group-text">%</span>
-                                                </div>
-                                                <!-- Form group end -->
-                                            </td>
-                                            <td>
-                                                <!-- Form group start -->
-                                                <div class="input-group m-0">
-                                                    <input type="text" id="txtDiscount0" onchange="txtonChange();" class="form-control" placeholder="Discount" />
-                                                    <span class="input-group-text">%</span>
-                                                </div>
-                                                <!-- Form group end -->
-                                            </td>
-                                            <td>
-                                                <!-- Form group start -->
-                                                <div class="input-group m-0">
-                                                    <input type="text" id="txtTotalAmount0" class="form-control" placeholder="Total Amount" readonly />
-                                                    <span class="input-group-text">₹</span>
-                                                </div>
-                                                <!-- Form group end -->
-                                            </td>
-                                            <td>
-                                                <div class="d-inline-flex gap-3">
-                                                    <button class="btn btn-outline-danger remove">
-                                                        <i class="bi bi-trash m-0"></i>
-                                                    </button>
-                                                    <button class="btn btn-dark" id="btnaddnew">
-                                                        Add
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="7">&nbsp;</td>
-                                            <td>
-                                                <p class="m-0">Subtotal</p>
-                                                <p class="m-0">Discount</p>
-                                                <p class="m-0">VAT</p>
-                                                <h5 class="mt-2 text-red">Total INR</h5>
-                                            </td>
-                                            <td>
-                                                <p class="m-0" id="subtotal">₹0.00</p>
-                                                <p class="m-0" id="discountAmount">₹0.00</p>
-                                                <p class="m-0" id="vatAmount">₹0.00</p>
-                                                <h5 class="mt-2 text-red" id="totalAmount">₹0.00</h5>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="text-end">
-                                <button class="btn btn-outline-success" onclick="CreateInvoice();">
-                                    Create Invoice
-                                </button>
-                            </div>
-                        </div>
                     </div>
-                    <!-- Row end -->
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
 
 <!-- Select2 JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
@@ -259,82 +283,69 @@
             if (isValid) {
                 GetMedicines().then(options => {
                     let dynamicRowHTML = `
-                        <tr class="rowClass">
-                            <td>
-                                <select class="form-select Service_options" id="txtService${count}">
-                                </select>
-                            </td>
-                            <td>
-                                <div class="m-0">
-                                    <select class="form-control product-select" id="txtProduct${count}">
-                                        ${options}
-                                    </select>
-                                </div>
-                            </td>
-                            <td>
-                                <select class="form-select" id="txtUnit${count}">
-                                    <option>Select Unit</option>
-                                    <option>tablet</option>
-                                    <option>Books</option>
-                                </select>
-                            </td>
-                            <td>
-                                <div class="m-0">
-                                    <input type="number" class="form-control" id="txtQty${count}" onchange="txtonChange();" placeholder="Qty" />
-                                </div>
-                            </td>
-                            <td>
-                                <div class="input-group m-0">
-                                    <input type="text" id="txtPrice${count}" onchange="txtonChange();" class="form-control" placeholder="Price"/>
-                                    <span class="input-group-text">₹</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="input-group m-0">
-                                    <input type="text" id="txtVat${count}" onchange="txtonChange();" class="form-control" placeholder="Vat"/>
-                                    <span class="input-group-text">%</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="input-group m-0">
-                                    <input type="text" id="txtDiscount${count}" onchange="txtonChange();" class="form-control" placeholder="Discount"/>
-                                    <span class="input-group-text">%</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="input-group m-0">
-                                    <input type="text" id="txtTotalAmount${count}" class="form-control" placeholder="Total Amount" readonly/>
-                                    <span class="input-group-text">₹</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-inline-flex gap-3">
-                                    <button class="btn btn-outline-danger remove">
-                                        <i class="bi bi-trash m-0"></i>
-                                    </button>
-                                    <button class="btn btn-dark" id="btnaddnew">
-                                        Add
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>`;
+                            <tr class="rowClass">
+                                <td>
+                                         <input type="text" class="form-control" id="txtService${count}"  placeholder="please enter service" />
+                                </td>
+                                <td>
+                                    <div class="m-0">
+                                        <select class="form-control product-select" id="txtProduct${count}">
+                                            ${options}
+                                        </select>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="m-0">
+                                        <input type="number" class="form-control" id="txtQty${count}" onchange="txtonChange();" placeholder="Qty" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group m-0">
+                                        <input type="text" id="txtPrice${count}" onchange="txtonChange();" class="form-control" placeholder="Price"/>
+                                        <span class="input-group-text">₹</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group m-0">
+                                        <input type="text" id="txtVat${count}" onchange="txtonChange();" class="form-control" placeholder="Vat"/>
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group m-0">
+                                        <input type="text" id="txtDiscount${count}" onchange="txtonChange();" class="form-control" placeholder="Discount"/>
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group m-0">
+                                        <input type="text" id="txtTotalAmount${count}" class="form-control" placeholder="Total Amount" readonly/>
+                                        <span class="input-group-text">₹</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-inline-flex gap-1">
+                                            <button class="btn btn-danger remove">
+                                                <i class="mdi mdi-delete"></i>
+                                        </button>
+                                        <button class="btn btn-dark" id="btnaddnew">
+                                                <i class=" uil-plus"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>`;
 
                     $('#tbody tr:last').before(dynamicRowHTML);
                     $(`#txtProduct${count}`).select2({
                         placeholder: "Select a product",
                         allowClear: true
                     });
-                    $(`#txtService${count}`).select2({
-                        placeholder: "Select a product",
-                        allowClear: true
-                    });
-                    GetService();
                     count++;
                 }).fail(() => {
                     alert('Failed to fetch medicines.');
                 });
             } else {
-                Info(-1,'Please fill all the fields before adding a new row.');
+                Info(-1, 'Please fill all the fields before adding a new row.');
             }
         });
 
@@ -356,13 +367,8 @@
             placeholder: "Select a product",
             allowClear: true
         });
-        $("#txtService0").select2({
-            placeholder: "Select a product",
-            allowClear: true
-        });
 
         GetMedicines();
-        GetService();
     });
 
     function validateRow(row) {
@@ -408,7 +414,7 @@
     function CreateInvoice() {
         // Validate required fields
         if (!validateInvoiceFields()) {
-            Info(-1,'Please fill all the required fields.');
+            Info(-1, 'Please fill all the required fields.');
             return;
         }
 
@@ -426,14 +432,15 @@
         };
 
         let transaction = {
-            Id: "ertre44",
-            Mode: "fgfg",
-            IsPaid: true,
-            DueDate: "",
+            Id: $('#txtTransactionId').val(),
+            Mode: $('#txtTMode').val(),
+            IsPaid: $("#ckbIsPaid").prop('checked'),
+            DueDate: $('#txtduedate').val(),
         };
         invoiceData.Transactions.push(transaction);
 
         $('.rowClass').each(function (index, element) {
+            let service = $(element).find('input[id^="txtService"]').val() || 0;
             let quantity = parseFloat($(element).find('input[id^="txtQty"]').val()) || 0;
             let price = parseFloat($(element).find('input[id^="txtPrice"]').val()) || 0;
             let discountPercent = parseFloat($(element).find('input[id^="txtDiscount"]').val()) || 0;
@@ -445,10 +452,9 @@
             let totalAmount = subAmount - discountAmount + vatAmount;
 
             let item = {
-                Service: $(element).find('select[id^="txtService"]').val(),
+                Service: service,
                 Product: $(element).find('select[id^="txtProduct"]').val(),
                 Quantity: quantity,
-                Unit: $(element).find('select[id^="txtUnit"]').val(),
                 Price: price,
                 VAT: vatPercent,
                 Discount: discountPercent,
@@ -513,13 +519,13 @@
 
 
     function GetMedicines() {
+        debugger;
         return $.post('/GetMedicine')
             .then(function (med) {
                 let options = '<option>Select Product</option>';
                 med.forEach(function (item) {
                     options += `<option value="${item.name}">${item.name}</option>`;
                 });
-                $('#txtProduct0').html(options);
                 return options;
             })
             .catch(function () {
@@ -528,26 +534,7 @@
             });
     }
 
-    function GetService() {
-        return $.post('/GetMedicine')
-            .then(function (med) {
-                let Service_options = '<option>Select Product</option>';
-                med.forEach(function (item) {
-                    Service_options += `<option value="${item.name}">${item.name}</option>`;
-                });
-
-                $("#txtService0").html(Service_options);
-                $(".Service_options").html(Service_options);
-            })
-            .catch(function () {
-                alert('Failed to fetch medicines.');
-                return '<option>Select Product</option>';
-            });
-    }
-
-
 </script>
 
 
-    
-   
+

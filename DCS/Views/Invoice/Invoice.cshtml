@@ -34,7 +34,7 @@
                                 <div class="input-group">
                                     <div class="row d-flex justify-content-end align-items-center" style="margin-right: 0px;">
                                         <div class="col-auto mb-2">
-                                            <select class="form-control" id="ddltop">
+                                            <select class="form-control" id="ddltop" onchange="Onload();">
                                                 <option value="10">TOP</option>
                                                 <option value="10">10</option>
                                                 <option value="20">20</option>
@@ -52,7 +52,7 @@
                             </div>
                             <div class="col-sm-7">
                                 <div class="text-sm-end">
-                                    <button id="btnaddAppointment" class="btn btn-danger mb-2" onclick="editEmailTemplate(0)" type="button">
+                                    <button id="btnaddAppointment" class="btn btn-danger mb-2" onclick="addNewInvoice()" type="button">
                                         <i class="mdi mdi-plus-circle me-2"></i>  Add New
                                     </button>
                                     @* <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog-outline"></i></button> *@
@@ -127,6 +127,18 @@
                 alert("error");
             });
     }
+
+    function addNewInvoice() {
+        $.get("/Add-Invoice")
+            .done(function (res) {
+                $("#invoic_modalPV").html(res);
+                $("#AddInvoice_Modal").modal("show");
+            })
+            .fail(function () {
+                alert("error");
+            });
+    }
+
 
     function sendInvoiceInEmail(id,email) {
         debugger;

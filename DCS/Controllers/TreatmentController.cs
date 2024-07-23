@@ -26,15 +26,28 @@ namespace DCS.Controllers
         [Route("/_TreatmentList")]
         public async Task<IActionResult> _TreatmentList(Common common)
         {
-            var list = new List<TreatmentDetails>();
+            var list = new List<Treatment>();
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Treatment/GetTreatmentListOrById", JsonConvert.SerializeObject(common), null);
             if (apiRes.Result != null)
             {
-                list = JsonConvert.DeserializeObject<List<TreatmentDetails>>(apiRes.Result);
+                list = JsonConvert.DeserializeObject<List<Treatment>>(apiRes.Result);
 
             }
             return PartialView(list);
         }
+        [Route("/_MedicationList")]
+        public async Task<IActionResult> _MedicationList(int id)
+        {
+            var list = new List<Medication>();
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Treatment/GetMedicationListById/{id}", null, null);
+            if (apiRes.Result != null)
+            {
+                list = JsonConvert.DeserializeObject<List<Medication>>(apiRes.Result);
+
+            }
+            return PartialView(list);
+        }
+
         [Route("/EditTreatment")]
         public async Task<IActionResult> EditTreatment(int id)
         {
@@ -48,7 +61,7 @@ namespace DCS.Controllers
         }
 
         [Route("/AddTreatment")]
-        public async Task<IActionResult> AddTreatment(Treatment treatment)
+        public async Task<IActionResult> AddTreatment([FromBody]Treatment treatment)
         {
             var response = new Response()
             {
@@ -82,6 +95,16 @@ namespace DCS.Controllers
             }
             return Json(response);
         }
-
+        [Route("/CreateTreatment")]
+        public async Task<IActionResult> CreateTreatment(string? name = "All")
+        {
+            var list = new List<Doctor>();
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Doctor/GetDoctor/{name}", null, null);
+            if (apiRes.Result != null)
+            {
+                list = JsonConvert.DeserializeObject<List<Doctor>>(apiRes.Result);
+            }
+            return PartialView(list);
+        }
     }
 }

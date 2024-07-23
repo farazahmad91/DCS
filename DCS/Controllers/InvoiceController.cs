@@ -58,10 +58,16 @@ namespace DCS.Controllers
 		}
 		[Route("Add-Invoice")]
 		[HttpGet]
-		public IActionResult AddInvoice()
+		public async Task<IActionResult> AddInvoice(string name= "All")
 		{
-			return View();
-		}
+            var list = new List<Medicines>();
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/MedicineManagement/GetMedicines/{name}", null, null);
+            if (apiRes.Result != null)
+            {
+                list = JsonConvert.DeserializeObject<List<Medicines>>(apiRes.Result);
+            }
+            return PartialView(list);
+        }
 
 		[HttpPost]
 		[Route("AddInvoice")]
@@ -76,6 +82,8 @@ namespace DCS.Controllers
 
             try
             {
+                int? projectid = User.GetProjectId();
+                invoiceViewModel.ProjectId=projectid;
                 var token = User.GetLoggedInUserToken();
                 var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Invoice/InsertInvoiceData", JsonConvert.SerializeObject(invoiceViewModel),null);
                 if (apiRes.Result != null)

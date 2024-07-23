@@ -9,26 +9,27 @@ namespace Entities
   
     public class Treatment: Medication
     {
-        public int TreatmentId { get; set; }
-        public int PId { get; set; }
-        public int DrId { get; set; }
-        public string Diagnosis { get; set; }
-        public DateTime TreatmentDate { get; set; }
-        public string Description { get; set; }
-        public List<Medication> Medications { get; set; }
-        public string Status { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime? ModifiedDate { get; set; }
-        public string ModifiedBy { get; set; }
+        public int? TreatmentId { get; set; }
+        public int? PId { get; set; }
+        public int? DrId { get; set; }
+        public string? Email { get; set; }
+        public string? Diagnosis { get; set; }
+        public string? TreatmentDate { get; set; }
+        public string? Description { get; set; }
+        public List<Medication>? Medications { get; set; }
+        public string? Status { get; set; }
+        public string? CreatedDate { get; set; }
+        public string? CreatedBy { get; set; }
+        public string? ModifiedDate { get; set; }
+        public string? ModifiedBy { get; set; }
     }
 
     public class Medication
     {
-        public int MedicationId { get; set; }
-        public string Name { get; set; }
-        public string Dosage { get; set; }
-        public string Frequency { get; set; }
+        public int? MedicationId { get; set; }
+        public string? Name { get; set; }
+        public string? Dosage { get; set; }
+        public string? Frequency { get; set; }
         public string? FollowUpDate { get; set; }
     }
 

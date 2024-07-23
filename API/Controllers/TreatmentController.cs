@@ -14,7 +14,7 @@ namespace API.Controllers
             _treatment =treatment;
         }
         [HttpPost(nameof(AddTreatment))]
-        public async Task<IActionResult> AddTreatment(Treatment treatments)
+        public async Task<IActionResult> AddTreatment(Treatment? treatments)
         {
             var i =await _treatment.AddTreatment(treatments);
             return Ok(i);
@@ -38,6 +38,13 @@ namespace API.Controllers
         public async Task<IActionResult> GetTreatmentByPId(int Id)
         {
             var i =await _treatment.GetTreatmentByPId(Id);
+            return Ok(i);
+        }
+
+        [HttpPost(nameof(GetMedicationListById)+"/{Id}")]
+        public async Task<IActionResult> GetMedicationListById(int Id)
+        {
+            var i = await _treatment.GetMedicationListById(Id);
             return Ok(i);
         }
     }

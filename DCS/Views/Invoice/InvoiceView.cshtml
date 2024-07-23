@@ -51,7 +51,7 @@
 
                                         <p class="font-13"><strong>Mode : </strong> <span class="badge bg-success float-end">@tItem.Mode</span></p>
                                         
-                                        @if (!@tItem.IsPaid)
+                                        @if (@tItem.IsPaid==true)
                                         {
                                             <p class="font-13"><strong>Status: </strong> <span class="badge bg-success float-end"><label>Paid</label></span></p>
                                         }

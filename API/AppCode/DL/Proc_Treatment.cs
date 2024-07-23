@@ -26,12 +26,18 @@ namespace API.AppCode.DL
             };
             try
             {
+                var j = await _dapper.GetAsync<Patient>("proc_GetPatientIdByEmail", new {Email  = treatment .Email});
+                if (j.PId==0)
+                {
+                    res.ResponseText="email not register please add email or provide register email id";
+                    res.StatusCode = ResponseStatus.FAILED;
+                    return res;
+                }
                 var param = new
                 {
-                    PatientId = treatment.PId,
+                    PatientId = j.PId,
                     DoctorId = treatment.DrId,
                     Diagnosis = treatment.Diagnosis,
-                    TreatmentDate = treatment.TreatmentDate,
                     Description = treatment.Description,
                     Status = treatment.Status,
                     CreatedBy = treatment.CreatedBy,
@@ -108,7 +114,6 @@ namespace API.AppCode.DL
                     PId = treatment.PId,
                     DrId = treatment.DrId,
                     Diagnosis = treatment.Diagnosis,
-                    TreatmentDate = treatment.TreatmentDate,
                     Description = treatment.Description,
                     Status = treatment.Status,
                     ModifiedBy = treatment.ModifiedBy,
@@ -178,7 +183,7 @@ namespace API.AppCode.DL
                 var param = new
                 {
                     CreatedDate = common.Date,
-                    PId= common.Id
+                    PId= common.Id,
                 };
                 var i = await _dapper.GetAll<Treatment>(GetName(),param);
                 return i;
@@ -252,6 +257,48 @@ namespace API.AppCode.DL
         public string GetName()
         {
             return "Proc_GetTreatmentById";
+        }
+    }
+
+    public class Proc_GetMedicationListById : IProcedureAsync
+    {
+        private readonly IDapper _dapper;
+        public Proc_GetMedicationListById(IDapper dapper)
+        {
+            this._dapper = dapper;
+        }
+        public async Task<object> Call()
+        {
+
+            throw new NotImplementedException();
+        }
+
+        public async Task<object> Call(object obj)
+        {
+            int Id = (int)obj;
+            try
+            {
+                var items = await _dapper.GetAll<Medication>(GetName(), new { Id = Id });
+
+                return items;
+            }
+            catch (Exception ex)
+            {
+                var error = new ErrorLog
+                {
+                    ClassName = GetType().Name,
+                    FuncName = "call",
+                    Error = ex.Message,
+                    ProcName = GetName(),
+                };
+                new ErrorLog_ML(_dapper).Error(error);
+            }
+            return "something went wrong!";
+        }
+
+        public string GetName()
+        {
+            return "Proc_GetMedicationListById";
         }
     }
 }
