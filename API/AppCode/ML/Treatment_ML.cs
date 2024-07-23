@@ -27,13 +27,19 @@ namespace API.AppCode.ML
             return (Treatment)i;
         }
 
-        public async Task<IEnumerable<TreatmentDetails>> GetTreatmentListOrById(Common common)
+        public async Task<IEnumerable<Treatment>> GetTreatmentListOrById(Common common)
         {
             IProcedureAsync proc = new Proc_GetTreatmentListOrById(_dapper);
             var i = await proc.Call(common);
-            return (IEnumerable<TreatmentDetails>)i;
+            return (IEnumerable<Treatment>)i;
         }
 
+        public async Task<IEnumerable<Medication>> GetMedicationListById(int id)
+        {
+            IProcedureAsync proc = new Proc_GetMedicationListById(_dapper);
+            var i = await proc.Call(id);
+            return (IEnumerable<Medication>)i;
+        }
         public async Task<Response> UpdateTreatment(Treatment req)
         {
             IProcedureAsync proc = new Proc_UpdateTreatment(_dapper);

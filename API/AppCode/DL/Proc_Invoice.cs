@@ -3,6 +3,7 @@ using API.AppCode.ML;
 using API.Data;
 using Entities;
 using Entities.Response;
+using Microsoft.CodeAnalysis;
 using System.Collections.Generic;
 using System.Data;
 
@@ -28,6 +29,7 @@ namespace API.AppCode.DL
                 var param = new
                 {
                     PatientName = invoiceView.CustomerName,
+                    ProjectId = invoiceView.ProjectId,
                     Email = invoiceView.Email,
                     Phone = invoiceView.Phone,
                     Address = invoiceView.Address,

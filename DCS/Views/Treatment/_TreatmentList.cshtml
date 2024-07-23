@@ -1,16 +1,22 @@
-﻿@model Entities.TreatmentDetails
+﻿@model IEnumerable<Entities.Treatment>
 
 @{
     ViewData["Title"] = "TreatmentList";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout =null;
 }
-
-@foreach (var item in Model.treatment)
+@if (Model == null || !Model.Any())
+{
+    <tr style="text-align: center;">
+        <td colspan="12" style="text-align: center;">
+            <label><strong>Data Not Found</strong></label>
+        </td>
+    </tr>
+}
+else
+{
+@foreach (var item in Model)
 {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.TreatmentId)
-        </td>
         <td>
             @Html.DisplayFor(modelItem => item.PId)
         </td>
@@ -29,41 +35,11 @@
         <td>
             @Html.DisplayFor(modelItem => item.Status)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedBy)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ModifiedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ModifiedBy)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        <td class="table-action">
+            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye" onclick="medicationList(@item.TreatmentId)"></i></a>
         </td>
     </tr>
 }
-
-@foreach (var item in Model.Medications)
-{
-    <td>
-        @Html.DisplayFor(modelItem => item.MedicationId)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Name)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Dosage)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Frequency)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.FollowUpDate)
-    </td>
 }
+
+

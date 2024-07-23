@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Entities.Medication>
+
+@{
+    ViewData["Title"] = "TreatmentList";
+    Layout =null;
+}
+<div id="MedicationList_Modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="MedicationList_ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-hover border-primary m-0">
+                        <thead class="bg-info">
+                            <tr class="text-white">
+                                <th>
+                                    NAME
+                                </th>
+                                <th>
+                                    DOSAGE
+                                </th>
+                                <th>
+                                    FREQUENCY
+                                </th>
+                                <th>
+                                    FOLLOW-UP DATE
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model == null || !Model.Any())
+                            {
+                                <tr style="text-align: center;">
+                                    <td colspan="12" style="text-align: center;">
+                                        <label><strong>Data Not Found</strong></label>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Dosage)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Frequency)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FollowUpDate)
+                                        </td>
+                                    </tr>
+                                }}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
