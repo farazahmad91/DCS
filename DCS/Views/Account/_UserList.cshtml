@@ -104,14 +104,27 @@
 
         function getSelectedEmails() {
             const selectedEmails = [];
+
             userCheckboxes.forEach(function (checkbox) {
                 if (checkbox.checked) {
-                    const userEmail = checkbox.parentElement.nextElementSibling.textContent.trim();
-                    selectedEmails.push(userEmail);
+                    // Get the parent <tr> element
+                    const parentRow = checkbox.closest('tr');
+
+                    // Get all <td> elements within the parent <tr>
+                    const tdElements = parentRow.querySelectorAll('td');
+
+                    // Check if there are at least 3 <td> elements
+                    if (tdElements.length >= 3) {
+                        // Get the text content of the third <td> element
+                        const userEmail = tdElements[3].textContent.trim();
+                        selectedEmails.push(userEmail);
+                    }
                 }
             });
+
             return selectedEmails;
         }
+
 
         document.getElementById('btnsendEmail').addEventListener('click', function () {
             const selectedEmails = getSelectedEmails();
@@ -152,10 +165,10 @@
                     processData: false,
                     contentType: false,
                     success: function (response) {
-                        console.log(response);
+                        Info(result.statusCode, result.responseText);
                     },
                     error: function (xhr) {
-                        console.log(xhr);
+                        Info(-1, xhr.responseText);
                     }
                 });
             }

@@ -19,18 +19,18 @@ namespace API.AppCode.ML
             return (Response)i;
         }
 
-        public async Task<IEnumerable<DCSPolicies>> GetDCSPolicies(string? name)
+        public async Task<IEnumerable<DCSPolicies>> GetDCSPoliciesListOrById(Common common)
         {
-            IProcedureAsync proc = new Proc_GetDCSPolicies(_dapper);
-            var i = await proc.Call(name);
+            IProcedureAsync proc = new Proc_GetDCSPoliciesListOrById(_dapper);
+            var i = await proc.Call(common);
             return (IEnumerable<DCSPolicies>)i;
         }
 
-        public async Task<DCSPolicies> GetDCSPoliciesById(int Id)
+        public async Task<Response> UpdateDCSPoliciesStatus(Common common)
         {
-            IProcedureAsync proc = new Proc_GetDCSPoliciesById(_dapper);
-            var i = await proc.Call(Id);
-            return (DCSPolicies)i;
+            IProcedureAsync proc = new Proc_UpdateDCSPoliciesStatus(_dapper);
+            var i = await proc.Call(common);
+            return (Response)i;
         }
     }
 }

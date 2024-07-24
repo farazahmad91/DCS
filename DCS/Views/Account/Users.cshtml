@@ -17,16 +17,14 @@
                 <div class="card-body">
                     <div class="create-invoice-wrapper">
 
-<p>
-    <input onclick='$("#bulkemail").modal("show");' class="btn btn-lg btn-primary" id="btnmodal" value="Create Message" type="submit">
-</p>
+
 <div>
-    <input type="radio" id="singleSelect" name="selectionMode" checked>
-    <label for="singleSelect">Single Select</label>
-    <input type="radio" id="multiSelect" name="selectionMode">
-    <label for="multiSelect">Multi Select</label>
+    <input type="radio" id="singleSelect" name="selectionMode" hidden checked>
+                            <label for="singleSelect" hidden>Single Select</label>
+                            <input type="radio" id="multiSelect" name="selectionMode" hidden>
+                            <label for="multiSelect" hidden>Multi Select</label>
    @*  <input type="radio" id="selectAll" name="selectionMode"> *@
-    <label for="selectAll">Select All</label>
+                            <label for="selectAll" hidden>Select All</label>
 </div>
 
                         <div class="container-fluid">
@@ -58,21 +56,19 @@
                                                 </div>
                                                 <div class="col-sm-7">
                                                     <div class="text-sm-end">
-                                                        <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog-outline"></i></button>
-                                                        <button type="button" class="btn btn-light mb-2 me-1">Import</button>
-                                                        <button type="button" class="btn btn-light mb-2">Export</button>
+                                                        <button type="button" class="btn btn-primary mb-2" id="btnmsg" onclick='$("#bulkemail").modal("show");' disabled>Create Message</button>
                                                     </div>
                                                 </div><!-- end col-->
                                             </div>
 
                                             <div class="table-responsive">
                                                 <table class="table table-centered w-100 dt-responsive nowrap" id="tbluser">
-                                                    <thead class="table-light">
-                                                        <tr>
+                                                    <thead class="table-dark">
+                                                        <tr class="text-white">
                                                             <th hidden>
                                                                 <label>Id</label>
                                                             </th>
-                                                            <th><input type="radio" id="selectAll" name="selectionMode"></th>
+                                                            <th><input type="radio" id="selectAll" onchange="onselectAll();" name="selectionMode"></th>
                                                             <th>
                                                                 <label>Name</label>
                                                             </th>
@@ -86,7 +82,7 @@
                                                                 <label>Password</label>
                                                             </th>
                                                             <th>
-                                                                <label>Account Active</label>
+                                                                <label>Account</label>
                                                             </th>
                                                             <th>
                                                                 <label>Email Verified</label>
@@ -179,6 +175,10 @@
         $("#tbluser").DataTable();
         
     });
+    function onselectAll() 
+    {
+        $("#btnmsg").prop('disabled', false);
+    }
     var loadData = function () {
         $.get('/_UserList').done(function (res) {
             $('#tbluser tbody').html(res);

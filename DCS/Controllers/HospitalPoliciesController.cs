@@ -4,6 +4,7 @@ using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using API.AppCode.IML;
+using API.Claims;
 
 namespace DCS.Controllers
 {
@@ -22,10 +23,12 @@ namespace DCS.Controllers
             return View();
         }
         [Route("_HospitalPoliciesList")]
-        public async Task<IActionResult> _HospitalPoliciesList(string? name)
+        public async Task<IActionResult> _HospitalPoliciesList(Common common)
         {
             var list = new List<HospitalPolicy>();
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalPolicies/GetHospitalPolicies/{name}", null, null);
+            int? projectid = User.GetProjectId();
+            common.ProjectId =projectid;
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalPolicies/Proc_GetHospitalPolicyListOrById", JsonConvert.SerializeObject(common), null);
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<List<HospitalPolicy>>(apiRes.Result);
@@ -34,15 +37,22 @@ namespace DCS.Controllers
         }
 
         [Route("/EditHospitalPolicies")]
-        public async Task<IActionResult> EditHospitalPolicies(int id)
+        public async Task<IActionResult> EditHospitalPolicies(Common common)
         {
-            var list = new HospitalPolicy();
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalPolicies/GetHospitalPoliciesById/{id}", null, null);
-            if (apiRes.Result != null)
+            var res = new HospitalPolicy();
+            int? projectid = User.GetProjectId();
+            common.ProjectId =projectid;
+            if (common.Id != 0)
             {
-                list = JsonConvert.DeserializeObject<HospitalPolicy>(apiRes.Result);
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalPolicies/Proc_GetHospitalPolicyListOrById", JsonConvert.SerializeObject(common), null);
+                if (apiRes.Result != null)
+                {
+                    var list = JsonConvert.DeserializeObject<List<HospitalPolicy>>(apiRes.Result);
+                    res = list?.FirstOrDefault() ?? new HospitalPolicy();
+                    return View(res);
+                }
             }
-            return View(list);
+            return View(res);
         }
         [HttpPost]
         [Route("/AddOrUpdateHospitalPolicies")]
@@ -53,12 +63,29 @@ namespace DCS.Controllers
                 ResponseText = "Failed To Add or Update Service",
                 StatusCode = ResponseStatus.FAILED,
             };
-
+            int? projectid = User.GetProjectId();
+            policies.ProjectId =projectid;
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalPolicies/AddOrUpdateHospitalPolicies", JsonConvert.SerializeObject(policies), null);
             if (apiRes.Result != null)
             {
                 response = JsonConvert.DeserializeObject<Response>(apiRes.Result);
                 return Json(response);
+            }
+            return Json(response);
+        }
+
+        [Route("/HP_Status")]
+        public async Task<IActionResult> Status(Common common)
+        {
+            var response = new Response()
+            {
+                ResponseText = "Failed To Update Status",
+                StatusCode = ResponseStatus.FAILED,
+            };
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalPolicies/UpdateHospitalPoliciesStatus", JsonConvert.SerializeObject(common), null);
+            if (apiRes.Result != null)
+            {
+                response = JsonConvert.DeserializeObject<Response>(apiRes.Result);
             }
             return Json(response);
         }

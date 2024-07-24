@@ -1,6 +1,6 @@
 ﻿using API.AppCode.APIRequest;
+using API.AppCode.IML;
 using API.Claims;
-using API.DBContext.Entities;
 using API.SendEmail;
 using DCS.Models;
 using Entities;
@@ -38,6 +38,11 @@ namespace DCS.Controllers
         [HttpPost]
         public async Task<IActionResult> SendBulkEmails([FromForm] string emailDataArray, IFormFile imageFile)
         {
+            var response = new Entities.Response.Response()
+            {
+                ResponseText = "An error has occurred, try again later!",
+                StatusCode = ResponseStatus.FAILED
+            };
             if (string.IsNullOrEmpty(emailDataArray))
             {
                 return BadRequest("Email data is required.");
@@ -93,10 +98,25 @@ namespace DCS.Controllers
 
             try
             {
-                var jsonEmails = JsonConvert.SerializeObject(createEmail);
-                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/SendBulkEmails", jsonEmails, User.GetLoggedInUserToken());
-                return Json(apiRes);
-
+                var Applist = new  ApplicationSetting();
+                var listJson = HttpContext.Session.GetString("ApplicationSettingList");
+                if (!string.IsNullOrEmpty(listJson))
+                {
+                    // Deserialize JSON string to an object. Use dynamic or a specific type if you know the structure.
+                    Applist  = JsonConvert.DeserializeObject<ApplicationSetting>(listJson);
+                }
+                if (Applist.IsEmailMarketing!=null && Applist.IsEmailMarketing==true)
+                {
+                    var jsonEmails = JsonConvert.SerializeObject(createEmail);
+                    var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/SendBulkEmails", jsonEmails, User.GetLoggedInUserToken());
+                    return Json(apiRes);
+                }
+                else
+                {
+                    response.ResponseText = "Bulk Email Sending Service is Deactivated. Please activate the service by upgrading to a premium project plan.";
+                    response.StatusCode = ResponseStatus.FAILED;
+                    return Json(response);
+                }
             }
             catch (Exception ex)
             {

@@ -6,7 +6,7 @@ namespace API.AppCode.IML
     public interface IHospitalServices
     {
         public Task<Response> AddorUpdateHospitalServices(HospitalServices req);
-        public Task<HospitalServices> GetHospitalServicesById(int Id);
-        public Task<IEnumerable<HospitalServices>> GetHospitalServices(string? name);
+        public Task<Response> UpdateHospitalServiceStatus(Common common);
+        public Task<IEnumerable<HospitalServices>> GetHospitalServicesListOrById(Common common);
     }
 }

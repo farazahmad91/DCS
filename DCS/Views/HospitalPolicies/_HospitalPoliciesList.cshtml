@@ -3,8 +3,18 @@
 @{
     ViewData["Title"] = "HospitalPoliciesList";
     Layout = null;
+    var Ischecked = "";
 }
-
+@if (Model == null || !Model.Any())
+{
+    <tr style="text-align: center;">
+        <td colspan="12" style="text-align: center;">
+            <label><strong>Data Not Found</strong></label>
+        </td>
+    </tr>
+}
+else
+{
 @foreach (var item in Model)
 {
     <tr>
@@ -18,15 +28,28 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TypeId)
+            @Html.DisplayFor(modelItem => item.Type)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.LastUpdated)
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
+            <td>
+                <div class="form-check form-switch">
+                    @if (@item.Status==true)
+                    {
+                        Ischecked = "checked";
+                    }
+                    else
+                    {
+                        Ischecked = "";
+                    }
+                    <input type="checkbox" name="switch3" onchange="changeHP_Status(@item.HosPolicyId)" id="IsVerified_@item.HosPolicyId" data-switch="success" @Ischecked>
+                    <label for="IsVerified_@item.HosPolicyId" data-on-label="ON" data-off-label="OFF"></label>
+                </div>
+            </td>
+            <td class="table-action">
+                <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline" onclick="editHospitalPolicy(@item.HosPolicyId)"></i></a>
+            </td>
     </tr>
+}
 }

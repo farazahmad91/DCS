@@ -1,5 +1,86 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Entities.SocialMedia
 @{
+    Layout = null;
 }
+
+<div class="card">
+    <div class="card-body">
+        <!-- Modal -->
+        <div class="modal fade" id="socialMedia_modal" tabindex="-1" aria-labelledby="socialMedia_modalTitle" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="socialMedia_modalTitle">
+                            Add or Update Doctor
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control" hidden asp-for="SMId">
+                        <div class="form-horizontal">
+                            <div class="row mb-3">
+                                <label for="EmailType" class="col-3 col-form-label">Social Media Platform</label>
+                                <div class="col-9">
+                                    <select class="form-control" asp-for="PlateformName">
+                                        <option value="">Select a Social Media Platform</option>
+                                        <option value="facebook">Facebook</option>
+                                        <option value="twitter">Twitter</option>
+                                        <option value="instagram">Instagram</option>
+                                        <option value="linkedin">LinkedIn</option>
+                                        <option value="snapchat">Snapchat</option>
+                                        <option value="tiktok">TikTok</option>
+                                        <option value="youtube">YouTube</option>
+                                        <option value="pinterest">Pinterest</option>
+                                        <option value="reddit">Reddit</option>
+                                        <option value="tumblr">Tumblr</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="PlateformLink" class="col-3 col-form-label">Link</label>
+                                <div class="col-9">
+                                    <input class="form-control" type="text" asp-for="PlateformLink" />
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="Icons" class="col-3 col-form-label">Icons</label>
+                                <div class="col-9">
+                                    <input class="form-control" type="file" id="file" />
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="Status" class="col-3 col-form-label">Status</label>
+                                <div class="col-9">
+                                    <div class="form-check form-switch m-0">
+                                    <input class="form-check-input" type="checkbox" role="switch" @Html.Raw(Model.Status==true ? "checked" : "")
+                                           id="Status" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="addSocialMedia();">
+                        @if (Model != null && Model.SMId != null)
+                            {
+                                <text>Update</text>
+                            }
+                            else
+                            {
+                                <text>Save</text>
+                            }
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

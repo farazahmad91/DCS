@@ -3,6 +3,9 @@ using Entities.Response;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using API.AppCode.Configuration;
+using API.Claims;
+using Microsoft.SqlServer.Server;
 
 namespace DCS.Controllers
 {
@@ -25,6 +28,8 @@ namespace DCS.Controllers
         public async Task<IActionResult> _SocialMediaList(Common common)
         {
             var list = new List<SocialMedia>();
+            int? projectid = User.GetProjectId();
+            common.ProjectId =projectid;
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/SocialMedia/GetSocialMediaListOrById", JsonConvert.SerializeObject(common), null);
             if (apiRes.Result != null)
             {
@@ -36,36 +41,48 @@ namespace DCS.Controllers
         public async Task<IActionResult> EditSocialMedia(Common common)
         {
             var res = new SocialMedia();
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/SocialMedia/GetSocialMediaListOrById", JsonConvert.SerializeObject(common), null);
-            if (apiRes.Result != null)
+            if (common.Id != 0)
             {
-               var list = JsonConvert.DeserializeObject<List<SocialMedia>>(apiRes.Result);
-                res = list.FirstOrDefault();
+                int? projectid = User.GetProjectId();
+                common.ProjectId =projectid;
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/SocialMedia/GetSocialMediaListOrById", JsonConvert.SerializeObject(common), null);
+                if (apiRes.Result != null)
+                {
+                    var list = JsonConvert.DeserializeObject<List<SocialMedia>>(apiRes.Result);
+                    res = list.FirstOrDefault();
 
+                }
+                return PartialView(res);
             }
-            return PartialView(res);
+            return View(res);
         }
 
         [Route("/SocialMediaAddOrUpdate")]
-        public async Task<IActionResult> AddOrUpdate([FromForm] string socialMedia, IFormFile file)
+        public async Task<IActionResult> AddOrUpdate([FromForm] string param, [FromForm] IFormFile file)
         {
-            var response = new Response()
+            var response = new Response
             {
                 ResponseText = "Failed To Add or Update Service",
                 StatusCode = ResponseStatus.FAILED,
             };
 
-            var request = JsonConvert.DeserializeObject<SocialMedia>(socialMedia);
-            request.ImagePath=file;
-            var apiRes = await APIRequestML.O.SendFileAndContentAsync($"{_BaseUrl}/api/SocialMedia/AddOrUpdateSocialMedia", request, file, null, null);
-            var res = await apiRes.Content.ReadAsStringAsync();
-            if (apiRes != null && apiRes.IsSuccessStatusCode)
+            if (!string.IsNullOrEmpty(param))
             {
-                response = JsonConvert.DeserializeObject<Response>(res);
-                return Json(response);
+                var formData = JsonConvert.DeserializeObject<SocialMedia>(param);
+                formData.ImagePath = file;
+                int? projectid = User.GetProjectId();
+                formData.ProjectId =projectid;
+                var apiRes = await APIRequestML.O.SendFileAndContentAsync($"{_BaseUrl}/api/SocialMedia/AddOrUpdateSocialMedia", formData, file, null, null);
+                var res = await apiRes.Content.ReadAsStringAsync();
+
+                if (apiRes != null && apiRes.IsSuccessStatusCode)
+                {
+                    response = JsonConvert.DeserializeObject<Response>(res);
+                }
             }
 
             return Json(response);
         }
+
     }
 }

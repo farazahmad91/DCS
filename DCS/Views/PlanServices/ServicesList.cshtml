@@ -51,116 +51,28 @@
 
                         <div class="table-responsive">
                             <table class="table table-striped dt-responsive nowrap w-100" id="dTable">
-                                <thead>
-                                    <tr>
+                                <thead class="table-dark">
+                                    <tr class="text-white">
                                         <th>
-                                            <label>Service ID</label>
+                                            <label>ID</label>
                                         </th>
                                         <th>
-                                            <label>Service Name</label>
+                                            <label>NAME</label>
                                         </th>
                                         <th>
-                                            <label>Description</label>
+                                            <label>PRICE</label>
                                         </th>
                                         <th>
-                                            <label>Price</label>
+                                            <label>DURATION</label>
                                         </th>
                                         <th>
-                                            <label>Discounts</label>
-                                        </th>
-                                        <th>
-                                            <label>Last Price</label>
-                                        </th>
-                                        <th>
-                                            <label>Duration</label>
-                                        </th>
-
-                                        <th>
-                                            <label>Renewal Option</label>
-                                        </th>
-
-                                        <th>
-                                            <label>Customer Support Level</label>
-                                        </th>
-                                        <th>
-                                            <label>Terms and Conditions</label>
+                                            <label>SERVICE LEVEL</label>
                                         </th>
                                         <th>
                                             <label>Created At</label>
                                         </th>
-                                        <th>
-                                            <label>Updated At</label>
-                                        </th>
-                                        <th>
-                                            <label>Email Marketing</label>
-                                        </th>
-                                        <th>
-                                            <label>Email Verification Service</label>
-                                        </th>
-                                        <th>
-                                            <label>Show Your User Password</label>
-                                        </th>
-                                        <th>
-                                            <label>Referral Service</label>
-                                        </th>
-                                        <th>
-                                            <label>Back Up Service</label>
-                                        </th>
-                                        <th>
-                                            <label>SMS Notification Service</label>
-                                        </th>
-                                        <th>
-                                            <label>Emergency Alert Service</label>
-                                        </th>
-                                        <th>
-                                            <label>User Appointment Reminder Service</label>
-                                        </th>
-                                        <th>
-                                            <label>Doctor Availability Notification Service</label>
-                                        </th>
-                                        <th>
-                                            <label>Medicine Store Management Service</label>
-                                        </th>
-                                        <th>
-                                            <label>Two Factor Authentication Service</label>
-                                        </th>
-                                        <th>
-                                            <label>Is Multiple Mobile Allowed</label>
-                                        </th>
-                                        <th>
-                                            <label>Is Dark Mode Enabled</label>
-                                        </th>
-                                        <th>
-                                            <label>Is Billing Notification Enabled</label>
-                                        </th>
-                                        <th>
-                                            <label>Is Prescription Refill Reminder Enabled</label>
-                                        </th>
-                                        <th>
-                                            <label>Max Login Attempts</label>
-                                        </th>
-                                        <th>
-                                            <label>Is Show Password</label>
-                                        </th>
-                                        <th>
-                                            <label>Is Social Alert</label>
-                                        </th>
-                                        <th>
-                                            <label>Is Password Only</label>
-                                        </th>
-                                        <th>
-                                            <label>Is Patient</label>
-                                        </th>
-                                        <th>
-                                            <label>Is Doctor</label>
-                                        </th>
-                                        <th>
-                                            <label>Super Admin</label>
-                                        </th>
-                                        <th>
-                                            <label>Is Admin</label>
-                                        </th>
-                                        <th></th>
+                                        
+                                        <th>ACTION</th>
                                     </tr>
                                 </thead>
 
@@ -232,12 +144,14 @@
             IsAppointmentContactService: $("#IsAppointmentContactService").prop('checked'),
             IsAppointmentFormService: $("#IsAppointmentFormService").prop('checked'),
             IsAppointmentStatus: $("#IsAppointmentStatus").prop('checked'),
-            IsWhatsappMarketing: $("#IsWhatsappMarketing").prop('checked')
+            IsWhatsappMarketing: $("#IsWhatsappMarketing").prop('checked'),
+            IsDarkModeEnabled: $("#IsDarkModeEnabled").prop('checked'),
         };
 
         $.post('/AddOrUpdatePlan', param)
             .done(function (result) {
                 Info(result.statusCode, result.responseText);
+                Onload();
             })
             .fail(function (xhr) {
                 Info(-1, xhr.responseText);

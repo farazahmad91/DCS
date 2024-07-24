@@ -2,32 +2,150 @@
     ViewData["Title"] = "_SocialMediaList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<thead>
-    <tr>
-        <th>
-            SMId
-        </th>
-        <th>
-       ProjectId
-        </th>
-        <th>
-            PlateformName
-        </th>
-        <th>
-            PlateformLink
-        </th>
-        <th>
-       model.Icons
-        </th>
-        <th>
-       model.Status
-        </th>
-        <th>
-          model.EntryOn
-        </th>
-        <th>
-            model.UpdateOn
-        </th>
-        <th></th>
-    </tr>
-</thead>
+<!-- Start Content-->
+<div class="content">
+
+
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
+                            <li class="breadcrumb-item active">Form Advanced</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">Social Media</h4>
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-sm-5">
+                                <div class="input-group">
+                                    <div class="row d-flex justify-content-end align-items-center" style="margin-right: 0px;">
+                                        <div class="col-auto mb-2">
+                                            <select class="form-control" id="ddltop" onchange="Onload();">
+                                                <option value="10">TOP</option>
+                                                <option value="10">10</option>
+                                                <option value="20">20</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                                <option value="0">All</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control mb-2" id="txtname" placeholder="search name.." />
+                                    <button class="btn btn-info mb-2" onclick="Onload();" type="button">
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="text-sm-end">
+                                    <button id="btnaddAppointment" class="btn btn-danger mb-2" onclick="editSocialMedia(0)" type="button">
+                                        <i class="mdi mdi-plus-circle me-2"></i>  Add New
+                                    </button>
+                                    @* <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog-outline"></i></button>
+                                    <button type="button" class="btn btn-light mb-2">Export</button>*@
+                                </div>
+                            </div><!-- end col-->
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped dt-responsive nowrap w-100" id="dTable">
+                                <thead class="table-dark">
+                                    <tr class="text-light">
+                                        <th>
+                                            ID
+                                        </th>
+                                        <th>
+                                            NAME
+                                        </th>
+                                        <th>LINK
+                                        </th>
+                                        <th>ICON
+                                        </th>
+                                        <th>STATUS
+                                        </th>
+                                        <th>ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="sMList">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="socialMediaPV"></div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function Onload() {
+        var param = {
+            name: $("#txtname").val(),
+            PageLength: $("#ddltop").val(),
+        }
+        $.post('/_SocialMediaList', param).done(function (res) {
+            $("#sMList").html(res);
+        }).fail(function (xhr) {
+            Info(-1, xhr.responseText);
+        });
+    }
+    Onload();
+
+
+    function editSocialMedia(Id) {
+        let param = {
+            id: Id,
+        };
+        $.get("/EditSocialMedia", param).done(function (res) {
+            console.log(res);
+            $("#socialMediaPV").html(res);
+            $("#socialMedia_modal").modal("show");
+        }).fail(function (xhr) {
+            Info(-1, xhr.responseText);
+        });
+    }
+
+    function addSocialMedia() {
+        var param = {
+            SMId: $("#SMId").val(),
+            PlateformName: $("#PlateformName").val(),
+            PlateformLink: $("#PlateformLink").val(),
+            Status: $("#Status").prop('checked'),
+        };
+
+        const formData = new FormData();
+        formData.append("param", JSON.stringify(param));
+        formData.append("file", $("#file").prop('files')[0]);
+
+        $.ajax({
+            url: '/SocialMediaAddOrUpdate',
+            type: 'POST',
+            data: formData,
+            contentType: false, // Important for file uploads
+            processData: false, // Important for file uploads
+            success: function (result) {
+                Info(result.statusCode, result.responseText);
+                Onload();
+            },
+            error: function (xhr) {
+                Info(-1, xhr.responseText);
+            }
+        });
+    }
+
+</script>

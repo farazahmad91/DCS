@@ -20,18 +20,18 @@ namespace API.AppCode.ML
             return (Response)i;
         }
 
-        public async Task<IEnumerable<HospitalServices>> GetHospitalServices(string? name)
+        public async Task<IEnumerable<HospitalServices>> GetHospitalServicesListOrById(Common common)
         {
-            IProcedureAsync proc = new Proc_GetService(_dapper);
-            var i = await proc.Call(name);
+            IProcedureAsync proc = new Proc_GetHospitalServicesListOrById(_dapper);
+            var i = await proc.Call(common);
             return (IEnumerable<HospitalServices>)i;
         }
 
-        public async Task<HospitalServices> GetHospitalServicesById(int Id)
+        public async Task<Response> UpdateHospitalServiceStatus(Common common)
         {
-            IProcedureAsync proc = new Proc_GetServiceById(_dapper);
-            var i = await proc.Call(Id);
-            return (HospitalServices)i;
+            IProcedureAsync proc = new Proc_UpdateHospitalServiceStatus(_dapper);
+            var i = await proc.Call(common);
+            return (Response)i;
         }
     }
 }

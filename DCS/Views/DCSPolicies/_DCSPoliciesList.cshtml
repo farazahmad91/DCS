@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "DCSPoliciesList";
     Layout = null;
+    var Ischecked = "";
 }
 @if (Model == null || !Model.Any())
 {
@@ -29,14 +30,23 @@ else
         <td>
             @Html.DisplayFor(modelItem => item.UpdateDate)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
+            <td>
+                <div class="form-check form-switch">
+                    @if (@item.Status==true)
+                    {
+                        Ischecked = "checked";
+                    }
+                    else
+                    {
+                        Ischecked = "";
+                    }
+                    <input type="checkbox" name="switch3" onchange="changeDCSStatus(@item.PolicyId)" id="IsVerified_@item.PolicyId" data-switch="success" @Ischecked>
+                    <label for="IsVerified_@item.PolicyId" data-on-label="ON" data-off-label="OFF"></label>
+                </div>
+            </td>
+            <td class="table-action">
+                <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline" onclick="editApplicationPolicy(@item.PolicyId)"></i></a>
+            </td>
     </tr>
 }
 }

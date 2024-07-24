@@ -58,13 +58,13 @@
                         <div class="row g-2">
                             <div class="mb-3 col-md-6">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="EmailVerificationService" checked>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="EmailVerificationService" @Html.Raw(Model.EmailVerificationService==true ? "checked" : "")>
                                     <label class="form-check-label" for="EmailVerificationService">Email Verification Service</label>
                                 </div>
                             </div>
                             <div class="mb-3 col-md-6">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="ShowYourUserPassword" checked>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="ShowYourUserPassword" @Html.Raw(Model.ShowYourUserPassword==true ? "checked" : "")>
                                     <label class="form-check-label" for="ShowYourUserPassword">Show Your User Password</label>
                                 </div>
                             </div>
@@ -72,13 +72,13 @@
                         <div class="row g-2">
                             <div class="mb-3 col-md-6">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="ReferralService" checked>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="ReferralService" @Html.Raw(Model.ReferralService==true ? "checked" : "")>
                                     <label class="form-check-label" for="ReferralService">Referral Service</label>
                                 </div>
                             </div>
                             <div class="mb-3 col-md-6">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="BackUpService" checked>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="BackUpService" @Html.Raw(Model.BackUpService==true ? "checked" : "")>
                                     <label class="form-check-label" for="BackUpService">BackUp Service</label>
                                 </div>
                             </div>
@@ -86,13 +86,13 @@
                         <div class="row g-2">
                             <div class="mb-3 col-md-6">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="SmsNotificationService" checked>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="SmsNotificationService" @Html.Raw(Model.SmsNotificationService==true ? "checked" : "")>
                                     <label class="form-check-label" for="SmsNotificationService">Sms Notification Service</label>
                                 </div>
                             </div>
                             <div class="mb-3 col-md-6">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="UserAppointmentReminderService" checked>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="UserAppointmentReminderService" @Html.Raw(Model.UserAppointmentReminderService==true ? "checked" : "")>
                                     <label class="form-check-label" for="UserAppointmentReminderService">User Appointment Reminder Service</label>
                                 </div>
                             </div>
@@ -100,13 +100,13 @@
                         <div class="row g-2">
                             <div class="mb-3 col-md-6">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="DoctorAvailabilityNotificationService" checked>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="DoctorAvailabilityNotificationService" @Html.Raw(Model.DoctorAvailabilityNotificationService==true ? "checked" : "")>
                                     <label class="form-check-label" for="DoctorAvailabilityNotificationService">Doctor Availability Notification Service</label>
                                 </div>
                             </div>
                             <div class="mb-3 col-md-6">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="MedicineStoreManagementService" checked>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="MedicineStoreManagementService" @Html.Raw(Model.MedicineStoreManagementService==true ? "checked" : "")>
                                     <label class="form-check-label" for="MedicineStoreManagementService">Medicine Management Service</label>
                                 </div>
                             </div>
@@ -114,13 +114,13 @@
                         <div class="row g-2">
                             <div class="mb-3 col-md-6">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="TwoFactorAuthenticationService" checked>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="TwoFactorAuthenticationService" @Html.Raw(Model.TwoFactorAuthenticationService==true ? "checked" : "")>
                                     <label class="form-check-label" for="TwoFactorAuthenticationService">TwoFactor Authentication Service</label>
                                 </div>
                             </div>
                             <div class="mb-3 col-md-6">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="IsLabManagmentService" checked>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="IsLabManagmentService" @Html.Raw(Model.IsLabManagmentService==true ? "checked" : "")>
                                     <label class="form-check-label" for="IsLabManagmentService">Lab Managment Service</label>
                                 </div>
                             </div>
@@ -128,13 +128,13 @@
                         <div class="row g-2">
                             <div class="mb-3 col-md-6">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="IsLowStorageMedicineNotification" checked>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="IsLowStorageMedicineNotification" @Html.Raw(Model.IsLowStorageMedicineNotification==true ? "checked" : "")>
                                     <label class="form-check-label" for="IsLowStorageMedicineNotification">Low Storage Medicine Notification</label>
                                 </div>
                             </div>
                             <div class="mb-3 col-md-6">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="IsAppointmentContactService" checked>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="IsAppointmentContactService" @Html.Raw(Model.IsAppointmentContactService==true ? "checked" : "")>
                                     <label class="form-check-label" for="IsAppointmentContactService">Appointment Contact Service</label>
                                 </div>
                             </div>
@@ -142,13 +142,13 @@
                         <div class="row g-2">
                             <div class="mb-3 col-md-6">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="IsAppointmentFormService" checked>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="IsAppointmentFormService" @Html.Raw(Model.IsAppointmentFormService==true ? "checked" : "")>
                                     <label class="form-check-label" for="IsAppointmentFormService">Appointment Form Service</label>
                                 </div>
                             </div>
                             <div class="mb-3 col-md-6">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="IsAppointmentStatus" checked>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="IsAppointmentStatus" @Html.Raw(Model.IsAppointmentStatus==true ? "checked" : "")>
                                     <label class="form-check-label" for="IsAppointmentStatus">Appointment Status</label>
                                 </div>
                             </div>
@@ -156,13 +156,13 @@
                         <div class="row g-2">
                             <div class="mb-3 col-md-6">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="IsWhatsappMarketing" checked>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="IsWhatsappMarketing" @Html.Raw(Model.IsWhatsappMarketing==true ? "checked" : "")>
                                     <label class="form-check-label" for="IsWhatsappMarketing">Whatsapp Marketing</label>
                                 </div>
                             </div>
                             <div class="mb-3 col-md-6">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="EmailMarketing" checked>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="EmailMarketing" @Html.Raw(Model.EmailMarketing==true ? "checked" : "")>
                                     <label class="form-check-label" for="EmailMarketing">Email Marketing</label>
                                 </div>
                             </div>
@@ -170,8 +170,16 @@
                         <div class="row g-2">
                             <div class="mb-3 col-md-6">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="RenewalOption" checked>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="RenewalOption" @Html.Raw(Model.RenewalOption==true ? "checked" : "")>
                                     <label class="form-check-label" for="RenewalOption">Renewal Option</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="mb-3 col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="IsDarkModeEnabled" @Html.Raw(Model.IsDarkModeEnabled==true ? "checked" : "")>
+                                    <label class="form-check-label" for="IsDarkModeEnabled">Dark Mode</label>
                                 </div>
                             </div>
                         </div>

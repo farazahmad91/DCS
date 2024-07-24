@@ -25,10 +25,10 @@ namespace API.AppCode.DL
                 var param = new
                 {
                     PolicyId = req.PolicyId,
+                    ProjectId = req.ProjectId,
                     PolicyName = req.PolicyName,
                     Description = req.Description,
-                    UpdateDate = req.UpdateDate,
-                    Status = req.Status
+                    Type = req.Type,
                 };
                 var i = await _dapper.GetAsync<Response>(GetName(), param);
                 res=i;
@@ -55,26 +55,28 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            return "";
+            return "Proc_UpsertDCSPolicies";
         }
     }
 
-    public class Proc_GetDCSPolicies : IProcedureAsync
+    public class Proc_GetDCSPoliciesListOrById : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_GetDCSPolicies(IDapper dapper)
+        public Proc_GetDCSPoliciesListOrById(IDapper dapper)
         {
             _dapper=dapper;
         }
         public async Task<object> Call(object obj)
         {
-            string name = (string)obj;
+            var req = (Common)obj;
             try
             {
                 var param = new
                 {
-                    PolicyName = name,
-
+                    Id = req.Id,
+                    PolicyName = req.name,
+                    ProjectId = req.ProjectId,
+                    PageLength = req.PageLength
                 };
                 var i = await _dapper.GetAll<DCSPolicies>(GetName(), param);
                 return i;
@@ -100,28 +102,29 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            return "";
+            return "Proc_GetDCSPoliciesListOrById";
         }
     }
 
-    public class Proc_GetDCSPoliciesById : IProcedureAsync
+    public class Proc_UpdateDCSPoliciesStatus : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_GetDCSPoliciesById(IDapper dapper)
+        public Proc_UpdateDCSPoliciesStatus(IDapper dapper)
         {
             _dapper=dapper;
         }
         public async Task<object> Call(object obj)
         {
-            int id = (int)obj;
+            var req = (Common)obj;
             try
             {
                 var param = new
                 {
-                    PolicyId = id,
+                    Id = req.Id,
+                    Status = req.Status
 
                 };
-                var i = await _dapper.GetAsync<DCSPolicies>(GetName(), param);
+                var i = await _dapper.GetAsync<Response>(GetName(), param);
                 return i;
             }
             catch (Exception ex)
@@ -145,7 +148,7 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            return "";
+            return "Proc_updateDCSPoliciesStatus";
         }
     }
 }

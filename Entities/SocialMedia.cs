@@ -15,7 +15,7 @@ namespace Entities
         public string? PlateformLink { get; set; }
         public string? Icons { get; set; }
         public IFormFile? ImagePath { get; set; }
-        public int? Status { get; set; }
+        public bool? Status { get; set; }
         public string? EntryOn { get; set; }
         public string? UpdateOn { get; set; }
     }
