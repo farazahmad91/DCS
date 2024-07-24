@@ -5,7 +5,7 @@ namespace DCS.Controllers
     public class AdminController : Controller
     {
         public AdminController() { }
-        [Route("/Admin")]
+        [Route("{id?}/Admin")]
         public IActionResult Home()
         {
             return View();

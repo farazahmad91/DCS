@@ -3,6 +3,7 @@ using Entities.Response;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using API.Claims;
 
 namespace DCS.Controllers
 {
@@ -21,10 +22,12 @@ namespace DCS.Controllers
             return View();
         }
         [Route("_DCSPoliciesList")]
-        public async Task<IActionResult> _DCSPoliciesList(string? name)
+        public async Task<IActionResult> _DCSPoliciesList(Common common)
         {
             var list = new List<DCSPolicies>();
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSPolicies/GetDCSPolicies/{name}", null, null);
+            int? projectid = User.GetProjectId();
+            common.ProjectId =projectid;
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSPolicies/GetDCSPoliciesListOrById", JsonConvert.SerializeObject(common), null);
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<List<DCSPolicies>>(apiRes.Result);
@@ -33,15 +36,22 @@ namespace DCS.Controllers
         }
 
         [Route("/EditDCSPolicies")]
-        public async Task<IActionResult> EditDCSPolicies(int id)
+        public async Task<IActionResult> EditDCSPolicies(Common common)
         {
-            var list = new DCSPolicies();
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSPolicies/GetDCSPoliciesById/{id}", null, null);
-            if (apiRes.Result != null)
+            var res = new DCSPolicies();
+            int? projectid = User.GetProjectId();
+            common.ProjectId =projectid;
+            if (common.Id != 0)
             {
-                list = JsonConvert.DeserializeObject<DCSPolicies>(apiRes.Result);
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSPolicies/GetDCSPoliciesListOrById", JsonConvert.SerializeObject(common), null);
+                if (apiRes.Result != null)
+                {
+                    var list = JsonConvert.DeserializeObject<List<DCSPolicies>>(apiRes.Result);
+                    res =list?.FirstOrDefault() ?? new DCSPolicies();
+                }
+                return View(res);
             }
-            return View(list);
+            return View(res);
         }
         [HttpPost]
         [Route("/AddOrUpdateDCSPolicies")]
@@ -52,12 +62,29 @@ namespace DCS.Controllers
                 ResponseText = "Failed To Add or Update Service",
                 StatusCode = ResponseStatus.FAILED,
             };
-
+            int? projectid = User.GetProjectId();
+            policies.ProjectId =projectid;
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSPolicies/AddorUpdateDCSPolicies", JsonConvert.SerializeObject(policies), null);
             if (apiRes.Result != null)
             {
                 response = JsonConvert.DeserializeObject<Response>(apiRes.Result);
                 return Json(response);
+            }
+            return Json(response);
+        }
+
+        [Route("/DCS_Status")]
+        public async Task<IActionResult> Status(Common common)
+        {
+            var response = new Response()
+            {
+                ResponseText = "Failed To Update Status",
+                StatusCode = ResponseStatus.FAILED,
+            };
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSPolicies/UpdateDCSPoliciesStatus", JsonConvert.SerializeObject(common), null);
+            if (apiRes.Result != null)
+            {
+                response = JsonConvert.DeserializeObject<Response>(apiRes.Result);
             }
             return Json(response);
         }

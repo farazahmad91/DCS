@@ -74,12 +74,6 @@ namespace API.AppCode.DL
         public async Task<object> Call(object obj)
         {
             var req = (Common)obj;
-            var res = new Response()
-            {
-                ResponseText="Somthing wrong!!",
-                StatusCode=ResponseStatus.FAILED,
-                AppointmentId=0
-            };
             try
             {
                 var param = new
@@ -91,7 +85,7 @@ namespace API.AppCode.DL
                 };
 
                 var i = await _dapper.GetAll<SocialMedia>(GetName(), param);
-                return res;
+                return i;
             }
             catch (Exception ex)
             {
@@ -104,7 +98,7 @@ namespace API.AppCode.DL
                 };
                 new ErrorLog_ML(_dapper).Error(error);
             }
-            return res;
+            return "error";
         }
 
         public Task<object> Call()
@@ -114,7 +108,7 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            return "Proc_GetAllSocialMedia";
+            return "Proc_GetSocialMediaListOrById";
         }
     }
 

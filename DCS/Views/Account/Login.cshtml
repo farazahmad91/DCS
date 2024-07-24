@@ -96,16 +96,12 @@
             $.post("/Account/Login", formData).done(function (res) {
                 console.log(res);
                 if (res.statusCode==1) {
-                    setTimeout(function () {
                         Info(1, 'Login successful');
                         window.location.href = `${res.redirectUrl}`;
-                    }, 2000);
                 }
                 if (res.statusCode == 4) {
-                    setTimeout(function () {
                         sessionStorage.setItem('emailtype', "EVFUNLOCK");
                         window.location.href = "/IsVerified-User";
-                    }, 3000);
                 }
                 if (res.statusCode == -2) {
                     sessionStorage.setItem('emailtype', "NEV");

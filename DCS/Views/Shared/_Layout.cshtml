@@ -219,37 +219,42 @@
                     <!-- Topbar Brand Logo -->
                     <div class="logo-topbar">
                         <!-- Logo light -->
-                        <a href="/Admin" class="logo-light">
-                            <span class="logo-lg"> 
-                                @if (projectdetails != null)
-                                 {
-                                     <img src="@projectdetails.Logo" alt="logo">
-                                 }
-                                
-                            </span>
-                            <span class="logo-sm">
-                                @if (projectdetails != null)
-                                {
-                                    <img src="@projectdetails.Logo" alt="logo-sm">
-                                }
-                            </span>
-                        </a>
+                        @if (projectdetails != null)
+                        {
+                            <a href="/{@projectdetails.DomainName}/Admin" class="logo-light">
+                                <span class="logo-lg"> 
+                                    @if (projectdetails != null)
+                                    {
+                                        <img src="@projectdetails.Logo" alt="logo">
+                                    }
 
+                                </span>
+                                <span class="logo-sm">
+                                    @if (projectdetails != null)
+                                    {
+                                        <img src="@projectdetails.Logo" alt="logo-sm">
+                                    }
+                                </span>
+                            </a>
+                        }
                         <!-- Logo Dark -->
-                        <a href="/Admin" class="logo-dark">
-                            <span class="logo-lg">
-                               @if (projectdetails != null)
-                                {
-                                    <img src="@projectdetails.Logo" alt="logo-dark">
-                                }
-                            </span>
-                            <span class="logo-sm">
-                                @if (projectdetails != null)
-                                {
-                                    <img src="@projectdetails.Logo" alt="logo-dark">
-                                }
-                            </span>
-                        </a>
+                         @if (projectdetails != null)
+                        {
+                            <a href="/{@projectdetails.DomainName}/Admin" class="logo-dark">
+                                <span class="logo-lg">
+                                    @if (projectdetails != null)
+                                    {
+                                        <img src="@projectdetails.Logo" alt="logo-dark">
+                                    }
+                                </span>
+                                <span class="logo-sm">
+                                    @if (projectdetails != null)
+                                    {
+                                        <img src="@projectdetails.Logo" alt="logo-dark">
+                                    }
+                                </span>
+                            </a>
+                        }
                     </div>
 
                     <!-- Sidebar Menu Toggle Button -->
@@ -642,7 +647,7 @@
         <div class="leftside-menu">
 
             <!-- Brand Logo Light -->
-            <a href="/Admin" class="logo logo-light">
+            <a href="/{@projectdetails.DomainName}/Admin" class="logo logo-light">
                 <span class="logo-lg">
                     <img src="../assets/images/logo.png" alt="logo">
                 </span>
@@ -652,7 +657,7 @@
             </a>
 
             <!-- Brand Logo Dark -->
-            <a href="/Admin" class="logo logo-dark">
+            <a href="/{@projectdetails.DomainName}/Admin" class="logo logo-dark">
                 <span class="logo-lg">
                     <img src="../assets/images/logo-dark.png" alt="dark logo">
                 </span>
@@ -696,7 +701,7 @@
                             <ul class="side-nav-second-level">
                                 
                                 <li>
-                                    <a href="/Admin">Home</a>
+                                    <a href="/{@projectdetails.DomainName}/Admin">Home</a>
                                 </li>
                             </ul>
                         </div>

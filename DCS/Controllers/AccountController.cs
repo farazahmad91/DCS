@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Identity.Data;
 using Entities;
 using API.SendEmail;
 using API.RequestInfo;
+using API.AppCode.IML;
 
 namespace DCS.Controllers
 {
@@ -26,13 +27,15 @@ namespace DCS.Controllers
         public string email, hostName;
         private readonly string _BaseUrl;
         private readonly IWebHostEnvironment webHostEnvironment;
-         private readonly Sendmail _sendmail;
+        private readonly Sendmail _sendmail;
+        private readonly string domainname;
         public AccountController(IConfiguration configuration, IWebHostEnvironment webHostEnvironment, Sendmail sendmail)
         {
             this._configuration = configuration;
             _BaseUrl =  _configuration["APIBaseURl:BaseURl"];
             this.webHostEnvironment = webHostEnvironment;
             this._sendmail = sendmail;
+            domainname = "";
         }
 
 
@@ -164,9 +167,16 @@ namespace DCS.Controllers
                 }
                 if (authenticateResponse.Result.Role == "Merchant" || authenticateResponse.Result.Role == "Admin" || authenticateResponse.Result.Role == "Client")
                 {
-                    var respons = new {
-                        statusCode =1,
-                        redirectUrl = "/admin",
+                    var projectDetails = new ProjectDetails();
+                    var listprojectJson = HttpContext.Session.GetString("projectdetail");
+                    if (!string.IsNullOrEmpty(listprojectJson))
+                    {
+                        // Deserialize JSON string to an object. Use dynamic or a specific type if you know the structure.
+                        projectDetails  = JsonConvert.DeserializeObject<ProjectDetails>(listprojectJson);
+                    }
+                        var respons = new {
+                            statusCode =1,
+                        redirectUrl = $"/{projectDetails.DomainName}/admin",
                 };
 
                     //string redirectUrl = "/admin";

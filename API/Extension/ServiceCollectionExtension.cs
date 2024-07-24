@@ -24,6 +24,7 @@ namespace API.Extension
             ConnectionStrings ch = new ConnectionStrings { Default = dbConnectionString };
             services.AddScoped<Data.Dapper>();
             services.AddScoped<IAppointment, Appointment_ML>();
+            services.AddScoped<ISocialMedia, SocialMedia_ML>();
             services.AddScoped<IDapper, Data.Dapper>();
             services.AddScoped<IErrorLog, ErrorLog_ML>();
             services.AddScoped<IHashPassword, HashPassword>();       

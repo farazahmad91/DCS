@@ -13,6 +13,7 @@ namespace Entities
         public string? name { get; set; }
         public string? email { get; set; }
         public string? Date { get; set; }
+        public string? Status { get; set; }
         public int? PageLength { get; set; } = 10;
     }
 }

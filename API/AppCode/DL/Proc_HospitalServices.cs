@@ -3,6 +3,7 @@ using API.AppCode.ML;
 using Entities.Response;
 using Entities;
 
+
 namespace API.AppCode.DL
 {
  
@@ -26,9 +27,11 @@ namespace API.AppCode.DL
                 var param = new
                 {
                     ServiceID = req.ServiceID,
+                    ProjectId = req.ProjectId,
                     ServiceName = req.ServiceName,
                     Description = req.Description,
                     Price = req.Price,
+
                 };
                 var i = await _dapper.GetAsync<Response>(GetName(), param);
                 res=i;
@@ -55,26 +58,28 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            throw new NotImplementedException();
+            return "Proc_UpsertHospitalService";
         }
     }
 
-    public class Proc_GetService : IProcedureAsync
+    public class Proc_GetHospitalServicesListOrById : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_GetService(IDapper dapper)
+        public Proc_GetHospitalServicesListOrById(IDapper dapper)
         {
             _dapper=dapper;
         }
         public async Task<object> Call(object obj)
         {
-            string name = (string)obj;
+            var req = (Common)obj;
             try
             {
                 var param = new
                 {
-                    ServiceName = name,
-
+                    Id = req.Id,
+                    ServiceName = req.name,
+                    ProjectId = req.ProjectId,
+                    PageLength = req.PageLength
                 };
                 var i = await _dapper.GetAll<HospitalServices>(GetName(), param);
                 return i;
@@ -100,28 +105,29 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            throw new NotImplementedException();
+            return "Proc_GetHospitalServicesListOrById";
         }
     }
 
-    public class Proc_GetServiceById : IProcedureAsync
+    public class Proc_UpdateHospitalServiceStatus : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_GetServiceById(IDapper dapper)
+        public Proc_UpdateHospitalServiceStatus(IDapper dapper)
         {
             _dapper=dapper;
         }
         public async Task<object> Call(object obj)
         {
-            int id = (int)obj;
+            var req = (Common)obj;
             try
             {
                 var param = new
                 {
-                    ServiceId = id,
+                    Id = req.Id,
+                    Status = req.Status
 
                 };
-                var i = await _dapper.GetAsync<HospitalServices>(GetName(), param);
+                var i = await _dapper.GetAsync<Response>(GetName(), param);
                 return i;
             }
             catch (Exception ex)
@@ -145,7 +151,7 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            throw new NotImplementedException();
+            return "Proc_UpdateHospitalServiceStatus";
         }
     }
 }

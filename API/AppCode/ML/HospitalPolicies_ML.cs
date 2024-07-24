@@ -14,30 +14,23 @@ namespace API.AppCode.ML
         }
         public async Task<Response> AddOrUpdateHospitalPolicies(HospitalPolicy req)
         {
-            IProcedureAsync proc = new Proc_Appointment(_dapper);
+            IProcedureAsync proc = new Proc_AddHospitalPolicies(_dapper);
             var i = await proc.Call(req);
             return (Response)i;
         }
 
-        public async Task<IEnumerable<HospitalPolicy>> GetHospitalPolicies(string? name)
+        public async Task<IEnumerable<HospitalPolicy>> Proc_GetHospitalPolicyListOrById(Common common)
         {
-            IProcedureAsync proc = new Proc_GetAppointment(_dapper);
-            var i = await proc.Call(name);
+            IProcedureAsync proc = new Proc_GetHospitalPolicyListOrById(_dapper);
+            var i = await proc.Call(common);
             return (IEnumerable<HospitalPolicy>)i;
         }
 
-        public async Task<HospitalPolicy> GetHospitalPoliciesById(int HosId)
+        public async Task<Response> UpdateHospitalPoliciesStatus(Common common)
         {
-            IProcedureAsync proc = new Proc_Appointment(_dapper);
-            var i = await proc.Call(HosId);
-            return (HospitalPolicy)i;
-        }
-
-        public async Task<HospitalPolicy> GetHospitalPoliciesByTypeId(int TypeId)
-        {
-            IProcedureAsync proc = new Proc_Appointment(_dapper);
-            var i = await proc.Call(TypeId);
-            return (HospitalPolicy)i;
+            IProcedureAsync proc = new Proc_updateHospitalPoliciesStatus(_dapper);
+            var i = await proc.Call(common);
+            return (Response)i;
         }
     }
 }

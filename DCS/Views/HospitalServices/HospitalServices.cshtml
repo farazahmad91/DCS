@@ -32,7 +32,19 @@
                         <div class="row mb-2">
                             <div class="col-sm-5">
                                 <div class="input-group">
-                                    <input type="text" class="form-control mb-2" id="txtname" onchange=" Onload();" placeholder="search name.." />
+                                    <div class="row d-flex justify-content-end align-items-center" style="margin-right: 0px;">
+                                        <div class="col-auto mb-2">
+                                            <select class="form-control" id="ddltop" onchange="Onload();">
+                                                <option value="10">TOP</option>
+                                                <option value="10">10</option>
+                                                <option value="20">20</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                                <option value="0">All</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control mb-2" id="txtname" placeholder="search name.." />
                                     <button class="btn btn-info mb-2" onclick="Onload();" type="button">
                                         Search
                                     </button>
@@ -40,39 +52,35 @@
                             </div>
                             <div class="col-sm-7">
                                 <div class="text-sm-end">
-                                    <button id="btnaddAppointment" class="btn btn-danger mb-2" onclick="EditDoctor(0)" type="button">
+                                    <button id="btnaddAppointment" class="btn btn-danger mb-2" onclick="editHospitalServices(0)" type="button">
                                         <i class="mdi mdi-plus-circle me-2"></i>  Add New
                                     </button>
-                                    @* <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog-outline"></i></button> *@
-                                    <button type="button" class="btn btn-light mb-2">Export</button>
+                                    @* <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog-outline"></i></button> 
+                                    <button type="button" class="btn btn-light mb-2">Export</button>*@
                                 </div>
                             </div><!-- end col-->
                         </div>
-
                         <div class="table-responsive">
                             <table class="table table-striped dt-responsive nowrap w-100" id="dTable">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            Service ID
+                                <thead class="table-dark">
+                                    <tr class="text-light">
+                                        <th>SERVICE ID
                                         </th>
                                         <th>
-                                            Service Name
+                                            SERVICE NAME
+                                        </th>
+                                        <th>DESCRIPTION
+                                        </th>
+                                        <th>PRICE
+                                        </th>
+                                        <th> ENTRY ON
                                         </th>
                                         <th>
-                                            Description
+                                            STATUS
                                         </th>
-                                        <th>
-                                            Price
-                                        </th>
-                                        <th>
-                                            Entry On
-                                        </th>
-                                        <th></th>
+                                        <th>ACTION</th>
                                     </tr>
                                 </thead>
-
-
                                 <tbody id="hSList">
                                 </tbody>
                             </table>
@@ -84,10 +92,13 @@
     </div>
 </div>
 
+<div id="hospitalServicesPV"></div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function Onload() {
         var param = {
             name: $("#txtname").val(),
+            PageLength: $("#ddltop").val(),
         }
         $.post('/_HospitalServicesList', param).done(function (res) {
             $("#hSList").html(res);
@@ -96,4 +107,53 @@
         });
     }
     Onload();
+    
+
+    function editHospitalServices(Id) {
+        let param = {
+            id: Id,
+        };
+        $.get("/EditHospitalServices", param).done(function (res) {
+            console.log(res);
+            $("#hospitalServicesPV").html(res);
+            $("#HospitalServices_modal").modal("show");
+        }).fail(function (hxr) {
+            console.log(hxr);
+            alert("errror");
+        })
+    }
+
+    function changeHS_Status(Id) {
+        let param = {
+            Id: Id,
+            Status: $("#IsVerified_" + Id).prop('checked'),
+        };
+        $.post("/HS_Status", param)
+            .done(function (result) {
+               Info(result.statusCode, result.responseText);
+                Onload();
+            })
+            .fail(function (xhr) {
+                Info(-1, xhr.responseText);
+            });
+    }
+    function addHospitalServices() {
+        var param = 
+        {
+            ServiceID: $("#ServiceID").val(),
+            ServiceName: $("#ServiceName").val(),
+            Price: $("#Price").val(),
+            Description: $("#Description").val(),
+            Status: $("#Status").prop('checked'),
+        };
+            
+        $.post('/AddOrUpdateHospitalServices', param)
+            .done(function (result) {
+                Info(result.statusCode, result.responseText);
+                Onload();
+            })
+            .fail(function () {
+                alert("error");
+            });
+    }
 </script>

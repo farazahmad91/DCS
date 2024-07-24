@@ -21,17 +21,17 @@ namespace API.Controllers
             return Ok(i);
         }
 
-        [HttpPost(nameof(GetDCSPolicies)+"/{name}")]
-        public async Task<IActionResult> GetDCSPolicies(string? name)
+        [HttpPost(nameof(GetDCSPoliciesListOrById))]
+        public async Task<IActionResult> GetDCSPoliciesListOrById(Common common)
         {
-            var i =await _policies.GetDCSPolicies(name);
+            var i =await _policies.GetDCSPoliciesListOrById(common);
             return Ok(i);
         }
 
-        [HttpPost(nameof(GetDCSPoliciesById)+"/{Id}")]
-        public async Task<IActionResult> GetDCSPoliciesById(int Id)
+        [HttpPost(nameof(UpdateDCSPoliciesStatus))]
+        public async Task<IActionResult> UpdateDCSPoliciesStatus(Common common)
         {
-            var i =await _policies.GetDCSPoliciesById(Id);
+            var i =await _policies.UpdateDCSPoliciesStatus(common);
             return Ok(i);
         }
     }

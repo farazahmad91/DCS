@@ -6,8 +6,7 @@ namespace API.AppCode.IML
     public interface IHospitalPolicies
     {
         public Task<Response> AddOrUpdateHospitalPolicies(HospitalPolicy policy);
-        public Task<IEnumerable<HospitalPolicy>> GetHospitalPolicies(string? name);
-        public Task<HospitalPolicy> GetHospitalPoliciesById(int HosId);
-        public Task<HospitalPolicy> GetHospitalPoliciesByTypeId(int TypeId);
+        public  Task<IEnumerable<HospitalPolicy>> Proc_GetHospitalPolicyListOrById(Common common);
+        public  Task<Response> UpdateHospitalPoliciesStatus(Common common);
     }
 }

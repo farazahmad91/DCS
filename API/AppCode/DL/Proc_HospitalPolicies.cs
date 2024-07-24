@@ -25,10 +25,10 @@ namespace API.AppCode.DL
                 var param = new
                 {
                     HosPolicyId = req.HosPolicyId,
+                    ProjectId = req.ProjectId,
                     Title = req.Title,
                     Description = req.Description,
-                    TypeId = req.TypeId,
-                    LastUpdated = req.LastUpdated,
+                    Type = req.Type,
                 };
                 var i = await _dapper.GetAsync<Response>(GetName(), param);
                 res=i;
@@ -55,25 +55,27 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            throw new NotImplementedException();
+            return "Proc_UpsertHospitalPolicy";
         }
     }
-    public class Proc_GetHospitalPolicies : IProcedureAsync
+    public class Proc_GetHospitalPolicyListOrById : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_GetHospitalPolicies(IDapper dapper)
+        public Proc_GetHospitalPolicyListOrById(IDapper dapper)
         {
             _dapper=dapper;
         }
         public async Task<object> Call(object obj)
         {
-            string name = (string)obj;
+            var req = (Common)obj;
             try
             {
                 var param = new
                 {
-                    Title = name,
-
+                    Id = req.Id,
+                    Title = req.name,
+                    ProjectId = req.ProjectId,
+                    PageLength = req.PageLength
                 };
                 var i = await _dapper.GetAll<HospitalPolicy>(GetName(), param);
                 return i;
@@ -99,27 +101,27 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            throw new NotImplementedException();
+           return "Proc_GetHospitalPolicyListOrById";
         }
     }
-    public class Proc_GetHospitalPoliciesById : IProcedureAsync
+    public class Proc_updateHospitalPoliciesStatus : IProcedureAsync
     {
         private readonly IDapper _dapper;
-        public Proc_GetHospitalPoliciesById(IDapper dapper)
+        public Proc_updateHospitalPoliciesStatus(IDapper dapper)
         {
             _dapper=dapper;
         }
         public async Task<object> Call(object obj)
         {
-            int id = (int)obj;
+            var req = (Common)obj;
             try
             {
                 var param = new
                 {
-                    HosPolicyId = id,
-
+                    Id = req.Id,
+                    Status = req.Status,
                 };
-                var i = await _dapper.GetAsync<HospitalPolicy>(GetName(), param);
+                var i = await _dapper.GetAsync<Response>(GetName(), param);
                 return i;
             }
             catch (Exception ex)
@@ -143,51 +145,8 @@ namespace API.AppCode.DL
 
         public string GetName()
         {
-            throw new NotImplementedException();
+            return "Proc_updateHospitalPoliciesStatus";
         }
     }
-    public class Proc_GetHospitalPoliciesByTypeId : IProcedureAsync
-    {
-        private readonly IDapper _dapper;
-        public Proc_GetHospitalPoliciesByTypeId(IDapper dapper)
-        {
-            _dapper=dapper;
-        }
-        public async Task<object> Call(object obj)
-        {
-            int id = (int)obj;
-            try
-            {
-                var param = new
-                {
-                    TypeId = id,
 
-                };
-                var i = await _dapper.GetAsync<HospitalPolicy>(GetName(), param);
-                return i;
-            }
-            catch (Exception ex)
-            {
-                var error = new ErrorLog
-                {
-                    ClassName = GetType().Name,
-                    FuncName = "call",
-                    Error = ex.Message,
-                    ProcName = GetName(),
-                };
-                 new ErrorLog_ML(_dapper).Error(error);
-            }
-            return "error";
-        }
-
-        public Task<object> Call()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetName()
-        {
-            throw new NotImplementedException();
-        }
-    }
 }

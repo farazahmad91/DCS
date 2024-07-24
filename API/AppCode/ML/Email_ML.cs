@@ -29,17 +29,7 @@ namespace API.AppCode.ML
             var failedEmails = new List<string>();
             try
             {
-                if (setting.IsEmailMarketing)
-                {
                     _sendmail.Sendmailss(emails);
-                }
-                else
-                {
-                    response.ResponseText = "Bulk Email Sending Service is Deactivated. Please activate the service by upgrading to a premium project plan.";
-                    response.StatusCode = ResponseStatus.FAILED;
-                    return response;
-                }
-
             }
             catch (Exception ex)
             {

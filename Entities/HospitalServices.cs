@@ -8,10 +8,12 @@ namespace Entities
 {
     public class HospitalServices
     {
-        public int ServiceID { get; set; }
-        public string ServiceName { get; set; }
-        public string Description { get; set; }
+        public int? ServiceID { get; set; }
+        public int? ProjectId { get; set; }
+        public string? ServiceName { get; set; }
+        public string? Description { get; set; }
         public decimal? Price { get; set; }
+        public bool? Status { get; set; }
         public DateTime? EntryOn { get; set; }
     }
 }

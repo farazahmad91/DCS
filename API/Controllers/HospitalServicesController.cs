@@ -21,17 +21,17 @@ namespace API.Controllers
             return Ok(i);
         }
 
-        [HttpPost(nameof(GetHospitalServices)+"/{name}")]
-        public async Task<IActionResult> GetHospitalServices(string? name)
+        [HttpPost(nameof(GetHospitalServicesListOrById))]
+        public async Task<IActionResult> GetHospitalServicesListOrById(Common common)
         {
-            var i =await _services.GetHospitalServices(name);
+            var i =await _services.GetHospitalServicesListOrById(common);
             return Ok(i);
         }
 
-        [HttpPost(nameof(GetHospitalServicesById)+"/{Id}")]
-        public async Task<IActionResult> GetHospitalServicesById(int Id)
+        [HttpPost(nameof(UpdateHospitalServiceStatus))]
+        public async Task<IActionResult> UpdateHospitalServiceStatus(Common common)
         {
-            var i =await _services.GetHospitalServicesById(Id);
+            var i =await _services.UpdateHospitalServiceStatus(common);
             return Ok(i);
         }
     }

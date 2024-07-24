@@ -157,7 +157,7 @@ namespace API.SendEmail
                     mail.To.Add(cEmail.Emails);
                     mail.Subject = cEmail.Subject;
                     mail.IsBodyHtml = true; // Enable HTML content
-                    string htmlBody = _emailHtmlBody.GenerateHtmlBodyWithImage(cEmail.Message);
+                    string htmlBody = cEmail.Message; //_emailHtmlBody.GenerateHtmlBodyWithImage(cEmail.Message);
                     mail.Body = htmlBody;
 
                     if (!string.IsNullOrEmpty(cEmail.ImagePath) && File.Exists(cEmail.ImagePath))

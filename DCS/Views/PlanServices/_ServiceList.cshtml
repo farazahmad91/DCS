@@ -24,9 +24,6 @@ else
             @Html.DisplayFor(modelItem => item.ServiceName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Price)
         </td>
         <td>
@@ -35,106 +32,11 @@ else
         <td>
             @Html.DisplayFor(modelItem => item.ServiceLevel)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ExpiryDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RenewalOption)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Discounts)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CustomerSupportLevel)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TermsAndConditions)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedAt)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UpdatedAt)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EmailMarketing)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EmailVerificationService)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShowYourUserPassword)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReferralService)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BackUpService)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SmsNotificationService)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EmergencyAlertService)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserAppointmentReminderService)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DoctorAvailabilityNotificationService)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MedicineStoreManagementService)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TwoFactorAuthenticationService)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsMultipleMobileAllowed)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsDarkModeEnabled)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsBillingNotificationEnabled)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsPrescriptionRefillReminderEnabled)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MaxLoginAttempts)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsShowPassword)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsSocialAlert)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsPasswordOnly)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsPatient)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsDoctor)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SuperAdmin)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsAdmin)
-        </td>
             <td>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Actions
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" onclick="EditDoctor(@item.ServiceID)"><span class="fas fa-edit" style="color: Blue"></span> Edit</a>
-                        <a class="dropdown-item" onclick="doctorDetails(@item.ServiceID)"><i class="fas fa-info-circle" style="color: darkgreen"></i> Show Detail</a>
-                    </div>
-                </div>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td class="table-action">
+                <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline" onclick="editPlan(@item.ServiceID)"></i></a>
             </td>
     </tr>
 }

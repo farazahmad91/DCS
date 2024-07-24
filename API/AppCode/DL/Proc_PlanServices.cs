@@ -2,8 +2,6 @@
 using API.AppCode.ML;
 using Entities.Response;
 using Entities;
-using API.AppCode.Configuration;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace API.AppCode.DL
 {
@@ -51,6 +49,7 @@ namespace API.AppCode.DL
                     IsAppointmentFormService=req.IsAppointmentFormService,
                     IsAppointmentStatus=req.IsAppointmentStatus,
                     IsWhatsappMarketing=req.IsWhatsappMarketing,
+                    IsDarkModeEnabled = req.IsDarkModeEnabled,
                 };
                 var i = await _dapper.GetAsync<Response>(GetName(), param);
                 res=i;
