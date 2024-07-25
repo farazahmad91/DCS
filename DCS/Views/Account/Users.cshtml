@@ -52,7 +52,7 @@
                                         <div class="card-body">
                                             <div class="row mb-2">
                                                 <div class="col-sm-5">
-                                                    <a href="javascript:void(0);" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i> Add Products</a>
+                                                    <a onclick="addNewUser();" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i> Add New</a>
                                                 </div>
                                                 <div class="col-sm-7">
                                                     <div class="text-sm-end">
@@ -169,6 +169,7 @@
     </div>
 </div>
 </div></div></div></div></div></div>
+<div id="partailview"></div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     jQuery(document).ready(function ($) {
@@ -187,6 +188,15 @@
         });
     }
     loadData();
+    var addNewUser = function () {
+        $.get('/AddNewUser').done(function (res) {
+            $('#partailview').html(res);
+            $("#addNewUser_modal").modal("show");
+        }).fail(function (xhr) {
+            console.log(xhr.responseText);
+        });
+    }
+
      function ShowPassword(pass, name) {
         $.post('/DecriptPassword', { HashPass: pass }).done(function (res) {
             debugger;

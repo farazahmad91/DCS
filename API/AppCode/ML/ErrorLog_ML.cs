@@ -14,8 +14,6 @@ namespace API.AppCode.ML
         }
         public void Error(ErrorLog res)
         {
-            try
-            {
                 var sp = "Proc_InsertErrorLog";
                 var param = new
                 {
@@ -25,12 +23,6 @@ namespace API.AppCode.ML
                     ProcName = res.ProcName,
                 };
                 var i = _dapper.Update(param, sp);
-            }
-            catch (Exception ex)
-            {
-
-            }
-
         }
     }
 }

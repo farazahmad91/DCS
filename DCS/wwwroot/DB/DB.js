@@ -1,6 +1,6 @@
 ﻿USE[master]
 GO
-/****** Object:  Database [DCS2]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Database [DCS2]    Script Date: 25-07-2024 18:59:35 ******/
 CREATE DATABASE[DCS2]
 CONTAINMENT = NONE
  ON  PRIMARY
@@ -84,7 +84,7 @@ ALTER DATABASE[DCS2] SET QUERY_STORE(OPERATION_MODE = READ_WRITE, CLEANUP_POLICY
 GO
 USE[DCS2]
 GO
-/****** Object:  UserDefinedTableType [dbo].[InvoiceItemType]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  UserDefinedTableType [dbo].[InvoiceItemType]    Script Date: 25-07-2024 18:59:35 ******/
 CREATE TYPE[dbo].[InvoiceItemType] AS TABLE(
     [Service][nvarchar](100) NULL,
     [Product][nvarchar](100) NULL,
@@ -100,7 +100,7 @@ CREATE TYPE[dbo].[InvoiceItemType] AS TABLE(
     [TotalAmount][float] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[MedicationType]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  UserDefinedTableType [dbo].[MedicationType]    Script Date: 25-07-2024 18:59:35 ******/
 CREATE TYPE[dbo].[MedicationType] AS TABLE(
     [Name][nvarchar](100) NULL,
     [Dosage][nvarchar](50) NULL,
@@ -108,7 +108,7 @@ CREATE TYPE[dbo].[MedicationType] AS TABLE(
     [FollowUpDate][nvarchar](50) NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[TransactionDetailType]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  UserDefinedTableType [dbo].[TransactionDetailType]    Script Date: 25-07-2024 18:59:35 ******/
 CREATE TYPE[dbo].[TransactionDetailType] AS TABLE(
     [InvoiceID][int] NULL,
     [Mode][nvarchar](50) NULL,
@@ -117,7 +117,7 @@ CREATE TYPE[dbo].[TransactionDetailType] AS TABLE(
     [DueDate][nvarchar](50) NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[TransactionType]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  UserDefinedTableType [dbo].[TransactionType]    Script Date: 25-07-2024 18:59:35 ******/
 CREATE TYPE[dbo].[TransactionType] AS TABLE(
     [Mode][nvarchar](50) NULL,
     [TransactionId][nvarchar](50) NULL,
@@ -125,7 +125,7 @@ CREATE TYPE[dbo].[TransactionType] AS TABLE(
     [DueDate][nvarchar](50) NULL
 )
 GO
-/****** Object:  Table [dbo].[__EFMigrationsHistory]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[__EFMigrationsHistory]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -139,7 +139,7 @@ CREATE TABLE[dbo].[__EFMigrationsHistory](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[ApplicationSetting]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[ApplicationSetting]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -185,7 +185,7 @@ CREATE TABLE[dbo].[ApplicationSetting](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Appointments]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[Appointments]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -206,7 +206,7 @@ CREATE TABLE[dbo].[Appointments](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[AspNetRoleClaims]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[AspNetRoleClaims]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -222,7 +222,7 @@ CREATE TABLE[dbo].[AspNetRoleClaims](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[AspNetRoles]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[AspNetRoles]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -238,7 +238,7 @@ CREATE TABLE[dbo].[AspNetRoles](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[AspNetUserClaims]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[AspNetUserClaims]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -254,7 +254,7 @@ CREATE TABLE[dbo].[AspNetUserClaims](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[AspNetUserLogins]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[AspNetUserLogins]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -271,7 +271,7 @@ CREATE TABLE[dbo].[AspNetUserLogins](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[AspNetUserRoles]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[AspNetUserRoles]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -286,7 +286,7 @@ CREATE TABLE[dbo].[AspNetUserRoles](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[AspNetUsers]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[AspNetUsers]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -316,7 +316,7 @@ CREATE TABLE[dbo].[AspNetUsers](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[AspNetUserTokens]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[AspNetUserTokens]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -334,7 +334,7 @@ CREATE TABLE[dbo].[AspNetUserTokens](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[DCSPolicies]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[DCSPolicies]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -354,7 +354,7 @@ CREATE TABLE[dbo].[DCSPolicies](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Doctors]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[Doctors]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -384,7 +384,7 @@ CREATE TABLE[dbo].[Doctors](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[EmailLogs]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[EmailLogs]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -403,7 +403,7 @@ CREATE TABLE[dbo].[EmailLogs](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[EmailTemplates]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[EmailTemplates]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -424,7 +424,7 @@ CREATE TABLE[dbo].[EmailTemplates](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[ErrorLog]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[ErrorLog]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -443,7 +443,7 @@ CREATE TABLE[dbo].[ErrorLog](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[FAQs]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[FAQs]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -461,7 +461,40 @@ CREATE TABLE[dbo].[FAQs](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[HospitalPolicy]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[HospitalEmployee]    Script Date: 25-07-2024 18:59:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE[dbo].[HospitalEmployee](
+    [EmployeeId][int] IDENTITY(1, 1) NOT NULL,
+    [ProjectId][int] NULL,
+    [Name][varchar](255) NULL,
+    [Email][varchar](255) NULL,
+    [ContactNumber][varchar](50) NULL,
+    [ProfileImage][varchar](255) NULL,
+    [Address][varchar](255) NULL,
+    [Specialization][varchar](255) NULL,
+    [Gender][varchar](50) NULL,
+    [DateOfBirth][varchar](255) NULL,
+    [Qualifications][varchar](255) NULL,
+    [ExperienceYears][int] NULL,
+    [Department][varchar](255) NULL,
+    [Position][varchar](255) NULL,
+    [DateOfJoining][date] NULL,
+    [Salary][decimal](10, 2) NULL,
+    [AdharNumber][varchar](20) NULL,
+    [AdharImage][varchar](255) NULL,
+    [Status][bit] NULL,
+    [CreateDate][varchar](255) NULL,
+    [UpdateDate][varchar](255) NULL,
+    PRIMARY KEY CLUSTERED
+    (
+        [EmployeeId] ASC
+    )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
+) ON[PRIMARY]
+GO
+/****** Object:  Table [dbo].[HospitalPolicy]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -481,7 +514,7 @@ CREATE TABLE[dbo].[HospitalPolicy](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[HospitalServices]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[HospitalServices]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -501,7 +534,7 @@ CREATE TABLE[dbo].[HospitalServices](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Invoice]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[Invoice]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -524,7 +557,7 @@ CREATE TABLE[dbo].[Invoice](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[InvoiceItem]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[InvoiceItem]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -550,7 +583,7 @@ CREATE TABLE[dbo].[InvoiceItem](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[MasterEmailTemplateType]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[MasterEmailTemplateType]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -569,7 +602,7 @@ CREATE TABLE[dbo].[MasterEmailTemplateType](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[MedicalHistory]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[MedicalHistory]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -587,7 +620,7 @@ CREATE TABLE[dbo].[MedicalHistory](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Medication]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[Medication]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -605,7 +638,7 @@ CREATE TABLE[dbo].[Medication](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Medicines]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[Medicines]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -626,7 +659,7 @@ CREATE TABLE[dbo].[Medicines](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[MedicineStocks]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[MedicineStocks]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -642,7 +675,7 @@ CREATE TABLE[dbo].[MedicineStocks](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[MedicinesType]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[MedicinesType]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -656,7 +689,7 @@ CREATE TABLE[dbo].[MedicinesType](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Patient_Services]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[Patient_Services]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -667,7 +700,7 @@ CREATE TABLE[dbo].[Patient_Services](
     [EntryOn][datetime] NULL
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Patients]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[Patients]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -703,7 +736,7 @@ CREATE TABLE[dbo].[Patients](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Payments]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[Payments]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -723,7 +756,7 @@ CREATE TABLE[dbo].[Payments](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[PremiumService]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[PremiumService]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -772,7 +805,7 @@ CREATE TABLE[dbo].[PremiumService](
     [IsWhatsappMarketing][bit] NULL
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Projects]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[Projects]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -792,7 +825,7 @@ CREATE TABLE[dbo].[Projects](
     [Update_Date][datetime] NULL
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Purchases]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[Purchases]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -814,7 +847,7 @@ CREATE TABLE[dbo].[Purchases](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Reviews]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[Reviews]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -832,7 +865,7 @@ CREATE TABLE[dbo].[Reviews](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[SocialMedia]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[SocialMedia]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -852,7 +885,7 @@ CREATE TABLE[dbo].[SocialMedia](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_PageErrorLog]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[tbl_PageErrorLog]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -868,7 +901,7 @@ CREATE TABLE[dbo].[tbl_PageErrorLog](
     [_EntryDate][datetime] NULL
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_users]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[tbl_users]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -888,7 +921,7 @@ CREATE TABLE[dbo].[tbl_users](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_Validate_Email]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[tbl_Validate_Email]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -905,7 +938,7 @@ CREATE TABLE[dbo].[tbl_Validate_Email](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[TransactionDetails]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[TransactionDetails]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -925,7 +958,7 @@ CREATE TABLE[dbo].[TransactionDetails](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[Treatment]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[Treatment]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -949,7 +982,7 @@ CREATE TABLE[dbo].[Treatment](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserLogins]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[UserLogins]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -968,7 +1001,7 @@ CREATE TABLE[dbo].[UserLogins](
     )WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
 ) ON[PRIMARY]
 GO
-/****** Object:  Table [dbo].[WorkingHours]    Script Date: 24-07-2024 18:57:21 ******/
+/****** Object:  Table [dbo].[WorkingHours]    Script Date: 25-07-2024 18:59:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1020,9 +1053,17 @@ INSERT[dbo].[ApplicationSetting]([AppId], [ProjectID], [IsSocialAlert], [IsEmail
 GO
 SET IDENTITY_INSERT[dbo].[ApplicationSetting] OFF
 GO
+INSERT[dbo].[AspNetRoles]([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES(N'417ebaf8-56db-469f-9001-0d9d0b6fb59b', N'Admin', N'ADMIN', NULL)
+GO
 INSERT[dbo].[AspNetRoles]([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES(N'4b19e8f7-1fd2-4c4a-8d49-9928ef8ea8f2', N'Client', N'CLIENT', NULL)
 GO
 INSERT[dbo].[AspNetRoles]([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES(N'a0113d10-29c1-454e-aa8a-982933c41b61', N'Merchant', N'MERCHANT', NULL)
+GO
+INSERT[dbo].[AspNetUserRoles]([UserId], [RoleId]) VALUES(N'3a4c870a-0f1c-4f2e-8e61-d03eda507f2a', N'417ebaf8-56db-469f-9001-0d9d0b6fb59b')
+GO
+INSERT[dbo].[AspNetUserRoles]([UserId], [RoleId]) VALUES(N'8c6051be-82c8-4680-a4f7-aa0b2f09abf4', N'417ebaf8-56db-469f-9001-0d9d0b6fb59b')
+GO
+INSERT[dbo].[AspNetUserRoles]([UserId], [RoleId]) VALUES(N'fecfaceb-0c90-4ca5-9a34-50775e80cc2e', N'417ebaf8-56db-469f-9001-0d9d0b6fb59b')
 GO
 INSERT[dbo].[AspNetUserRoles]([UserId], [RoleId]) VALUES(N'4d38c350-d3ae-4e67-b07a-9615cf68dffd', N'4b19e8f7-1fd2-4c4a-8d49-9928ef8ea8f2')
 GO
@@ -1035,8 +1076,6 @@ GO
 INSERT[dbo].[AspNetUserRoles]([UserId], [RoleId]) VALUES(N'd1428fa4-6147-4466-9b28-33f13c9ffb3d', N'4b19e8f7-1fd2-4c4a-8d49-9928ef8ea8f2')
 GO
 INSERT[dbo].[AspNetUserRoles]([UserId], [RoleId]) VALUES(N'2cc58fc7-126a-40e5-8b3f-709f9d08a75c', N'a0113d10-29c1-454e-aa8a-982933c41b61')
-GO
-INSERT[dbo].[AspNetUserRoles]([UserId], [RoleId]) VALUES(N'3a4c870a-0f1c-4f2e-8e61-d03eda507f2a', N'a0113d10-29c1-454e-aa8a-982933c41b61')
 GO
 INSERT[dbo].[AspNetUserRoles]([UserId], [RoleId]) VALUES(N'6aa64291-c3e9-43a6-8e82-9d5a2fd63fdd', N'a0113d10-29c1-454e-aa8a-982933c41b61')
 GO
@@ -1052,9 +1091,13 @@ INSERT[dbo].[AspNetUsers]([Id], [Name], [ProjectId], [PhoneNo], [UserName], [Nor
 GO
 INSERT[dbo].[AspNetUsers]([Id], [Name], [ProjectId], [PhoneNo], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES(N'896cd02e-c21a-4e2c-a519-74517937924f', N'mohd faraz', 0, N'06390535446', N'Farazshfyfhhaikh8960@example.com', N'FARAZSHFYFHHAIKH8960@EXAMPLE.COM', N'Farazshfyfhhaikh8960@example.com', N'FARAZSHFYFHHAIKH8960@EXAMPLE.COM', 1, N'AQAAAAIAAYagAAAAEO/0Ncllfpc/o6X5zGcZnQgHMlhqkLOwBtCRhH+bt8jiLC7Y8Ee3XE31F44l8LCDfQ==', N'B3T7AXZH242J44ZA7LFYN6SMI3T75LBT', N'3cdabdc0-0a56-4f7d-9d25-3b56ad98d6c9', NULL, 0, 0, NULL, 1, 0)
 GO
+INSERT[dbo].[AspNetUsers]([Id], [Name], [ProjectId], [PhoneNo], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES(N'8c6051be-82c8-4680-a4f7-aa0b2f09abf4', N'faraz', 0, N'67567567', N'farazshaikh896ghg0@gmail.com', N'FARAZSHAIKH896GHG0@GMAIL.COM', N'farazshaikh896ghg0@gmail.com', N'FARAZSHAIKH896GHG0@GMAIL.COM', 1, N'AQAAAAIAAYagAAAAEIUVGLKucAT0nH9p8WrNm68SLJfFNN7RCXB4IoxGy48c9B/1SHlXa3795nVVRW4H1w==', N'UKRA5FW7WE6BFBP2EKEU2NLAIRFA5IG5', N'369b58a2-d81d-4ce4-beaf-9cc3996f16ce', NULL, 0, 0, NULL, 1, 0)
+GO
 INSERT[dbo].[AspNetUsers]([Id], [Name], [ProjectId], [PhoneNo], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES(N'bb643000-29b1-4c10-9959-4b04646a2120', N'string', 253066, N'2645611646', N'Farazshaikh8960@example.com', N'FARAZSHAIKH8960@EXAMPLE.COM', N'Farazshaikh8960@example.com', N'FARAZSHAIKH8960@EXAMPLE.COM', 1, N'AQAAAAIAAYagAAAAEK9+jOV3m+OGJFpGuroJNHx7/86AEZBw5q25Zo4w1NqCni4dPhOd45TXoYrkXaZbpg==', N'I572DN3HSHKBWOZYPTINQLCQ3SCJLRLK', N'6b219df6-5033-4071-bbeb-a677918b3319', NULL, 0, 0, NULL, 1, 0)
 GO
 INSERT[dbo].[AspNetUsers]([Id], [Name], [ProjectId], [PhoneNo], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES(N'd1428fa4-6147-4466-9b28-33f13c9ffb3d', N'mohd faraz', 0, N'06390535446', N'Farazshhaikh8960@example.com', N'FARAZSHHAIKH8960@EXAMPLE.COM', N'Farazshhaikh8960@example.com', N'FARAZSHHAIKH8960@EXAMPLE.COM', 1, N'AQAAAAIAAYagAAAAEOpiAWz30vxH83qb4yI4d+/gVHEg0a22PVWP9BXPCa34C8AOjQZCGQMVZVRUq5fp4A==', N'HVLNGCGLGI73X7QAY7JTQCBR37MV4MSL', N'fb247ac4-482e-472d-a13b-13c39bc83dc2', NULL, 0, 0, NULL, 1, 0)
+GO
+INSERT[dbo].[AspNetUsers]([Id], [Name], [ProjectId], [PhoneNo], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES(N'fecfaceb-0c90-4ca5-9a34-50775e80cc2e', N'faraz', 0, N'5645765756', N'farazshaikh45438960@gmail.com', N'FARAZSHAIKH45438960@GMAIL.COM', N'farazshaikh45438960@gmail.com', N'FARAZSHAIKH45438960@GMAIL.COM', 1, N'AQAAAAIAAYagAAAAEEKB7Qxra+hyam4G8jWjSrRPYJYHjMqtsoKaBfmOJCEoDehgSE8xYV6/VCo44mX+Xg==', N'5ZTLH4CZKIFDZWX3KUBKFRI6DXAR6NZU', N'b9d8941d-e056-4d6e-a7ba-46f33cee3ca7', NULL, 0, 0, NULL, 1, 0)
 GO
 SET IDENTITY_INSERT[dbo].[DCSPolicies] ON
 GO
@@ -4791,7 +4834,43 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             GO
                                                                                                                             INSERT [dbo].[ErrorLog] ([Id], [ProjectId], [ClassName], [FuncName], [ProcName], [Error], [EntryOn]) VALUES (1092, NULL, N'Proc_GetApplicationSettingByIdOnload', N'call', N'Proc_GetApplicationSettingById', N'Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.', CAST(N'2024-07-24T15:59:12.300' AS DateTime))
                                                                                                                             GO
+                                                                                                                            INSERT [dbo].[ErrorLog] ([Id], [ProjectId], [ClassName], [FuncName], [ProcName], [Error], [EntryOn]) VALUES (1093, NULL, N'UserService', N'GetAllUsers', N'Proc_GetUser', N'Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.', CAST(N'2024-07-25T15:26:50.733' AS DateTime))
+                                                                                                                            GO
+                                                                                                                            INSERT [dbo].[ErrorLog] ([Id], [ProjectId], [ClassName], [FuncName], [ProcName], [Error], [EntryOn]) VALUES (1094, NULL, N'Proc_AddOrUpdateEmployee', N'call', N'Proc_AddOrUpdateHospitalEmployee', N'Procedure or function Proc_AddOrUpdateHospitalEmployee has too many arguments specified.', CAST(N'2024-07-25T16:01:57.997' AS DateTime))
+                                                                                                                            GO
+                                                                                                                            INSERT [dbo].[ErrorLog] ([Id], [ProjectId], [ClassName], [FuncName], [ProcName], [Error], [EntryOn]) VALUES (1095, NULL, N'Proc_AddOrUpdateEmployee', N'call', N'Proc_AddOrUpdateHospitalEmployee', N'Procedure or function Proc_AddOrUpdateHospitalEmployee has too many arguments specified.', CAST(N'2024-07-25T16:20:31.423' AS DateTime))
+                                                                                                                            GO
+                                                                                                                            INSERT [dbo].[ErrorLog] ([Id], [ProjectId], [ClassName], [FuncName], [ProcName], [Error], [EntryOn]) VALUES (1096, NULL, N'Proc_AddOrUpdateEmployee', N'call', N'Proc_AddOrUpdateHospitalEmployee', N'Procedure or function Proc_AddOrUpdateHospitalEmployee has too many arguments specified.', CAST(N'2024-07-25T16:22:11.633' AS DateTime))
+                                                                                                                            GO
+                                                                                                                            INSERT [dbo].[ErrorLog] ([Id], [ProjectId], [ClassName], [FuncName], [ProcName], [Error], [EntryOn]) VALUES (1097, NULL, N'Proc_AddOrUpdateEmployee', N'call', N'Proc_AddOrUpdateHospitalEmployee', N'Procedure or function Proc_AddOrUpdateHospitalEmployee has too many arguments specified.', CAST(N'2024-07-25T16:22:29.167' AS DateTime))
+                                                                                                                            GO
                                                                                                                             SET IDENTITY_INSERT [dbo].[ErrorLog] OFF
+                                                                                                                            GO
+                                                                                                                            SET IDENTITY_INSERT [dbo].[HospitalEmployee] ON
+                                                                                                                            GO
+                                                                                                                            INSERT [dbo].[HospitalEmployee] ([EmployeeId], [ProjectId], [Name], [Email], [ContactNumber], [ProfileImage], [Address], [Specialization], [Gender], [DateOfBirth], [Qualifications], [ExperienceYears], [Department], [Position], [DateOfJoining], [Salary], [AdharNumber], [AdharImage], [Status], [CreateDate], [UpdateDate]) VALUES (1, 266188, N'faraz', N'rtyrt', N'7567567567n', N'https://localhost:7079/DoctorImage/a14749fc-acc1-4caa-906f-97814fab07a3_logo.png', N'rtyrty', N'tryrty', N'Male', N'2024-07-11', N'rtyrty', 6, N'fghfgh', N'fghfgh', NULL, CAST(897978.00 AS Decimal(10, 2)), N'tryrty', N'https://localhost:7079/DoctorImage/4bfc2ab7-acf5-48af-b7e5-d481266fed02_fb-bg.jpg', 1, N'Jul 25 2024  4:23PM', N'Jul 25 2024  6:09PM')
+                                                                                                                            GO
+                                                                                                                            INSERT [dbo].[HospitalEmployee] ([EmployeeId], [ProjectId], [Name], [Email], [ContactNumber], [ProfileImage], [Address], [Specialization], [Gender], [DateOfBirth], [Qualifications], [ExperienceYears], [Department], [Position], [DateOfJoining], [Salary], [AdharNumber], [AdharImage], [Status], [CreateDate], [UpdateDate]) VALUES (2, 253066, N'John Doe', N'johndoe@example.com', N'1234567890', N'https://localhost:7079/DoctorImage/ea860ec2-0130-4d35-aa4f-95d3282a46d4_logo.png', N'123 Main St', N'Cardiology', N'Male', N'1980-01-01', N'MBBS', 10, N'Cardiology', N'Senior Doctor', CAST(N'2015-06-01' AS Date), CAST(150000.00 AS Decimal(10, 2)), N'123456789012', N'adhar_john.jpg', 1, N'2023-07-01', N'2023-07-01')
+                                                                                                                            GO
+                                                                                                                            INSERT [dbo].[HospitalEmployee] ([EmployeeId], [ProjectId], [Name], [Email], [ContactNumber], [ProfileImage], [Address], [Specialization], [Gender], [DateOfBirth], [Qualifications], [ExperienceYears], [Department], [Position], [DateOfJoining], [Salary], [AdharNumber], [AdharImage], [Status], [CreateDate], [UpdateDate]) VALUES (3, 253066, N'Jane Smith', N'janesmith@example.com', N'0987654321', N'https://localhost:7079/DoctorImage/ea860ec2-0130-4d35-aa4f-95d3282a46d4_logo.png', N'456 Elm St', N'Neurology', N'Female', N'1985-05-15', N'MD', 8, N'Neurology', N'Doctor', CAST(N'2016-08-15' AS Date), CAST(120000.00 AS Decimal(10, 2)), N'234567890123', N'adhar_jane.jpg', 1, N'2023-07-01', N'2023-07-01')
+                                                                                                                            GO
+                                                                                                                            INSERT [dbo].[HospitalEmployee] ([EmployeeId], [ProjectId], [Name], [Email], [ContactNumber], [ProfileImage], [Address], [Specialization], [Gender], [DateOfBirth], [Qualifications], [ExperienceYears], [Department], [Position], [DateOfJoining], [Salary], [AdharNumber], [AdharImage], [Status], [CreateDate], [UpdateDate]) VALUES (4, 266188, N'Alice Brown', N'alicebrown@example.com', N'2345678901', N'https://localhost:7079/DoctorImage/ea860ec2-0130-4d35-aa4f-95d3282a46d4_logo.png', N'789 Pine St', N'Orthopedics', N'Female', N'1978-03-20', N'MS', 15, N'Orthopedics', N'Senior Doctor', CAST(N'2012-11-23' AS Date), CAST(180000.00 AS Decimal(10, 2)), N'345678901234', N'adhar_alice.jpg', 1, N'2023-07-01', N'2023-07-01')
+                                                                                                                            GO
+                                                                                                                            INSERT [dbo].[HospitalEmployee] ([EmployeeId], [ProjectId], [Name], [Email], [ContactNumber], [ProfileImage], [Address], [Specialization], [Gender], [DateOfBirth], [Qualifications], [ExperienceYears], [Department], [Position], [DateOfJoining], [Salary], [AdharNumber], [AdharImage], [Status], [CreateDate], [UpdateDate]) VALUES (5, 266188, N'Bob White', N'bobwhite@example.com', N'3456789012', N'https://localhost:7079/DoctorImage/ea860ec2-0130-4d35-aa4f-95d3282a46d4_logo.png', N'321 Oak St', N'Pediatrics', N'Male', N'1990-09-10', N'MBBS', 5, N'Pediatrics', N'Doctor', CAST(N'2019-01-02' AS Date), CAST(100000.00 AS Decimal(10, 2)), N'456789012345', N'adhar_bob.jpg', 1, N'2023-07-01', N'2023-07-01')
+                                                                                                                            GO
+                                                                                                                            INSERT [dbo].[HospitalEmployee] ([EmployeeId], [ProjectId], [Name], [Email], [ContactNumber], [ProfileImage], [Address], [Specialization], [Gender], [DateOfBirth], [Qualifications], [ExperienceYears], [Department], [Position], [DateOfJoining], [Salary], [AdharNumber], [AdharImage], [Status], [CreateDate], [UpdateDate]) VALUES (6, 266188, N'Charlie Green', N'charliegreen@example.com', N'4567890123', N'https://localhost:7079/DoctorImage/ea860ec2-0130-4d35-aa4f-95d3282a46d4_logo.png', N'654 Birch St', N'Dermatology', N'Male', N'1982-11-11', N'MD', 12, N'Dermatology', N'Consultant', CAST(N'2014-07-17' AS Date), CAST(160000.00 AS Decimal(10, 2)), N'567890123456', N'adhar_charlie.jpg', 1, N'2023-07-01', N'2023-07-01')
+                                                                                                                            GO
+                                                                                                                            INSERT [dbo].[HospitalEmployee] ([EmployeeId], [ProjectId], [Name], [Email], [ContactNumber], [ProfileImage], [Address], [Specialization], [Gender], [DateOfBirth], [Qualifications], [ExperienceYears], [Department], [Position], [DateOfJoining], [Salary], [AdharNumber], [AdharImage], [Status], [CreateDate], [UpdateDate]) VALUES (7, 330787, N'Daisy Blue', N'daisyblue@example.com', N'5678901234', N'https://localhost:7079/DoctorImage/ea860ec2-0130-4d35-aa4f-95d3282a46d4_logo.png', N'987 Cedar St', N'Ophthalmology', N'Female', N'1987-02-05', N'MS', 7, N'Ophthalmology', N'Doctor', CAST(N'2017-03-11' AS Date), CAST(110000.00 AS Decimal(10, 2)), N'678901234567', N'adhar_daisy.jpg', 1, N'2023-07-01', N'2023-07-01')
+                                                                                                                            GO
+                                                                                                                            INSERT [dbo].[HospitalEmployee] ([EmployeeId], [ProjectId], [Name], [Email], [ContactNumber], [ProfileImage], [Address], [Specialization], [Gender], [DateOfBirth], [Qualifications], [ExperienceYears], [Department], [Position], [DateOfJoining], [Salary], [AdharNumber], [AdharImage], [Status], [CreateDate], [UpdateDate]) VALUES (8, 330787, N'Eve Black', N'eveblack@example.com', N'6789012345', N'https://localhost:7079/DoctorImage/ea860ec2-0130-4d35-aa4f-95d3282a46d4_logo.png', N'123 Spruce St', N'Oncology', N'Female', N'1975-12-25', N'MD', 20, N'Oncology', N'Senior Doctor', CAST(N'2005-09-30' AS Date), CAST(200000.00 AS Decimal(10, 2)), N'789012345678', N'adhar_eve.jpg', 1, N'2023-07-01', N'2023-07-01')
+                                                                                                                            GO
+                                                                                                                            INSERT [dbo].[HospitalEmployee] ([EmployeeId], [ProjectId], [Name], [Email], [ContactNumber], [ProfileImage], [Address], [Specialization], [Gender], [DateOfBirth], [Qualifications], [ExperienceYears], [Department], [Position], [DateOfJoining], [Salary], [AdharNumber], [AdharImage], [Status], [CreateDate], [UpdateDate]) VALUES (9, 330787, N'Frank Red', N'frankred@example.com', N'7890123456', N'https://localhost:7079/DoctorImage/ea860ec2-0130-4d35-aa4f-95d3282a46d4_logo.png', N'456 Walnut St', N'Radiology', N'Male', N'1989-07-07', N'MBBS', 6, N'Radiology', N'Doctor', CAST(N'2018-05-25' AS Date), CAST(105000.00 AS Decimal(10, 2)), N'890123456789', N'adhar_frank.jpg', 1, N'2023-07-01', N'2023-07-01')
+                                                                                                                            GO
+                                                                                                                            INSERT [dbo].[HospitalEmployee] ([EmployeeId], [ProjectId], [Name], [Email], [ContactNumber], [ProfileImage], [Address], [Specialization], [Gender], [DateOfBirth], [Qualifications], [ExperienceYears], [Department], [Position], [DateOfJoining], [Salary], [AdharNumber], [AdharImage], [Status], [CreateDate], [UpdateDate]) VALUES (10, 253066, N'Grace Yellow', N'graceyellow@example.com', N'8901234567', N'https://localhost:7079/DoctorImage/ea860ec2-0130-4d35-aa4f-95d3282a46d4_logo.png', N'789 Aspen St', N'Gastroenterology', N'Female', N'1983-08-18', N'MD', 11, N'Gastroenterology', N'Consultant', CAST(N'2013-04-09' AS Date), CAST(155000.00 AS Decimal(10, 2)), N'901234567890', N'adhar_grace.jpg', 1, N'2023-07-01', N'2023-07-01')
+                                                                                                                            GO
+                                                                                                                            INSERT [dbo].[HospitalEmployee] ([EmployeeId], [ProjectId], [Name], [Email], [ContactNumber], [ProfileImage], [Address], [Specialization], [Gender], [DateOfBirth], [Qualifications], [ExperienceYears], [Department], [Position], [DateOfJoining], [Salary], [AdharNumber], [AdharImage], [Status], [CreateDate], [UpdateDate]) VALUES (11, 253066, N'Henry Orange', N'henryorange@example.com', N'9012345678', N'https://localhost:7079/DoctorImage/ea860ec2-0130-4d35-aa4f-95d3282a46d4_logo.png', N'321 Maple St', N'Urology', N'Male', N'1979-04-30', N'MS', 14, N'Urology', N'Senior Consultant', CAST(N'2010-12-14' AS Date), CAST(175000.00 AS Decimal(10, 2)), N'012345678901', N'adhar_henry.jpg', 1, N'2023-07-01', N'2023-07-01')
+                                                                                                                            GO
+                                                                                                                            SET IDENTITY_INSERT [dbo].[HospitalEmployee] OFF
                                                                                                                             GO
                                                                                                                             SET IDENTITY_INSERT [dbo].[HospitalPolicy] ON
                                                                                                                             GO
@@ -5155,11 +5234,15 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             GO
                                                                                                                             INSERT [dbo].[tbl_users] ([userId], [username], [PasswordHash], [EntryOn], [IsVerified], [IsLocked], [IsActive], [InvalidLoginAttempts]) VALUES (15, N'Farazshfyfdshhaikh8960@example.com', N'tFEdzqJcYBvgJnUCVlzxDc2sy80SrnJxjdrJ0uSaZy8=', CAST(N'2024-07-14T17:55:10.400' AS DateTime), NULL, NULL, 1, 0)
                                                                                                                             GO
-                                                                                                                            INSERT [dbo].[tbl_users] ([userId], [username], [PasswordHash], [EntryOn], [IsVerified], [IsLocked], [IsActive], [InvalidLoginAttempts]) VALUES (19, N'mohammadnaved1517@gmail.com', N'LVGNZs7QzbxxQoQavgF8mw==', CAST(N'2024-07-15T16:09:40.150' AS DateTime), NULL, NULL, 1, 1)
+                                                                                                                            INSERT [dbo].[tbl_users] ([userId], [username], [PasswordHash], [EntryOn], [IsVerified], [IsLocked], [IsActive], [InvalidLoginAttempts]) VALUES (19, N'mohammadnaved1517@gmail.com', N'LVGNZs7QzbxxQoQavgF8mw==', CAST(N'2024-07-15T16:09:40.150' AS DateTime), 1, NULL, 1, 0)
                                                                                                                             GO
                                                                                                                             INSERT [dbo].[tbl_users] ([userId], [username], [PasswordHash], [EntryOn], [IsVerified], [IsLocked], [IsActive], [InvalidLoginAttempts]) VALUES (20, N'farazshaikh8960@gmail.com', N'1yaHYuFiwRjTHdI1o8SVKQ==', CAST(N'2024-07-20T18:09:43.767' AS DateTime), 1, 0, 1, 0)
                                                                                                                             GO
                                                                                                                             INSERT [dbo].[tbl_users] ([userId], [username], [PasswordHash], [EntryOn], [IsVerified], [IsLocked], [IsActive], [InvalidLoginAttempts]) VALUES (1020, N'mdsalmanm1920@gmail.com', N'nMje3IPrQ19uZGEPYVQAjA==', CAST(N'2024-07-24T16:53:32.563' AS DateTime), 1, NULL, 1, 0)
+                                                                                                                            GO
+                                                                                                                            INSERT [dbo].[tbl_users] ([userId], [username], [PasswordHash], [EntryOn], [IsVerified], [IsLocked], [IsActive], [InvalidLoginAttempts]) VALUES (1021, N'farazshaikh896ghg0@gmail.com', N'tFEdzqJcYBvgJnUCVlzxDc2sy80SrnJxjdrJ0uSaZy8=', CAST(N'2024-07-25T15:50:49.143' AS DateTime), NULL, NULL, 1, 0)
+                                                                                                                            GO
+                                                                                                                            INSERT [dbo].[tbl_users] ([userId], [username], [PasswordHash], [EntryOn], [IsVerified], [IsLocked], [IsActive], [InvalidLoginAttempts]) VALUES (1022, N'farazshaikh45438960@gmail.com', N'tFEdzqJcYBvgJnUCVlzxDc2sy80SrnJxjdrJ0uSaZy8=', CAST(N'2024-07-25T16:36:25.707' AS DateTime), NULL, NULL, 1, 0)
                                                                                                                             GO
                                                                                                                             SET IDENTITY_INSERT [dbo].[tbl_users] OFF
                                                                                                                             GO
@@ -5289,6 +5372,10 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             GO
                                                                                                                             INSERT [dbo].[tbl_Validate_Email] ([vID], [ProjectId], [vEmail], [vOTP], [vEntry]) VALUES (2043, NULL, N'mdsalmanm1920@gmail.com', 262257, CAST(N'2024-07-24T16:55:03.603' AS DateTime))
                                                                                                                             GO
+                                                                                                                            INSERT [dbo].[tbl_Validate_Email] ([vID], [ProjectId], [vEmail], [vOTP], [vEntry]) VALUES (2044, NULL, N'farazshaikh896ghg0@gmail.com', 544127, CAST(N'2024-07-25T15:50:53.003' AS DateTime))
+                                                                                                                            GO
+                                                                                                                            INSERT [dbo].[tbl_Validate_Email] ([vID], [ProjectId], [vEmail], [vOTP], [vEntry]) VALUES (2045, NULL, N'farazshaikh45438960@gmail.com', 380552, CAST(N'2024-07-25T16:36:47.590' AS DateTime))
+                                                                                                                            GO
                                                                                                                             SET IDENTITY_INSERT [dbo].[tbl_Validate_Email] OFF
                                                                                                                             GO
                                                                                                                             SET IDENTITY_INSERT [dbo].[TransactionDetails] ON
@@ -5339,7 +5426,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             GO
                                                                                                                             SET ANSI_PADDING ON
                                                                                                                             GO
-                                                                                                                            /****** Object:  Index [IX_AspNetRoleClaims_RoleId]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  Index [IX_AspNetRoleClaims_RoleId]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             CREATE NONCLUSTERED INDEX [IX_AspNetRoleClaims_RoleId] ON [dbo].[AspNetRoleClaims]
                                                                                                                             (
                                                                                                                             [RoleId] ASC
@@ -5347,7 +5434,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             GO
                                                                                                                             SET ANSI_PADDING ON
                                                                                                                             GO
-                                                                                                                            /****** Object:  Index [RoleNameIndex]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  Index [RoleNameIndex]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             CREATE UNIQUE NONCLUSTERED INDEX [RoleNameIndex] ON [dbo].[AspNetRoles]
                                                                                                                             (
                                                                                                                             [NormalizedName] ASC
@@ -5357,7 +5444,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             GO
                                                                                                                             SET ANSI_PADDING ON
                                                                                                                             GO
-                                                                                                                            /****** Object:  Index [IX_AspNetUserClaims_UserId]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  Index [IX_AspNetUserClaims_UserId]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             CREATE NONCLUSTERED INDEX [IX_AspNetUserClaims_UserId] ON [dbo].[AspNetUserClaims]
                                                                                                                             (
                                                                                                                             [UserId] ASC
@@ -5365,7 +5452,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             GO
                                                                                                                             SET ANSI_PADDING ON
                                                                                                                             GO
-                                                                                                                            /****** Object:  Index [IX_AspNetUserLogins_UserId]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  Index [IX_AspNetUserLogins_UserId]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             CREATE NONCLUSTERED INDEX [IX_AspNetUserLogins_UserId] ON [dbo].[AspNetUserLogins]
                                                                                                                             (
                                                                                                                             [UserId] ASC
@@ -5373,7 +5460,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             GO
                                                                                                                             SET ANSI_PADDING ON
                                                                                                                             GO
-                                                                                                                            /****** Object:  Index [IX_AspNetUserRoles_RoleId]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  Index [IX_AspNetUserRoles_RoleId]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             CREATE NONCLUSTERED INDEX [IX_AspNetUserRoles_RoleId] ON [dbo].[AspNetUserRoles]
                                                                                                                             (
                                                                                                                             [RoleId] ASC
@@ -5381,7 +5468,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             GO
                                                                                                                             SET ANSI_PADDING ON
                                                                                                                             GO
-                                                                                                                            /****** Object:  Index [EmailIndex]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  Index [EmailIndex]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             CREATE NONCLUSTERED INDEX [EmailIndex] ON [dbo].[AspNetUsers]
                                                                                                                             (
                                                                                                                             [NormalizedEmail] ASC
@@ -5389,7 +5476,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             GO
                                                                                                                             SET ANSI_PADDING ON
                                                                                                                             GO
-                                                                                                                            /****** Object:  Index [UserNameIndex]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  Index [UserNameIndex]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             CREATE UNIQUE NONCLUSTERED INDEX [UserNameIndex] ON [dbo].[AspNetUsers]
                                                                                                                             (
                                                                                                                             [NormalizedUserName] ASC
@@ -5397,7 +5484,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             WHERE ([NormalizedUserName] IS NOT NULL)
                                                                                                                             WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
                                                                                                                             GO
-                                                                                                                            /****** Object:  Index [UK_vOTP]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  Index [UK_vOTP]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             ALTER TABLE [dbo].[tbl_Validate_Email] ADD  CONSTRAINT [UK_vOTP] UNIQUE NONCLUSTERED
                                                                                                                             (
                                                                                                                             [vOTP] ASC
@@ -5605,7 +5692,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             GO
                                                                                                                             ALTER TABLE [dbo].[AspNetUserTokens] CHECK CONSTRAINT [FK_AspNetUserTokens_AspNetUsers_UserId]
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[InsertEmailLog]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[InsertEmailLog]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -5623,7 +5710,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             VALUES (@ToEmail, @Subject, @Body, @ErrorMessage, @SentStatus);
                                                                                                                             END;
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[InsertInvoiceData]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[InsertInvoiceData]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -5671,7 +5758,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END CATCH
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Prc_InsertOrUpdateProject]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Prc_InsertOrUpdateProject]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -5714,7 +5801,109 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END CATCH
                                                                                                                             END;
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_AddOrUpdateMasterEmailTemplateType]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_AddOrUpdateHospitalEmployee]    Script Date: 25-07-2024 18:59:35 ******/
+                                                                                                                            SET ANSI_NULLS ON
+                                                                                                                            GO
+                                                                                                                            SET QUOTED_IDENTIFIER ON
+                                                                                                                            GO
+                                                                                                                            CREATE PROCEDURE [dbo].[Proc_AddOrUpdateHospitalEmployee]
+                                                                                                                            @EmployeeId INT = NULL, --NULL for add, provide value for update
+                                                                                                                            @ProjectId INT,
+                                                                                                                            @Name VARCHAR(255),
+                                                                                                                            @Email VARCHAR(255),
+                                                                                                                            @ContactNumber VARCHAR(50),
+                                                                                                                            @ProfileImage VARCHAR(255),
+                                                                                                                            @Address VARCHAR(255),
+                                                                                                                            @Specialization VARCHAR(255),
+                                                                                                                            @Gender VARCHAR(50),
+                                                                                                                            @DateOfBirth VARCHAR(255),
+                                                                                                                            @DateOfJoining VARCHAR(255),
+                                                                                                                            @Qualifications VARCHAR(255),
+                                                                                                                            @ExperienceYears INT,
+                                                                                                                            @Department VARCHAR(255),
+                                                                                                                            @Position VARCHAR(255),
+                                                                                                                            @Salary DECIMAL(10, 2),
+                                                                                                                            @AdharNumber VARCHAR(20),
+                                                                                                                            @AdharImage VARCHAR(255)
+                                                                                                                            AS
+                                                                                                                            BEGIN
+                                                                                                                            SET NOCOUNT ON;
+
+                                                                                                                            IF EXISTS(SELECT 1 FROM HospitalEmployee WHERE EmployeeId = @EmployeeId)
+                                                                                                                            BEGIN
+                                                                                                                            --Update existing record
+                                                                                                                            UPDATE HospitalEmployee
+                                                                                                                            SET
+                                                                                                                            Name = @Name,
+                                                                                                                            ContactNumber = @ContactNumber,
+                                                                                                                            ProfileImage = IIF(ISNULL(@ProfileImage,'')='',ProfileImage,@ProfileImage),
+                                                                                                                            Address = @Address,
+                                                                                                                            Specialization = @Specialization,
+                                                                                                                            ExperienceYears = @ExperienceYears,
+                                                                                                                            Department = @Department,
+                                                                                                                            Position = @Position,
+                                                                                                                            Salary = @Salary,
+                                                                                                                            UpdateDate = Getdate()
+                                                                                                                            WHERE EmployeeId = @EmployeeId;
+                                                                                                                            SELECT 1 AS StatusCode, 'Employee uUpdate Successful' AS ResponseText;
+                                                                                                                            END
+                                                                                                                            Else If EXISTS(SELECT 1 FROM HospitalEmployee WHERE Email = @Email)
+
+                                                                                                                            Begin
+                                                                                                                            SELECT - 1 AS StatusCode, 'Email Already Exists' AS ResponseText;
+                                                                                                                            return
+                                                                                                                            End
+                                                                                                                            ELSE
+                                                                                                                            BEGIN
+                                                                                                                            --Insert new record
+                                                                                                                            INSERT INTO HospitalEmployee(
+                                                                                                                            ProjectId,
+                                                                                                                            Name,
+                                                                                                                            Email,
+                                                                                                                            ContactNumber,
+                                                                                                                            ProfileImage,
+                                                                                                                            Address,
+                                                                                                                            Specialization,
+                                                                                                                            Gender,
+                                                                                                                            DateOfBirth,
+                                                                                                                            Qualifications,
+                                                                                                                            ExperienceYears,
+                                                                                                                            Department,
+                                                                                                                            Position,
+                                                                                                                            DateOfJoining,
+                                                                                                                            Salary,
+                                                                                                                            AdharNumber,
+                                                                                                                            AdharImage,
+                                                                                                                            Status,
+                                                                                                                            CreateDate
+                                                                                                                            )
+                                                                                                                            VALUES(
+                                                                                                                            @ProjectId,
+                                                                                                                            @Name,
+                                                                                                                            @Email,
+                                                                                                                            @ContactNumber,
+                                                                                                                            @ProfileImage,
+                                                                                                                            @Address,
+                                                                                                                            @Specialization,
+                                                                                                                            @Gender,
+                                                                                                                            @DateOfBirth,
+                                                                                                                            @Qualifications,
+                                                                                                                            @ExperienceYears,
+                                                                                                                            @Department,
+                                                                                                                            @Position,
+                                                                                                                            @DateOfJoining,
+                                                                                                                            @Salary,
+                                                                                                                            @AdharNumber,
+                                                                                                                            @AdharImage,
+                                                                                                                            0,
+                                                                                                                            Getdate()
+                                                                                                                            );
+                                                                                                                            SELECT 1 AS StatusCode, 'Employee Add Successful' AS ResponseText;
+
+                                                                                                                            END
+                                                                                                                            END;
+                                                                                                                            GO
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_AddOrUpdateMasterEmailTemplateType]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -5754,7 +5943,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END CATCH
                                                                                                                             END;
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_AddOrUpdateSocialMedia]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_AddOrUpdateSocialMedia]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -5793,7 +5982,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END CATCH
                                                                                                                             END;
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_ConfirmEmail]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_ConfirmEmail]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -5806,7 +5995,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             Update tbl_users set IsVerified = @IsVerfied where username = @Email;
                                                                                                                             End
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_FindUser]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_FindUser]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -5831,7 +6020,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END CATCH
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetApplicationSetting]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetApplicationSetting]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -5853,7 +6042,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetApplicationSettingById]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetApplicationSettingById]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -5867,7 +6056,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             WHERE Projectid = @Projectid;
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetApplicationSettingByIdOnload]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetApplicationSettingByIdOnload]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -5887,7 +6076,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             SELECT @ProjectId AS ProjectId;
                                                                                                                             END;
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetAppointmentIdById]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetAppointmentIdById]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -5901,7 +6090,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
 
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetAppointments]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetAppointments]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -5929,7 +6118,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetAppointmentStatus]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetAppointmentStatus]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -5941,7 +6130,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             SELECT * FROM Appointments;
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetAppointmentStatusByPId]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetAppointmentStatusByPId]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -5953,7 +6142,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             SELECT * FROM Appointments WHERE PId = @PId ORDER BY 1 DESC;
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetDCSPoliciesListOrById]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetDCSPoliciesListOrById]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -5991,7 +6180,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetDoctors]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetDoctors]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6011,7 +6200,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetDoctorsById]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetDoctorsById]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6025,7 +6214,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
 
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetEmailTemplate]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetEmailTemplate]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6067,7 +6256,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[proc_GetEmailTemplateById]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[proc_GetEmailTemplateById]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6088,7 +6277,51 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END CATCH
                                                                                                                             END;
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetHospitalPolicyListOrById]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetHospitalEmployeeListOrById]    Script Date: 25-07-2024 18:59:35 ******/
+                                                                                                                            SET ANSI_NULLS ON
+                                                                                                                            GO
+                                                                                                                            SET QUOTED_IDENTIFIER ON
+                                                                                                                            GO
+                                                                                                                            CREATE PROCEDURE [dbo].[Proc_GetHospitalEmployeeListOrById]
+                                                                                                                            @Id INT = 0,
+                                                                                                                            @email VARCHAR(100) = null,
+                                                                                                                            @ProjectId INT,
+                                                                                                                            @Role Varchar(100) = null,
+                                                                                                                            @PageLength INT = 10
+                                                                                                                            AS
+                                                                                                                            BEGIN
+                                                                                                                            IF (@email IS NULL OR @email = '')
+                                                                                                                            BEGIN
+                                                                                                                            SET @email = 'All';
+                                                                                                                            END
+                                                                                                                            IF (@Role = 'Admin')
+                                                                                                                            BEGIN
+                                                                                                                            SELECT TOP (@PageLength) *
+                                                                                                                            FROM HospitalEmployee ;
+
+                                                                                                                            END
+                                                                                                                            IF (@email = 'All' AND @Id = 0)
+                                                                                                                            BEGIN
+                                                                                                                            SELECT TOP (@PageLength) *
+                                                                                                                            FROM HospitalEmployee
+                                                                                                                            WHERE ProjectId = @ProjectId;
+                                                                                                                            END                     
+    ELSE IF (@Id > 0)
+                                                                                                                            BEGIN
+                                                                                                                            SELECT *
+                                                                                                                            FROM HospitalEmployee
+                                                                                                                            WHERE ProjectId = @ProjectId AND (EmployeeId = @Id OR @Id = 0);
+                                                                                                                            END
+                                                                                                                            ELSE
+                                                                                                                            BEGIN
+                                                                                                                            SELECT TOP (@PageLength) *
+                                                                                                                            FROM HospitalEmployee
+                                                                                                                            WHERE Email LIKE '%' + @email + '%'
+                                                                                                                            AND ProjectId = @ProjectId;
+                                                                                                                            END
+                                                                                                                            END
+                                                                                                                            GO
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetHospitalPolicyListOrById]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6126,7 +6359,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetHospitalServicesListOrById]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetHospitalServicesListOrById]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6164,7 +6397,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetInvoiceDataByInvoiceId]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetInvoiceDataByInvoiceId]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6209,7 +6442,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END CATCH
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetMasterEmailTemplateType]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetMasterEmailTemplateType]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6247,7 +6480,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetMedicationListById]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetMedicationListById]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6262,7 +6495,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
 
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetMedicineById]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetMedicineById]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6284,7 +6517,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             m.MedicineID = @MedicineID;
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetMedicines]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetMedicines]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6310,7 +6543,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetMedQuantityByName]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetMedQuantityByName]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6325,7 +6558,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             WHERE m.Name LIKE '%' + @Name + '%';
                                                                                                                             End
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetPatientId]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetPatientId]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6348,7 +6581,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END;
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[proc_GetPatientIdByEmail]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[proc_GetPatientIdByEmail]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6375,7 +6608,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetPatients]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetPatients]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6397,7 +6630,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetPatientsById]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetPatientsById]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6411,7 +6644,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
 
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetPremiumService]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetPremiumService]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6430,7 +6663,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetPremiumServiceById]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetPremiumServiceById]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6442,7 +6675,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             SELECT * FROM PremiumService WHERE ServiceID =@ServiceID;
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetProjectDetailsById]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetProjectDetailsById]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6454,7 +6687,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             select * from Projects where ProjectId = @ProjectId;
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetProjects]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetProjects]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6492,7 +6725,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetProjectsByEmail]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetProjectsByEmail]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6504,7 +6737,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             select * from Projects where Email = @Email
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetPurchaseServiceById]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetPurchaseServiceById]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6516,7 +6749,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             SELECT * FROM Purchases WHERE PurchaseID =@PurchaseID;
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetPurchasesService]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetPurchasesService]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6535,7 +6768,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetSocialMediaById]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetSocialMediaById]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6547,7 +6780,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             Select * from SocialMedia Where SMId=@SMId;
                                                                                                                             End
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetSocialMediaListOrById]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetSocialMediaListOrById]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6585,7 +6818,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetTreatmentById]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetTreatmentById]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6628,7 +6861,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END CATCH
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetTreatmentList]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetTreatmentList]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6666,22 +6899,22 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetUser]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_GetUser]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
                                                                                                                             GO
-                                                                                                                            Create   Proc [dbo].[Proc_GetUser]
+                                                                                                                            CREATE   Proc [dbo].[Proc_GetUser]
                                                                                                                             As
                                                                                                                             Begin
-                                                                                                                            SELECT tu.userId As UserId, U.Name, U.UserName, U.Email, R.Name AS Role,tu.PasswordHash,tu.IsVerified ,tu.IsActive, tu.IsLocked
+                                                                                                                            SELECT tu.userId As UserId, U.Name,U.ProjectId as ProjectId, U.UserName, U.Email, R.Name AS Role,tu.PasswordHash,tu.IsVerified ,tu.IsActive, tu.IsLocked
                                                                                                                             FROM AspNetUsers U
                                                                                                                             JOIN AspNetUserRoles UR ON U.Id = UR.UserId
                                                                                                                             JOIN tbl_users tu ON U.Email = tu.username
                                                                                                                             JOIN AspNetRoles R ON UR.RoleId = R.Id;
                                                                                                                             End
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_IncrementInvalidLoginAttempts]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_IncrementInvalidLoginAttempts]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6710,7 +6943,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END;
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_InsertErrorLog]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_InsertErrorLog]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6738,7 +6971,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END CATCH;
                                                                                                                             END;
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[proc_InsertOrUpdateDoctor]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[proc_InsertOrUpdateDoctor]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6809,7 +7042,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END CATCH
                                                                                                                             END;
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[proc_InsertOrUpdatePatient]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[proc_InsertOrUpdatePatient]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -6897,7 +7130,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END CATCH
                                                                                                                             END;
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_InsertOrUpdatePremiumService]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_InsertOrUpdatePremiumService]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7083,7 +7316,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END CATCH
                                                                                                                             END;
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_InsertTreatment]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_InsertTreatment]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7122,7 +7355,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END;
 
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_InsertUserLogin]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_InsertUserLogin]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7138,7 +7371,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             VALUES (@UserEmail, @DeviceID, @IPAddress, @LoginStatus);
                                                                                                                             END;
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_IsUserVerfied]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_IsUserVerfied]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7171,7 +7404,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END;
 
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_LockedUser]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_LockedUser]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7195,7 +7428,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END;
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_ManagePurchase]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_ManagePurchase]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7292,7 +7525,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END CATCH
                                                                                                                             END;
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_PageErrorLog]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_PageErrorLog]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7315,7 +7548,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
 
                                                                                                                             end
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_Proc_GetInvoiceListAndBYId]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_Proc_GetInvoiceListAndBYId]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7362,7 +7595,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_ResetInvalidLoginAttempts]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_ResetInvalidLoginAttempts]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7386,7 +7619,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END;
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_updateDCSPoliciesStatus]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_updateDCSPoliciesStatus]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7417,7 +7650,38 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END CATCH
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_updateHospitalPoliciesStatus]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_UpdateHospitalEmployeeStatus]    Script Date: 25-07-2024 18:59:35 ******/
+                                                                                                                            SET ANSI_NULLS ON
+                                                                                                                            GO
+                                                                                                                            SET QUOTED_IDENTIFIER ON
+                                                                                                                            GO
+                                                                                                                            CREATE PROCEDURE [dbo].[Proc_UpdateHospitalEmployeeStatus]
+                                                                                                                            @Id INT,
+                                                                                                                            @Status BIT
+                                                                                                                            AS
+                                                                                                                            BEGIN
+                                                                                                                            BEGIN TRY
+                                                                                                                            IF EXISTS (SELECT 1 FROM HospitalEmployee WHERE EmployeeId = @Id)
+                                                                                                                            BEGIN
+                                                                                                                            UPDATE HospitalEmployee
+                                                                                                                            SET Status = @Status
+                                                                                                                            WHERE EmployeeId = @Id;
+
+                                                                                                                            SELECT 1 AS StatusCode, 'Status update successful!' AS ResponseText;
+                                                                                                                            END
+                                                                                                                            ELSE
+                                                                                                                            BEGIN
+                                                                                                                            SELECT -1 AS StatusCode, 'employee not found!' AS ResponseText;
+                                                                                                                            END
+                                                                                                                            END TRY
+                                                                                                                            BEGIN CATCH
+                                                                                                                            SELECT
+                                                                                                                            -1 AS StatusCode,
+                                                                                                                            ERROR_MESSAGE() AS ResponseText;
+                                                                                                                            END CATCH
+                                                                                                                            END
+                                                                                                                            GO
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_updateHospitalPoliciesStatus]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7448,7 +7712,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END CATCH
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_UpdateHospitalServiceStatus]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_UpdateHospitalServiceStatus]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7479,7 +7743,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END CATCH
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_UpdateProjectId]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_UpdateProjectId]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7508,7 +7772,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END CATCH
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_UpdateTreatment]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_UpdateTreatment]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7552,7 +7816,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             End Catch
                                                                                                                             END;
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_UpdateUserStatus]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_UpdateUserStatus]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7580,7 +7844,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END CATCH;
 
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_UpsertAppointment]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_UpsertAppointment]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7627,7 +7891,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END CATCH
                                                                                                                             END;
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_UpsertDCSPolicies]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_UpsertDCSPolicies]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7665,7 +7929,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
 
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_UpsertHospitalPolicy]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_UpsertHospitalPolicy]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7700,7 +7964,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_UpsertHospitalService]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_UpsertHospitalService]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7738,7 +8002,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
 
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_UpsertMedicineAndStock]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_UpsertMedicineAndStock]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7784,7 +8048,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             SELECT -1 AS StatusCode, 'Sorry something went wrong!' AS ResponseText;
                                                                                                                             END;
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_VerifyConfirmationEmail]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[Proc_VerifyConfirmationEmail]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7875,7 +8139,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END CATCH
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[sp_insert_user]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[sp_insert_user]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7889,7 +8153,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             VALUES (@username, @PasswordHash,1);
                                                                                                                             END;
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[sp_Validate_Email]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[sp_Validate_Email]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7905,7 +8169,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             VALUES (@Email, @OTP);
                                                                                                                             END;
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[sp_VerifyOTP]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[sp_VerifyOTP]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -7942,7 +8206,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END
                                                                                                                             END
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[UpdateApplicationSetting]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[UpdateApplicationSetting]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON
@@ -8026,7 +8290,7 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             END CATCH
                                                                                                                             END;
                                                                                                                             GO
-                                                                                                                            /****** Object:  StoredProcedure [dbo].[usp_UpsertEmailTemplate]    Script Date: 24-07-2024 18:57:21 ******/
+                                                                                                                            /****** Object:  StoredProcedure [dbo].[usp_UpsertEmailTemplate]    Script Date: 25-07-2024 18:59:35 ******/
                                                                                                                             SET ANSI_NULLS ON
                                                                                                                             GO
                                                                                                                             SET QUOTED_IDENTIFIER ON

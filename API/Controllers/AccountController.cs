@@ -194,9 +194,9 @@ namespace API.Controllers
 
             if (user == null || user.Id.Length == 0)
             {
-                response.ResponseText = "Please enter valid email!";
+                response.ResponseText = "Unfortunately, this email address is not registered in our system. Please verify the email address or try again later.";
                 response.StatusCode=ResponseStatus.FAILED;
-                return BadRequest(response);
+                return Ok(response);
             }
             var i = await _userValidation.SendOTP(email);
                 return Ok(i);
