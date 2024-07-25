@@ -174,6 +174,13 @@ namespace DCS.Controllers
                         // Deserialize JSON string to an object. Use dynamic or a specific type if you know the structure.
                         projectDetails  = JsonConvert.DeserializeObject<ProjectDetails>(listprojectJson);
                     }
+                    if (projectDetails==null || projectDetails.DomainName==null)
+                    {
+                        res.StatusCode=ResponseStatus.FAILED;
+                        res.ResponseText = "Unfortunately, this email is not associated with any projects. Please consider creating a new project.";
+                        
+                        return Json(res);
+                    }
                         var respons = new {
                             statusCode =1,
                         redirectUrl = $"/{projectDetails.DomainName}/admin",
@@ -302,6 +309,7 @@ namespace DCS.Controllers
         {
             return View();
         }
+
         [Route("_UserList")]
         public async Task<IActionResult> _UserList()
         {
@@ -312,6 +320,24 @@ namespace DCS.Controllers
                 list = JsonConvert.DeserializeObject<List<User>>(apiRes.Result);
             }
             return PartialView(list);
+        }
+
+        [Route("AddNewUser")]
+        public async Task<IActionResult> AddNewUser()
+        {
+            return PartialView();
+        }
+
+        [Route("UserListInJson")]
+        public async Task<IActionResult> UserListInJson()
+        {
+            var list = new List<User>();
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Account/AllUser", null, User.GetLoggedInUserToken());
+            if (apiRes.Result != null)
+            {
+                list = JsonConvert.DeserializeObject<List<User>>(apiRes.Result);
+            }
+            return Json(list);
         }
 
         [Route("ForgotPassword")]

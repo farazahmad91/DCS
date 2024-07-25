@@ -18,7 +18,7 @@
         alertDiv.fadeOut('slow', () => {
             alertDiv.remove();
         });
-    }, 1000);
+    }, 2000);
 }
 
 function IsValidate(cls) {

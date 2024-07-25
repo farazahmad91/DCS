@@ -10,6 +10,7 @@ namespace Entities
     {
         public int? Id { get; set; } = 0;
         public int? ProjectId { get; set; } = 0;
+        public string? Role { get; set; }
         public string? name { get; set; }
         public string? email { get; set; }
         public string? Date { get; set; }

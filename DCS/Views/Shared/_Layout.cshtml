@@ -1,4 +1,5 @@
-﻿@using Entities
+﻿@using API.Claims
+@using Entities
 @using DCS.Layout
 ﻿@using System.Security.Claims
 @using Microsoft.AspNetCore.Http
@@ -20,12 +21,25 @@
 @model Entities.ApplicationSetting
 
 @{
-	Project project = new Project();
-	//ApplicationSetting setting = new ApplicationSetting();
-	var nameClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
-	var name = nameClaim != null ? nameClaim.Value : "Guest";
-	//var role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
-	// //var Urole = role != null ? role.Value : "Guest";
+    Project project = new Project();
+    //ApplicationSetting setting = new ApplicationSetting();
+    var nameClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+    var name = nameClaim != null ? nameClaim.Value : "Guest";
+    string role = User.GetLoggedInUserRole();
+    //var role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+    // //var Urole = role != null ? role.Value : "Guest";
+
+    var ProjectName = "";
+    var DomainName = "";
+    var Logo = "";
+
+    if (projectdetails.ProjectName !=null && projectdetails.DomainName !=null)
+    {
+        ProjectName = projectdetails.ProjectName;
+        DomainName = projectdetails.DomainName;
+        Logo = projectdetails.Logo;
+    }
+
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -36,19 +50,19 @@
     <!-- Meta -->
     @if (projectdetails != null)
     {
-     <meta name="description" content="@projectdetails.ProjectName" />
-    <meta name="author" content="@projectdetails.ProjectName" />
-    <link rel="canonical" href="@projectdetails.ProjectName">
-    <meta property="og:url" content="@projectdetails.ProjectName">
-	<meta property="og:title" content="@projectdetails.ProjectName">
-    <meta property="og:description" content="@projectdetails.ProjectName"> 
+        <meta name="description" content="@ProjectName" />
+        <meta name="author" content="@ProjectName" />
+        <link rel="canonical" href="@ProjectName">
+        <meta property="og:url" content="@ProjectName">
+        <meta property="og:title" content="@ProjectName">
+        <meta property="og:description" content="@ProjectName">
     <meta property="og:type" content="Website">
-    <meta property="og:site_name" content="@projectdetails.ProjectName">
+        <meta property="og:site_name" content="@ProjectName">
     }
     <link rel="shortcut icon" href="~/assets/images/favicon.svg" />
      @if (projectdetails != null)
         {
-        <title>@projectdetails.ProjectName</title>
+        <title>@ProjectName</title>
         }
  
 	<link rel="stylesheet" href="~/dcs/css/site.css" />
@@ -221,37 +235,26 @@
                         <!-- Logo light -->
                         @if (projectdetails != null)
                         {
-                            <a href="/{@projectdetails.DomainName}/Admin" class="logo-light">
+                            <a href="/{@DomainName}/Admin" class="logo-light">
                                 <span class="logo-lg"> 
-                                    @if (projectdetails != null)
-                                    {
-                                        <img src="@projectdetails.Logo" alt="logo">
-                                    }
-
+                                        <img src="@Logo" alt="logo">
                                 </span>
                                 <span class="logo-sm">
-                                    @if (projectdetails != null)
-                                    {
-                                        <img src="@projectdetails.Logo" alt="logo-sm">
-                                    }
+
+                                        <img src="@Logo" alt="logo-sm">
                                 </span>
                             </a>
                         }
                         <!-- Logo Dark -->
                          @if (projectdetails != null)
                         {
-                            <a href="/{@projectdetails.DomainName}/Admin" class="logo-dark">
+                            <a href="/{@DomainName}/Admin" class="logo-dark">
                                 <span class="logo-lg">
-                                    @if (projectdetails != null)
-                                    {
-                                        <img src="@projectdetails.Logo" alt="logo-dark">
-                                    }
+                                        <img src="@Logo" alt="logo-dark">
                                 </span>
                                 <span class="logo-sm">
-                                    @if (projectdetails != null)
-                                    {
-                                        <img src="@projectdetails.Logo" alt="logo-dark">
-                                    }
+
+                                        <img src="@Logo" alt="logo-dark">
                                 </span>
                             </a>
                         }
@@ -594,7 +597,7 @@
                             </span>
                             <span class="d-lg-flex flex-column gap-1 d-none">
                                 <h5 class="my-0">@name</h5>
-                                <h6 class="my-0 fw-normal">Founder</h6>
+                                <h6 class="my-0 fw-normal">@role</h6>
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">
@@ -647,7 +650,7 @@
         <div class="leftside-menu">
 
             <!-- Brand Logo Light -->
-            <a href="/{@projectdetails.DomainName}/Admin" class="logo logo-light">
+            <a href="/{@DomainName}/Admin" class="logo logo-light">
                 <span class="logo-lg">
                     <img src="../assets/images/logo.png" alt="logo">
                 </span>
@@ -657,7 +660,7 @@
             </a>
 
             <!-- Brand Logo Dark -->
-            <a href="/{@projectdetails.DomainName}/Admin" class="logo logo-dark">
+            <a href="/{@DomainName}/Admin" class="logo logo-dark">
                 <span class="logo-lg">
                     <img src="../assets/images/logo-dark.png" alt="dark logo">
                 </span>
@@ -701,7 +704,7 @@
                             <ul class="side-nav-second-level">
                                 
                                 <li>
-                                    <a href="/{@projectdetails.DomainName}/Admin">Home</a>
+                                    <a href="/{@DomainName}/Admin">Home</a>
                                 </li>
                             </ul>
                         </div>
@@ -847,7 +850,7 @@
                         <div class="collapse" id="sidebarStaffs">
                             <ul class="side-nav-second-level">
                                 <li>
-                                    <a href="/Invoice">Manage Employee</a>
+                                    <a href="/Employees">Manage Employee</a>
                                 </li>
                             </ul>
                         </div>
@@ -863,43 +866,47 @@
                         </a>
                     </li>
                     }
-                   <li class="side-nav-item">
-                        <a data-bs-toggle="collapse" href="#sidebarMastersetting" aria-expanded="false" aria-controls="sidebarMastersetting" class="side-nav-link">
-                            <i class="uil-envelope"></i>
-                            <span>Master Setting</span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="collapse" id="sidebarMastersetting">
-                            <ul class="side-nav-second-level">
-                                <li>
-                                   <li>
-                                    <a href="/AppSetting-List">Application Settings</a>
-                                </li>
-                                  <li>
-                                    <a href="/Project-List">Projects Settings</a>
-                                </li>
-                                <li>
-                                    <a href="/Service-List">App Service</a>
-                                </li>
-                                <li>
-                                    <a href="/Purchase-List">Order Lists</a>
-                                </li>
-                                <li>
-                                    <a href="/Users">Clients</a>
-                                </li>
-                                <li>
-                                    <a href="/AllEmailTemplate">Email Template</a>
-                                </li>
-                                  <li>
-                                    <a href="/DCSPoliciesList">Our Policy</a>
-                                </li>
-                                  <li>
-                                 <a href="/DCS">Application Landing Page</a>
-                                  </li>
-                                </li>
-                            </ul>
-                        </div>
-                    </li
+                    @if (role=="Admin")
+                    {
+                        <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#sidebarMastersetting" aria-expanded="false" aria-controls="sidebarMastersetting" class="side-nav-link">
+                                <i class="uil-envelope"></i>
+                                <span>Master Setting</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="sidebarMastersetting">
+                                <ul class="side-nav-second-level">
+                                    <li>
+                                    <li>
+                                        <a href="/AppSetting-List">Application Settings</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Project-List">Projects Settings</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Service-List">App Service</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Purchase-List">Order Lists</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Users">Clients</a>
+                                    </li>
+                                    <li>
+                                        <a href="/AllEmailTemplate">Email Template</a>
+                                    </li>
+                                    <li>
+                                        <a href="/DCSPoliciesList">Our Policy</a>
+                                    </li>
+                                    <li>
+                                        <a href="/DCS">Application Landing Page</a>
+                                    </li>
+                        </li>
+                    </ul>
+                </div>
+                </li>
+                    }
+                  
                     <!-- Help Box -->
                     <div class="help-box text-white text-center">
                         <a href="javascript: void(0);" class="float-end close-btn text-white">
@@ -929,15 +936,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-6">
-                                 
-                            @if (projectdetails != null)
-                            {
-                            <span>&copy;    @projectdetails.ProjectName All Rights Reserved. @DateTime.Now.Year   </span>
-                        }
-                        else
-                        {
-                            <span>&copy; DCS All Rights Reserved. @DateTime.Now.Year   </span>
-                        }
+                            <span>&copy;    @ProjectName All Rights Reserved. @DateTime.Now.Year   </span>
                     </div>
                             <div class="col-md-6">
                                 <div class="text-md-end footer-links d-none d-md-block">
@@ -958,7 +957,7 @@
 			
 	<div class="alert-container" style="
     position: fixed;
-    top: 65px;
+    top: 0%;
     right: 4px;
     z-index: 3;"></div>
 
@@ -1691,7 +1690,7 @@
     <script src="~/assets/js/pages/demo.products.js"></script>
     <!-- App js -->
     <script src="~/assets/js/app.min.js"></script>
-	    <script src="~/dcs/js/common.js"></script>
-        @await RenderSectionAsync("Scripts", required: false)
+	<script src="~/dcs/js/common.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

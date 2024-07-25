@@ -1,0 +1,231 @@
+﻿@model Entities.HospitalEmployee
+<div class="card">
+	<div class="card-body">
+		<!-- Modal -->
+		<div class="modal fade" id="employee_Editmodal" tabindex="-1" aria-labelledby="employee_EditmodalTitle" style="display: none;" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="employee_EditmodalTitle">
+							Add or Update Doctor
+						</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+
+
+
+						<div class="row gx-3">
+                            <div class="col-sm-12 col-12">
+                                <div class="row gx-3">
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" asp-for="EmployeeId" hidden placeholder="Full Name">
+                                            <label for="Name" class="form-label">Full Name</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-calendar4"></i>
+                                                </span>
+                                            <input type="text" class="form-control" asp-for="Name" placeholder="Full Name">
+                                        </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="ContactNumber" class="form-label">Contact</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-calendar4"></i>
+                                                </span>
+                                            <input type="tel" class="form-control" asp-for="ContactNumber" placeholder="Contact">
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="Email" class="form-label">Email</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-calendar4"></i>
+                                                </span>
+                                            <input type="email" class="form-control" asp-for="Email" placeholder="Email ID">
+                                        </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="DateOfBirth" class="form-label">Birthday</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-calendar4"></i>
+                                                </span>
+                                                <input type="date" class="form-control" asp-for="DateOfBirth" placeholder="DD/MM/YYYY">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row gx-3">
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="Specialization" class="form-label">Specialization</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-calendar4"></i>
+                                                </span>
+                                            <input type="text" class="form-control" asp-for="Specialization" placeholder="Specialization">
+                                        </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="Qualifications" class="form-label">Qualifications</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-calendar4"></i>
+                                                </span>
+                                            <input type="text" class="form-control" asp-for="Qualifications" placeholder="Qualifications">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="Gender" class="form-label">Gender</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-calendar4"></i>
+                                                </span>
+                                            <select class="form-control" asp-for="Gender">
+                                                <option value="">Select Gender</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                            </select>
+                                        </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="Address" class="form-label">Address</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-calendar4"></i>
+                                                </span>
+                                            <input type="text" class="form-control" asp-for="Address" placeholder="Address">
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row gx-3">
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="AdharNumber" class="form-label">Adhar Number</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-calendar4"></i>
+                                                </span>
+                                            <input type="text" class="form-control" asp-for="AdharNumber" placeholder="Adhar Number">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <img src="@Model.ProfileImage" alt="Profile Image" class="img-thumbnail" style="width: 150px; height: 150px;" />
+                                            <label for="file1" class="form-label">Profile Image</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-calendar4"></i>
+                                                </span>
+                                            <input type="file" class="form-control" id="file1">
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <img src="@Model.AdharImage" alt="Adhar Image" class="img-thumbnail" style="width: 150px; height: 150px;" />
+                                            <label for="file2" class="form-label">Adhar Image</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-calendar4"></i>
+                                                </span>
+                                            <input type="file" class="form-control" id="file2">
+                                        </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="Salary" class="form-label">Salary</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-calendar4"></i>
+                                                </span>
+                                            <input type="text" class="form-control" asp-for="Salary" placeholder="Department">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row gx-3">
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="ExperienceYears" class="form-label">Experience Years</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-calendar4"></i>
+                                                </span>
+                                            <input type="number" class="form-control" asp-for="ExperienceYears" placeholder="Adhar Number">
+                                        </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="Position" class="form-label">Position</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-calendar4"></i>
+                                                </span>
+                                                <input type="text" class="form-control" asp-for="Position" placeholder="Position">
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="Department" class="form-label">Department</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-calendar4"></i>
+                                                </span>
+                                            <input type="text" class="form-control" asp-for="Department" placeholder="Department">
+                                        </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="DateOfJoining" class="form-label">Date Of Joining</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-calendar4"></i>
+                                                </span>
+                                             
+                                                @if (Model.EmployeeId!=0)
+                                                {
+                                                        <input type="date" class="form-control" asp-for="DateOfJoining" placeholder="DateOfJoining" disabled>
+                                                }
+                                                    else
+                                                    {
+                                                        <input type="date" class="form-control" asp-for="DateOfJoining" placeholder="DateOfJoining">
+                                                    }
+                                                    
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+							Close
+						</button>
+                        <button type="button" class="btn btn-secondary" onclick="addEmployee();">
+							@if (Model != null && Model.EmployeeId != null)
+							{
+								<text>Save changes</text>
+
+							}
+							else
+							{
+								<text>Save</text>
+							}
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
