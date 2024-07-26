@@ -5,6 +5,8 @@ using Entities;
 using Microsoft.AspNetCore.Mvc;
 using API.AppCode.Helper;
 using API.AppCode.IService;
+using API.AppCode.Configuration;
+using API.Data;
 
 namespace API.Controllers
 {
@@ -15,12 +17,15 @@ namespace API.Controllers
         private readonly IProjectDetails _details;
 		private readonly FileUploadService _uploadService;
 		private readonly Sendmail _sendmail;
-		public ProjectDetailsController(IProjectDetails details, FileUploadService uploadService, Sendmail sendmail)
+        private readonly IDapper _dapper;
+        public ProjectDetailsController(IProjectDetails details, FileUploadService uploadService, Sendmail sendmail, IDapper dapper)
         {
             _details=details;
 			_uploadService=uploadService;
             _sendmail=sendmail;
-		}
+            _dapper=dapper;
+
+        }
         [HttpPost(nameof(AddorUpdateProjectDetails))]
         public async Task<IActionResult> AddorUpdateProjectDetails(ProjectDetails pdetails)
         {
@@ -39,13 +44,48 @@ namespace API.Controllers
                 res = await _details.AddorUpdateProjectDetails(pdetails);
 				if (res.StatusCode==ResponseStatus.SUCCESS)
 				{
-                    if (pdetails.ProjectId==0)
+                    
+                    if (pdetails.Id == 0 || pdetails.Id == null)
                     {
-                        _sendmail.SendEmails(pdetails.Email, "Create New Project", $"your Project Id Is: {res.ProjectId}");
+                        try
+                        {
+                            var param = new
+                            {
+                                EmailType = EmailTemplateType.NewRegister.ToString(),
+                            };
+
+                            // Fetch the email template
+                            var template = _dapper.GetById<EmailTemplate>(param, "proc_GetEmailTemplateById");
+
+                            if (template != null)
+                            {
+                                // Replace placeholders in the template content
+                                string content = template.Content
+                                .Replace("${pdetails.ProjectId}", pdetails.ProjectId.ToString())
+                                .Replace("${pdetails.Email}", pdetails.Email ?? "")
+                                .Replace("${pdetails.Password}", pdetails.Password ?? "");
+
+                                // Send the email
+                                _sendmail.SendEmails(pdetails.Email, template.Subject, content);
+                            }
+                            else
+                            {
+                                // Handle the case where the template is not found
+                                throw new Exception("Email template not found.");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            // Log the exception and rethrow
+                            // Consider using a logging framework or more specific exception handling
+                            Console.WriteLine(ex.Message);
+                            throw;
+                        }
                     }
 
-				}
-				return Ok(res);
+
+                }
+                return Ok(res);
 			}
             if (pdetails.ProjectId!=0)
             {
@@ -89,5 +129,12 @@ namespace API.Controllers
             var i = await _details.GetProjectDetailsByEmail(email);
             return Ok(i);
         }
-    }
+
+		[HttpPost(nameof(UpdateProjectStatus))]
+		public async Task<IActionResult> UpdateProjectStatus(Common common)
+		{
+			var i = await _details.UpdateProjectStatus(common);
+			return Ok(i);
+		}
+	}
 }

@@ -38,6 +38,8 @@ namespace DCS.Controllers
 			{
 				var token = User.GetLoggedInUserToken();
                 int? projectId = User.GetProjectId();
+                string? Role = User.GetLoggedInUserRole();
+                common.Role = Role;
                 common.ProjectId = projectId;
                 var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Invoice/GetInvoiceListAndBYId", JsonConvert.SerializeObject(common), null);
 				if (apiRes.Result != null)

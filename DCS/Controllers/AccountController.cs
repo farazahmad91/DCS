@@ -181,8 +181,15 @@ namespace DCS.Controllers
                         
                         return Json(res);
                     }
+                    else if (projectDetails.Status==0 || projectDetails.Status==null)
+                    {
+                        res.StatusCode=ResponseStatus.FAILED;
+                        res.ResponseText = "The project is currently locked. We apologize for any inconvenience. Please contact our support team for assistance.";
+
+                        return Json(res);
+                    }
                         var respons = new {
-                            statusCode =1,
+                        statusCode =1,
                         redirectUrl = $"/{projectDetails.DomainName}/admin",
                 };
 

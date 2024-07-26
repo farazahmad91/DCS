@@ -46,7 +46,7 @@ namespace DCS.Controllers
         }
 
         [Route("/A-AddOrUpdate")]
-        public async Task<IActionResult> AddOrUpdate(Appointment appointment)
+        public async Task<IActionResult> AddOrUpdate([FromForm] string appointmentData)
         {
             var response = new Response()
             {
@@ -54,7 +54,7 @@ namespace DCS.Controllers
                 StatusCode = ResponseStatus.FAILED,
             };
 
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Appointment/AddOrUpdateAppointment", JsonConvert.SerializeObject(appointment), null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Appointment/AddOrUpdateAppointment", JsonConvert.SerializeObject(appointmentData), null);
             if (apiRes.Result != null)
             {
                 response = JsonConvert.DeserializeObject<Response>(apiRes.Result);

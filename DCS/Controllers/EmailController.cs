@@ -134,6 +134,8 @@ namespace DCS.Controllers
             var list = new List<EmailTemplate>();
             int? projectId = User.GetProjectId();
             common.ProjectId= projectId;
+            string? Role = User.GetLoggedInUserRole();
+            common.Role = Role;
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/GetEmailTemplateListOrById", JsonConvert.SerializeObject(common), null);
             if (apiRes.Result != null)
             {
@@ -226,6 +228,8 @@ namespace DCS.Controllers
         {
             var list = new List<MasterEmailTemplateType>();
             int? projectId = User.GetProjectId();
+            string? Role = User.GetLoggedInUserRole();
+            common.Role = Role;
             common.ProjectId= projectId;
             common.ProjectId = projectId;
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/GetMasterEmailTemplateTypeListOrById", JsonConvert.SerializeObject(common), null);

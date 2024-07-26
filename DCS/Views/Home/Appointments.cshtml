@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Appointments";
     Layout = "_LayoutSiteAdmin";
 }
@@ -32,7 +31,7 @@
                     <form>
                         <div class="row g-3">
                             <div class="col-12 col-sm-6">
-                                <select class="form-select bg-light border-0" style="height: 55px;">
+                                <select class="form-select bg-light border-0" id="ddlservice" style="height: 55px;">
                                     <option selected>Select A Service</option>
                                     <option value="1">Service 1</option>
                                     <option value="2">Service 2</option>
@@ -40,7 +39,7 @@
                                 </select>
                             </div>
                             <div class="col-12 col-sm-6">
-                                <select class="form-select bg-light border-0" style="height: 55px;">
+                                <select class="form-select bg-light border-0" id="ddldoctor" style="height: 55px;">
                                     <option selected>Select Doctor</option>
                                     <option value="1">Doctor 1</option>
                                     <option value="2">Doctor 2</option>
@@ -48,10 +47,13 @@
                                 </select>
                             </div>
                             <div class="col-12 col-sm-6">
-                                <input type="text" class="form-control bg-light border-0" placeholder="Your Name" style="height: 55px;">
+                                <input type="text" class="form-control bg-light border-0" id="txtname" placeholder="Your Name" style="height: 55px;">
                             </div>
                             <div class="col-12 col-sm-6">
-                                <input type="email" class="form-control bg-light border-0" placeholder="Your Email" style="height: 55px;">
+                                <input type="email" class="form-control bg-light border-0" id="txtemail" placeholder="Your Email" style="height: 55px;">
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <input type="number" class="form-control bg-light border-0" min="10" id="txtnum" maxlength="10" placeholder="Your Phone No." style="height: 55px;">
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="date" id="date1" data-target-input="nearest">
@@ -60,15 +62,8 @@
                                            placeholder="Appointment Date" data-target="#date1" data-toggle="datetimepicker" style="height: 55px;">
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-6">
-                                <div class="time" id="time1" data-target-input="nearest">
-                                    <input type="text"
-                                           class="form-control bg-light border-0 datetimepicker-input"
-                                           placeholder="Appointment Time" data-target="#time1" data-toggle="datetimepicker" style="height: 55px;">
-                                </div>
-                            </div>
                             <div class="col-12">
-                                <button class="btn btn-dark w-100 py-3" type="submit">Make Appointment</button>
+                                <button class="btn btn-dark w-100 py-3" onclick="TakeAppointment();" type="submit">Make Appointment</button>
                             </div>
                         </div>
                     </form>
@@ -77,5 +72,42 @@
         </div>
     </div>
 </div>
-<!-- Appointment End -->
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function TakeAppointment() {
+        // Ensure the formData object is initialized
+        var formData = new FormData();
+
+        // Collect data from the form fields
+        var appointmentData = {
+            DrId: $("#ddldoctor").val(),
+            ServiceId: $("#ddlservice").val(),
+            Name: $("#txtname").val(),
+            Email: $("#txtemail").val(),
+            PhoneNo: $("#txtnum").val(), // Assuming txtnum is the correct ID for the phone number
+            Date: $(".datetimepicker-input").val() // Make sure this is the correct selector for the date
+        };
+
+        // Append the JSON stringified appointment data to the formData
+        formData.append("appointmentData", JSON.stringify(appointmentData));
+
+        // Send the data using AJAX
+        $.ajax({
+            url: '/A-AddOrUpdate',
+            type: 'POST',
+            data: formData,
+            contentType: false, // Required for FormData
+            processData: false, // Required for FormData
+            success: function (result) {
+                setTimeout(function () {
+                    Info(result.statusCode, result.responseText);
+                }, 1000);
+            },
+            error: function () {
+                showerrors("Something went wrong!!!");
+            }
+        });
+    }
+
+</script>

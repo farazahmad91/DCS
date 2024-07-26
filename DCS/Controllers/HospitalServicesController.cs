@@ -29,6 +29,8 @@ namespace DCS.Controllers
 		{
 			var list = new List<HospitalServices>();
             int? projectid = User.GetProjectId();
+            string? Role = User.GetLoggedInUserRole();
+            common.Role = Role;
             common.ProjectId =projectid;
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalServices/GetHospitalServicesListOrById", JsonConvert.SerializeObject(common), null);
 			if (apiRes.Result != null)
@@ -58,7 +60,7 @@ namespace DCS.Controllers
 		}
 		[HttpPost]
 		[Route("/AddOrUpdateHospitalServices")]
-		public async Task<IActionResult> AddOrUpdateService(HospitalServices services)
+		public async Task<IActionResult> AddOrUpdateService([FromForm] HospitalServices services, IFormFile file)
 		{
 			var response = new Response()
 			{

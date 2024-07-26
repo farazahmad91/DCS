@@ -4,13 +4,14 @@ namespace Entities
 {
     public class Appointment
     {
-        public int AppointmentId { get; set; }
-        public int DrId { get; set; }
-        public int PId { get; set; }
-        public int ServiceId { get; set; }
-        public string Email { get; set; }
-        public string Date { get; set; }
-        public string? Time { get; set; }
+        public int? AppointmentId { get; set; }
+        public int? DrId { get; set; }
+        public int? PId { get; set; }
+        public int? ServiceId { get; set; }
+        public string? Name { get; set; }
+        public string? Email { get; set; }
+        public string? PhoneNo { get; set; }
+        public string? Date { get; set; }
         public int Status { get; set; }
         public string? Notes { get; set; }
         public string? CreatedOn { get; set; }

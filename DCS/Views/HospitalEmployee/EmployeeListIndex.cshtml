@@ -119,9 +119,11 @@
 <script>
 
     function Onload() {
+        var projectId = 0;
+            projectId = $("#ddlproid").val();
         var param = {
             name: $("#txtemail").val(),
-            ProjectId: $("#ddlproid").val(),
+            ProjectId: projectId,
             PageLength: $("#ddltop").val(),
         };
         $.post('/_EmployeeList', param).done(function (res) {
@@ -143,7 +145,6 @@
             Info(-1, xhr.responseText);
         });
     }
-
 
     OnloadProjectId();
 

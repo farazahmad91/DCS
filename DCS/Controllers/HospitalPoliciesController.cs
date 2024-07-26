@@ -27,6 +27,8 @@ namespace DCS.Controllers
         {
             var list = new List<HospitalPolicy>();
             int? projectid = User.GetProjectId();
+            string? Role = User.GetLoggedInUserRole();
+            common.Role = Role;
             common.ProjectId =projectid;
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalPolicies/Proc_GetHospitalPolicyListOrById", JsonConvert.SerializeObject(common), null);
             if (apiRes.Result != null)

@@ -183,7 +183,10 @@ namespace API.AppCode.DL
                 var param = new
                 {
                     CreatedDate = common.Date,
-                    PId= common.Id,
+                    Id= common.Id,
+                    PageLength= common.PageLength,
+                    ProjectId = common.ProjectId,
+                    Role = common.Role,
                 };
                 var i = await _dapper.GetAll<Treatment>(GetName(),param);
                 return i;

@@ -139,7 +139,8 @@ namespace API.AppCode.DL
 				{
 					Id = req.Id,
 					PatientName = req.name,
-					ProjectId = req.ProjectId,
+                    Role = req.Role,
+                    ProjectId = req.ProjectId,
 					PageLength = req.PageLength
 				};
 				var res = await _dapper.GetAll<InvoiceViewModel>(GetName(), param);

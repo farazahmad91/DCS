@@ -29,6 +29,8 @@ namespace DCS.Controllers
         {
             var list = new List<SocialMedia>();
             int? projectid = User.GetProjectId();
+            string? Role = User.GetLoggedInUserRole();
+            common.Role = Role;
             common.ProjectId =projectid;
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/SocialMedia/GetSocialMediaListOrById", JsonConvert.SerializeObject(common), null);
             if (apiRes.Result != null)

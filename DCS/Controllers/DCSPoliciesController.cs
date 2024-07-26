@@ -4,6 +4,7 @@ using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using API.Claims;
+using System.Data;
 
 namespace DCS.Controllers
 {
@@ -25,8 +26,10 @@ namespace DCS.Controllers
         public async Task<IActionResult> _DCSPoliciesList(Common common)
         {
             var list = new List<DCSPolicies>();
-            int? projectid = User.GetProjectId();
-            common.ProjectId =projectid;
+            int? projectId = User.GetProjectId();
+            string? Role = User.GetLoggedInUserRole();
+            common.ProjectId = projectId;
+            common.Role = Role;
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSPolicies/GetDCSPoliciesListOrById", JsonConvert.SerializeObject(common), null);
             if (apiRes.Result != null)
             {

@@ -21,14 +21,9 @@ namespace API.AppCode.ML
         }
         public async Task<Response> AddorUpdateProjectDetails(ProjectDetails details)
         {
-            if (details.ProjectId == 0 || details.ProjectId == null)
-            {
-                var pId = _userValidation.GenerateOTP("ABCDEFGHIJKLMNOPQRSTUVWXYZ234567");
-                details.ProjectId=Convert.ToInt32(pId);
-            }
-			
             IProcedureAsync procedure = new Proc_AddProjectDetails(_dapper);
             var i = await procedure.Call(details);
+
 			return (Response)i;
         }
         public async Task<IEnumerable<ProjectDetails>> GetProjectDetails(string? name)
@@ -58,5 +53,11 @@ namespace API.AppCode.ML
                 throw;
             }
         }
-    }
+		public async Task<Response> UpdateProjectStatus(Common common)
+		{
+			IProcedureAsync proc = new Proc_UpdateProjectStatus(_dapper);
+			var i = await proc.Call(common);
+			return (Response)i;
+		}
+	}
 }
