@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Collections.Generic;
+using API.Claims;
 
 namespace DCS.Controllers
 {
@@ -27,6 +28,10 @@ namespace DCS.Controllers
         public async Task<IActionResult> _TreatmentList(Common common)
         {
             var list = new List<Treatment>();
+            string? Role = User.GetLoggedInUserRole();
+            common.Role = Role;
+            int? projectid = User.GetProjectId();
+            common.ProjectId =projectid;
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Treatment/GetTreatmentListOrById", JsonConvert.SerializeObject(common), null);
             if (apiRes.Result != null)
             {

@@ -1,6 +1,8 @@
-﻿@{
+﻿@using API.Claims
+ @{
     ViewData["Title"] = "HospitalServices";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string? role = User.GetLoggedInUserRole();
 }
 <!-- Start Content-->
 <div class="content">
@@ -44,6 +46,15 @@
                                             </select>
                                         </div>
                                     </div>
+                                    @if (role=="Admin")
+                                    {
+                                        <div class="row d-flex justify-content-end align-items-center" style="margin-right: 0px;">
+                                            <div class="col-auto mb-2">
+                                                <select class="form-control" id="ddlproid">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    }
                                     <input type="text" class="form-control mb-2" id="txtname" placeholder="search name.." />
                                     <button class="btn btn-info mb-2" onclick="Onload();" type="button">
                                         Search
@@ -96,10 +107,13 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function Onload() {
+        var projectId = 0;
+        projectId = $("#ddlproid").val();
         var param = {
             name: $("#txtname").val(),
+            ProjectId: projectId,
             PageLength: $("#ddltop").val(),
-        }
+        };
         $.post('/_HospitalServicesList', param).done(function (res) {
             $("#hSList").html(res);
         }).fail(function () {
@@ -107,7 +121,19 @@
         });
     }
     Onload();
-    
+    function OnloadProjectId() {
+        $.post('/UserListInJson').done(function (res) {
+            var options = '<option value="0">Project Id</option>';
+            for (var i = 0; i < res.length; i++) {
+                options += '<option value="' + res[i].projectId + '">' + res[i].projectId + '</option>';
+            }
+            $('#ddlproid').html(options);
+        }).fail(function (xhr) {
+            Info(-1, xhr.responseText);
+        });
+    }
+
+    OnloadProjectId();
 
     function editHospitalServices(Id) {
         let param = {

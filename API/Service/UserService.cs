@@ -177,7 +177,7 @@ namespace API.Service
                         // Send email alert
                         var userip = _sendmail.GetIPAddress();
                         string email = model.Email;
-                        var template = _dapper.GetById<EmailTemplate>(new { EmailType  = EmailTemplateType.InvalidLoginAttempt}, "proc_GetEmailTemplateById");
+                        var template = _dapper.GetById<EmailTemplate>(new { EmailType  = EmailTemplateType.InvalidLoginAttempt.ToString()}, "proc_GetEmailTemplateById");
                         _sendmail.SendEmails(email, template.Subject, template.Content);
                         return response;
                     }

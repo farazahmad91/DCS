@@ -1,7 +1,9 @@
+using API.AppCode.Configuration;
 using API.AppCode.Infrastructure;
 using API.DBContext;
 using API.RequestInfo;
 using API.SendEmail;
+using API.Service;
 using DCS.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
@@ -37,7 +39,6 @@ builder.Services.AddTransient<Sendmail>();
 builder.Services.AddTransient<EmailHtmlBody>();
 builder.Services.AddTransient<EmailCredential>();
 builder.Services.AddScoped<API.AppCode.IML.IDapper, API.Data.Dapper>();
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

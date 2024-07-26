@@ -22,22 +22,22 @@ namespace API.AppCode.DL
             };
             try
             {
-				var i = await _dapper.GetAsync<Response>("Proc_UpdateProjectId", new { Email = req.Email, ProjectId = req.ProjectId, });
-                if (i.StatusCode==ResponseStatus.SUCCESS)
-                {
+				
+
 					var param = new
 					{
+                        Id=req.Id,
 						ProjectId = req.ProjectId,
 						UserEmail = req.Email,
 						Logo = req.Logo,
 						ProjectName = req.ProjectName,
 						DomainName = req.DomainName,
-						Status = req.Status,
 					};
 					var j = await _dapper.GetAsync<Response>(GetName(), param);
 					res=j;
 					return res;
-				}
+
+				
 				
             }
             catch (Exception ex)
@@ -198,4 +198,50 @@ namespace API.AppCode.DL
             return "Proc_GetProjectsByEmail";
         }
     }
+
+	public class Proc_UpdateProjectStatus : IProcedureAsync
+	{
+		private readonly IDapper _dapper;
+		public Proc_UpdateProjectStatus(IDapper dapper)
+		{
+			_dapper=dapper;
+		}
+		public async Task<object> Call(object obj)
+		{
+			var req = (Common)obj;
+			try
+			{
+				var param = new
+				{
+					Id = req.Id,
+					Status = req.Status
+
+				};
+				var i = await _dapper.GetAsync<Response>(GetName(), param);
+				return i;
+			}
+			catch (Exception ex)
+			{
+				var error = new ErrorLog
+				{
+					ClassName = GetType().Name,
+					FuncName = "call",
+					Error = ex.Message,
+					ProcName = GetName(),
+				};
+				new ErrorLog_ML(_dapper).Error(error);
+			}
+			return "error";
+		}
+
+		public Task<object> Call()
+		{
+			throw new NotImplementedException();
+		}
+
+		public string GetName()
+		{
+			return "Proc_UpdateProjectStatus";
+		}
+	}
 }

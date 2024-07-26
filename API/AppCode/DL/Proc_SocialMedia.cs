@@ -80,7 +80,8 @@ namespace API.AppCode.DL
                 {   
                     Id=req.Id,
                     PlateformName = req.name,
-                    ProjectId=req.ProjectId,
+                    Role = req.Role,
+                    ProjectId =req.ProjectId,
                     PageLength = req.PageLength
                 };
 

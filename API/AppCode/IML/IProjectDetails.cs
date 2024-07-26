@@ -9,5 +9,7 @@ namespace API.AppCode.IML
         public Task<ProjectDetails> GetProjectDetailsByProjectId(int Id);
         public Task<IEnumerable<ProjectDetails>> GetProjectDetails(string? name);
         public Task<ProjectDetails> GetProjectDetailsByEmail(string email);
-    }
+        public Task<Response> UpdateProjectStatus(Common common);
+
+	}
 }

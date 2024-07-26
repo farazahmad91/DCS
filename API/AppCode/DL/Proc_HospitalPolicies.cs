@@ -74,6 +74,7 @@ namespace API.AppCode.DL
                 {
                     Id = req.Id,
                     Title = req.name,
+                    Role = req.Role,
                     ProjectId = req.ProjectId,
                     PageLength = req.PageLength
                 };

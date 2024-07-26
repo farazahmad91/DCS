@@ -1,8 +1,9 @@
-﻿
+﻿@using API.Claims
 
 @{
     ViewData["Title"] = "Medicines";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string? role = User.GetLoggedInUserRole();
 }
 <style>
     ﻿.profile-pic {
@@ -88,6 +89,27 @@
                         <div class="row mb-2">
                             <div class="col-sm-5">
                                 <div class="input-group">
+                                    <div class="row d-flex justify-content-end align-items-center" style="margin-right: 0px;">
+                                        <div class="col-auto mb-2">
+                                            <select class="form-control" id="ddltop" onchange="Onload();">
+                                                <option value="10">TOP</option>
+                                                <option value="10">10</option>
+                                                <option value="20">20</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                                <option value="0">All</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    @if (role=="Admin")
+                                    {
+                                        <div class="row d-flex justify-content-end align-items-center" style="margin-right: 0px;">
+                                            <div class="col-auto mb-2">
+                                                <select class="form-control" id="ddlproid">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    }
                                     <input type="text" class="form-control mb-2" id="txtname" placeholder="search name.." />
                                     <button class="btn btn-info mb-2" onclick="Onload();" type="button">
                                         Search
@@ -152,9 +174,13 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function Onload() {
+        var projectId = 0;
+        projectId = $("#ddlproid").val();
         var param = {
             name: $("#txtname").val(),
-        }
+            ProjectId: projectId,
+            PageLength: $("#ddltop").val(),
+        };
         $.post('/Medicine_List', param).done(function (res) {
             $("#medList").html(res);
         }).fail(function () {
@@ -162,6 +188,19 @@
         });
     }
     Onload();
+    function OnloadProjectId() {
+        $.post('/UserListInJson').done(function (res) {
+            var options = '<option value="0">Project Id</option>';
+            for (var i = 0; i < res.length; i++) {
+                options += '<option value="' + res[i].projectId + '">' + res[i].projectId + '</option>';
+            }
+            $('#ddlproid').html(options);
+        }).fail(function (xhr) {
+            Info(-1, xhr.responseText);
+        });
+    }
+
+    OnloadProjectId();
     function medDetails(Id) {
         let param = {
             id: Id,

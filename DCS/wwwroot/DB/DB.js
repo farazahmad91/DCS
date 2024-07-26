@@ -8339,3 +8339,30 @@ INSERT[dbo].[EmailTemplates]([TemplateID], [ProjectId], [EmailType], [Subject], 
                                                                                                                             GO
                                                                                                                             ALTER DATABASE [DCS2] SET  READ_WRITE
                                                                                                                             GO
+
+
+                                                                                                                                    CREATE PROCEDURE Proc_UpdateProjectStatus
+                                                                                                                                    @Id INT,
+                                                                                                                                    @Status BIT
+                                                                                                                                    AS
+                                                                                                                                    BEGIN
+                                                                                                                                    BEGIN TRY
+                                                                                                                                    IF EXISTS (SELECT 1 FROM Projects WHERE Id = @Id)
+                                                                                                                                    BEGIN
+                                                                                                                                    UPDATE Projects
+                                                                                                                                    SET Status = @Status
+                                                                                                                                    WHERE Id = @Id;
+
+                                                                                                                                    SELECT 1 AS StatusCode, 'Status update successful!' AS ResponseText;
+                                                                                                                                    END
+                                                                                                                                    ELSE
+                                                                                                                                    BEGIN
+                                                                                                                                    SELECT -1 AS StatusCode, 'Projects not found!' AS ResponseText;
+                                                                                                                                    END
+                                                                                                                                    END TRY
+                                                                                                                                    BEGIN CATCH
+                                                                                                                                    SELECT
+                                                                                                                                    -1 AS StatusCode,
+                                                                                                                                    ERROR_MESSAGE() AS ResponseText;
+                                                                                                                                    END CATCH
+                                                                                                                                    END  

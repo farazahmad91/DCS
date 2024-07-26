@@ -1,6 +1,9 @@
 ﻿using API.AppCode.APIRequest;
+using API.AppCode.IML;
 using API.Claims;
 using API.DBContext.Entities;
+using API.SendEmail;
+using API.Service;
 using Entities;
 using Entities.Response;
 using Microsoft.AspNetCore.Authorization;
@@ -16,10 +19,14 @@ namespace DCS.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly string _BaseUrl;
-        public ProjectDetailsController(IConfiguration configuration)
+        private readonly Sendmail _sendmail;
+        private readonly IDapper _dapper;
+        public ProjectDetailsController(IConfiguration configuration , Sendmail sendmail, IDapper dapper)
         {
             this._configuration = configuration;
             _BaseUrl =  _configuration["APIBaseURl:BaseURl"];
+            _sendmail = sendmail;
+            _dapper= dapper;
         }
 		[Route("MasterSetting")]
 		public IActionResult MasterSetting()
@@ -105,12 +112,14 @@ namespace DCS.Controllers
                 StatusCode = ResponseStatus.FAILED,
             };
             string password = GenerateRandomPassword(6);
+            var pId = GenerateProjectId(6);
             try
             {
                 var request = JsonConvert.DeserializeObject<ProjectDetails>(projectData);
                 if (request.ProjectId == 0 || request.ProjectId == null)
                 {
                     var newrequest = JsonConvert.DeserializeObject<RegisterViewModel>(projectData);
+                    newrequest.ProjectId = Convert.ToInt32(pId);
                     newrequest.Password=password;
                     newrequest.ConfirmPassword=password;
                     newrequest.Role="Merchant";
@@ -121,8 +130,9 @@ namespace DCS.Controllers
 
                         if (response.StatusCode==ResponseStatus.SUCCESS)
                         {
-
+                            request.Password=password;
                             request.ImagePath=file;
+                            request.ProjectId=Convert.ToInt32(pId);
                             var apiResponse = await APIRequestML.O.SendFileAndContentAsync($"{_BaseUrl}/api/ProjectDetails/AddorUpdateProjectDetails", request, file, null, null);
                             var res = await apiResponse.Content.ReadAsStringAsync();
                             if (apiResponse != null && apiResponse.IsSuccessStatusCode)
@@ -130,6 +140,7 @@ namespace DCS.Controllers
                                 response = JsonConvert.DeserializeObject<Response>(res);
                                 return Json(response);
                             }
+                            
                         }
                         return Json(response);
                     }
@@ -158,6 +169,18 @@ namespace DCS.Controllers
             return Json(response);
         }
 
+        static string GenerateProjectId(int length)
+        {
+            Random random = new Random();
+            string otp = string.Empty;
+
+            for (int i = 0; i < length; i++)
+            {
+                otp += random.Next(0, 10); // Generates a random digit between 0 and 9
+            }
+
+            return otp;
+        }
         static string GenerateRandomPassword(int length)
         {
             const string lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
@@ -227,10 +250,22 @@ namespace DCS.Controllers
                 return Json(list);
             }
         }
-        //[Route("Project-List")]
-        //public IActionResult ProjectList()
-        //{
-        //    return View();
-        //}
-    }
+
+
+		[Route("/Project_Status")]
+		public async Task<IActionResult> Status(Common common)
+		{
+			var response = new Response()
+			{
+				ResponseText = "Failed To Update Status",
+				StatusCode = ResponseStatus.FAILED,
+			};
+			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/ProjectDetails/UpdateProjectStatus", JsonConvert.SerializeObject(common), null);
+			if (apiRes.Result != null)
+			{
+				response = JsonConvert.DeserializeObject<Response>(apiRes.Result);
+			}
+			return Json(response);
+		}
+	}
 }

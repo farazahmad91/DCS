@@ -1,8 +1,8 @@
-﻿
-
+﻿@using API.Claims
 @{
     ViewData["Title"] = "TreatmentList";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string? role = User.GetLoggedInUserRole();
 }
 
 <div class="content">
@@ -49,6 +49,15 @@
                                             </select>
                                         </div>
                                     </div>
+                                    @if (role=="Admin")
+                                    {
+                                        <div class="row d-flex justify-content-end align-items-center" style="margin-right: 0px;">
+                                            <div class="col-auto mb-2">
+                                                <select class="form-control" id="ddlproid">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    }
                                     <input type="date" class="form-control mb-2" id="txtdate" placeholder="search date.." />
                                     <input type="text" class="form-control mb-2" id="txtpid" placeholder="search patient id.." />
                                     <button class="btn btn-info mb-2" onclick="Onload();" type="button">
@@ -111,9 +120,12 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function Onload() {
+        var projectId = 0;
+        projectId = $("#ddlproid").val();
         var param = {
             Id: $("#txtpid").val(),
             Date: $("#txtdate").val(),
+            ProjectId: projectId,
             PageLength: $("#ddltypetop").val(),
         };
         $.post('/_TreatmentList', param).done(function (res) {
@@ -124,7 +136,19 @@
         });
     }
     Onload();
+    function OnloadProjectId() {
+        $.post('/UserListInJson').done(function (res) {
+            var options = '<option value="0">Project Id</option>';
+            for (var i = 0; i < res.length; i++) {
+                options += '<option value="' + res[i].projectId + '">' + res[i].projectId + '</option>';
+            }
+            $('#ddlproid').html(options);
+        }).fail(function (xhr) {
+            Info(-1, xhr.responseText);
+        });
+    }
 
+    OnloadProjectId();
     function medicationList(Id) {
         let param = {
             id: Id,

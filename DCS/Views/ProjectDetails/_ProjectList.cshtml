@@ -48,8 +48,8 @@ else
                     {
                         Ischecked = "";
                     }
-                    <input type="checkbox" name="switch3" onchange="UserStatus(@item.ProjectId)" id="IsVerified_@item.ProjectId" data-switch="success" @Ischecked>
-                    <label for="IsVerified_@item.ProjectId" data-on-label="Active" data-off-label="Deactive"></label>
+                    <input type="checkbox" name="switch3" onchange="changeProject_Status(@item.ProjectId)" id="IsVerified_@item.ProjectId" data-switch="success" @Ischecked>
+                    <label for="IsVerified_@item.ProjectId" data-on-label="ON" data-off-label="OFF"></label>
                 </div>
             </td>
             <td class="table-action">

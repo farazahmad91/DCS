@@ -127,6 +127,30 @@
             alert("errror");
         })
     }
+    function changeProject_Status(Id) {
+        var status = $("#IsVerified_" + Id).prop('checked');
+        let value = 0;
+        if (status==true) 
+        {
+            value = 1;
+        }
+
+        let param = {
+            Id: Id,
+            Status: value,
+        };
+        $.post("/Project_Status", param)
+            .done(function (result) {
+                Info(result.statusCode, result.responseText);
+                Onload();
+            })
+            .fail(function (xhr) {
+                Info(-1, xhr.responseText);
+            });
+    }
+
+
+
     function addProject() {
         debugger;
        var  status =0;
@@ -144,7 +168,7 @@
             Email: $("#Email").val(),
             ProjectName: $("#ProjectName").val(),
             DomainName: $("#DomainName").val(),
-            Status: status 
+            Id: 0 
         };
 
         const formData = new FormData();
