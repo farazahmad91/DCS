@@ -1,9 +1,11 @@
 ﻿using System.Net;
+using System.Net.Http;
 using System.Net.Mail;
 using System.Net.Mime;
 using API.AppCode.IML;
 using API.AppCode.ML;
 using Entities;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 
 namespace API.SendEmail
 {
@@ -57,11 +59,11 @@ namespace API.SendEmail
                     Error = ex.Message,
                     ProcName = "",
                 };
-                 new ErrorLog_ML(_dapper).Error(error);
+                new ErrorLog_ML(_dapper).Error(error);
 
             }
         }
-        public void SendEmailWithImage(CreateEmail cEmail)
+        public void SendEmailWithImage(string Email, string Subject, string content, string Image)
         {
             try
             {
@@ -74,15 +76,15 @@ namespace API.SendEmail
                 using (SmtpClient smtpServer = new SmtpClient(hostAddress))
                 {
                     mail.From = new MailAddress(fromAddress);
-                    mail.To.Add(cEmail.Emails);
-                    mail.Subject = cEmail.Subject;
+                    mail.To.Add(Email);
+                    mail.Subject = Subject;
                     mail.IsBodyHtml = true;
-                    string htmlBody = _emailHtmlBody.GenerateHtmlBodyWithImage(cEmail.Message);
+                    string htmlBody = content;
                     mail.Body = htmlBody;
 
-                    string absoluteImagePath = Path.Combine(_env.ContentRootPath, cEmail.ImagePath.TrimStart('/'));
-                    if (!string.IsNullOrEmpty(absoluteImagePath) && File.Exists(absoluteImagePath))
-                    {
+                    string absoluteImagePath = Path.Combine(_env.ContentRootPath, Image.TrimStart('/'));
+
+                  
                         LinkedResource inline = new LinkedResource(absoluteImagePath, MediaTypeNames.Image.Jpeg)
                         {
                             ContentId = "EmbeddedImage"
@@ -90,12 +92,7 @@ namespace API.SendEmail
                         AlternateView avHtml = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
                         avHtml.LinkedResources.Add(inline);
                         mail.AlternateViews.Add(avHtml);
-                    }
-                    else
-                    {
-                        throw new FileNotFoundException("The specified image file was not found.", absoluteImagePath);
-                    }
-
+                  
                     smtpServer.Port = port;
                     smtpServer.Credentials = new System.Net.NetworkCredential(userName, pass);
                     smtpServer.EnableSsl = true;

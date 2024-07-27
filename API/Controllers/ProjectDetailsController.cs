@@ -7,6 +7,7 @@ using API.AppCode.Helper;
 using API.AppCode.IService;
 using API.AppCode.Configuration;
 using API.Data;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace API.Controllers
 {
@@ -61,12 +62,17 @@ namespace API.Controllers
                             {
                                 // Replace placeholders in the template content
                                 string content = template.Content
-                                .Replace("${pdetails.ProjectId}", pdetails.ProjectId.ToString())
-                                .Replace("${pdetails.Email}", pdetails.Email ?? "")
-                                .Replace("${pdetails.Password}", pdetails.Password ?? "");
+                                .Replace("{ProjectId}", pdetails.ProjectId.ToString())
+                                .Replace("{email}", pdetails.Email ?? "")
+                                .Replace("{Password}", pdetails.Password ?? "")
+                                .Replace("{CompanyName}", pdetails.ProjectName ?? "")
+                                .Replace("{UserName}", pdetails.UserName ?? "")
+                                .Replace("{date}", DateTime.Now.Year.ToString() ?? "")
+                                .Replace("{CompanyNumber}", pdetails.PhoneNo ?? "");
 
                                 // Send the email
-                                _sendmail.SendEmails(pdetails.Email, template.Subject, content);
+                                _sendmail.SendEmailWithImage(pdetails.Email, template.Subject, content, pdetails.EmailLogo);
+                                //_sendmail.SendEmails(pdetails.Email, template.Subject, content);
                             }
                             else
                             {
