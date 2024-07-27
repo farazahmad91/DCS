@@ -1,4 +1,5 @@
 ﻿using API.AppCode.APIRequest;
+using API.DBContext.Entities;
 using Entities;
 using Entities.Response;
 using Microsoft.AspNetCore.Mvc;
@@ -48,18 +49,32 @@ namespace DCS.Controllers
         [Route("/A-AddOrUpdate")]
         public async Task<IActionResult> AddOrUpdate([FromForm] string appointmentData)
         {
+            ApplicationSetting applicationSetting = new ApplicationSetting();
             var response = new Response()
             {
                 ResponseText = "Failed To Add or Update Service",
                 StatusCode = ResponseStatus.FAILED,
             };
-
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Appointment/AddOrUpdateAppointment", JsonConvert.SerializeObject(appointmentData), null);
-            if (apiRes.Result != null)
+            try
             {
-                response = JsonConvert.DeserializeObject<Response>(apiRes.Result);
-                return Json(response);
+                
+                var appointreq = JsonConvert.DeserializeObject<Appointment?>(appointmentData);
+                var registerReq = JsonConvert.DeserializeObject<RegisterViewModel>(appointmentData);
+                appointreq.ProjectId = applicationSetting.ProjectID;
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Appointment/AddOrUpdateAppointment", JsonConvert.SerializeObject(appointreq), null);
+                if (apiRes.Result != null)
+                {
+                    response = JsonConvert.DeserializeObject<Response>(apiRes.Result);
+                    return Json(response);
+                }
             }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+           
             return Json(response);
         }
 

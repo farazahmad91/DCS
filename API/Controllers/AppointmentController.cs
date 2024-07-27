@@ -1,4 +1,5 @@
 ﻿using API.AppCode.IML;
+using API.SendEmail;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,14 +10,17 @@ namespace API.Controllers
     public class AppointmentController : ControllerBase
     {
         private readonly IAppointment _appointment;
-        public AppointmentController(IAppointment appointment)
+        private readonly Sendmail _sendmail;
+        public AppointmentController(IAppointment appointment, Sendmail sendmail)
         {
             _appointment=appointment;
+            _sendmail=sendmail;
         }
         [HttpPost(nameof(AddOrUpdateAppointment))]
         public async Task<IActionResult> AddOrUpdateAppointment(Appointment appointment)
         {
            var i= await _appointment.AddOrUpdateAppointment(appointment);
+
             return Ok(i);
         }
 

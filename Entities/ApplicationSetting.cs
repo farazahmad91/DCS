@@ -9,7 +9,7 @@ namespace Entities
         public bool IsEmailMarketing { get; set; }
         public bool IsShowPassword { get; set; }
         public bool IsMultipleMobileAllowed { get; set; }
-		public int ProjectID { get; set; } = 1;
+		public int ProjectID { get; set; } = 266188;
 		public bool IsPasswordOnly { get; set; }
         public bool IsReferral { get; set; }
         public bool IsPaymentGateway { get; set; }

@@ -85,8 +85,14 @@
             ServiceId: $("#ddlservice").val(),
             Name: $("#txtname").val(),
             Email: $("#txtemail").val(),
-            PhoneNo: $("#txtnum").val(), // Assuming txtnum is the correct ID for the phone number
-            Date: $(".datetimepicker-input").val() // Make sure this is the correct selector for the date
+            PhoneNo: $("#txtnum").val(), 
+            Date: $(".datetimepicker-input").val() ,
+            AppointmentId: 0,
+            ProjectId: 0,
+            PId: 0,
+            CreatedOn: "",
+            Notes: "",
+            Status: 0,
         };
 
         // Append the JSON stringified appointment data to the formData

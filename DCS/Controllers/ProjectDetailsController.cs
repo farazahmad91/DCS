@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DCS.Controllers
 {
@@ -113,6 +114,10 @@ namespace DCS.Controllers
             };
             string password = GenerateRandomPassword(6);
             var pId = GenerateProjectId(6);
+
+          
+
+
             try
             {
                 var request = JsonConvert.DeserializeObject<ProjectDetails>(projectData);
@@ -123,6 +128,37 @@ namespace DCS.Controllers
                     newrequest.Password=password;
                     newrequest.ConfirmPassword=password;
                     newrequest.Role="Merchant";
+                    string filePath = null;
+                    if (file != null && file.Length > 0)
+                    {
+                        string relativePath = Path.Combine("wwwroot", "DCS", "img");
+                        string absolutePath = Path.Combine(Directory.GetCurrentDirectory(), relativePath);
+
+                        try
+                        {
+                            if (!Directory.Exists(absolutePath))
+                            {
+                                Directory.CreateDirectory(absolutePath);
+                            }
+
+                            var uniqueFileName = $"{Guid.NewGuid()}_{Path.GetFileName(file.FileName)}";
+                            filePath = Path.Combine(relativePath, uniqueFileName);
+                            string fullFilePath = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+
+                            using (var stream = new FileStream(fullFilePath, FileMode.Create))
+                            {
+                                await file.CopyToAsync(stream);
+                            }
+
+
+                            request.EmailLogo = fullFilePath; // Save full path to avoid path issues
+
+                        }
+                        catch (Exception ex)
+                        {
+                            return StatusCode(500, $"Error saving image: {ex.Message}");
+                        }
+                    }
                     var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Account/Registration", JsonConvert.SerializeObject(newrequest));
                     if (apiRes.Result != null)
                     {

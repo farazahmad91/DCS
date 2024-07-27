@@ -2,6 +2,7 @@
 using Entities;
 using API.AppCode.ML;
 using Entities.Response;
+using Microsoft.CodeAnalysis;
 
 namespace API.AppCode.DL
 {
@@ -26,11 +27,14 @@ namespace API.AppCode.DL
                 var param = new
                 {
                     DrId = req.DrId,
+                    ProjectId=req.ProjectId,
+                    Name=req.Name,
+                    Email = req.Email,
+                    PhoneNo = req.PhoneNo,
                     ServiceId = req.ServiceId,
                     PId=req.PId,
                     Date = req.Date,
                     Notes = req.Notes,
-                    Status = req.Status,
                 };
 
                 var i = await _dapper.GetAsync<Response>(GetName(), param);
