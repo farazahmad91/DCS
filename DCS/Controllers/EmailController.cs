@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using Newtonsoft.Json;
+using System.Data;
 
 namespace DCS.Controllers
 {
@@ -157,6 +158,9 @@ namespace DCS.Controllers
             if (common.Id!=0)
             {
                 common.ProjectId = projectId;
+                string? Role = User.GetLoggedInUserRole();
+                common.Role = Role;
+                common.PageLength = 30;
                 var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/GetEmailTemplateListOrById", JsonConvert.SerializeObject(common), null);
                
                 if (apiRes.Result != null && apiEmailTypeRes.Result != null)

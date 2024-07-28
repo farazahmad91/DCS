@@ -36,13 +36,23 @@ namespace Entities
         InvalidLoginAttempt=3,
         ChangePasswordRequest=4,
         ForgotPasswordRequest=5,
-        PromotionEmail=6,
+        PromotionEmail =6,
         AccountDeActivation=7, // Removed the hyphen
         AccountActivation=8,
         NewsletterSubscription=9,
         UserFeedback =10,
         AnniversaryWishes = 11,
+        PasswordChange = 12,
+        EmailConfirm = 13,
+        FirstAppointment = 14,
+        Appointment = 15,
+        ReAppointment = 16,
     }
 
-
+    public class EmailType
+    {
+        public string? Email { get; set; }
+        public int? EType { get; set; }
+    }
+ 
 }

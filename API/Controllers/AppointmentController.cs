@@ -1,7 +1,10 @@
 ﻿using API.AppCode.IML;
+using API.Data;
 using API.SendEmail;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using static System.Net.WebRequestMethods;
 
 namespace API.Controllers
 {
@@ -10,16 +13,27 @@ namespace API.Controllers
     public class AppointmentController : ControllerBase
     {
         private readonly IAppointment _appointment;
-        private readonly Sendmail _sendmail;
-        public AppointmentController(IAppointment appointment, Sendmail sendmail)
+        private readonly SendEmailTempateSettings _emailTempateSettings;
+        public AppointmentController(IAppointment appointment)
         {
             _appointment=appointment;
-            _sendmail=sendmail;
         }
         [HttpPost(nameof(AddOrUpdateAppointment))]
         public async Task<IActionResult> AddOrUpdateAppointment(Appointment appointment)
         {
-           var i= await _appointment.AddOrUpdateAppointment(appointment);
+             var i= await _appointment.AddOrUpdateAppointment(appointment);
+            if (i.PatientId!=null || i.PatientId != 0)
+            {
+                try
+                {
+                    _emailTempateSettings.FirstTimeAppointmentTemplate(appointment.Email, appointment.Name, i.AppointmentId, appointment.ServiceId);
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
 
             return Ok(i);
         }

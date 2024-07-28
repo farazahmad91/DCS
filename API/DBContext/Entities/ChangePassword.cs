@@ -1,6 +1,6 @@
 ﻿namespace API.DBContext.Entities
 {
-	public class ChangePassword
+	public class ChangePass
 	{
 		public string CurrentPassword { get; set; }
 		public string NewPassword { get; set; }

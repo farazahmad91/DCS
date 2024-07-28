@@ -33,6 +33,7 @@ namespace API.Extension
             services.AddScoped<IUserValidation, UserValidation>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<FileUploadService>();
+            services.AddScoped<SendEmailTempateSettings>();
             services.AddSingleton<ConnectionStrings>(ch);
             services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
             services.AddTransient<Sendmail>();

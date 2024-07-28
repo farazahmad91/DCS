@@ -113,7 +113,7 @@ namespace API.Controllers
             return Ok(i);
         }
         [HttpPost(nameof(ChangePassword))]
-        public async Task<IActionResult> ChangePassword(ChangePassword passwordReq)
+        public async Task<IActionResult> ChangePassword(ChangePass passwordReq)
         {
             var response = new Response
             {
@@ -181,16 +181,16 @@ namespace API.Controllers
             return Ok(i);
         }
 
-        [Route(nameof(SendOTP) +"/{email}")]
+        [Route(nameof(SendOTP))]
         [HttpPost]
-        public async Task<IActionResult> SendOTP(string email)
+        public async Task<IActionResult> SendOTP(EmailType email)
         {
             var response = new Entities.Response.Response<bool>
             {
                 ResponseText = "An error has ocurred try after sometime!",
                 StatusCode = ResponseStatus.SUCCESS
             };
-            var user = await userManager.FindByEmailAsync(email);
+            var user = await userManager.FindByEmailAsync(email.Email);
 
             if (user == null || user.Id.Length == 0)
             {
