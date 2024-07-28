@@ -16,6 +16,7 @@ using Entities;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Identity.Data;
 using System.Net.Http;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace API.Service
 {
@@ -28,11 +29,11 @@ namespace API.Service
         private readonly IConfiguration configuration;
         private readonly IHashPassword _hashpass;
         private readonly IDapper _dapper;
-        private readonly Sendmail _sendmail;
+        private readonly SendEmailTempateSettings _emailTempateSettings;
         private readonly IUserValidation _userValidation;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HttpClient _httpClient;
-        public UserService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IHashPassword hashpass, IDapper dapper, Sendmail sendmail, IUserValidation userValidation, IHttpContextAccessor httpContextAccessor, HttpClient httpClient)
+        public UserService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IHashPassword hashpass, IDapper dapper, IUserValidation userValidation, IHttpContextAccessor httpContextAccessor, SendEmailTempateSettings emailTempateSettings, HttpClient httpClient)
         {
             _signInManager = signInManager;
             this.userManager = userManager;
@@ -40,10 +41,10 @@ namespace API.Service
             this.configuration = configuration;
             _hashpass=hashpass;
             _dapper=dapper;
-            _sendmail=sendmail;
             _userValidation=userValidation;
             _httpContextAccessor=httpContextAccessor;
             _httpClient=httpClient;
+            _emailTempateSettings = emailTempateSettings;
         }
         public async Task<Response> RegisterAsync(RegisterViewModel model)
         {
@@ -94,7 +95,12 @@ namespace API.Service
                 if (result.Succeeded)
                 {
                     Register(model.Email, model.ConfirmPassword);
-                    _userValidation.SendOTP(model.Email);
+
+                   
+                    EmailType email = new EmailType();
+                    email.Email = model.Email;
+                    email.EType = 1;
+                    _userValidation.SendOTP(email);
 					response.ResponseText = "OTP has been sent your email address for verify Account!!";
 					response.StatusCode = ResponseStatus.SUCCESS;
 				}
@@ -173,12 +179,10 @@ namespace API.Service
                         _dapper.GetById<User>(param, "Proc_LockedUser");
                         response.StatusCode = ResponseStatus.FAILED;
                         response.ResponseText = "Account locked due to multiple incorrect password attempts";
-
                         // Send email alert
-                        var userip = _sendmail.GetIPAddress();
-                        string email = model.Email;
-                        var template = _dapper.GetById<EmailTemplate>(new { EmailType  = EmailTemplateType.InvalidLoginAttempt.ToString()}, "proc_GetEmailTemplateById");
-                        _sendmail.SendEmails(email, template.Subject, template.Content);
+                        _emailTempateSettings.InvalidLoginAttempt(model.Email);
+                        
+                        
                         return response;
                     }
 
@@ -202,7 +206,11 @@ namespace API.Service
                 }
                 if (response.StatusCode== ResponseStatus.EmailNotVerified)
                 {
-                   var j= await _userValidation.SendOTP(model.Email);
+                    EmailType email = new EmailType();
+                    email.Email = model.Email;
+                    email.EType = 2;
+                    // Send email alert
+                    var j = await _userValidation.SendOTP(email);
                     response.ResponseText = j.ResponseText;
                     response.StatusCode = ResponseStatus.EmailNotVerified;
                     return response;
@@ -328,6 +336,7 @@ namespace API.Service
                     {
                         response.StatusCode = ResponseStatus.SUCCESS;
                         response.ResponseText = "Password changed successfully!";
+
                     }
 
                     else
@@ -338,6 +347,9 @@ namespace API.Service
                 }
                 if (response.StatusCode == ResponseStatus.SUCCESS)
                 {
+                    // Send email alert
+                    _emailTempateSettings.PasswordChangeSucce(forgetPasswordReq.Email);
+                
                     return response;
                 }
             }

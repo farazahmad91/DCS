@@ -17,6 +17,7 @@ using Entities;
 using API.SendEmail;
 using API.RequestInfo;
 using API.AppCode.IML;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace DCS.Controllers
 {
@@ -267,7 +268,7 @@ namespace DCS.Controllers
         {
             return PartialView();
         }
-        public async Task<IActionResult> SaveChangePassword(ChangePassword changePassword)
+        public async Task<IActionResult> SaveChangePassword(ChangePass changePassword)
         {
             string email = User.FindFirstValue(ClaimTypes.Email);
             string name = User.FindFirstValue(ClaimTypes.Name);
@@ -358,7 +359,7 @@ namespace DCS.Controllers
 
         [Route("SendOTP")]
         [HttpPost]
-        public async Task<IActionResult> ValidateEmail(string useremail)
+        public async Task<IActionResult> SendOTP(EmailType email)
         {
             var res = new Response()
             {
@@ -368,7 +369,7 @@ namespace DCS.Controllers
 
             try
             {
-                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Account/SendOTP/{useremail}", null, null);
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Account/SendOTP", JsonConvert.SerializeObject(email), null);
                 if (apiRes.Result != null)
                 {
                      res = JsonConvert.DeserializeObject<Response>(apiRes.Result);

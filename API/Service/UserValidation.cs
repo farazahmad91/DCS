@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Cryptography;
 using API.AppCode.IML;
 using API.DBContext;
+using Newtonsoft.Json.Linq;
+using System.Linq.Expressions;
 
 namespace API.Service
 {
@@ -15,16 +17,16 @@ namespace API.Service
         private readonly IConfiguration configuration;
         private readonly IHashPassword _hashpass;
         private readonly IDapper _dapper;
-        private readonly Sendmail _sendmail;
-        public UserValidation(UserManager<ApplicationUser> userManager, IConfiguration configuration, IHashPassword hashpass, IDapper dapper, Sendmail sendmail)
+        private readonly SendEmailTempateSettings _emailTempateSettings;
+        public UserValidation(UserManager<ApplicationUser> userManager, IConfiguration configuration, IHashPassword hashpass, IDapper dapper, SendEmailTempateSettings emailTempateSettings)
         {
             this.userManager = userManager;
             this.configuration = configuration;
             _hashpass=hashpass;
             _dapper=dapper;
-            _sendmail=sendmail;
+            _emailTempateSettings= emailTempateSettings;
         }
-        public async Task<Response> SendOTP(string email)
+        public async Task<Response> SendOTP(EmailType email)
         {
             var response = new Response();
 
@@ -34,7 +36,7 @@ namespace API.Service
                 response.StatusCode = ResponseStatus.FAILED;
                 //response.Result = false;
 
-                var user = await userManager.FindByEmailAsync(email);
+                var user = await userManager.FindByEmailAsync(email.Email);
 
                 if (user == null || string.IsNullOrEmpty(user.Id))
                 {
@@ -45,9 +47,24 @@ namespace API.Service
                 {
                     var skey = configuration["HashPassword:EncryptionKey"];
                     string otp = GenerateOTP("ABCDEFGHIJKLMNOPQRSTUVWXYZ234567");
-                    string sub = "Verification of Email Address";
-                    string body = $"Dear Customer,\n\nWe are reaching out to verify your email address in order to ensure the security and integrity of your account. As part of our authentication process, please find below the One-Time Password (OTP) required for verification:\n\nOTP: {otp}\n\nKindly enter the OTP provided above to complete the verification process. If you encounter any difficulties or have any questions, please do not hesitate to contact our support team for assistance.\n\nThank you for your cooperation.\n\nBest regards,\nThe DCS Team";
-                    _sendmail.SendEmails(email, sub, otp);
+                    int? type = email.EType;
+                    switch (type)
+                    {
+                        case 1:
+                            _emailTempateSettings.EmailConfirmation(email.Email, otp);
+                            break;
+                        case 2:
+                            _emailTempateSettings.SendOTPOnly(email.Email, otp);
+                            break;
+                        case 3:
+                            _emailTempateSettings.ForgotPasswordRequest(email.Email, otp);
+                            break;
+                        default:
+                            _emailTempateSettings.SendOTPOnly(email.Email, otp);
+                            break;
+                    }
+
+                    //_sendmail.SendEmails(email, sub, otp);
                     var param = new
                     {
                         Email = email,
@@ -84,6 +101,7 @@ namespace API.Service
 
         public async Task<Response> IsUserVerified(string Email)
         {
+            EmailType email = new EmailType();
             var res = new Response()
             {
                 ResponseText = "Invalid OTP",
@@ -96,10 +114,13 @@ namespace API.Service
                 {
                     Email = Email,
                 };
+                email.Email = Email;
+                email.EType = 1;
+               
                 var i = await _dapper.GetAsync<Response>(sp, param);
                 if (i.StatusCode == ResponseStatus.IsTempLock)
                 {
-                    SendOTP(Email);
+                    SendOTP(email);
                 }
                 if (i.StatusCode == ResponseStatus.SUCCESS)
                 {
