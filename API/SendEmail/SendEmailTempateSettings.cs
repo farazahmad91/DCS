@@ -2,6 +2,7 @@
 using Entities;
 using Entities.Response;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using System;
 using static System.Net.WebRequestMethods;
 
 namespace API.SendEmail
@@ -15,7 +16,6 @@ namespace API.SendEmail
             _sendmail=sendmail;
             _dapper=dapper;
         }
-
         public void FirstTimeAppointmentTemplate(string email,string pname,int? ANum,int?  serviceId)
         {
             try
@@ -52,40 +52,48 @@ namespace API.SendEmail
         {
 
         }
-
-        public void InvalidLoginAttempt(string email)
+        public void InvalidLoginAttempt(string email,string name)
         {
+            DateTime currentDate = DateTime.Now;
+            string formattedDate = currentDate.ToString("dddd, MMMM dd, yyyy 'at' hh:mm tt");
             var userip = _sendmail.GetIPAddress();
             var template = _dapper.GetById<EmailTemplate>(new { EmailType = EmailTemplateType.InvalidLoginAttempt.ToString() }, "proc_GetEmailTemplateById");
-            _sendmail.SendEmails(email, template.Subject, template.Content);
+            string content = template.Content.Replace("{uname}", name)
+                   .Replace("{dt}", formattedDate)
+                   .Replace("{CompanyName}", "DCS")
+                    .Replace("{Companyname}", "DCS")
+                   .Replace("{cemail}", "Info.dcs@gmail.com")
+                   .Replace("{date}", DateTime.Now.Year.ToString());
+            _sendmail.SendEmails(email, template.Subject, content);
 
         }
-
-        public void PasswordChangeSucce(string email)
+        public void PasswordChangeSucce(string email , string name,string newpass)
         {
             var userip = _sendmail.GetIPAddress();
+            
             var template = _dapper.GetById<EmailTemplate>(new { EmailType = EmailTemplateType.PasswordChange.ToString() }, "proc_GetEmailTemplateById");
-            _sendmail.SendEmails(email, template.Subject, template.Content);
+            string content = template.Content.Replace("{UserName}", name)
+                   .Replace("{password}", newpass)
+                   .Replace("{CompanyName}", "DCS")
+                   .Replace("{date}", DateTime.Now.Year.ToString());
+            _sendmail.SendEmails(email, template.Subject, content);
         }
-
         public void  SendOTPOnly(string email, string otp)
         {
-            var template = _dapper.GetById<EmailTemplate>(new { EmailType = EmailTemplateType.EmailConfirm.ToString() }, "proc_GetEmailTemplateById");
+            var template = _dapper.GetById<EmailTemplate>(new { EmailType = EmailTemplateType.SendOTP.ToString() }, "proc_GetEmailTemplateById");
             string content = template.Content.Replace("{otp}", otp)
                 .Replace("{date}", DateTime.Now.Year.ToString());
             _sendmail.SendEmails(email, template.Subject, content);
         }
-        public void EmailConfirmation(string email , string otp)
+        public void EmailConfirmation(string email , string otp, string name)
         {
-         // Email Confirmation
-            
                 var template = _dapper.GetById<EmailTemplate>(new { EmailType = EmailTemplateType.EmailConfirm.ToString() }, "proc_GetEmailTemplateById");
-                string content = template.Content.Replace("{otp}", otp)
-                    .Replace("{date}", DateTime.Now.Year.ToString());
+                string content = template.Content.Replace("{oyp}", otp)
+                .Replace("{uname}", name)
+                .Replace("{date}", DateTime.Now.Year.ToString());
                 _sendmail.SendEmails(email, template.Subject, content);
           
         }
-
         public void ForgotPasswordRequest(string email, string otp)
         {
             // Email Confirmation
@@ -93,6 +101,15 @@ namespace API.SendEmail
             var template = _dapper.GetById<EmailTemplate>(new { EmailType = EmailTemplateType.EmailConfirm.ToString() }, "proc_GetEmailTemplateById");
             string content = template.Content.Replace("{otp}", otp)
                 .Replace("{date}", DateTime.Now.Year.ToString());
+            _sendmail.SendEmails(email, template.Subject, content);
+
+        }
+        public void AccountUnLockOTP(string email, string otp, string name)
+        {
+            var template = _dapper.GetById<EmailTemplate>(new { EmailType = EmailTemplateType.EmailConfirm.ToString() }, "proc_GetEmailTemplateById");
+            string content = template.Content.Replace("{oyp}", otp)
+            .Replace("{uname}", name)
+            .Replace("{date}", DateTime.Now.Year.ToString());
             _sendmail.SendEmails(email, template.Subject, content);
 
         }

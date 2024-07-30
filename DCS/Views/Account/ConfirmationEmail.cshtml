@@ -212,7 +212,10 @@
         const email = sessionStorage.getItem('loginuseremail');
         if (validateEmail(email)) {
             sessionStorage.setItem('email', email);
-            var formData = { useremail: email };
+            var formData = { 
+                Email: email,
+                EType: 2,
+                };
 
             $.post("/SendOTP", formData)
                 .done(function (res) {

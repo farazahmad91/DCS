@@ -32,26 +32,17 @@ namespace API.Service
 
             try
             {
+
                 response.ResponseText = "An error has occurred. Please try again later!";
                 response.StatusCode = ResponseStatus.FAILED;
                 //response.Result = false;
-
-                var user = await userManager.FindByEmailAsync(email.Email);
-
-                if (user == null || string.IsNullOrEmpty(user.Id))
-                {
-                    response.ResponseText = "Email not found!";
-                    return response;
-                }
-                else
-                {
-                    var skey = configuration["HashPassword:EncryptionKey"];
+                var skey = configuration["HashPassword:EncryptionKey"];
                     string otp = GenerateOTP("ABCDEFGHIJKLMNOPQRSTUVWXYZ234567");
                     int? type = email.EType;
                     switch (type)
                     {
                         case 1:
-                            _emailTempateSettings.EmailConfirmation(email.Email, otp);
+                            _emailTempateSettings.EmailConfirmation(email.Email, otp, email.Name);
                             break;
                         case 2:
                             _emailTempateSettings.SendOTPOnly(email.Email, otp);
@@ -59,7 +50,10 @@ namespace API.Service
                         case 3:
                             _emailTempateSettings.ForgotPasswordRequest(email.Email, otp);
                             break;
-                        default:
+                    case 4:
+                        _emailTempateSettings.AccountUnLockOTP(email.Email, otp, email.Name);
+                        break;
+                    default:
                             _emailTempateSettings.SendOTPOnly(email.Email, otp);
                             break;
                     }
@@ -67,7 +61,7 @@ namespace API.Service
                     //_sendmail.SendEmails(email, sub, otp);
                     var param = new
                     {
-                        Email = email,
+                        Email = email.Email,
                         OTP = otp
                     };
                     _dapper.Insert(param, "sp_Validate_Email");
@@ -76,7 +70,7 @@ namespace API.Service
                     //response.Result = true;
 
                     return response;
-                }
+               
             }
             catch (Exception ex)
             {
@@ -84,7 +78,7 @@ namespace API.Service
                 Console.WriteLine($"Exception occurred: {ex.Message}");
 
                 // Update response indicating failure
-                response.ResponseText = "An error has occurred. Please try again later!";
+                response.ResponseText = "An error has occurred. Please try again later!!";
                 response.StatusCode = ResponseStatus.FAILED;
                 //response.Result = false;
                 var error = new ErrorLog
@@ -99,7 +93,7 @@ namespace API.Service
             }
         }
 
-        public async Task<Response> IsUserVerified(string Email)
+        public async Task<Response> IsUserVerified(string Email ,string name = null)
         {
             EmailType email = new EmailType();
             var res = new Response()
@@ -120,6 +114,9 @@ namespace API.Service
                 var i = await _dapper.GetAsync<Response>(sp, param);
                 if (i.StatusCode == ResponseStatus.IsTempLock)
                 {
+                    email.Email = Email;
+                    email.EType = 4;
+                    email.Name = name;
                     SendOTP(email);
                 }
                 if (i.StatusCode == ResponseStatus.SUCCESS)

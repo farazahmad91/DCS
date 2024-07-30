@@ -42,7 +42,11 @@ namespace API.Claims
             var nameClaim = principal.FindFirst(ClaimTypes.Name);
             return nameClaim != null ? nameClaim.Value : null;
         }
-
+        public static string GetLoggedInUserEmail(this ClaimsPrincipal principal)
+        {
+            var nameClaim = principal.FindFirst(ClaimTypes.Email);
+            return nameClaim != null ? nameClaim.Value : null;
+        }
         public static string GetLoggedInUserRole(this ClaimsPrincipal principal)
         {
             var roleClaim = principal.FindFirst(ClaimTypes.Role);

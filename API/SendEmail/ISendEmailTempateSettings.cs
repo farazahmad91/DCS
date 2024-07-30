@@ -6,10 +6,11 @@
         public void AppointmentTemplate();
         public void ReAppointmentTemplate();
         public void PatientIdTemplate();
-        public void InvalidLoginAttempt(string email);
-        public void PasswordChangeSucce(string email);
+        public void InvalidLoginAttempt(string email, string name);
+        public void PasswordChangeSucce(string email, string name, string newpass);
         public void SendOTPOnly(string email, string otp);
-        public void EmailConfirmation(string email, string otp);
+        public void EmailConfirmation(string email, string otp, string name);
         public void ForgotPasswordRequest(string email, string otp);
+        public void AccountUnLockOTP(string email, string otp, string name);
     }
 }
