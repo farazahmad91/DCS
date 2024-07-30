@@ -13,10 +13,11 @@ namespace API.Controllers
     public class AppointmentController : ControllerBase
     {
         private readonly IAppointment _appointment;
-        private readonly SendEmailTempateSettings _emailTempateSettings;
-        public AppointmentController(IAppointment appointment)
+        private readonly ISendEmailTempateSettings _emailTempateSettings;
+        public AppointmentController(IAppointment appointment, ISendEmailTempateSettings emailTempateSettings)
         {
             _appointment=appointment;
+            _emailTempateSettings = emailTempateSettings;
         }
         [HttpPost(nameof(AddOrUpdateAppointment))]
         public async Task<IActionResult> AddOrUpdateAppointment(Appointment appointment)

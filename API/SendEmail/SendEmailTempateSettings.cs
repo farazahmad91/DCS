@@ -6,7 +6,7 @@ using static System.Net.WebRequestMethods;
 
 namespace API.SendEmail
 {
-    public class SendEmailTempateSettings
+    public class SendEmailTempateSettings : ISendEmailTempateSettings
     {
         private readonly Sendmail _sendmail;
         private readonly IDapper _dapper;
