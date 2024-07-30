@@ -19,6 +19,7 @@ using Response = Entities.Response.Response;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using API.AppCode.IML;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 
 namespace API.Controllers
@@ -35,7 +36,8 @@ namespace API.Controllers
         private readonly IHashPassword _hashpass;
         private readonly IUserValidation _userValidation;
         private readonly IDapper _dapper;
-        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IUserService userservice,  IHashPassword hashpass, IUserValidation userValidation, IDapper dapper)
+        ISendEmailTempateSettings _emailTempateSettings;
+        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IUserService userservice,  IHashPassword hashpass, IUserValidation userValidation, IDapper dapper, ISendEmailTempateSettings emailTempateSettings)
         {
             _signInManager = signInManager;
             this.userManager = userManager;
@@ -45,6 +47,7 @@ namespace API.Controllers
             _hashpass=hashpass;
             _userValidation=userValidation;
             _dapper=dapper;
+            _emailTempateSettings = emailTempateSettings;
         }
 
 
@@ -140,6 +143,11 @@ namespace API.Controllers
                 }
                 response.ResponseText = "Password has been changed successfully!";
                 response.StatusCode = ResponseStatus.SUCCESS;
+                if (response.StatusCode == ResponseStatus.SUCCESS)
+                {
+                    _emailTempateSettings.PasswordChangeSucce(passwordReq.Email, passwordReq.UName, passwordReq.NewPassword);
+                }
+                
                 return Ok(response);
             }
             catch (Exception ex)

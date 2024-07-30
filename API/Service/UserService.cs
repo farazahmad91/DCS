@@ -100,6 +100,7 @@ namespace API.Service
                     EmailType email = new EmailType();
                     email.Email = model.Email;
                     email.EType = 1;
+                    email.Name= model.Name;
                     _userValidation.SendOTP(email);
 					response.ResponseText = "OTP has been sent your email address for verify Account!!";
 					response.StatusCode = ResponseStatus.SUCCESS;
@@ -180,7 +181,7 @@ namespace API.Service
                         response.StatusCode = ResponseStatus.FAILED;
                         response.ResponseText = "Account locked due to multiple incorrect password attempts";
                         // Send email alert
-                        _emailTempateSettings.InvalidLoginAttempt(model.Email);
+                        _emailTempateSettings.InvalidLoginAttempt(model.Email, userExists.Name);
                         
                         
                         return response;
@@ -193,7 +194,7 @@ namespace API.Service
                 }
                 if (userExists != null)
                 {
-                    var i = await _userValidation.IsUserVerified(model.Email);
+                    var i = await _userValidation.IsUserVerified(model.Email, userExists.Name);
                     response.ResponseText= i.ResponseText;
                     response.StatusCode= i.StatusCode;
                     if (i.StatusCode==ResponseStatus.FAILED || i.StatusCode==ResponseStatus.IsTempLock)
@@ -208,7 +209,8 @@ namespace API.Service
                 {
                     EmailType email = new EmailType();
                     email.Email = model.Email;
-                    email.EType = 2;
+                    email.EType = 1;
+                    email.Name = userExists.Name;
                     // Send email alert
                     var j = await _userValidation.SendOTP(email);
                     response.ResponseText = j.ResponseText;
@@ -347,9 +349,7 @@ namespace API.Service
                 }
                 if (response.StatusCode == ResponseStatus.SUCCESS)
                 {
-                    // Send email alert
-                    _emailTempateSettings.PasswordChangeSucce(forgetPasswordReq.Email);
-                
+                    _emailTempateSettings.PasswordChangeSucce(forgetPasswordReq.Email, forgetPasswordReq.UName, forgetPasswordReq.NewPassword);
                     return response;
                 }
             }

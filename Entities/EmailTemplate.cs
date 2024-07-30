@@ -52,6 +52,7 @@ namespace Entities
     public class EmailType
     {
         public string? Email { get; set; }
+        public string? Name { get; set; } = null;
         public int? EType { get; set; }
     }
  

@@ -9,5 +9,7 @@ namespace API.DBContext.Entities
 		[Display(Name = "Email")]
 		public string Email { get; set; }
         public string NewPassword { get; set; }
+        public string UName { get; set; }
+
     }
 }

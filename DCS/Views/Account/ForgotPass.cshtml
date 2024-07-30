@@ -104,12 +104,16 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     function sendEmail() {
+        debugger;
         var email = $("#txtforgotemail").val();
         if (validateEmail(email)) {
             sessionStorage.setItem('loginuseremail', email);
-            var formData = { useremail: email };
+            var param = {
+                Email: email,
+                EType: 3,
+            };
 
-            $.post("/SendOTP", formData)
+            $.post("/SendOTP", param)
                 .done(function (res) {
                     if (res.statusCode === 1) {
                         sessionStorage.setItem('emailtype', "FPOV");
