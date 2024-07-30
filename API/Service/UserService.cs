@@ -29,11 +29,11 @@ namespace API.Service
         private readonly IConfiguration configuration;
         private readonly IHashPassword _hashpass;
         private readonly IDapper _dapper;
-        private readonly SendEmailTempateSettings _emailTempateSettings;
+        private readonly ISendEmailTempateSettings _emailTempateSettings;
         private readonly IUserValidation _userValidation;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HttpClient _httpClient;
-        public UserService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IHashPassword hashpass, IDapper dapper, IUserValidation userValidation, IHttpContextAccessor httpContextAccessor, SendEmailTempateSettings emailTempateSettings, HttpClient httpClient)
+        public UserService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IHashPassword hashpass, IDapper dapper, IUserValidation userValidation, IHttpContextAccessor httpContextAccessor, ISendEmailTempateSettings emailTempateSettings, HttpClient httpClient)
         {
             _signInManager = signInManager;
             this.userManager = userManager;

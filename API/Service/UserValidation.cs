@@ -17,8 +17,8 @@ namespace API.Service
         private readonly IConfiguration configuration;
         private readonly IHashPassword _hashpass;
         private readonly IDapper _dapper;
-        private readonly SendEmailTempateSettings _emailTempateSettings;
-        public UserValidation(UserManager<ApplicationUser> userManager, IConfiguration configuration, IHashPassword hashpass, IDapper dapper, SendEmailTempateSettings emailTempateSettings)
+        private readonly ISendEmailTempateSettings _emailTempateSettings;
+        public UserValidation(UserManager<ApplicationUser> userManager, IConfiguration configuration, IHashPassword hashpass, IDapper dapper, ISendEmailTempateSettings emailTempateSettings)
         {
             this.userManager = userManager;
             this.configuration = configuration;
