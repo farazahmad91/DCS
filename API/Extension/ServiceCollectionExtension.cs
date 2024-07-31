@@ -32,6 +32,7 @@ namespace API.Extension
             services.AddScoped<IInvoice, Invoice_ML>();
             services.AddScoped<IUserValidation, UserValidation>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IDashboardStatus, DashboardStatus_ML>();
             services.AddScoped<FileUploadService>();
             services.AddScoped<ISendEmailTempateSettings ,SendEmailTempateSettings>();
             services.AddSingleton<ConnectionStrings>(ch);
