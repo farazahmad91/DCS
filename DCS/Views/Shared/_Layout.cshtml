@@ -33,12 +33,22 @@
     var DomainName = "";
     var Logo = "";
 
-    if (projectdetails.ProjectName !=null && projectdetails.DomainName !=null)
+    
+
+    
+    if (projectdetails != null && projectdetails.ProjectName != null && projectdetails.DomainName != null)
     {
         ProjectName = projectdetails.ProjectName;
         DomainName = projectdetails.DomainName;
         Logo = projectdetails.Logo;
     }
+    else
+    {
+         
+            <label onload="redirectToLogin();"></label>
+    }
+
+
 
 }
 <!DOCTYPE html>
@@ -80,6 +90,12 @@
     <link href="~/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
     <link href="~/assets/vendor/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css" />
     <link href="~/assets/vendor/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/vendor/britecharts/css/britecharts.min.css" rel="stylesheet" type="text/css" />
+    <script>
+        function redirectToLogin() {
+            window.location.href = "/Login";
+        }
+    </script>
     <style>
         .spinner-wrap {
             margin: auto;
@@ -1676,8 +1692,16 @@
     <script src="~/assets/vendor/daterangepicker/moment.min.js"></script>
     <script src="~/assets/vendor/daterangepicker/daterangepicker.js"></script>
 
-    <!-- Apex Charts js -->
+    <!-- Apex Chart js -->
     <script src="~/assets/vendor/apexcharts/apexcharts.min.js"></script>
+
+    <!-- Apex Chart Pie Demo js -->
+    <script src="~/assets/js/pages/demo.apex-pie.js"></script>
+    <!-- Chart.js -->
+    <script src="/assets/vendor/chart.js/chart.min.js"></script>
+
+    <!-- Chart.js Other Demo js -->
+    <script src="/assets/js/pages/demo.chartjs-other.js"></script>
 
     <!-- Vector Map js -->
     <script src="~/assets/vendor/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js"></script>
@@ -1685,9 +1709,13 @@
 
     <!-- Dashboard App js -->
     <script src="~/assets/js/pages/demo.dashboard.js"></script>
-   
+    <script src="~/assets/vendor/britecharts/bundled/britecharts.min.js"></script>
+
     <!-- Product Demo App js -->
     <script src="~/assets/js/pages/demo.products.js"></script>
+
+    <!-- Apex Chart Mixed Demo js -->
+    <script src="~/assets/js/pages/demo.apex-mixed.js"></script>
     <!-- App js -->
     <script src="~/assets/js/app.min.js"></script>
 	<script src="~/dcs/js/common.js"></script>
