@@ -36,11 +36,10 @@ namespace API.AppCode.DL
                 var param = new
                 {
                     PatientId = j.PId,
+                    ProjectId=treatment.ProjectId,
                     DoctorId = treatment.DrId,
                     Diagnosis = treatment.Diagnosis,
                     Description = treatment.Description,
-                    Status = treatment.Status,
-                    CreatedBy = treatment.CreatedBy,
                     Medications = ConvertToDataTable(treatment.Medications),
                 };
 

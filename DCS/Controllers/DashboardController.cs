@@ -15,7 +15,6 @@ namespace DCS.Controllers
             this._configuration = configuration;
             _BaseUrl =  _configuration["APIBaseURl:BaseURl"];
         }
-
         public async Task<IActionResult> DashboardStatus()
         {
             Common common = new Common();
@@ -79,6 +78,40 @@ namespace DCS.Controllers
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<List<TopHospitalService>>(apiRes.Result);
+            }
+            return PartialView(list);
+        }
+
+        [Route("/GetAppointmentDetailNextSevenDay")]
+        public async Task<IActionResult> GetAppointmentDetailNextSevenDay()
+        {
+            Common common = new Common();
+            var list = new List<AppointmentDetailNextSevenDay>();
+            int? projectId = User.GetProjectId();
+            string? Role = User.GetLoggedInUserRole();
+            common.ProjectId = projectId;
+            common.Role = Role;
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Dashboard/GetAppointmentDetailNextSevenDay", JsonConvert.SerializeObject(common), null);
+            if (apiRes.Result != null)
+            {
+                list = JsonConvert.DeserializeObject<List<AppointmentDetailNextSevenDay>>(apiRes.Result);
+            }
+            return PartialView(list);
+        }
+
+        [Route("/GetTopAddressOfUser")]
+        public async Task<IActionResult> GetTopAddressOfUser()
+        {
+            Common common = new Common();
+            var list = new List<TopAddressOfUser>();
+            int? projectId = User.GetProjectId();
+            string? Role = User.GetLoggedInUserRole();
+            common.ProjectId = projectId;
+            common.Role = Role;
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Dashboard/GetTopAddressOfUser", JsonConvert.SerializeObject(common), null);
+            if (apiRes.Result != null)
+            {
+                list = JsonConvert.DeserializeObject<List<TopAddressOfUser>>(apiRes.Result);
             }
             return Json(list);
         }

@@ -19,20 +19,20 @@
     .box {
         position: relative;
         width: 100%;
-        padding-right: 15px;
-        padding-left: 15px
+        padding-right: 5px;
+        padding-left: 5px
     }
 
     .our-services {
         margin-top: 75px;
         padding-bottom: 30px;
-        padding: 0 60px;
-        min-height: 198px;
+        padding: -1px 60px;
+        min-height: 153px;
         text-align: center;
         border-radius: 10px;
         background-color: #fff;
         transition: all .4s ease-in-out;
-        box-shadow: 0 0 25px 0 rgba(20, 27, 202, .17)
+        box-shadow: 0 0 25px 0 rgba(20, 27, 202, .17);
     }
 
         .our-services .icon {
@@ -81,6 +81,37 @@
         cursor: pointer;
         background-image: linear-gradient(-45deg, #27b88d 0%, #22dd73 100%)
     }
+    .num
+    {
+        border-radius: 100%;
+        color: white;
+        padding: 10px;
+        border: double black 1px;
+    }
+    .num1
+    {
+        background-color: darkviolet;
+    }
+
+    .num2 {
+        background-image: linear-gradient(-45deg, #27b88d 0%, #22dd73 100%)
+    }
+
+    .num3 {
+        background-image: linear-gradient(-45deg, #8d40fb 0%, #5a57fb 100%)
+    }
+
+    .num4 {
+        background-image: linear-gradient(-45deg, #3615e7 0%, #44a2f6 100%)
+    }
+
+    .num5 {
+        background-image: linear-gradient(-45deg, #34b5bf 0%, #210c59 100%)
+    }
+
+    .num6 {
+        background-image: linear-gradient(-45deg, #fb0054 0%, #f55b2a 100%)
+    }
 </style>
 
 <div class="row mb-2">
@@ -88,98 +119,77 @@
         <div class=" widget-inline">
             <div class="">
                 <div class="row g-0">
-                    <div class="col-sm-6 col-lg-3">
+                    <div class="col-sm-6 col-lg-2">
                         <div class="box">
                             <div class="our-services settings">
-                                <div class="icon"> <img src="https://i.imgur.com/6NKPrhO.png"> </div>
-                                <h3><span>@Model.TodayAppointment</span></h3>
-                                <p class="text-muted font-15 mb-0">Today Appointment</p>
+                                <div>
+                                    <h1><span class="ri-calendar-2-fill" style="color:#210c59;font-size:50px;"></span> </h1>
+                                    <h3><span class="num num1"> <a href="/AppointmentList" style="color:white;" target="_blank">@Model.TodayAppointment</a></span></h3>
+                                </div>
+                                <p class=""> <strong>Today Appointment</strong></p>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-sm-6 col-lg-3">
+                    <div class="col-sm-6 col-lg-2">
                         <div class="box">
                             <div class="our-services speedup">
-                                <div class="icon"> <img src="https://i.imgur.com/KMbnpFF.png"> </div>
-                                <h3><span>@Model.TotalPatient</span></h3>
-                                <p class="text-muted font-15 mb-0">Patients</p>
+                                <div>
+                                    <h1><span class="mdi mdi-account" style="color:#fb0054;font-size:50px;"></span> </h1>
+                                    <h3><span class="num num2">
+                                            <a href="/PatientList" style="color:white;" target="_blank">@Model.TotalPatient</a>
+                                        </span></h3>
+                                    <p class=""><strong>Patients</strong></p>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-sm-6 col-lg-3">
+                    <div class="col-sm-6 col-lg-2">
                         <div class="box">
                             <div class="our-services privacy">
-                                <div class="icon"> <img src="https://i.imgur.com/VzjZw9M.png"> </div>
-                                <h3><span>@Model.TotalRegisterDoctors</span></h3>
-                                <p class="text-muted font-15 mb-0">Doctors</p>
+                                <div>
+                                    <h1><span class="mdi mdi-account" style="color:#44a2f6;font-size:50px;"></span> </h1>
+                                    <h3><span class="num num3"><a href="/DoctorsList" style="color:white;" target="_blank">@Model.TotalRegisterDoctors</a></span></h3>
+                                    <p class=""><strong>Doctors</strong></p>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-sm-6 col-lg-3">
+                    <div class="col-sm-6 col-lg-2">
                         <div class="box">
                             <div class="our-services backups">
-                                <div class="icon"> <img src="https://i.imgur.com/v6OnUqu.png"> </div>
-                                <h3><span>@Model.TotalEmployees</span></h3>
-                                <p class="text-muted font-15 mb-0">Employees</p>
+                                <div>
+                                    <h1><span class="ri-calendar-2-fill" style="color:#fc6a0e;font-size:50px;"></span> </h1>
+                                    <h3><span class="num num4"><a href="/AppointmentList" style="color:white;" target="_blank">@Model.TotalAppointment</a></span></h3>
+                                    <p class=""><strong>All Appointment</strong></p>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                </div> <!-- end row -->
+                    <div class="col-sm-6 col-lg-2">
+                        <div class="box">
+                            <div class="our-services ssl">
+                                <div>
+                                    <h1><span class="ri-calendar-2-fill" style="color:#5a57fb;font-size:50px;"></span> </h1>
+                                    <h3><span class="num num5">@Model.AppointmentsNextSevenDays</span></h3>
+                                    <p class=""><strong>Appoint Next 7 Days</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-2">
+                        <div class="box">
+                            <div class="our-services database">
+                                <div>
+                                    <h1><span class=" uil-medkit" style="color:#27b88d;font-size:50px;"></span> </h1>
+                                    <h3><span class="num num6"><a href="/Medicines" style="color:white;" target="_blank">@Model.UnAvailableMedStocks</a></span></h3>
+                                    <p><strong>Unavailable Medicine</strong></p>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div> <!-- end card-box-->
-    </div> <!-- end col-->
-</div>
-<div class="row mb-2">
-    <div class="col-12">
-        <div class=" widget-inline">
-            <div class="">
-                <div class="row g-0">
-                    <div class="col-sm-6 col-lg-3">
-                        <div class="box">
-                            <div class="our-services settings">
-                                <div class="icon"> <img src="https://i.imgur.com/6NKPrhO.png"> </div>
-                                <h3><span>@Model.AppointmentsNextSevenDays</span></h3>
-                                <p class="text-muted font-15 mb-0">Appointments Next 7 Days</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-lg-3">
-                        <div class="box">
-                            <div class="our-services speedup">
-                                <div class="icon"> <img src="https://i.imgur.com/KMbnpFF.png"> </div>
-                                <h3><span>@Model.TotalAppointment</span></h3>
-                                <p class="text-muted font-15 mb-0">Total Appointment</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-lg-3">
-                        <div class="box">
-                            <div class="our-services backups">
-                                <h1 class="icon-large"><span class="ri-calendar-2-fill" style=""></span> </h1>
-                                <h3><span>@Model.UnAvailableMedStocks</span></h3>
-                                <p class="text-muted font-15 mb-0">Unavailable Medicine</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-lg-3">
-                        <div class="box">
-                            <div class="our-services privacy">
-                                <div class="icon"> <img src="https://i.imgur.com/v6OnUqu.png"> </div>
-                                <h3><span>@Model.AbsentEmployees</span></h3>
-                                <p class="text-muted font-15 mb-0">Absent Employees</p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div> <!-- end row -->
-            </div>
-        </div> <!-- end card-box-->
-    </div> <!-- end col-->
+        </div>
+    </div>
 </div>

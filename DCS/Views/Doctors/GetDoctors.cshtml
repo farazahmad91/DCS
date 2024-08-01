@@ -85,6 +85,18 @@
                         <div class="row mb-2">
                             <div class="col-sm-5">
                                 <div class="input-group">
+                                    <div class="row d-flex justify-content-end align-items-center" style="margin-right: 0px;">
+                                        <div class="col-auto mb-2">
+                                            <select class="form-control" id="ddltop" onchange="Onload();">
+                                                <option value="10">TOP</option>
+                                                <option value="10">10</option>
+                                                <option value="20">20</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                                <option value="0">All</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <input type="text" class="form-control mb-2" id="txtname" onchange=" Onload();" placeholder="search name.." />
                                     <button class="btn btn-info mb-2" onclick="Onload();" type="button">
                                         Search
@@ -96,18 +108,17 @@
                                     <button id="btnaddAppointment" class="btn btn-danger mb-2" onclick="EditDoctor(0)" type="button">
                                         <i class="mdi mdi-plus-circle me-2"></i>  Add New
                                     </button>
-                                    @* <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog-outline"></i></button> *@
-                                    <button type="button" class="btn btn-light mb-2">Export</button>
+                                    @* <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog-outline"></i></button> 
+                                    <button type="button" class="btn btn-light mb-2">Export</button>*@  
                                 </div>
                             </div><!-- end col-->
                         </div>
 
                         <div class="table-responsive">
                             <table class="table table-striped dt-responsive nowrap w-100" id="dTable">
-                                <thead class="table-dark">
+                                <thead style="background-image: linear-gradient(-45deg, #34b5bf 0%, #210c59 100%);">
                                     <tr class="text-white">
-                                        <th> NAME</th>
-                                        <th>EMAIL</th>
+                                        <th>NAME</th>
                                         <th>IMAGE</th>
                                         <th>SPECIALIZATION</th>
                                         <th>DR.FEE</th>

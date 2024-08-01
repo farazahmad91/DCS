@@ -22,9 +22,6 @@ else
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
                 @if (@item.DrImage.Length!=0 && @item.DrImage!=null)
                 {
                     <a class="fancybox" href="@item.DrImage" data-fancybox data-caption="@item.Name">
@@ -45,9 +42,9 @@ else
         <td>
             @Html.DisplayFor(modelItem => item.ConsultationFee)
         </td>
-        <td>
+@*         <td>
             @Html.DisplayFor(modelItem => item.Availability)
-        </td>
+        </td> *@
             <td>
                 <div class="form-check form-switch">
                     @if (@item.Status==1)
@@ -58,8 +55,8 @@ else
                     {
                         Ischecked = "";
                     }
-                    <input type="checkbox" name="switch3" onchange="UserStatus(@item.DrId)" id="IsVerified_@item.DrId" data-switch="success" @Ischecked>
-                    <label for="IsVerified_@item.DrId" data-on-label="Available" data-off-label="Not Available"></label>
+                    <input type="checkbox" name="switch3" onchange="UserStatus(@item.DrId)" id="IsAvailable_@item.DrId" data-switch="success" @Ischecked>
+                    <label for="IsVerified_@item.DrId" data-on-label="Yes" data-off-label="No"></label>
                 </div>
             </td>
             <td>
@@ -73,7 +70,7 @@ else
                         Ischecked = "";
                     }
                     <input type="checkbox" name="switch3" onchange="UserStatus(@item.DrId)" id="IsVerified_@item.DrId" data-switch="success" @Ischecked>
-                    <label for="IsVerified_@item.DrId" data-on-label="Active" data-off-label="Deactive"></label>
+                    <label for="IsVerified_@item.DrId" data-on-label="ON" data-off-label="OFF"></label>
                 </div>
             </td>
             <td class="table-action">

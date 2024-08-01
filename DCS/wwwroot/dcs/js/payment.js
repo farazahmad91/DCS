@@ -1,5 +1,8 @@
-﻿const colors1 = ["#727cf5", "#0acf97"];
-const dataColors1 = $("#line-column-mixed").data("colors");
+﻿// Colors for charts
+const defaultColors = ["#39afd1", "#fa5c7c", "#6c757d", "#727cf5", "#0acf97", "#ffbc00", "#90ee7e", "#f48024", "#212730"];
+
+// Chart 1: Basic Bar
+const basicBarColors = $("#basic-bar").data("colors") ? $("#basic-bar").data("colors").split(",") : defaultColors;
 
 // Make the AJAX request to get the data
 jQuery.post('/GetTopHospitalService')
@@ -23,46 +26,24 @@ jQuery.post('/GetTopHospitalService')
             }
         }
 
-        const options1 = {
+        const basicBarOptions = {
             chart: {
                 height: 380,
-                type: "line",
+                type: "bar",
                 toolbar: { show: false }
             },
-            series: [
-                {
-                    name: serviceNames[0], // First service name for the column series
-                    type: "column",
-                    data: columnData
-                },
-                {
-                    name: serviceNames[1], // Second service name for the line series
-                    type: "line",
-                    data: lineData
-                }
-            ],
-            stroke: { width: [0, 4] },
+            plotOptions: { bar: { horizontal: false } },
+            dataLabels: { enabled: false },
+            series: [{ data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380] }],
+            colors: basicBarColors,
             xaxis: {
-                type: "datetime",
-                categories: xAxisData,
-                labels: {
-                    formatter: function (value) {
-                        // Format the datetime value if necessary
-                        return new Date(value).toLocaleDateString();
-                    }
-                }
+                categories: ["South Korea", "Canada", "United Kingdom", "Netherlands", "Italy", "France", "Japan", "United States", "China", "Germany"],
+                axisBorder: { show: false }
             },
-            colors: dataColors1 ? dataColors1.split(",") : colors1,
-            yaxis: [
-                { title: { text: serviceNames[0] } },
-                { opposite: true, title: { text: serviceNames[1] } }
-            ],
-            legend: { offsetY: 7 },
-            grid: { borderColor: "#f1f3fa", padding: { bottom: 5 } }
+            states: { hover: { filter: "none" } },
+            grid: { borderColor: "#f1f3fa" }
         };
-
-        const chart1 = new ApexCharts(document.querySelector("#line-column-mixed"), options1);
-        chart1.render();
+        new ApexCharts(document.querySelector("#basic-bar"), basicBarOptions).render();
 
     })
     .fail(function () {

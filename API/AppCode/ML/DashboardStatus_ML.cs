@@ -32,5 +32,18 @@ namespace API.AppCode.ML
             var i = await procedure.Call(common);
             return (IEnumerable<TopHospitalService>)i;
         }
+
+        public async Task<IEnumerable<AppointmentDetailNextSevenDay>> GetAppointmentDetailNextSevenDay(Common common)
+        {
+            IProcedureAsync procedure = new Proc_GetAppointmentDetailNextSevenDay(_dapper);
+            var i = await procedure.Call(common);
+            return (IEnumerable<AppointmentDetailNextSevenDay>)i;
+        }
+        public async Task<IEnumerable<TopAddressOfUser>> GetTopAddressOfUser(Common common)
+        {
+            IProcedureAsync procedure = new Proc_GetTopAddressOfUser(_dapper);
+            var i = await procedure.Call(common);
+            return (IEnumerable<TopAddressOfUser>)i;
+        }
     }
 }
