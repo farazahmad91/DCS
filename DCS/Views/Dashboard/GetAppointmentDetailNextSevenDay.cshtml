@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Entities.AppointmentDetailNextSevenDay>
+@{
+    Layout = null;
+}
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@item.AppointmentId</td>
+        <td class="table-user">
+            <a class="fancybox" href="@item.PImage" target="_blank" data-fancybox data-caption="@item.Name">
+                <img src="@item.PImage" onerror="this.onerror=null;this.src='/images/noimage.jpg'"  class="me-2 rounded-circle" alt="No Image Found" width="90px" height="50px" />
+            </a>
+            @item.Name
+        </td>
+        <td>@item.ServiceName</td>
+        <td><i class="mdi mdi-circle text-success"></i> @item.Appointdate</td>
+    </tr>
+}

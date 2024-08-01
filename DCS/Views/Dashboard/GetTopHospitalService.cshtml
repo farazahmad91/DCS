@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Entities.TopHospitalService>
+@{
+    Layout = null;
+}
+
+
+@{
+    // Extract x and y values from the model
+    var aValues = Model.Select(item => item.ServiceName).ToArray();
+    var bValues = Model.Select(item => item.ServiceCount).ToArray();
+}
+
+<div id="myPlot" style="width:100%;max-width:700px; height:350px;"></div>
+
+<script>
+    const aValues = @Html.Raw(Json.Serialize(aValues));
+    const bValues = @Html.Raw(Json.Serialize(bValues));
+    const bColors = ["red", "green", "blue", "orange", "brown"];
+
+    const data = [{
+        x: aValues,
+        y: bValues,
+        type: "bar",
+        marker: { color: bColors },
+    }];
+
+    const layout = { title: "Top Five Service" };
+
+    Plotly.newPlot("myPlot", data, layout);
+</script>
+
+
+
+
+   

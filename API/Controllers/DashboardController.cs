@@ -26,10 +26,24 @@ namespace API.Controllers
             var i = await _dashboardStatus.GetApointmentForDonutChart(common);
             return Ok(i);
         }
+
         [HttpPost(nameof(GetTopHospitalService))]
         public async Task<IActionResult> GetTopHospitalService(Common common)
         {
             var i = await _dashboardStatus.GetTopHospitalService(common);
+            return Ok(i);
+        }
+
+        [HttpPost(nameof(GetAppointmentDetailNextSevenDay))]
+        public async Task<IActionResult> GetAppointmentDetailNextSevenDay(Common common)
+        {
+            var i = await _dashboardStatus.GetAppointmentDetailNextSevenDay(common);
+            return Ok(i);
+        }
+        [HttpPost(nameof(GetTopAddressOfUser))]
+        public async Task<IActionResult> GetTopAddressOfUser(Common common)
+        {
+            var i = await _dashboardStatus.GetTopAddressOfUser(common);
             return Ok(i);
         }
     }

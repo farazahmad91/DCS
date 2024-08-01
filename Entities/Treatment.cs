@@ -10,6 +10,7 @@ namespace Entities
     public class Treatment: Medication
     {
         public int? TreatmentId { get; set; }
+        public int? ProjectId { get; set; }
         public int? PId { get; set; }
         public int? DrId { get; set; }
         public string? Email { get; set; }

@@ -41,4 +41,9 @@ namespace Entities
         public string? Appointdate { get; set; }
         public string? ServiceName { get; set; }
     }
+    public class TopAddressOfUser
+    {
+        public int? VisitCount { get; set; }
+        public string? Address { get; set; }
+    }
 }

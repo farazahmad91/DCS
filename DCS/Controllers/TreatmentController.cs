@@ -73,7 +73,8 @@ namespace DCS.Controllers
                 ResponseText = "Failed To Add or Update Service",
                 StatusCode = ResponseStatus.FAILED,
             };
-
+            int? projectid =User.GetProjectId();
+            treatment.ProjectId= projectid;
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Treatment/AddTreatment", JsonConvert.SerializeObject(treatment), null);
             if (apiRes.Result != null)
             {
