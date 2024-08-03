@@ -4,13 +4,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     string? role = User.GetLoggedInUserRole();
 }
-
+<style>
+    th label {
+        color: white;
+    }</style>
 <div class="content">
-
-
     <div class="container-fluid">
-
-        <!-- start page title -->
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box">
@@ -25,8 +24,6 @@
                 </div>
             </div>
         </div>
-        <!-- end page title -->
-
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -69,30 +66,32 @@
                                     @* <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog-outline"></i></button> 
                                     <button type="button" class="btn btn-light mb-2">Export</button>*@
                                 </div>
-                            </div><!-- end col-->
+                            </div>
                         </div>
-
                         <div class="table-responsive">
                             <table class="table table-striped dt-responsive nowrap w-100" id="dTable">
-                                <thead class="table-dark">
+                                <thead style="background-image: linear-gradient(-45deg, #34b5bf 0%, #210c59 100%);">
                                     <tr class="text-light">
                                         <th>
-                                            PolicyId
+                                            <label for="policyId">PolicyId</label>
                                         </th>
                                         <th>
-                                            PolicyName
+                                            <label for="policyName">PolicyName</label>
                                         </th>
                                         <th>
-                                            Description
+                                            <label for="description">Description</label>
                                         </th>
                                         <th>
-                                            UpdateDate
+                                            <label for="updateDate">UpdateDate</label>
                                         </th>
                                         <th>
-                                            Status
+                                            <label for="status">Status</label>
                                         </th>
-                                        <th>ACTION</th>
+                                        <th>
+                                            <label for="action">ACTION</label>
+                                        </th>
                                     </tr>
+
                                 </thead>
                                 <tbody id="dPList">
                                 </tbody>

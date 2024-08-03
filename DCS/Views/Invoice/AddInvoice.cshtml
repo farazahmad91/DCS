@@ -5,17 +5,14 @@
 }
 <style>
     .border-right {
-        border-right: 1px solid #ccc; /* Adjust color and width as needed */
-        padding-right: 15px; /* Optional: add padding to the right for spacing */
+        border-right: 1px solid #ccc;
+        padding-right: 15px; 
     }
 
 </style>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-<!-- Content wrapper start -->
-
 <div class="modal fade" id="AddInvoice_Modal" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-xl">
-        <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Add New Invoice</h4>
@@ -25,10 +22,8 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card">
-                            <!-- Row start -->
                             <div class="row gx-3">
                                 <div class="col-sm-6 col-6 card border-right">
-                                    <!-- User details section -->
                                     <div class="row gx-3">
                                         <div class="col-sm-6 col-12">
                                             <div class="mb-3">
@@ -104,9 +99,7 @@
                             </div>
 
                         </div>
-                        <!-- Row end -->
                         <hr />
-                        <!-- Row start -->
                         <div class="row gx-3">
                             <div class="col-12">
                                 <div class="table-responsive">
@@ -127,7 +120,6 @@
                                         <tbody id="tbody">
                                             <tr class="rowClass">
                                                 <td>
-                                                    <!-- Form group start -->
                                                     <input type="text" class="form-control" id="txtService0" placeholder="please enter service" />
                                                 </td>
                                                 <td>
@@ -155,36 +147,26 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <!-- Form group start -->
                                                     <div class="input-group m-0">
                                                         <input type="text" id="txtPrice0" onchange="txtonChange();" class="form-control" placeholder="Price" />
-
                                                     </div>
-                                                    <!-- Form group end -->
                                                 </td>
                                                 <td>
-                                                    <!-- Form group start -->
                                                     <div class="input-group m-0">
                                                         <input type="text" id="txtVat0" onchange="txtonChange();" class="form-control" placeholder="Vat" />
-
                                                     </div>
-                                                    <!-- Form group end -->
                                                 </td>
                                                 <td>
-                                                    <!-- Form group start -->
                                                     <div class="input-group m-0">
                                                         <input type="text" id="txtDiscount0" onchange="txtonChange();" class="form-control" placeholder="Discount" />
 
                                                     </div>
-                                                    <!-- Form group end -->
                                                 </td>
                                                 <td>
-                                                    <!-- Form group start -->
                                                     <div class="input-group m-0">
                                                         <input type="text" id="txtTotalAmount0" class="form-control" placeholder="Total Amount" readonly />
 
                                                     </div>
-                                                    <!-- Form group end -->
                                                 </td>
                                                 <td>
                                                     <div class="d-inline-flex gap-1">
@@ -224,7 +206,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Row end -->
                     </div>
                     </div>
                 </div>
@@ -232,19 +213,6 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- Select2 JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
 <script>
@@ -271,13 +239,8 @@
     let count = 1;
     $(document).ready(() => {
         $('#tbody').on('click', '#btnaddnew', function (e) {
-            // Prevent default button action
             e.preventDefault();
-
-            // Get the current row
             let currentRow = $(this).closest('.rowClass');
-
-            // Validate the current row inputs
             let isValid = validateRow(currentRow);
 
             if (isValid) {
@@ -412,7 +375,6 @@
     }
 
     function CreateInvoice() {
-        // Validate required fields
         if (!validateInvoiceFields()) {
             Info(-1, 'Please fill all the required fields.');
             return;
@@ -473,7 +435,6 @@
             contentType: 'application/json',
             success: function (res) {
                 Info(res.statusCode, res.responseText)
-                // Uncomment the next line to redirect after success
                 // window.location.href = '@Url.Action("Index", "Invoices")';
             },
             error: function (error) {
@@ -484,7 +445,6 @@
     }
 
     function validateInvoiceFields() {
-        // Check if any required fields are empty
         let isValid = true;
         if ($('#txtName').val().trim() === '') {
             isValid = false;
@@ -499,18 +459,17 @@
             isValid = false;
         }
 
-        // Check each row for required fields
         $('.rowClass').each(function (index, element) {
             let isRowValid = true;
             $(element).find('input[id^="txtQty"], input[id^="txtPrice"], input[id^="txtDiscount"], input[id^="txtVat"]').each(function () {
                 if ($(this).val().trim() === '') {
                     isRowValid = false;
-                    return false; // Exit the loop early if any field in the row is empty
+                    return false;
                 }
             });
             if (!isRowValid) {
                 isValid = false;
-                return false; // Exit the loop early if any row is invalid
+                return false;
             }
         });
 

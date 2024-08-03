@@ -3,6 +3,7 @@ using Entities;
 using API.AppCode.ML;
 using Entities.Response;
 using Microsoft.CodeAnalysis;
+using System.Security.AccessControl;
 
 namespace API.AppCode.DL
 {
@@ -74,14 +75,16 @@ namespace API.AppCode.DL
         }
         public async Task<object> Call(object obj)
         {
-            DateOnly Date = (DateOnly)obj;
-            int PId = (int)obj;
+            
+            var common = (Common)obj;
             try
             {
                 var param = new
                 {
-                    Date = Date,
-                    PId= PId
+                    Date = common.Date,
+                    Id= common.Id,
+                    ProjectId = common.ProjectId,
+                    PageLength=common.PageLength,
 
                 };
                 var i = await _dapper.GetAll<Appointment>(GetName(), param);

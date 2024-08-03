@@ -39,10 +39,10 @@ namespace API.Controllers
             return Ok(i);
         }
 
-        [HttpPost(nameof(GetAppointment)+"/{Date}/{PId}")]
-        public async Task<IActionResult> GetAppointment(DateOnly? Date, int? PId)
+        [HttpPost(nameof(GetAppointment))]
+        public async Task<IActionResult> GetAppointment(Common common)
         {
-            var i =await _appointment.GetAppointment(Date, PId);
+            var i =await _appointment.GetAppointment(common);
             return Ok(i);
         }
 

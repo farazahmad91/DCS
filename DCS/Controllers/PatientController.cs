@@ -25,10 +25,12 @@ namespace DCS.Controllers
             return View();
         }
         [Route("/_PatientList")]
-        public async Task<IActionResult> _PatientList(int? pid=0)
+        public async Task<IActionResult> _PatientList(Common common)
         {
             var list = new List<Patient>();
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Patient/GetPatient/{pid}", null, null);
+            int? projectid = User.GetProjectId();
+            common.ProjectId = projectid;
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Patient/GetPatient", JsonConvert.SerializeObject(common), null);
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<List<Patient>>(apiRes.Result);
@@ -55,8 +57,10 @@ namespace DCS.Controllers
                 ResponseText = "Failed To Add or Update Service",
                 StatusCode = ResponseStatus.FAILED,
             };
+            int? projectid = User.GetProjectId();
 
             var request = JsonConvert.DeserializeObject<Patient>(patientData);
+            request.ProjectId=projectid;
             request.ImagePath=file;
             var apiRes = await APIRequestML.O.SendFileAndContentAsync($"{_BaseUrl}/api/Patient/AddOrUpdatePatient", request, file, null, null);
             var res = await apiRes.Content.ReadAsStringAsync();

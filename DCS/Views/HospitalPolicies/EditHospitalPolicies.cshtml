@@ -5,7 +5,6 @@
 }
 <div class="card">
 	<div class="card-body">
-		<!-- Modal -->
 		<div class="modal fade" id="HospitalPolicy_modal" tabindex="-1" aria-labelledby="HospitalPolicy_modalTitle" style="display: none;" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-scrollable modal-lg">
 				<div class="modal-content">
@@ -16,21 +15,15 @@
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-
-
-
 						<div class="row gx-3">
 							<div class="col-sm-8 col-12">
 								<div class="row gx-3">
 									<div class="col-6">
 										<input type="text" class="form-control" asp-for="HosPolicyId" hidden>
-										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="Title" class="form-label">Title</label>
 											<input type="text" class="form-control" asp-for="Title" placeholder="Full Name">
 										</div>
-
-										<!-- Form Field Start -->
 										<div class="mb-3">
 											<select class="form-control" asp-for="Type">
 												<option value="">select policy type</option>
@@ -42,7 +35,6 @@
 										</div>
 									</div>
 									<div class="col-6">
-										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="Description" class="form-label">Description</label>
 											<textarea class="form-control" asp-for="Description" placeholder="Description"></textarea>

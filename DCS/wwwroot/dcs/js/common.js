@@ -13,7 +13,7 @@
         </div>
     `);
     $('.alert-container').append(alertDiv);
-    alertDiv.fadeIn(2000);
+    alertDiv.fadeIn(1000);
     setTimeout(() => {
         alertDiv.fadeOut('slow', () => {
             alertDiv.remove();

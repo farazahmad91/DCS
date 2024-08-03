@@ -2,6 +2,8 @@
 using API.AppCode.ML;
 using Entities.Response;
 using Entities;
+using Microsoft.CodeAnalysis;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace API.AppCode.DL
 {
@@ -26,6 +28,7 @@ namespace API.AppCode.DL
                 {
                     PId = req.PId,
                     AppointmentId=req.AppointmentId,
+                    ProjectId=req.ProjectId,
                     Name = req.Name,
                     DateOfBirth = req.DateOfBirth,
                     Gender = req.Gender,
@@ -85,14 +88,16 @@ namespace API.AppCode.DL
         }
         public async Task<object> Call(object obj)
         {
-            int PId = (int)obj;
+            var req = (Common)obj;
             try 
             { 
             
                 var parm = new
                 {
-                    PId = PId
-
+                    Id = req.Id,
+                    ProjectId = req.ProjectId,
+                    PageLength = req.PageLength,
+                    Email=req.email
                 };
                 var i = await _dapper.GetAll<Patient>(GetName(), parm);
                 return i;

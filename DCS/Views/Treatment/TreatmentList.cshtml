@@ -4,7 +4,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     string? role = User.GetLoggedInUserRole();
 }
-
+<style>
+    th label {
+        color: white;
+    }</style>
 <div class="content">
 
 
@@ -49,7 +52,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    @if (role=="Admin")
+                              @*       @if (role=="Admin")
                                     {
                                         <div class="row d-flex justify-content-end align-items-center" style="margin-right: 0px;">
                                             <div class="col-auto mb-2">
@@ -57,8 +60,8 @@
                                                 </select>
                                             </div>
                                         </div>
-                                    }
-                                    <input type="date" class="form-control mb-2" id="txtdate" placeholder="search date.." />
+                                    } *@
+                                    <input type="date" class="form-control mb-2" id="txtdate" style="width:50px;" placeholder="search date.." /> &nbsp; Or &nbsp;
                                     <input type="text" class="form-control mb-2" id="txtpid" placeholder="search patient id.." />
                                     <button class="btn btn-info mb-2" onclick="Onload();" type="button">
                                         Search
@@ -78,29 +81,31 @@
 
                         <div class="table-responsive">
                             <table class="table table-hover dt-responsive nowrap w-100" id="dTable">
-                                <thead class="table-dark">
+                                <thead style="background-image: linear-gradient(-45deg, #34b5bf 0%, #210c59 100%);">
                                     <tr class="text-white">
-                                        <th>
-                                            PATIENT NAME
+                                        <th scope="col" id="label-patient-name">
+                                            <label for="patient-name">PATIENT NAME</label>
                                         </th>
-                                        <th>
-                                            DOCTOR NAME
+                                        <th scope="col" id="label-doctor-name">
+                                            <label for="doctor-name">DOCTOR NAME</label>
                                         </th>
-                                        <th>
-                                            DIAGNOSIS
+                                        <th scope="col" id="label-diagnosis">
+                                            <label for="diagnosis">DIAGNOSIS</label>
                                         </th>
-                                        <th>
-                                            DATE
+                                        <th scope="col" id="label-date">
+                                            <label for="date">DATE</label>
                                         </th>
-                                        <th>
-                                            DESCRIPTION
+                                        <th scope="col" id="label-description">
+                                            <label for="description">DESCRIPTION</label>
                                         </th>
-                                        <th>
-                                            STATUS
+                                        <th scope="col" id="label-status">
+                                            <label for="status">STATUS</label>
                                         </th>
-
-                                        <th>ACTION</th>
+                                        <th scope="col" id="label-action">
+                                            <label for="action">ACTION</label>
+                                        </th>
                                     </tr>
+
                                 </thead>
                                 <tbody id="tList">
                                 </tbody>

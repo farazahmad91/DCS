@@ -23,13 +23,13 @@ namespace API.SendEmail
                 DateTime currentDate = DateTime.Now;
                 string formattedDate = currentDate.ToString("dddd, MMMM dd, yyyy 'at' hh:mm tt");
                 var servicedatail = _dapper.GetById<HospitalServices>(new { Id = serviceId }, "Proc_GetHospitalServicesById");
-                var ProjectDetails = _dapper.GetById<ProjectDetails>(new { Email = email }, "Proc_GetProjectDetailByEmail");
+                //var ProjectDetails = _dapper.GetById<ProjectDetails>(new { Email = email }, "Proc_GetProjectDetailByEmail");
                 var template = _dapper.GetById<EmailTemplate>(new { EmailType = EmailTemplateType.FirstAppointment.ToString() }, "proc_GetEmailTemplateById");
 
                 string content = template.Content.Replace("{PName}", pname)
                     .Replace("{ANumber}", ANum.ToString())
                     .Replace("{ServiceName}", servicedatail.ServiceName)
-                    .Replace("{CompanyName}", ProjectDetails.ProjectName)
+                    .Replace("{CompanyName}", "DCS")
                     .Replace("{date}", DateTime.Now.Year.ToString())
                     .Replace("{ADate}", formattedDate.ToString());
                 _sendmail.SendEmails(email, template.Subject, content);

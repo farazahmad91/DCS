@@ -4,6 +4,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     string? role = User.GetLoggedInUserRole();
 }
+<style>
+    th label {
+        color: white;
+    }
+    </style>
+
 <!-- Start Content-->
 <div class="content">
 
@@ -73,22 +79,28 @@
                         </div>
                         <div class="table-responsive">
                             <table class="table table-striped dt-responsive nowrap w-100" id="dTable">
-                                <thead class="table-dark">
+                                <thead style="background-image: linear-gradient(-45deg, #34b5bf 0%, #210c59 100%);">
                                     <tr class="text-light">
                                         <th>
-                                            ID
+                                            <label>ID</label>
                                         </th>
                                         <th>
-                                            NAME
+                                            <label>NAME</label>
                                         </th>
-                                        <th>LINK
+                                        <th>
+                                            <label>LINK</label>
                                         </th>
-                                        <th>ICON
+                                        <th>
+                                            <label>ICON</label>
                                         </th>
-                                        <th>STATUS
+                                        <th>
+                                            <label>STATUS</label>
                                         </th>
-                                        <th>ACTION</th>
+                                        <th>
+                                            <label>ACTION</label>
+                                        </th>
                                     </tr>
+
                                 </thead>
                                 <tbody id="sMList">
                                 </tbody>

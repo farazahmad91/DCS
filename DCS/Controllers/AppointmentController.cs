@@ -1,4 +1,5 @@
 ﻿using API.AppCode.APIRequest;
+using API.Claims;
 using API.DBContext.Entities;
 using Entities;
 using Entities.Response;
@@ -24,10 +25,12 @@ namespace DCS.Controllers
             return View();
         }
         [Route("/A-List")]
-        public async Task<IActionResult> _AppointmentList(DateOnly? Date,int? PId=0)
+        public async Task<IActionResult> _AppointmentList(Common common)
         {
             var list = new List<Appointment>();
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Appointment/GetAppointment/{Date}/{PId}", null, null);
+            int? progectid = User.GetProjectId();
+            common.ProjectId = progectid;
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Appointment/GetAppointment", JsonConvert.SerializeObject(common), null);
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<List<Appointment>>(apiRes.Result);
