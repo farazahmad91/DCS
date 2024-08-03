@@ -4,7 +4,10 @@
     ViewData["Title"] = "PurchaseList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<style>
+    th label {
+        color: white;
+    }</style>
 <!-- Start Content-->
 <div class="content">
 
@@ -54,36 +57,34 @@
 
                         <div class="table-responsive">
                             <table class="table table-striped dt-responsive nowrap w-100" id="dTable">
-                                <thead>
+                                <thead style="background-image: linear-gradient(-45deg, #34b5bf 0%, #210c59 100%);">
                                     <tr>
                                         <th>
-                                            Project Id
+                                            <label for="project-id">Project Id</label>
                                         </th>
                                         <th>
-                                            Service ID
+                                            <label for="service-id">Service ID</label>
                                         </th>
                                         <th>
-                                            Actination Date
+                                            <label for="activation-date">Activation Date</label>
                                         </th>
                                         <th>
-                                            Expiry Date
+                                            <label for="expiry-date">Expiry Date</label>
                                         </th>
                                         <th>
-                                            Price
+                                            <label for="price">Price</label>
                                         </th>
                                         <th>
-                                            Discount
+                                            <label for="discount">Discount</label>
                                         </th>
                                         <th>
-                                            Last Price
+                                            <label for="last-price">Last Price</label>
                                         </th>
                                         <th>
-                                            Renewal
-                                        </th>
-                                        <th>
-                                            Action
+                                            <label for="renewal">Renewal</label>
                                         </th>
                                     </tr>
+
                                 </thead>
 
 

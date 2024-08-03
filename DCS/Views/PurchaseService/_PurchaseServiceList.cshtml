@@ -41,10 +41,5 @@
             <input type="checkbox" name="switch3" onchange="UserSttus(@item.PurchaseID)" id="IsVerified_@item.PurchaseID" data-switch="success" @Ischecked>
             <label for="RenewalOption_@item.PurchaseID" data-on-label="ON" data-off-label="OFF"></label>
         </td>
-        <td class="table-action">
-            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye text-primary" onclick="doctorDetails(@item.PurchaseID)"></i></a>
-            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline text-danger" onclick="EditDoctor(@item.PurchaseID)"></i></a>
-            @* <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a> *@
-        </td>
     </tr>
 }

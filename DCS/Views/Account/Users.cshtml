@@ -4,7 +4,10 @@
     ViewData["Title"] = "Users";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<style>
+    th label {
+        color: white;
+    }</style>
 <!-- Content wrapper start -->
 <div class="content-wrapper">
     <!-- Row start -->
@@ -52,7 +55,21 @@
                                         <div class="card-body">
                                             <div class="row mb-2">
                                                 <div class="col-sm-5">
-                                                    <a onclick="addNewUser();" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i> Add New</a>
+                                                    <div class="input-group">
+                                                        <div class="row d-flex justify-content-end align-items-center" style="margin-right: 0px;">
+                                                            <div class="col-auto mb-2">
+                                                                <select class="form-control" id="ddltop" onchange="Onload();">
+                                                                    <option value="10">TOP</option>
+                                                                    <option value="10">10</option>
+                                                                    <option value="20">20</option>
+                                                                    <option value="50">50</option>
+                                                                    <option value="100">100</option>
+                                                                    <option value="0">All</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <a onclick="addNewUser();" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i> Add New</a>
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-7">
                                                     <div class="text-sm-end">
@@ -63,7 +80,7 @@
 
                                             <div class="table-responsive">
                                                 <table class="table table-centered w-100 dt-responsive nowrap" id="tbluser">
-                                                    <thead class="table-dark">
+                                                    <thead style="background-image: linear-gradient(-45deg, #34b5bf 0%, #210c59 100%);">
                                                         <tr class="text-white">
                                                             <th hidden>
                                                                 <label>Id</label>

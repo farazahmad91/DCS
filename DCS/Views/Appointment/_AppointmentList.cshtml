@@ -14,26 +14,22 @@
 }
 else
 {
+    int i =0;
 @foreach (var item in Model)
 {
+    i++;
     <tr>
-            <td>
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="customCheck2">
-                    <label class="form-check-label" for="customCheck2">&nbsp;</label>
-                </div>
-            </td>
         <td>
-            @Html.DisplayFor(modelItem => item.AppointmentId)
+            @i
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DrId)
+            @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PId)
+            <label>@item.PatientName (@item.PId)</label>
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ServiceId)
+            @Html.DisplayFor(modelItem => item.ServiceName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Email)
@@ -50,17 +46,10 @@ else
         <td>
             @Html.DisplayFor(modelItem => item.CreatedOn)
         </td>
-        <td>
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Actions
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" onclick="EditDoctor(@item.AppointmentId)"><span class="fas fa-edit" style="color: Blue"></span> Edit</a>
-                    <a class="dropdown-item" onclick="doctorDetails(@item.AppointmentId)"><i class="fas fa-info-circle" style="color: darkgreen"></i> Show Detail</a>
-                </div>
-            </div>
-        </td>
+            <td class="table-action">
+                <a href="javascript:void(0);" class="action-icon"> <i class="ri-mail-send-fill"  title="Send Email"></i></a>
+                @*  <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a> *@
+            </td>
     </tr>
 }
 }

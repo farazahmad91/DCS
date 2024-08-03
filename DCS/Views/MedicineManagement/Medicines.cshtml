@@ -57,15 +57,13 @@
     a:hover {
         text-decoration: none;
     }
+
+    th{
+color:white;
+    }
 </style>
-
-<!-- Start Content-->
 <div class="content">
-
-
     <div class="container-fluid">
-
-        <!-- start page title -->
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box">
@@ -80,8 +78,6 @@
                 </div>
             </div>
         </div>
-        <!-- end page title -->
-
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -124,38 +120,31 @@
                                     @* <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog-outline"></i></button> *@
                                     <button type="button" class="btn btn-light mb-2">Export</button>
                                 </div>
-                            </div><!-- end col-->
+                            </div>
                         </div>
-
                         <div class="table-responsive">
                             <table class="table table-striped dt-responsive nowrap w-100" id="dTable">
-                                <thead>
+                                <thead style="background-image: linear-gradient(-45deg, #34b5bf 0%, #210c59 100%);color:white;">
                                     <tr>
                                         <th>
-                                            Med Name
+                                          NAME
                                         </th>
                                         <th>
-                                            Description
+                                          TYPE
                                         </th>
                                         <th>
-                                            Manufacturer
+                                            PRICE
                                         </th>
                                         <th>
-                                            Med Type
+                                            QTY.
                                         </th>
                                         <th>
-                                            Price
+                                           EXPIRY 
                                         </th>
                                         <th>
-                                            Quantity
+                                         STATUS
                                         </th>
-                                        <th>
-                                            Expiry Date
-                                        </th>
-                                        <th>
-                                            Med Status
-                                        </th>
-                                        <th></th>
+                                        <th>ACTION</th>
                                     </tr>
                                 </thead>
                                 <tbody id="medList">
@@ -163,13 +152,11 @@
                             </table>
                         </div>
                     </div>
-                </div> <!-- end card-->
-            </div> <!-- end col-->
+                </div>
+            </div>
         </div>
-        <!-- end row-->
-    </div> <!-- container -->
-
-</div> <!-- content -->
+    </div>
+</div>
 <div id="med_modalPV"></div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>

@@ -1,6 +1,5 @@
 ﻿@model Entities.Patient
 
-<link rel="stylesheet" href="../assets/vendor/dropzone/dropzone.min.css" />
 <div class="card">
 	<div class="card-body">
 		<!-- Modal -->
@@ -17,117 +16,73 @@
 
 
 						<div class="row gx-3">
-							<div class="col-sm-4 col-12">
-								<div id="update-profile" class="mb-3">
-									<form action="/upload" class="dropzone sm needsclick dz-clickable" id="update-profile-pic">
-										<div class="profile-pic">
-											<label class="-label" for="file">
-												<span class="glyphicon glyphicon-camera"></span>
-												<span>Change Image</span>
-											</label>
-											<input id="file" type="file" onchange="uploadImage(event)" />
-
-											<img src="https://cdn.pixaba.com/photo/2017/08/06/21/01/louvre-2596278_960_720.jpg" id="output" width="200" />
-
-										</div>
-									</form>
-								</div>
-							</div>
-							<div class="col-sm-8 col-12">
+							<div class="col-sm-12 col-12">
 								<div class="row gx-3">
 									<div class="col-6">
-										<!-- Form Field Start -->
 										<div class="mb-3">
+											<input type="text" hidden asp-for="PId">
 											<label for="Name" class="form-label">Full Name</label>
 											<input type="text" class="form-control" asp-for="Name" placeholder="Full Name">
 										</div>
-
-										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="Phone" class="form-label">Contact</label>
-											<input type="tel" class="form-control" asp-for="Phone" placeholder="Contact">
+											<input type="number" class="form-control" asp-for="Phone" placeholder="Contact">
 										</div>
 									</div>
 									<div class="col-6">
-										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="Email" class="form-label">Email</label>
 											<input type="email" class="form-control" asp-for="Email" placeholder="Email ID">
 										</div>
-
-										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="DateOfBirth" class="form-label">Birthday</label>
-											<div class="input-group">
-												<input type="text" class="form-control datepicker-opens-left" asp-for="DateOfBirth" placeholder="DD/MM/YYYY">
-												<span class="input-group-text">
-													<i class="bi bi-calendar4"></i>
-												</span>
-											</div>
+											<input type="date" class="form-control datepicker-opens-left" asp-for="DateOfBirth" placeholder="DD/MM/YYYY">
 										</div>
 									</div>
-
 								</div>
-
 								<div class="row gx-3">
 									<div class="col-6">
-										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="Address" class="form-label">Address</label>
 											<input type="text" class="form-control" asp-for="Address" placeholder="Address">
 										</div>
-
-										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="Gender" class="form-label">Gender</label>
 											<input type="text" class="form-control" asp-for="Gender" placeholder="Gender">
 										</div>
 									</div>
 									<div class="col-6">
-										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="MedicalHistory" class="form-label">Medical History</label>
 											<input type="text" class="form-control" asp-for="MedicalHistory" placeholder="Medical History">
 										</div>
-
-										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="InsuranceInformation" class="form-label">Insurance Information</label>
 											<input type="text" class="form-control" asp-for="InsuranceInformation" placeholder="Insurance Information">
 										</div>
 									</div>
-
 								</div>
-
-
 								<div class="row gx-3">
 									<div class="col-6">
-										<!-- Form Field Start -->
 										<div class="mb-3">
-											<label for="EmergencyContactName" class="form-label">Emergency ContactName</label>
+											<label for="EmergencyContactName" class="form-label">Emergency Contact Name</label>
 											<input type="text" class="form-control" asp-for="EmergencyContactName" placeholder="Emergency ContactName">
 										</div>
-
-										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="EmergencyContactPhone" class="form-label">Emergency Contact</label>
-											<input type="text" class="form-control" asp-for="EmergencyContactPhone" placeholder="Emergency ContactPhone">
+											<input type="number" class="form-control" asp-for="EmergencyContactPhone" placeholder="Emergency ContactPhone">
 										</div>
 									</div>
 									<div class="col-6">
-										<!-- Form Field Start -->
 										<div class="mb-3">
-											<label for="PrimaryCarePhysicianName" class="form-label">PrimaryCare PhysicianName</label>
+											<label for="PrimaryCarePhysicianName" class="form-label">PrimaryCare Physician Name</label>
 											<input type="text" class="form-control" asp-for="PrimaryCarePhysicianName" placeholder="PrimaryCare PhysicianName">
 										</div>
-
-										<!-- Form Field Start -->
 										<div class="mb-3">
-											<label for="PrimaryCarePhysicianPhone" class="form-label">PrimaryCare PhysicianPhone</label>
-											<input type="text" class="form-control" asp-for="PrimaryCarePhysicianPhone" placeholder="PrimaryCare PhysicianPhone">
+											<label for="PrimaryCarePhysicianPhone" class="form-label">PrimaryCare Physician Phone</label>
+											<input type="number" class="form-control" asp-for="PrimaryCarePhysicianPhone" placeholder="PrimaryCare PhysicianPhone">
 										</div>
 									</div>
-
 								</div>
 
 								<div class="row gx-3">
@@ -160,7 +115,7 @@
 										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="Height" class="form-label">Height</label>
-											<input type="text" class="form-control" asp-for="Height" placeholder="Height">
+											<input type="number" class="form-control" asp-for="Height" placeholder="Height">
 										</div>
 									</div>
 
@@ -171,27 +126,31 @@
 										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="Weight" class="form-label">Weight</label>
-											<input type="text" class="form-control" asp-for="Weight" placeholder="Full Name">
+											<input type="number" class="form-control" asp-for="Weight" placeholder="Weight">
 										</div>
 
 										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="PreferredLanguage" class="form-label">Preferred Language</label>
-											<input type="text" class="form-control" asp-for="PreferredLanguage" placeholder="Contact">
+											<input type="text" class="form-control" asp-for="PreferredLanguage" placeholder="PreferredLanguage">
 										</div>
 									</div>
 									<div class="col-6">
 										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="Occupation" class="form-label">Occupation</label>
-											<input type="text" class="form-control" asp-for="Occupation" placeholder="Email ID">
+											<input type="text" class="form-control" asp-for="Occupation" placeholder="Occupation">
 										</div>
 
-										@* <!-- Form Field Start -->
+										 <!-- Form Field Start -->
 										<div class="mb-3">
-											<label for="Height" class="form-label">Height</label>
-											<input type="text" class="form-control" asp-for="Height" placeholder="Email ID">
-										</div> *@
+											@if (@Model!=null)
+											{
+												<img src="@Model.PImage" alt="Adhar Image" class="img-thumbnail" style="width: 125px; height: 55px;" />
+											}
+											<label for="file" class="form-label">Profile Image</label>
+											<input type="file" class="form-control" id="file" placeholder="Profile Image">
+										</div>
 									</div>
 
 								</div>

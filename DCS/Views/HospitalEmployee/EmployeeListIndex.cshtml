@@ -4,13 +4,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     string? role = User.GetLoggedInUserRole();
 }
-
+<style>
+    th label {
+        color: white;
+    }</style>
 <div class="content">
-
-
     <div class="container-fluid">
-
-        <!-- start page title -->
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box">
@@ -25,8 +24,6 @@
                 </div>
             </div>
         </div>
-        <!-- end page title -->
-
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -70,12 +67,12 @@
                                     @* <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog-outline"></i></button> 
                                     <button type="button" class="btn btn-light mb-2">Export</button>*@
                                 </div>
-                            </div><!-- end col-->
+                            </div>
                         </div>
 
                         <div class="table-responsive">
                             <table class="table table-striped dt-responsive nowrap w-100" id="dTable">
-                                <thead class="table-dark">
+                                <thead style="background-image: linear-gradient(-45deg, #34b5bf 0%, #210c59 100%);">
                                     <tr class="text-white">
                                         <th>
                                             <label>ID</label>
@@ -95,7 +92,7 @@
                                         <th>
                                             <label>STATUS</label>
                                         </th>
-                                        <th></th>
+                                        <th><label>Action</label></th>
                                     </tr>
                                 </thead>
                                 <tbody id="EMPList">
@@ -103,16 +100,11 @@
                             </table>
                         </div>
                     </div>
-                </div> <!-- end card-->
-            </div> <!-- end col-->
+                </div>
+            </div>
         </div>
-        <!-- end row-->
-    </div> <!-- container -->
-
-</div> <!-- content -->
-
-
-
+    </div>
+</div> 
 
 <div id="employee_modalPV"></div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

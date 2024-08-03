@@ -20,15 +20,11 @@ namespace API.AppCode.ML
             return (Response)i;
         }
 
-        public async Task<IEnumerable<Appointment>> GetAppointment(DateOnly? Date, int? PId)
+        public async Task<IEnumerable<Appointment>> GetAppointment(Common common)
         {
-            var param = new
-            {
-                Date = Date,
-                PId = PId
-            };
+
             IProcedureAsync proc = new Proc_GetAppointment(_dapper);
-            var i = await proc.Call(param);
+            var i = await proc.Call(common);
             return (IEnumerable<Appointment>)i;
         }
 

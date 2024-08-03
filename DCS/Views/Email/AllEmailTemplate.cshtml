@@ -4,13 +4,14 @@
     ViewData["Title"] = "EmailTemplateList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .HC{
+        color: white;
+    }
 
+</style>
 <div class="content">
-
-
     <div class="container-fluid">
-
-        <!-- start page title -->
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box">
@@ -25,15 +26,12 @@
                 </div>
             </div>
         </div>
-        <!-- end page title -->
-
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
                         <div class="row mb-2">
                             <div class="col-sm-5">
-                                
                                 <div class="input-group">
                                     <div class="row d-flex justify-content-end align-items-center" style="margin-right: 0px;">
                                         <div class="col-auto mb-2">
@@ -63,35 +61,37 @@
                                         <i class="mdi mdi-plus-circle me-2"></i>New Type
                                         </button>
                                 </div>
-                            </div><!-- end col-->
+                            </div>
                         </div>
-
                         <div class="table-responsive card">
                             <table class="table table-hover dt-responsive nowrap w-100" id="dTable">
-                                <thead class="table-dark">
-                                    <tr class="text-white">
+                                <thead style="background-image: linear-gradient(-45deg, #34b5bf 0%, #210c59 100%);">
+                                    <tr>
                                         <th>
-                                            <label>ID</label>
+                                            <label class="HC">ID</label>
                                         </th>
                                         <th>
-                                            <label>TYPE</label>
+                                            <label class="HC">TYPE</label>
                                         </th>
                                         <th>
-                                            <label>SUBJECT</label>
+                                            <label class="HC">SUBJECT</label>
                                         </th>
                                         <th>
-                                            <label>Image</label>
+                                            <label class="HC">Image</label>
                                         </th>
                                         <th>
-                                            <label>CONTENT</label>
+                                            <label class="HC">REPLACE</label>
                                         </th>
                                         <th>
-                                            <label>CREATED ON</label>
+                                            <label class="HC">CONTENT</label>
                                         </th>
                                         <th>
-                                            <label>STATUS</label>
+                                            <label class="HC">Entry</label>
                                         </th>
-                                        <th>ACTION</th>
+                                        <th>
+                                            <label class="HC">STATUS</label>
+                                        </th>
+                                        <th><label class="HC">ACTION</label></th>
                                     </tr>
                                 </thead>
                                 <tbody id="emailTemplateList">
@@ -102,8 +102,7 @@
                 </div>
             </div>
         </div>
-    </div> 
-
+    </div>
 </div>
 <div id="emailTemp_modalPV"></div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -162,8 +161,8 @@
             alert("errror");
         })
     }
-    function doctorStatus(dId) {
-        var id = $("#customSwitch3_" + dId).prop("checked");
+    function templateStatus(Id) {
+        var id = $("#customSwitch3_" + Id).prop("checked");
         if (id == true) {
             id = 1;
 
@@ -172,7 +171,7 @@
             id = 0;
         }
         var param = {
-            DrId: dId,
+            Id: Id,
             Status: id,
         };
         console.log(param);

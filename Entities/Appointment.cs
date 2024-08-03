@@ -9,6 +9,8 @@ namespace Entities
         public int? DrId { get; set; }
         public int? PId { get; set; }
         public int? ServiceId { get; set; }
+        public string? ServiceName { get; set; }
+        public string? PatientName { get; set; }
         public string? Name { get; set; }
         public string? Email { get; set; }
         public string? PhoneNo { get; set; }

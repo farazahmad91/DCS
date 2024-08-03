@@ -3,12 +3,12 @@
     ViewData["Title"] = "Invoice";
     string? role = User.GetLoggedInUserRole();
 }
+<style>
+    th label {
+        color: white;
+    }</style>
 <div class="content">
-
-
     <div class="container-fluid">
-
-        <!-- start page title -->
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box">
@@ -23,15 +23,12 @@
                 </div>
             </div>
         </div>
-        <!-- end page title -->
-
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
                         <div class="row mb-2">
                             <div class="col-sm-5">
-
                                 <div class="input-group">
                                     <div class="row d-flex justify-content-end align-items-center" style="margin-right: 0px;">
                                         <div class="col-auto mb-2">
@@ -67,12 +64,11 @@
                                     </button>
                                     @* <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog-outline"></i></button> *@
                                 </div>
-                            </div><!-- end col-->
+                            </div>
                         </div>
-
                         <div class="table-responsive card">
                             <table class="table table-hover dt-responsive nowrap w-100" id="dTable">
-                                <thead class="table-dark">
+                                <thead style="background-image: linear-gradient(-45deg, #34b5bf 0%, #210c59 100%);">
                                     <tr>
                                         <th>
                                             <label>#</label>
@@ -242,10 +238,8 @@
         };
 
         const formData = new FormData();
-        formData.append("emailTemplate", JSON.stringify(emailTemplate));  // Corrected line
+        formData.append("emailTemplate", JSON.stringify(emailTemplate));
         formData.append("file", $("#file").prop('files')[0]);
-
-        // Debug: Log the formData contents
         for (const pair of formData.entries()) {
             console.log(pair[0] + ': ' + pair[1]);
         }

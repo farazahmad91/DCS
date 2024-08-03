@@ -4,6 +4,7 @@
     Layout = null;
     var status = "";
     var badge = "";
+    var Ischecked = "";
 }
 @if (Model == null || !Model.Any())
 {
@@ -32,6 +33,7 @@ else
                         <img src="@item.TemplateImage" onerror="this.onerror=null;this.src='../assets/images/noimage.jpg'" class="img-fluid rounded-circle" alt="No Image Found" width="90px" height="50px" />
                     </a>
         </td>
+            <td><textarea class="form-control bg-transparent border-0" cols="60">Replace Comming</textarea></td>
         <td><textarea class="form-control bg-transparent border-0" cols="60">@item.Content</textarea></td>
         <td>
             @Html.DisplayFor(modelItem => item.CreatedAt)
@@ -51,6 +53,18 @@ else
                 <label class="@badge">@status</label>
         </td>
         <td class="table-action">
+                <div class="form-check form-switch">
+                    @if (@item.Status==1)
+                    {
+                        Ischecked = "checked";
+                    }
+                    else
+                    {
+                        Ischecked = "";
+                    }
+                    <input type="checkbox" name="switch3" onchange="UserStatus(@item.TemplateID)" id="IsVerified_@item.TemplateID" data-switch="success" @Ischecked>
+                    <label for="IsVerified_@item.TemplateID" data-on-label="ON" data-off-label="OFF"></label>
+                </div>
                 <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline" onclick="editEmailTemplate(@item.TemplateID)"></i></a>
         </td>
     </tr>

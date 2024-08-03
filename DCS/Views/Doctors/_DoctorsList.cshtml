@@ -25,13 +25,13 @@ else
                 @if (@item.DrImage.Length!=0 && @item.DrImage!=null)
                 {
                     <a class="fancybox" href="@item.DrImage" data-fancybox data-caption="@item.Name">
-                        <img src="@item.DrImage" onerror="this.onerror=null;this.src='/images/noimage.jpg'" class="img-fluid rounded-circle" alt="No Image Found" width="90px" height="50px" />
+                        <img src="@item.DrImage" onerror="this.onerror=null;this.src='/images/noimage.jpg'" class="rounded-circle" alt="No Image Found" width="90px" height="50px" />
                     </a>
                 }
                 else
                 {
                     <a class="fancybox" href="@item.DrImage" data-fancybox data-caption="@item.Name">
-                        <img src="../assets/images/noimage.jpg" onerror="this.onerror=null;this.src='/images/noimage.jpg'" class="img-fluid rounded-circle" alt="No Image Found" width="90px" height="50px" />
+                        <img src="../assets/images/noimage.jpg" onerror="this.onerror=null;this.src='/images/noimage.jpg'" class="rounded-circle" alt="No Image Found" width="90px" height="50px" />
                     </a>
                 }
                 
@@ -76,7 +76,7 @@ else
             <td class="table-action">
                 <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye" onclick="doctorDetails(@item.DrId)"></i></a>
                 <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline" onclick="EditDoctor(@item.DrId)"></i></a>
-                <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                @* <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a> *@
             </td>
     </tr>
 }
