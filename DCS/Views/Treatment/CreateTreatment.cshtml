@@ -14,8 +14,8 @@
                             <div class="row mb-3">
                                 <label for="EmailType" class="col-3 col-form-label">Doctor Name</label>
                                 <div class="col-9">
-                                    <select id="doctor" class="form-control">
-                                        <option value="">Please select doctor</option>
+                                    <select id="doctor" class="form-control inputValidate">
+                                        <option value="">Please Select Doctor</option>
                                         @foreach (var item in Model)
                                         {
                                             <option value="@item.DrId">@item.Name</option>
@@ -27,25 +27,25 @@
                             <div class="row mb-3">
                                 <label for="EmailType" class="col-3 col-form-label">Email</label>
                                 <div class="col-9">
-                                    <input type="email" id="txtEmail" class="form-control" placeholder="Patient email" />
+                                    <input type="email" id="txtEmail" class="form-control inputValidate" placeholder="Patient Email" />
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label for="EmailType" class="col-3 col-form-label">Diagnosis</label>
                                 <div class="col-9">
-                                    <input type="text" id="txtDiagnosis" class="form-control" placeholder="Please enter Diagnosis" />
+                                    <input type="text" id="txtDiagnosis" class="form-control inputValidate" placeholder="Please Enter Diagnosis" />
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="EmailType" class="col-3 col-form-label">Description</label>
+                                <label for="EmailType" class="col-3 col-form-label ">Description</label>
                                 <div class="col-9">
-                                    <textarea id="Description" class="form-control" placeholder="Please enter description"></textarea>
+                                    <textarea id="Description" class="form-control inputValidate" placeholder="Please Enter Description"></textarea>
                                 </div>
                             </div>
 
                         </div>
                     </div>
-                        
+
                     <hr />
                     <!-- Row start -->
                     <div class="row gx-3">
@@ -54,7 +54,7 @@
                                 <table class="table table-bordered">
                                     <thead class="table-dark">
                                         <tr class="text-white">
-                                            <th>Medicine Name</th>
+                                            <th>Medicine</th>
                                             <th>Dosage</th>
                                             <th>Frequency</th>
                                             <th>FollowUpDate</th>
@@ -65,22 +65,22 @@
                                         <tr class="rowClass">
                                             <td>
                                                 <div class="m-0">
-                                                    <input type="text" class="form-control" id="txtMedicineName0" placeholder="Please enter name" />
+                                                    <input type="text" class="form-control " id="txtMedicineName0" placeholder="Please enter name" />
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="input-group m-0">
-                                                    <input type="text" id="txtDosage0" class="form-control" placeholder="Please enter dosage" />
+                                                    <input type="text" id="txtDosage0" class="form-control " placeholder="Please Enter Dosage" />
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="input-group m-0">
-                                                    <input type="text" id="txtFrequency0" class="form-control" placeholder="Please enter frequency" />
+                                                    <input type="text" id="txtFrequency0" class="form-control " placeholder="Please Enter Frequency" />
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="input-group m-0">
-                                                    <input type="date" id="txtFollowUpDate0" class="form-control" placeholder="Please enter follow date" />
+                                                    <input type="date" id="txtFollowUpDate0" class="form-control " placeholder="Please Enter Follow Date" />
                                                 </div>
                                             </td>
                                             <td>
@@ -118,7 +118,6 @@
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 <!-- Content wrapper start -->
-
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -135,30 +134,30 @@
 
             if (isValid) {
                 let dynamicRowHTML = `
-                        <tr class="rowClass">
-                            <td>
-                                <input type="text" class="form-control" id="txtMedicineName${count}" placeholder="Please enter name" />
-                            </td>
-                            <td>
-                                <input type="text" id="txtDosage${count}" class="form-control" placeholder="Please enter dosage" />
-                            </td>
-                            <td>
-                                <input type="text" id="txtFrequency${count}" class="form-control" placeholder="Please enter frequency" />
-                            </td>
-                            <td>
-                                <input type="date" id="txtFollowUpDate${count}" class="form-control" placeholder="Please enter follow date" />
-                            </td>
-                            <td>
-                                <div class="d-inline-flex gap-3">
-                                    <button class="btn btn-outline-danger remove">
-                                            <i class="mdi mdi-delete"></i>
-                                    </button>
-                                        <button class="btn btn-primary" id="btnaddnew">
-                                        Add
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>`;
+                            <tr class="rowClass">
+                                <td>
+                                    <input type="text" class="form-control" id="txtMedicineName${count}" placeholder="Please Enter Name" />
+                                </td>
+                                <td>
+                                        <input type="text" id="txtDosage${count}" class="form-control" placeholder="Please Enter Dosage" />
+                                </td>
+                                <td>
+                                        <input type="text" id="txtFrequency${count}" class="form-control" placeholder="Please Enter Frequency" />
+                                </td>
+                                <td>
+                                        <input type="date" id="txtFollowUpDate${count}" class="form-control" placeholder="Please Enter Follow Date" />
+                                </td>
+                                <td>
+                                    <div class="d-inline-flex gap-3">
+                                        <button class="btn btn-outline-danger remove">
+                                                <i class="mdi mdi-delete"></i>
+                                        </button>
+                                            <button class="btn btn-primary" id="btnaddnew">
+                                            Add
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>`;
 
                 $('#tbody tr:last').before(dynamicRowHTML);
                 count++;
@@ -183,93 +182,80 @@
 
         window.CreateMedicineReport = function () {
             debugger;
-            if (!validateInvoiceFields()) {
-                alert('Please fill all the required fields.');
-                return;
-            }
+            if (validateInvoiceFields()) {
 
-            let treatment = {
-                DrId: $('#doctor').val(),
-                Email: $('#txtEmail').val(),
-                Diagnosis: $('#txtDiagnosis').val(),
-                Description: $('#Description').val(),
-                Medications: []
-            };
 
-            $('.rowClass').each(function (index, element) {
-                let medicineName = $(element).find('input[id^="txtMedicineName"]').val();
-                let dosage = $(element).find('input[id^="txtDosage"]').val();
-                let frequency = $(element).find('input[id^="txtFrequency"]').val();
-                let followUpDate = $(element).find('input[id^="txtFollowUpDate"]').val();
 
-                console.log(`Medicine ${index}:`, {
-                    Name: medicineName,
-                    Dosage: dosage,
-                    Frequency: frequency,
-                    FollowUpDate: followUpDate
-                });
-
-                let medicine = {
-                    Name: medicineName,
-                    Dosage: dosage,
-                    Frequency: frequency,
-                    FollowUpDate: followUpDate
+                let treatment = {
+                    DrId: $('#doctor').val(),
+                    Email: $('#txtEmail').val(),
+                    Diagnosis: $('#txtDiagnosis').val(),
+                    Description: $('#Description').val(),
+                    Medications: []
                 };
 
-                treatment.Medications.push(medicine);
-            });
+                $('.rowClass').each(function (index, element) {
+                    let medicineName = $(element).find('input[id^="txtMedicineName"]').val();
+                    let dosage = $(element).find('input[id^="txtDosage"]').val();
+                    let frequency = $(element).find('input[id^="txtFrequency"]').val();
+                    let followUpDate = $(element).find('input[id^="txtFollowUpDate"]').val();
 
-            console.log('Treatment:', treatment);
+                    console.log(`Medicine ${index}:`, {
+                        Name: medicineName,
+                        Dosage: dosage,
+                        Frequency: frequency,
+                        FollowUpDate: followUpDate
+                    });
 
-            $.ajax({
-                url: '/AddTreatment',
-                type: 'POST',
-                data: JSON.stringify(treatment),
-                contentType: 'application/json',
-                success: function (res) {
-                    Info(res.statusCode, res.responseText);
-                },
-                error: function (error) {
-                    Info(error.statusCode, error.responseText);
-                }
-            });
+                    let medicine = {
+                        Name: medicineName,
+                        Dosage: dosage,
+                        Frequency: frequency,
+                        FollowUpDate: followUpDate
+                    };
+
+                    treatment.Medications.push(medicine);
+                });
+
+                console.log('Treatment:', treatment);
+
+                $.ajax({
+                    url: '/AddTreatment',
+                    type: 'POST',
+                    data: JSON.stringify(treatment),
+                    contentType: 'application/json',
+                    success: function (res) {
+                        Info(res.statusCode, res.responseText);
+                    },
+                    error: function (error) {
+                        Info(error.statusCode, error.responseText);
+                    }
+                });
+            }
         }
-
 
 
         function validateInvoiceFields() {
             let isValid = true;
-
-            // Check existing fields
-            if ($('#doctor').val().trim() === '') {
-                isValid = false;
-            }
-            if ($('#txtEmail').val().trim() === '') {
-                isValid = false;
-            }
-            if ($('#txtDiagnosis').val().trim() === '') {
-                isValid = false;
-            }
-            if ($('#Description').val().trim() === '') {
-                isValid = false;
-            }
-
-            $('.rowClass').each(function (index, element) {
-                let isRowValid = true;
-                $(element).find('input').each(function () {
-                    if ($(this).val().trim() === '') {
-                        isRowValid = false;
-                        return false;
+            $('.inputValidate').each(function () {
+                const $this = $(this);
+                console.log($this);
+                if ($this.val().trim() === '' || $this.val().trim() == 0) {
+                    $this.addClass("border border-2 border-danger");
+                    if ($this.next('.error-message').length < 1) {
+                        $this.after('<div class="error-message text-danger">This field is required</div>');
                     }
-                });
-                if (!isRowValid) {
                     isValid = false;
-                    return false;
+                } else {
+                    $this.removeClass("border border-2 border-danger").addClass("border-success");
+                    $this.next('.error-message').remove();
                 }
             });
 
             return isValid;
         }
+
+       
 
     });
 

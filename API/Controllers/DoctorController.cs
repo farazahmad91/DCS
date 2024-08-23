@@ -52,5 +52,12 @@ namespace API.Controllers
             var i = await _doctor.GetDoctorById(DrId);
             return Ok(i);
         }
+
+        [HttpPost(nameof(DoctorModifyStatus) + "/{Id}")]
+        public async Task<IActionResult> DoctorModifyStatus(int Id)
+        {
+            var i = await _doctor.DoctorModifyStatus(Id);
+            return Ok(i);
+        }
     }
 }

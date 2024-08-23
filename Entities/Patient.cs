@@ -9,7 +9,7 @@ namespace Entities
 {
     public class Patient
     {
-        public int PId { get; set; }
+        public int? PId { get; set; }
         public int AppointmentId { get; set; }
         public int? ProjectId { get; set; }
         public string? Name { get; set; }

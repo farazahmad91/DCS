@@ -13,13 +13,18 @@
         </div>
     `);
     $('.alert-container').append(alertDiv);
-    alertDiv.fadeIn(1000);
+
+    // Show alert quickly
+    alertDiv.fadeIn(500); // Faster fade-in
+
+    // Hide alert quickly
     setTimeout(() => {
-        alertDiv.fadeOut('slow', () => {
+        alertDiv.fadeOut(500, () => { // Faster fade-out
             alertDiv.remove();
         });
-    }, 2000);
+    }, 2000); // Shorter duration before fading out
 }
+
 
 function IsValidate(cls) {
     let isValid = true;

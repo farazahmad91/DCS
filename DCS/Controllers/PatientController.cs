@@ -59,15 +59,21 @@ namespace DCS.Controllers
             };
             int? projectid = User.GetProjectId();
 
-            var request = JsonConvert.DeserializeObject<Patient>(patientData);
-            request.ProjectId=projectid;
-            request.ImagePath=file;
-            var apiRes = await APIRequestML.O.SendFileAndContentAsync($"{_BaseUrl}/api/Patient/AddOrUpdatePatient", request, file, null, null);
-            var res = await apiRes.Content.ReadAsStringAsync();
-            if (apiRes != null && apiRes.IsSuccessStatusCode)
+            try
             {
-                response = JsonConvert.DeserializeObject<Response>(res);
-                return Json(response);
+                var request = JsonConvert.DeserializeObject<Patient>(patientData);
+                request.ProjectId = projectid;
+                request.ImagePath = file;
+                var apiRes = await APIRequestML.O.SendFileAndContentAsync($"{_BaseUrl}/api/Patient/AddOrUpdatePatient", request, file, null, null);
+                var res = await apiRes.Content.ReadAsStringAsync();
+                if (apiRes != null && apiRes.IsSuccessStatusCode)
+                {
+                    response = JsonConvert.DeserializeObject<Response>(res);
+                    return Json(response);
+                }
+            }
+            catch (Exception ex)
+            {
             }
 
             return Json(response);

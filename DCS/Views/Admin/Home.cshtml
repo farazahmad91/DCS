@@ -110,7 +110,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function Onload() {
-
+             debugger
             $.post('/Dashboard/DashboardStatus').done(function (res) {
                 $("#dboardstatus").html(res);
             }).fail(function () {

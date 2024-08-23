@@ -25,13 +25,13 @@ else
                 @if (@item.DrImage.Length!=0 && @item.DrImage!=null)
                 {
                     <a class="fancybox" href="@item.DrImage" data-fancybox data-caption="@item.Name">
-                        <img src="@item.DrImage" onerror="this.onerror=null;this.src='/images/noimage.jpg'" class="rounded-circle" alt="No Image Found" width="90px" height="50px" />
+                        <img src="@item.DrImage" onerror="this.onerror=null;this.src='/images/noimage.jpg'" class="rounded-circle" alt="No Image Found" width="50px" height="50px" />
                     </a>
                 }
                 else
                 {
                     <a class="fancybox" href="@item.DrImage" data-fancybox data-caption="@item.Name">
-                        <img src="../assets/images/noimage.jpg" onerror="this.onerror=null;this.src='/images/noimage.jpg'" class="rounded-circle" alt="No Image Found" width="90px" height="50px" />
+                        <img src="../assets/images/noimage.jpg" onerror="this.onerror=null;this.src='/images/noimage.jpg'" class="rounded-circle" alt="No Image Found" width="50px" height="50px" />
                     </a>
                 }
                 
@@ -42,10 +42,10 @@ else
         <td>
             @Html.DisplayFor(modelItem => item.ConsultationFee)
         </td>
-@*         <td>
+        <td>
             @Html.DisplayFor(modelItem => item.Availability)
-        </td> *@
-            <td>
+        </td>
+            @* <td>
                 <div class="form-check form-switch">
                     @if (@item.Status==1)
                     {
@@ -55,10 +55,10 @@ else
                     {
                         Ischecked = "";
                     }
-                    <input type="checkbox" name="switch3" onchange="UserStatus(@item.DrId)" id="IsAvailable_@item.DrId" data-switch="success" @Ischecked>
+                    <input type="checkbox" name="IsAvailable_@item.DrId" onchange="UserStatus(@item.DrId)" id="IsAvailable_@item.DrId" data-switch="success" @Ischecked>
                     <label for="IsVerified_@item.DrId" data-on-label="Yes" data-off-label="No"></label>
                 </div>
-            </td>
+            </td> *@
             <td>
                 <div class="form-check form-switch">
                     @if (@item.Status==1)
@@ -69,7 +69,7 @@ else
                     {
                         Ischecked = "";
                     }
-                    <input type="checkbox" name="switch3" onchange="UserStatus(@item.DrId)" id="IsVerified_@item.DrId" data-switch="success" @Ischecked>
+                    <input type="checkbox" name="IsVerified_@item.DrId" onchange="doctorStatus(@item.DrId)" id="IsVerified_@item.DrId" data-switch="success" @Ischecked>
                     <label for="IsVerified_@item.DrId" data-on-label="ON" data-off-label="OFF"></label>
                 </div>
             </td>

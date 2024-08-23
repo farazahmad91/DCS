@@ -9,7 +9,7 @@ namespace Entities
 {
     public class Doctor
     {
-        public int DrId { get; set; }
+        public int? DrId { get; set; }
         public string? Name { get; set; }
         public string? Email { get; set; }
         public string? Phone { get; set; }

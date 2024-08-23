@@ -20,6 +20,13 @@ namespace API.AppCode.ML
             return (Response)i;
         }
 
+        public async Task<Response> DoctorModifyStatus(int Id)
+        {
+            IProcedureAsync proc = new Proc_DoctorModifyStatus(_dapper);
+            var i = await proc.Call(Id);
+            return (Response)i;
+        }
+
         public async Task<IEnumerable<Doctor>> GetDoctor(string? name)
         {
             IProcedureAsync proc = new Proc_GetDoctor(_dapper);

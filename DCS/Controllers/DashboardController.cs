@@ -17,7 +17,7 @@ namespace DCS.Controllers
         }
         public async Task<IActionResult> DashboardStatus()
         {
-            Common common = new Common();
+            Common common = new Common(); 
             var list = new DashboardStatus();
             int? projectId = User.GetProjectId();
             string? Role = User.GetLoggedInUserRole();

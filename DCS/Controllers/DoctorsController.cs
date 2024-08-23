@@ -141,5 +141,22 @@ namespace DCS.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        [Route("DoctorModifyStatus")]
+        public async Task<IActionResult> DoctorModifyStatus(int Id)
+        {
+            try
+            {
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Doctor/DoctorModifyStatus/{Id}",null ,null);
+                Response jsonResponse = JsonConvert.DeserializeObject<Response>(apiRes.Result);
+                return Json(jsonResponse);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred: " + ex.Message);
+                return Json(new { error = "An error occurred while processing your request." });
+            }
+        }
     }
 }

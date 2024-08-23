@@ -1,5 +1,26 @@
 ﻿@model Entities.Doctor
 <link rel="stylesheet" href="~/assets/vendor/dropzone/dropzone.min.css" />
+<style>
+	.profile-pic {
+		text-align: center;
+	}
+
+		.profile-pic img {
+			max-width:50%;
+			height: auto;
+		}
+
+	.-label {
+		display: inline-block;
+		cursor: pointer;
+		margin-bottom: 10px;
+	}
+
+	.glyphicon-camera {
+		font-size: 24px;
+		color: #555;
+	}
+</style>
 <div class="card">
 	<div class="card-body">
 		<div class="modal fade" id="Dr_Editmodal" tabindex="-1" aria-labelledby="Dr_EditmodalTitle" style="display: none;" aria-hidden="true">
@@ -22,34 +43,34 @@
 												<span>Change Image</span>
 											</label>
 											<input id="file" type="file" onchange="uploadImage(event)" />
-
-											<img src="https://cdn.pixaba.com/photo/2017/08/06/21/01/louvre-2596278_960_720.jpg" id="output" width="200" />
-
+											<img src="https://cdn.pixabay.com/photo/2017/08/06/21/01/louvre-2596278_960_720.jpg" id="output" width="200" alt="Profile Picture" />
 										</div>
 									</form>
+
 								</div>
 							</div>
 							<div class="col-sm-8 col-12">
 								<div class="row gx-3">
 									<div class="col-6">
 										<div class="mb-3">
+											<input type="text" hidden asp-for="DrId">
 											<label for="Name" class="form-label">Full Name</label>
-											<input type="text" class="form-control" asp-for="Name" placeholder="Full Name">
+											<input type="text" class="form-control inputValidate" asp-for="Name" placeholder=" Enter Full Name">
 										</div>
 										<div class="mb-3">
 											<label for="Phone" class="form-label">Contact</label>
-											<input type="tel" class="form-control" asp-for="Phone" placeholder="Contact">
+											<input type="tel" class="form-control inputValidate" asp-for="Phone" placeholder=" Enter Your Contact">
 										</div>
 									</div>
 									<div class="col-6">
 										<div class="mb-3">
 											<label for="Email" class="form-label">Email</label>
-											<input type="email" class="form-control" asp-for="Email" placeholder="Email ID">
+											<input type="email" class="form-control inputValidate" asp-for="Email" placeholder=" Enter Your Email ID">
 										</div>
 										<div class="mb-3">
 											<label for="DateOfBirth" class="form-label">Birthday</label>
 											<div class="input-group">
-												<input type="text" class="form-control datepicker-opens-left" asp-for="DateOfBirth" placeholder="DD/MM/YYYY">
+												<input type="text" class="form-control inputValidate datepicker-opens-left" asp-for="DateOfBirth" placeholder="DD/MM/YYYY">
 												<span class="input-group-text">
 													<i class="bi bi-calendar4"></i>
 												</span>
@@ -61,21 +82,26 @@
 									<div class="col-6">
 										<div class="mb-3">
 											<label for="Specialization" class="form-label">Specialization</label>
-											<input type="text" class="form-control" asp-for="Specialization" placeholder="Full Name">
+											<input type="text" class="form-control inputValidate" asp-for="Specialization" placeholder="Specialization">
 										</div>
 										<div class="mb-3">
 											<label for="Qualifications" class="form-label">Qualifications</label>
-											<input type="text" class="form-control" asp-for="Qualifications" placeholder="Contact">
+											<input type="text" class="form-control inputValidate" asp-for="Qualifications" placeholder="Qualifications">
 										</div>
 									</div>
 									<div class="col-6">
 										<div class="mb-3">
 											<label for="Gender" class="form-label">Gender</label>
-											<input type="email" class="form-control" asp-for="Gender" placeholder="Email ID">
+											<select class="form-control inputValidate" asp-for="Gender">
+												<option value="">Select Gender</option>
+												<option value="male">Male</option>
+												<option value="female">Female</option>
+												<option value="other">Other's</option>
+											</select>
 										</div>
 										<div class="mb-3">
 											<label for="Affiliations" class="form-label">Affiliations</label>
-											<input type="text" class="form-control" asp-for="Affiliations" placeholder="Email ID">
+											<input type="text" class="form-control inputValidate" asp-for="Affiliations" placeholder="Affiliations">
 										</div>
 									</div>
 								</div>
@@ -83,25 +109,33 @@
 									<div class="col-6">
 										<div class="mb-3">
 											<label for="Languages" class="form-label">Languages</label>
-											<input type="text" class="form-control" asp-for="Languages" placeholder="Full Name">
+											<input type="text" class="form-control inputValidate" asp-for="Languages" placeholder="Languages">
 										</div>
 										<div class="mb-3">
 											<label for="ConsultationFee" class="form-label">Consultation Fee</label>
-											<input type="text" class="form-control" asp-for="ConsultationFee" placeholder="Contact">
+											<input type="text" class="form-control inputValidate" asp-for="ConsultationFee" placeholder="Consultation Fee">
 										</div>
 									</div>
 									<div class="col-6">
 										<div class="mb-3">
 											<label for="Availability" class="form-label">Availability</label>
-											<input type="text" class="form-control" asp-for="Availability" placeholder="Email ID">
+											<input type="text" class="form-control inputValidate" asp-for="Availability" placeholder="Availability">
 										</div>
+										<div class="mb-3">
+											<label for="Address" class="form-label">Address</label>
+											<input type="text" class="form-control inputValidate" asp-for="Address" placeholder="Address">
+										</div>
+									</div>
+
+									<div class="col-6">
 										<div class="mb-3">
 											<label class="form-label">IsActive</label>
 											<div class="form-check form-switch">
-												<input class="form-check-input" type="checkbox" role="switch" onchange="OnTransaction();" id="Status" checked="">
+												<input class="form-check-input inputValidate" type="checkbox" role="switch" onchange="OnTransaction();" id="Status" checked="">
 												<label class="form-check-label" for="Status"></label>
 											</div>
 										</div>
+										
 									</div>
 								</div>
 							</div>
@@ -129,10 +163,86 @@
 	</div>
 </div>
 <script>
+
+	function uploadImage(event) {
+		const input = event.target;
+		const file = input.files[0];
+		const reader = new FileReader();
+
+		if (file) {
+			reader.onload = function (e) {
+				const imgElement = document.getElementById('output');
+				imgElement.src = e.target.result;
+			};
+
+			reader.readAsDataURL(file);
+		}
+	}
 	var loadFile = function (event) {
 		var image = document.getElementById("output");
 		image.src = URL.createObjectURL(event.target.files[0]);
 	};
+
+	function IsValidate() {
+		let isValid = true;
+		$('.inputValidate').each(function () {
+			const $this = $(this);
+			console.log($this);
+			if ($this.val().trim() === '' || $this.val().trim() == 0) {
+				$this.addClass("border border-2 border-danger");
+				if ($this.next('.error-message').length < 1) {
+					$this.after('<div class="error-message text-danger">This field is required</div>');
+				}
+				isValid = false;
+			} else {
+				$this.removeClass("border border-2 border-danger").addClass("border-success");
+				$this.next('.error-message').remove();
+			}
+		});
+
+		return isValid;
+	}
+
+	function addDoctor() {
+		if (IsValidate()) {
+			let doctorData = {
+				DrId: $("#DrId").val(),
+				Name: $("#Name").val(),
+				Phone: $("#Phone").val(),
+				Email: $("#Email").val(),
+				Address: $("#Address").val(),
+				DateOfBirth: $("#DateOfBirth").val(),
+				Specialization: $("#Specialization").val(),
+				Qualifications: $("#Qualifications").val(),
+				Gender: $("#Gender").val(),
+				Affiliations: $("#Affiliations").val(),
+				Languages: $("#Languages").val(),
+				ConsultationFee: $("#ConsultationFee").val(),
+				Availability: $("#Availability").val(),
+				Status: $("#IsActive").prop('checked')
+			};
+			const formData = new FormData();
+			formData.append("doctorData", JSON.stringify(doctorData));
+			formData.append("file", $("#file").prop('files')[0]);
+			for (const pair of formData.entries()) {
+				console.log(pair[0] + ': ' + pair[1]);
+			}
+			$.ajax({
+				url: '/D-AddOrUpdate',
+				type: 'POST',
+				data: formData,
+				contentType: false,
+				processData: false,
+				success: function (result) {
+					Info(result.statusCode, result.responseText);
+				},
+				error: function () {
+					showerrors("Something went wrong!!!");
+				}
+			});
+		}
+	}
+
 </script>
 <script src="~/assets/vendor/daterange/daterange.js"></script>
 <script src="~/assets/vendor/daterange/custom-daterange.js"></script>

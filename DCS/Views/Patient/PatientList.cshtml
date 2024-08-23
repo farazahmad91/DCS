@@ -108,6 +108,7 @@
 <div id="Patient_modalPV"></div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+   
 
     function Onload() {
         var param = {
@@ -180,55 +181,6 @@
 
 
 
-    function addPatient() {
-        // Collect form data
-        const patientData = {
-            PId: $("#PId").val(),
-            Name: $("#Name").val(),
-            Phone: $("#Phone").val(),
-            Email: $("#Email").val(),
-            DateOfBirth: $("#DateOfBirth").val(),
-            Address: $("#Address").val(),
-            Gender: $("#Gender").val(),
-            MedicalHistory: $("#MedicalHistory").val(),
-            InsuranceInformation: $("#InsuranceInformation").val(),
-            EmergencyContactName: $("#EmergencyContactName").val(),
-            EmergencyContactPhone: $("#EmergencyContactPhone").val(),
-            PrimaryCarePhysicianName: $("#PrimaryCarePhysicianName").val(),
-            PrimaryCarePhysicianPhone: $("#PrimaryCarePhysicianPhone").val(),
-            Allergies: $("#Allergies").val(),
-            Medications: $("#Medications").val(),
-            BloodType: $("#BloodType").val(),  // Corrected to use .val()
-            Height: $("#Height").val(),
-            Weight: $("#Weight").val(),
-            PreferredLanguage: $("#PreferredLanguage").val(),
-            Occupation: $("#Occupation").val()
-        };
-
-        const formData = new FormData();
-        formData.append("patientData", JSON.stringify(patientData));
-        formData.append("file", $("#file").prop('files')[0]);
-        // Debug: Log the formData contents
-        for (const pair of formData.entries()) {
-            console.log(pair[0] + ': ' + pair[1]);
-        }
-
-        $.ajax({
-            url: '/PatientAddOrUpdate',
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (result) {
-                setTimeout(function () {
-                    Info(result.statusCode, result.responseText);
-                }, 1000);
-            },
-            error: function () {
-                showerrors("Something went wrong!!!");
-            }
-        });
-    }
-
+ 
 
 </script>

@@ -8,7 +8,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="Patient_EditmodalTitle">
-							Add or Update Patient
+							Add Or Update Patient
 						</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
@@ -22,21 +22,21 @@
 										<div class="mb-3">
 											<input type="text" hidden asp-for="PId">
 											<label for="Name" class="form-label">Full Name</label>
-											<input type="text" class="form-control" asp-for="Name" placeholder="Full Name">
+											<input type="text" class="form-control inputValidate" asp-for="Name" placeholder="Full Your Name">
 										</div>
 										<div class="mb-3">
 											<label for="Phone" class="form-label">Contact</label>
-											<input type="number" class="form-control" asp-for="Phone" placeholder="Contact">
+											<input type="number" class="form-control inputValidate" asp-for="Phone" placeholder=" Enter Your Contact">
 										</div>
 									</div>
 									<div class="col-6">
 										<div class="mb-3">
 											<label for="Email" class="form-label">Email</label>
-											<input type="email" class="form-control" asp-for="Email" placeholder="Email ID">
+											<input type="email" class="form-control inputValidate" asp-for="Email" placeholder="Enter Email ID">
 										</div>
 										<div class="mb-3">
 											<label for="DateOfBirth" class="form-label">Birthday</label>
-											<input type="date" class="form-control datepicker-opens-left" asp-for="DateOfBirth" placeholder="DD/MM/YYYY">
+											<input type="date" class="form-control inputValidate datepicker-opens-left" asp-for="DateOfBirth" placeholder="DD/MM/YYYY">
 										</div>
 									</div>
 								</div>
@@ -44,21 +44,27 @@
 									<div class="col-6">
 										<div class="mb-3">
 											<label for="Address" class="form-label">Address</label>
-											<input type="text" class="form-control" asp-for="Address" placeholder="Address">
+											<input type="text" class="form-control inputValidate" asp-for="Address" placeholder=" Enter Your Address">
 										</div>
 										<div class="mb-3">
 											<label for="Gender" class="form-label">Gender</label>
-											<input type="text" class="form-control" asp-for="Gender" placeholder="Gender">
+											<select class="form-control inputValidate" asp-for="Gender">
+												<option value="">Select Gender</option>
+												<option value="male">Male</option>
+												<option value="female">Female</option>
+												<option value="other">Other's</option>
+											</select>
+									
 										</div>
 									</div>
 									<div class="col-6">
 										<div class="mb-3">
 											<label for="MedicalHistory" class="form-label">Medical History</label>
-											<input type="text" class="form-control" asp-for="MedicalHistory" placeholder="Medical History">
+											<input type="text" class="form-control inputValidate" asp-for="MedicalHistory" placeholder="Medical History">
 										</div>
 										<div class="mb-3">
 											<label for="InsuranceInformation" class="form-label">Insurance Information</label>
-											<input type="text" class="form-control" asp-for="InsuranceInformation" placeholder="Insurance Information">
+											<input type="text" class="form-control inputValidate" asp-for="InsuranceInformation" placeholder="Insurance Information">
 										</div>
 									</div>
 								</div>
@@ -66,21 +72,21 @@
 									<div class="col-6">
 										<div class="mb-3">
 											<label for="EmergencyContactName" class="form-label">Emergency Contact Name</label>
-											<input type="text" class="form-control" asp-for="EmergencyContactName" placeholder="Emergency ContactName">
+											<input type="text" class="form-control inputValidate" asp-for="EmergencyContactName" placeholder="Emergency Contact Name">
 										</div>
 										<div class="mb-3">
 											<label for="EmergencyContactPhone" class="form-label">Emergency Contact</label>
-											<input type="number" class="form-control" asp-for="EmergencyContactPhone" placeholder="Emergency ContactPhone">
+											<input type="number" class="form-control inputValidate" asp-for="EmergencyContactPhone" placeholder="Emergency Contact Phone">
 										</div>
 									</div>
 									<div class="col-6">
 										<div class="mb-3">
 											<label for="PrimaryCarePhysicianName" class="form-label">PrimaryCare Physician Name</label>
-											<input type="text" class="form-control" asp-for="PrimaryCarePhysicianName" placeholder="PrimaryCare PhysicianName">
+											<input type="text" class="form-control inputValidate" asp-for="PrimaryCarePhysicianName" placeholder="PrimaryCare Physician Name">
 										</div>
 										<div class="mb-3">
 											<label for="PrimaryCarePhysicianPhone" class="form-label">PrimaryCare Physician Phone</label>
-											<input type="number" class="form-control" asp-for="PrimaryCarePhysicianPhone" placeholder="PrimaryCare PhysicianPhone">
+											<input type="number" class="form-control inputValidate" asp-for="PrimaryCarePhysicianPhone" placeholder="PrimaryCare Physician Phone">
 										</div>
 									</div>
 								</div>
@@ -90,20 +96,20 @@
 										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="Allergies" class="form-label">Allergies</label>
-											<input type="text" class="form-control" asp-for="Allergies" placeholder="Allergies">
+											<input type="text" class="form-control inputValidate" asp-for="Allergies" placeholder="Allergies">
 										</div>
 
 										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="Medications" class="form-label">Medications</label>
-											<input type="text" class="form-control" asp-for="Medications" placeholder="Medications">
+											<input type="text" class="form-control inputValidate" asp-for="Medications" placeholder="Medications">
 										</div>
 									</div>
 									<div class="col-6">
 										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="BloodType" class="form-label">BloodType</label>
-											<select class="form-control" asp-for="BloodType">
+											<select class="form-control inputValidate" asp-for="BloodType">
 												<option value="">select blood type</option>
 												<option value="A">A</option>
 												<option value="A+">A+</option>
@@ -115,7 +121,7 @@
 										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="Height" class="form-label">Height</label>
-											<input type="number" class="form-control" asp-for="Height" placeholder="Height">
+											<input type="number" class="form-control inputValidate" asp-for="Height" placeholder="Height">
 										</div>
 									</div>
 
@@ -126,20 +132,20 @@
 										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="Weight" class="form-label">Weight</label>
-											<input type="number" class="form-control" asp-for="Weight" placeholder="Weight">
+											<input type="number" class="form-control inputValidate" asp-for="Weight" placeholder="Weight">
 										</div>
 
 										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="PreferredLanguage" class="form-label">Preferred Language</label>
-											<input type="text" class="form-control" asp-for="PreferredLanguage" placeholder="PreferredLanguage">
+											<input type="text" class="form-control inputValidate" asp-for="PreferredLanguage" placeholder="PreferredLanguage">
 										</div>
 									</div>
 									<div class="col-6">
 										<!-- Form Field Start -->
 										<div class="mb-3">
 											<label for="Occupation" class="form-label">Occupation</label>
-											<input type="text" class="form-control" asp-for="Occupation" placeholder="Occupation">
+											<input type="text" class="form-control inputValidate" asp-for="Occupation" placeholder="Occupation">
 										</div>
 
 										 <!-- Form Field Start -->
@@ -149,7 +155,7 @@
 												<img src="@Model.PImage" alt="Adhar Image" class="img-thumbnail" style="width: 125px; height: 55px;" />
 											}
 											<label for="file" class="form-label">Profile Image</label>
-											<input type="file" class="form-control" id="file" placeholder="Profile Image">
+											<input type="file" class="form-control inputValidate" id="file" placeholder="Profile Image">
 										</div>
 									</div>
 
@@ -161,7 +167,7 @@
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
 							Close
 						</button>
-						<button type="button" class="btn btn-primary"  onclick="addPatient();">
+						<button type="button" class="btn btn-primary" onclick="addPatient();">
 							@if (Model != null && Model.PId != null)
 							{
 								<text>Save changes</text>
@@ -185,4 +191,76 @@
 		var image = document.getElementById("output");
 		image.src = URL.createObjectURL(event.target.files[0]);
 	};
+	function IsValidate() {
+		let isValid = true;
+		$('.inputValidate').each(function () {
+			const $this = $(this);
+			console.log($this);
+			if ($this.val().trim() === '' || $this.val().trim() == 0) {
+				$this.addClass("border border-2 border-danger");
+				if ($this.next('.error-message').length < 1) {
+					$this.after('<div class="error-message text-danger">This field is required</div>');
+				}
+				isValid = false;
+			} else {
+				$this.removeClass("border border-2 border-danger").addClass("border-success");
+				$this.next('.error-message').remove();
+			}
+		});
+
+		return isValid;
+	}
+	function addPatient() {
+		debugger
+		if (IsValidate()) {
+			// Collect form data
+			const patientData = {
+				PId: $("#PId").val(),
+				Name: $("#Name").val(),
+				Phone: $("#Phone").val(),
+				Email: $("#Email").val(),
+				DateOfBirth: $("#DateOfBirth").val(),
+				Address: $("#Address").val(),
+				Gender: $("#Gender").val(),
+				MedicalHistory: $("#MedicalHistory").val(),
+				InsuranceInformation: $("#InsuranceInformation").val(),
+				EmergencyContactName: $("#EmergencyContactName").val(),
+				EmergencyContactPhone: $("#EmergencyContactPhone").val(),
+				PrimaryCarePhysicianName: $("#PrimaryCarePhysicianName").val(),
+				PrimaryCarePhysicianPhone: $("#PrimaryCarePhysicianPhone").val(),
+				Allergies: $("#Allergies").val(),
+				Medications: $("#Medications").val(),
+				BloodType: $("#BloodType").val(),  // Corrected to use .val()
+				Height: $("#Height").val(),
+				Weight: $("#Weight").val(),
+				PreferredLanguage: $("#PreferredLanguage").val(),
+				Occupation: $("#Occupation").val()
+			};
+
+			const formData = new FormData();
+			formData.append("patientData", JSON.stringify(patientData));
+			formData.append("file", $("#file").prop('files')[0]);
+			// Debug: Log the formData contents
+			for (const pair of formData.entries()) {
+				console.log(pair[0] + ': ' + pair[1]);
+			}
+
+			$.ajax({
+				url: '/PatientAddOrUpdate',
+				type: 'POST',
+				data: formData,
+				contentType: false,
+				processData: false,
+				success: function (result) {
+					setTimeout(function () {
+						Info(result.statusCode, result.responseText);
+					}, 1000);
+				},
+				error: function () {
+					showerrors("Something went wrong!!!");
+				}
+			});
+		}
+	}
+
 </script>
