@@ -1,18 +1,24 @@
-﻿@model IEnumerable<Entities.Doctor>
+﻿    @model IEnumerable<Entities.Doctor>
+<link href="~/Spinner.css" rel="stylesheet" type="text/css" />
 @{
     ViewData["Title"] = "CreateTreatment";
     Layout = null;
 }
-<div class="modal fade" id="AddTreatment_Modal" role="dialog" data-backdrop="static" data-keyboard="false">
+<!-- Modal -->
+<div class="modal fade" id="AddTreatment_Modal" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="Dr_EditmodalTitle">Treatment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
             <div class="modal-body">
                 <div class="card-body">
                     <div class="card">
                         <div class="form-horizontal">
                             <div class="row mb-3">
-                                <label for="EmailType" class="col-3 col-form-label">Doctor Name</label>
+                                <label for="doctor" class="col-3 col-form-label">Doctor Name</label>
                                 <div class="col-9">
                                     <select id="doctor" class="form-control">
                                         <option value="">Please select doctor</option>
@@ -21,28 +27,26 @@
                                             <option value="@item.DrId">@item.Name</option>
                                         }
                                     </select>
-
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="EmailType" class="col-3 col-form-label">Email</label>
+                                <label for="txtEmail" class="col-3 col-form-label">Email</label>
                                 <div class="col-9">
                                     <input type="email" id="txtEmail" class="form-control" placeholder="Patient email" />
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="EmailType" class="col-3 col-form-label">Diagnosis</label>
+                                <label for="txtDiagnosis" class="col-3 col-form-label">Diagnosis</label>
                                 <div class="col-9">
                                     <input type="text" id="txtDiagnosis" class="form-control" placeholder="Please enter Diagnosis" />
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="EmailType" class="col-3 col-form-label">Description</label>
+                                <label for="Description" class="col-3 col-form-label">Description</label>
                                 <div class="col-9">
                                     <textarea id="Description" class="form-control" placeholder="Please enter description"></textarea>
                                 </div>
                             </div>
-
                         </div>
                     </div>
 
@@ -57,31 +61,23 @@
                                             <th>Medicine Name</th>
                                             <th>Dosage</th>
                                             <th>Frequency</th>
-                                            <th>FollowUpDate</th>
+                                            <th>Follow-Up Date</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tbody">
                                         <tr class="rowClass">
                                             <td>
-                                                <div class="m-0">
-                                                    <input type="text" class="form-control" id="txtMedicineName0" placeholder="Please enter name" />
-                                                </div>
+                                                <input type="text" class="form-control" id="txtMedicineName0" placeholder="Please enter name" />
                                             </td>
                                             <td>
-                                                <div class="input-group m-0">
-                                                    <input type="text" id="txtDosage0" class="form-control" placeholder="Please enter dosage" />
-                                                </div>
+                                                <input type="text" id="txtDosage0" class="form-control" placeholder="Please enter dosage" />
                                             </td>
                                             <td>
-                                                <div class="input-group m-0">
-                                                    <input type="text" id="txtFrequency0" class="form-control" placeholder="Please enter frequency" />
-                                                </div>
+                                                <input type="text" id="txtFrequency0" class="form-control" placeholder="Please enter frequency" />
                                             </td>
                                             <td>
-                                                <div class="input-group m-0">
-                                                    <input type="date" id="txtFollowUpDate0" class="form-control" placeholder="Please enter follow date" />
-                                                </div>
+                                                <input type="date" id="txtFollowUpDate0" class="form-control" placeholder="Please enter follow-up date" />
                                             </td>
                                             <td>
                                                 <div class="d-inline-flex gap-3">
@@ -98,6 +94,7 @@
                                 </table>
                             </div>
                         </div>
+                        <div id="loader_spinner" style="display: none;" class="overlay-spinner"></div>
                         <div class="col-12">
                             <div class="text-end">
                                 <button class="btn btn-outline-success" onclick="CreateMedicineReport();">
@@ -108,107 +105,11 @@
                     </div>
                     <!-- Row end -->
                 </div>
-
             </div>
         </div>
     </div>
 </div>
 
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script>
-  
-
-        window.CreateMedicineReport = function () {
-            debugger;
-            if (!validateInvoiceFields()) {
-                alert('Please fill all the required fields.');
-                return;
-            }
-
-            let treatment = {
-                DrId: $('#doctor').val(),
-                Email: $('#txtEmail').val(),
-                Diagnosis: $('#txtDiagnosis').val(),
-                Description: $('#Description').val(),
-                Medications: []
-            };
-
-            $('.rowClass').each(function (index, element) {
-                let medicineName = $(element).find('input[id^="txtMedicineName"]').val();
-                let dosage = $(element).find('input[id^="txtDosage"]').val();
-                let frequency = $(element).find('input[id^="txtFrequency"]').val();
-                let followUpDate = $(element).find('input[id^="txtFollowUpDate"]').val();
-
-                console.log(`Medicine ${index}:`, {
-                    Name: medicineName,
-                    Dosage: dosage,
-                    Frequency: frequency,
-                    FollowUpDate: followUpDate
-                });
-
-                let medicine = {
-                    Name: medicineName,
-                    Dosage: dosage,
-                    Frequency: frequency,
-                    FollowUpDate: followUpDate
-                };
-
-                treatment.Medications.push(medicine);
-            });
-
-            console.log('Treatment:', treatment);
-
-            $.ajax({
-                url: '/AddTreatment',
-                type: 'POST',
-                data: JSON.stringify(treatment),
-                contentType: 'application/json',
-                success: function (res) {
-                    Info(res.statusCode, res.responseText);
-                },
-                error: function (error) {
-                    Info(error.statusCode, error.responseText);
-                }
-            });
-        }
-
-
-
-        function validateInvoiceFields() {
-            let isValid = true;
-
-            // Check existing fields
-            if ($('#doctor').val().trim() === '') {
-                isValid = false;
-            }
-            if ($('#txtEmail').val().trim() === '') {
-                isValid = false;
-            }
-            if ($('#txtDiagnosis').val().trim() === '') {
-                isValid = false;
-            }
-            if ($('#Description').val().trim() === '') {
-                isValid = false;
-            }
-
-            $('.rowClass').each(function (index, element) {
-                let isRowValid = true;
-                $(element).find('input').each(function () {
-                    if ($(this).val().trim() === '') {
-                        isRowValid = false;
-                        return false;
-                    }
-                });
-                if (!isRowValid) {
-                    isValid = false;
-                    return false;
-                }
-            });
-
-            return isValid;
-        }
-
-    });
-
-</script>
+<script src="~/dcs/js/treatmentscript.js"></script>

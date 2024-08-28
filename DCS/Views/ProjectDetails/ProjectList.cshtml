@@ -48,11 +48,11 @@
                             </div>
                             <div class="col-sm-7">
                                 <div class="text-sm-end">
-                                    <button id="btnaddAppointment" class="btn btn-danger mb-2" onclick="editProject(0)" type="button">
+                                  @*<button id="btnaddAppointment" class="btn btn-danger mb-2" onclick="editProject(0)" type="button">
                                         <i class="mdi mdi-plus-circle me-2"></i>  Add New
-                                    </button>
+                                    </button> *@
                                     @* <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog-outline"></i></button> *@
-                                    <button type="button" class="btn btn-light mb-2">Export</button>
+                                   @*  <button type="button" class="btn btn-light mb-2">Export</button> *@
                                 </div>
                             </div><!-- end col-->
                         </div>
@@ -120,9 +120,23 @@
         };
         $.post("/EditProject", param).done(function (res) {
             debugger;
-            console.log(res);
+           
             $("#project_modalPV").html(res);
             $("#AddProjectmodal").modal("show");
+        }).fail(function (hxr) {
+            console.log(hxr);
+            alert("errror");
+        })
+    }
+    function ProjectDetails(pId) {
+        let param = {
+            id: pId,
+        };
+        $.post("/ProjectDetails", param).done(function (res) {
+            debugger;
+            console.log(res);
+            $("#project_modalPV").html(res);
+            $("#projectdetails").modal("show");
         }).fail(function (hxr) {
             console.log(hxr);
             alert("errror");
@@ -164,11 +178,7 @@
         }
         const projectData = {
             ProjectId: $("#ProjectId").val(),
-            Name: $("#Name").val(),
-            PhoneNo: $("#Phone").val(),
-            Email: $("#Email").val(),
             ProjectName: $("#ProjectName").val(),
-            DomainName: $("#DomainName").val(),
             Id: 0 ,
             EmailLogo: $("#file").val(),
         };

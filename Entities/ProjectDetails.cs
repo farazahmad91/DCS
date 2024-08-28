@@ -12,10 +12,12 @@ namespace Entities
         public int? Id { get; set; }
         public int? ProjectId { get; set; }
 		public string? ProjectName { get; set; }
+		public string? OldProjectName { get; set; }
         public string? UserName { get; set; }
         public string? Email { get; set; }
         public string? PhoneNo { get; set; }
         public string? DomainName { get; set; }
+        public string? OldDomainName { get; set; }
 		public string? Logo { get; set; }
         public string? EmailLogo { get; set; }
         public IFormFile? ImagePath { get; set; }

@@ -4,9 +4,12 @@ using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using API.Claims;
 
 namespace DCS.Controllers
 {
+    [Authorize]
     public class PurchaseServiceController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -26,7 +29,7 @@ namespace DCS.Controllers
         public async Task<IActionResult> _PurchaseServiceList(string? email = "All")
         {
             var list = new List<PurchaseService>();
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PurchaseService/GetPurchaseService/{email}", null, null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PurchaseService/GetPurchaseService/{email}", null, User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<List<PurchaseService>>(apiRes.Result);
@@ -37,7 +40,7 @@ namespace DCS.Controllers
         public async Task<IActionResult> EditPurchaseService(int id)
         {
             var list = new PurchaseService();
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PurchaseService/GetPurchaseServiceById/{id}", null, null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PurchaseService/GetPurchaseServiceById/{id}", null, User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<PurchaseService>(apiRes.Result);
@@ -55,7 +58,7 @@ namespace DCS.Controllers
             };
             var email = User.FindFirstValue(ClaimTypes.Email);
             purchase.UserEmail=email;
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PurchaseService/AddOrUpdatePurchaseService", JsonConvert.SerializeObject(purchase), null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PurchaseService/AddOrUpdatePurchaseService", JsonConvert.SerializeObject(purchase), User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 response = JsonConvert.DeserializeObject<Response>(apiRes.Result);

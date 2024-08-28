@@ -2,8 +2,12 @@
     ViewData["Title"] = "DoctorsList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
+<link rel="stylesheet" href="~/assets/vendor/dropzone/dropzone.min.css" />
+<style>
+    tr th label {
+        color:white;
+    }
+</style>
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -39,7 +43,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <input type="text" class="form-control mb-2" id="txtname" onchange=" Onload();" placeholder="search name.." />
+                                    <input type="text" class="form-control mb-2" id="txtname" onchange=" Onload();" placeholder="Search Name.." />
                                     <button class="btn btn-info mb-2" onclick="Onload();" type="button">
                                         Search
                                     </button>
@@ -57,15 +61,15 @@
                         </div>
                         <div class="table-responsive">
                             <table class="table table-striped dt-responsive nowrap w-100" id="dTable">
-                                <thead style="background-image: linear-gradient(-45deg, #34b5bf 0%, #210c59 100%);">
+                                <thead style="background-image: linear-gradient(-45deg, #34b5bf 0%, #210c59 100%); -webkit-text-fill-color: #FFFFFF;">
                                     <tr class="text-white">
-                                        <th>NAME</th>
-                                        <th>IMAGE</th>
-                                        <th>SPECIALIZATION</th>
-                                        <th>DR.FEE</th>
-                                        <th>AVAILABILTY</th>
-                                        <th>STATUS</th>
-                                        <th>ACTION</th>
+                                        <th>Name</th>
+                                        <th>Profile</th>
+                                        <th>Speciailization</th>
+                                        <th>Fee</th>
+                                        <th>Availabilty</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="drList">
@@ -129,7 +133,7 @@
         })
     }
     function doctorStatus(dId) {
-        var id = $("#customSwitch3_" + dId).prop("checked");
+        var id = $("#IsVerified_" + dId).prop("checked");
         if (id == true) {
             id = 1;
 
@@ -138,12 +142,12 @@
             id = 0;
         }
         var param = {
-            DrId: dId,
-            Status: id,
+            Id: dId,
         };
         console.log(param);
-        $.post("/Employee/UpdateEmployeeStatus", param).done(function () {
-            alert("succrssfully update");
+        $.post("/DoctorModifyStatus", param).done(function (result) {
+            console.log(result)
+            Info(result.statusCode, result.responseText);
 
         }).fail(function () {
             alert("error");
@@ -151,41 +155,6 @@
         })
     }
 
-    function addDoctor() {
-        let doctorData = {
-            Name: $("#Name").val(),
-            Phone: $("#Phone").val(),
-            Email: $("#Email").val(),
-            DateOfBirth: $("#DateOfBirth").val(),
-            Specialization: $("#Specialization").val(),
-            Qualifications: $("#Qualifications").val(),
-            Gender: $("#Gender").val(),
-            Affiliations: $("#Affiliations").val(),
-            Languages: $("#Languages").val(),
-            ConsultationFee: $("#ConsultationFee").val(),
-            Availability: $("#Availability").val(),
-            Status: $("#IsActive").prop('checked') 
-        };
-        const formData = new FormData();
-        formData.append("doctorData", JSON.stringify(doctorData));
-        formData.append("file", $("#file").prop('files')[0]);
-        for (const pair of formData.entries()) {
-            console.log(pair[0] + ': ' + pair[1]);
-        }
-        $.ajax({
-            url: '/D-AddOrUpdate',
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (result) {
-                    Info(result.statusCode, result.responseText);
-            },
-            error: function () {
-                showerrors("Something went wrong!!!");
-            }
-        });
-    }
-
+   
 </script>
 

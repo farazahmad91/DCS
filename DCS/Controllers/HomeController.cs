@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using DCS.Models;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DCS.Controllers
 {
+  
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

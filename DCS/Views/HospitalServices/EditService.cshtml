@@ -1,69 +1,162 @@
 ﻿@model Entities.HospitalServices
 @{
-	ViewData["Title"] = "HospitalServices";
-	Layout = null;
+    ViewData["Title"] = "HospitalServices";
+    Layout = null;
 }
+<link href="~/Spinner.css" rel="stylesheet" type="text/css" />
 <div class="card">
-	<div class="card-body">
-		<div class="modal fade" id="HospitalServices_modal" tabindex="-1" aria-labelledby="HospitalServices_modalTitle" style="display: none;" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-scrollable modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="HospitalServices_modalTitle">
-							Add or Update Hospital Services
-						</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<div class="row gx-3">
-							<div class="col-sm-8 col-12">
-								<div class="row gx-3">
-									<div class="col-6">
-										<input type="text" class="form-control" asp-for="ServiceID" hidden>
-										<div class="mb-3">
-											<label for="ServiceName" class="form-label">Service Name</label>
-											<input type="text" class="form-control" asp-for="ServiceName" placeholder="Full Name">
-										</div>
-										<div class="mb-3">
-											<label for="Price" class="form-label">Price</label>
-											<input type="number" class="form-control" asp-for="Price" placeholder="Price">
-										</div>
-									</div>
-									<div class="col-6">
-										<div class="mb-3">
-											<label for="file" class="form-label">Image</label>
-											<input type="file" class="form-control" id="file" >
-										</div>
-										<div class="mb-3">
-											<label for="Description" class="form-label">Description</label>
-											<textarea class="form-control" asp-for="Description" placeholder="Description"></textarea>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-							Close
-						</button>
-						<button type="button" class="btn btn-secondary" onclick="addHospitalServices();">
-							@if (Model != null && Model.ServiceID != null)
-							{
-								<text>Update</text>
+    <div class="card-body">
+        <div class="modal fade" id="HospitalServices_modal" tabindex="-1" aria-labelledby="HospitalServices_modalTitle" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="HospitalServices_modalTitle">
+                            Add Or Update Hospital Service
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row gx-3">
+                            <!-- Ensure that the content does not overflow -->
+                            <div class="col-sm-12 col-md-8">
+                                <div class="row gx-3">
+                                    <!-- Ensure columns are properly sized to avoid overflow -->
+                                    <div class="col-12 col-md-6">
+                                        <!-- Hidden input for ServiceID -->
+                                        <input type="hidden" asp-for="ServiceID" />
 
-							}
-							else
-							{
-								<text>Save</text>
-							}
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                                        <div class="mb-3">
+                                            <label for="ServiceName" class="form-label">Service Name</label>
+                                            <input type="text" class="form-control inputValidate" asp-for="ServiceName" placeholder="Full Name" id="ServiceName" />
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="Price" class="form-label">Price</label>
+                                            <input type="number" class="form-control inputValidate" asp-for="Price" placeholder="Price" id="Price" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="mb-3">
+                                            <label for="file" class="form-label">Image</label>
+                                           
+                                            @if (Model != null && !string.IsNullOrEmpty(Model.ServicesImage))
+                                            {
+                                                <img id="ImagePreview" src="@Model.ServicesImage" alt="Service Image" class="img-thumbnail" style="display: block; width: 50px; height: 50px;" />
+                                            }
+                                            else
+                                            {
+                                                <img id="ImagePreview" style="display: none; width: 50px; height: 50px;" />
+                                            }
+                                            @if (Model != null && !string.IsNullOrEmpty(Model.ServicesImage))
+                                            {
+                                                <input type="file" class="form-control inputValidate" id="file" onchange="previewImage(event)" />
+                                            }
+                                        </div>
+
+
+                                        <div class="mb-3">
+                                            <label for="Description" class="form-label">Description</label>
+                                            <textarea class="form-control inputValidate" asp-for="Description" placeholder="Description" id="Description"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="loader_spinner" style="display: none;" class="overlay-spinner"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="addHospitalServices();">
+                            @if (Model != null && Model.ServiceID != null)
+                            {
+                                <text>Update</text>
+                            }
+                            else
+                            {
+                                <text>Save</text>
+                            }
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
+<script>
+    function addHospitalServices() {
+        if (IsValidate()) {
+            const serviceData = {
+                ServiceID: $("#ServiceID").val(),
+                ServiceName: $("#ServiceName").val(),
+                Price: $("#Price").val(),
+                Description: $("#Description").val()
+            };
+            Show_Loader();
+            const formData = new FormData();
+            formData.append("HospitalServices", JSON.stringify(serviceData));
+            formData.append("file", $("#file").prop('files')[0]);
+
+            for (const pair of formData.entries()) {
+                console.log(pair[0] + ': ' + (pair[1] instanceof File ? pair[1].name : pair[1]));
+            }
+            
+            $.ajax({
+                url: '/AddOrUpdateHospitalServices',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    setTimeout(function () {
+                        Hide_Loader();
+                        Info(result.statusCode, result.responseText);
+                        Onload();
+                    }, 1000);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', status, error);
+                    showerrors("Something went wrong!!!");
+                }
+            });
+        }
+    }
 
 
+    function IsValidate() {
+        let isValid = true;
+        $('.inputValidate').each(function () {
+            const $this = $(this);
+            if ($this.val().trim() === '' || $this.val().trim() == 0) {
+                $this.addClass("border border-2 border-danger");
+                if ($this.next('.error-message').length < 1) {
+                    $this.after('<div class="error-message text-danger">This Field Is Required</div>');
+                }
+                isValid = false;
+            } else {
+                $this.removeClass("border border-2 border-danger").addClass("border-success");
+                $this.next('.error-message').remove();
+            }
+        });
+
+        return isValid;
+    }
+
+    function previewImage(event) {
+        var file = event.target.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            var output = document.getElementById('ImagePreview');
+            output.src = e.target.result;
+            output.style.display = 'block'; // Show the image preview
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+</script>

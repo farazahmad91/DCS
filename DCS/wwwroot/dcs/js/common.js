@@ -13,34 +13,50 @@
         </div>
     `);
     $('.alert-container').append(alertDiv);
-    alertDiv.fadeIn(1000);
+
+    // Show alert quickly
+    alertDiv.fadeIn(500); // Faster fade-in
+
+    // Hide alert quickly
     setTimeout(() => {
-        alertDiv.fadeOut('slow', () => {
+        alertDiv.fadeOut(500, () => { // Faster fade-out
             alertDiv.remove();
         });
-    }, 2000);
+    }, 2000); // Shorter duration before fading out
 }
 
-function IsValidate(cls) {
+
+function IsValidate() {
     let isValid = true;
-    const textBoxes = $("." + cls);
-    textBoxes.each(function () {
-        if ($(this).val().trim() === '') {
-            $(this).addClass("border border-2 border-danger");
-            if ($(this).next('.error-message').length === 0) {
-                Info(-1, 'Please fill in the required field');
-                //$(this).after('<span class="error-message">Please fill in the required field</span>');
+    $('.inputValidate').each(function () {
+        const $this = $(this);
+        console.log($this);
+        if ($this.val().trim() === '' || $this.val().trim() == 0) {
+            $this.addClass("border border-2 border-danger");
+            if ($this.next('.error-message').length < 1) {
+                $this.after('<div class="error-message text-danger">This field is required</div>');
             }
             isValid = false;
         } else {
-            $(this).removeClass("border border-danger").addClass("border-success");
-            $(this).next('.error-message').remove();
+            $this.removeClass("border border-2 border-danger").addClass("border-success");
+            $this.next('.error-message').remove();
         }
     });
-    textBoxes.off('input').on('input', function () {
-        IsValidate(cls);
-    });
+
     return isValid;
 }
+
+function Show_Loader() {
+    debugger;
+    jQuery(".overlay-spinner").show();
+
+}
+
+function Hide_Loader() {
+
+    jQuery(".overlay-spinner").hide();
+
+}
+
 
    

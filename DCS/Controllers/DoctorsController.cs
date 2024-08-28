@@ -1,13 +1,16 @@
 ﻿using API.AppCode.APIRequest;
 using API.AppCode.Configuration;
 using API.AppCode.IService;
+using API.Claims;
 using Entities;
 using Entities.Response;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace DCS.Controllers
 {
+    [Authorize]
     public class DoctorsController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -26,7 +29,7 @@ namespace DCS.Controllers
         public async Task<IActionResult> _DoctorsList(string? name="All")
         {
             var list = new List<Doctor>();
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Doctor/GetDoctor/{name}", null, null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Doctor/GetDoctor/{name}", null, User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<List<Doctor>>(apiRes.Result);
@@ -34,10 +37,10 @@ namespace DCS.Controllers
             return PartialView(list);
         }
         [Route("/D-Edit")]
-        public async Task<IActionResult> _DrEdit(int id)
+        public async Task<IActionResult> _DrEdit(int id )
         {
             var list = new Doctor();
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Doctor/GetDoctorById/{id}", null, null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Doctor/GetDoctorById/{id}", null, User.GetLoggedInUserToken());
            
                 list = JsonConvert.DeserializeObject<Doctor>(apiRes.Result);
             
@@ -52,8 +55,8 @@ namespace DCS.Controllers
                 ResponseText = "Failed To Add or Update Doctor",
                 StatusCode = ResponseStatus.FAILED,
             };
-
-            try
+			
+			try
             {
                 // Deserialize doctorData into a Doctor object
                 var request = JsonConvert.DeserializeObject<Doctor>(doctorData);
@@ -62,9 +65,10 @@ namespace DCS.Controllers
                     response.ResponseText = "Invalid doctor data";
                     return Json(response);
                 }
-
-                // Add file to the request object
-                if (file != null)
+				int? projectId = User.GetProjectId();
+				request.ProjectId = projectId;
+				// Add file to the request object
+				if (file != null)
                 {
                     // Assuming ImagePath is a property to store the file path
                     request.ImagePath = file;
@@ -118,7 +122,7 @@ namespace DCS.Controllers
         public async Task<IActionResult> _detail(int id)
         {
             var list = new Doctor();
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Doctor/GetDoctorById/{id}", null, null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Doctor/GetDoctorById/{id}", null, User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<Doctor>(apiRes.Result);
@@ -140,6 +144,23 @@ namespace DCS.Controllers
         public IActionResult Delete(int id)
         {
             return View();
+        }
+
+        [HttpPost]
+        [Route("DoctorModifyStatus")]
+        public async Task<IActionResult> DoctorModifyStatus(int Id)
+        {
+            try
+            {
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Doctor/DoctorModifyStatus/{Id}",null , User.GetLoggedInUserToken());
+                Response jsonResponse = JsonConvert.DeserializeObject<Response>(apiRes.Result);
+                return Json(jsonResponse);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred: " + ex.Message);
+                return Json(new { error = "An error occurred while processing your request." });
+            }
         }
     }
 }

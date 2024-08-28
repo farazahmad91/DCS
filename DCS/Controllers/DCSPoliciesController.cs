@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using API.Claims;
 using System.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DCS.Controllers
 {
+    [Authorize]
     public class DCSPoliciesController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -30,7 +32,7 @@ namespace DCS.Controllers
             string? Role = User.GetLoggedInUserRole();
             common.ProjectId = projectId;
             common.Role = Role;
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSPolicies/GetDCSPoliciesListOrById", JsonConvert.SerializeObject(common), null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSPolicies/GetDCSPoliciesListOrById", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<List<DCSPolicies>>(apiRes.Result);
@@ -46,7 +48,7 @@ namespace DCS.Controllers
             common.ProjectId =projectid;
             if (common.Id != 0)
             {
-                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSPolicies/GetDCSPoliciesListOrById", JsonConvert.SerializeObject(common), null);
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSPolicies/GetDCSPoliciesListOrById", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
                 if (apiRes.Result != null)
                 {
                     var list = JsonConvert.DeserializeObject<List<DCSPolicies>>(apiRes.Result);
@@ -67,7 +69,7 @@ namespace DCS.Controllers
             };
             int? projectid = User.GetProjectId();
             policies.ProjectId =projectid;
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSPolicies/AddorUpdateDCSPolicies", JsonConvert.SerializeObject(policies), null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSPolicies/AddorUpdateDCSPolicies", JsonConvert.SerializeObject(policies), User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 response = JsonConvert.DeserializeObject<Response>(apiRes.Result);
@@ -84,7 +86,7 @@ namespace DCS.Controllers
                 ResponseText = "Failed To Update Status",
                 StatusCode = ResponseStatus.FAILED,
             };
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSPolicies/UpdateDCSPoliciesStatus", JsonConvert.SerializeObject(common), null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/DCSPolicies/UpdateDCSPoliciesStatus", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 response = JsonConvert.DeserializeObject<Response>(apiRes.Result);

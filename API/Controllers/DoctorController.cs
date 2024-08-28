@@ -1,5 +1,6 @@
 ﻿using API.AppCode.Helper;
 using API.AppCode.IService;
+using API.Claims;
 using Entities;
 using Entities.Response;
 using Microsoft.AspNetCore.Mvc;
@@ -27,12 +28,13 @@ namespace API.Controllers
                 ResponseText = "An error han occurred try after sometime."
             };
 
-            if (doctors.ImagePath != null)
-            {
                 doctors.DrImage = _uploadService.Image(doctors.ImagePath, FileUploadType.DoctorImage, FileUploadType.DoctorPrefix);
-            }
 
-            if (doctors.DrImage!= null)
+            if (doctors.DrImage!= null && doctors.DrId == 0)
+            {
+                res = await _doctor.AddOrUpdateDoctor(doctors);
+            }
+            if (doctors.DrImage == "" && doctors.DrId != 0)
             {
                 res = await _doctor.AddOrUpdateDoctor(doctors);
             }
@@ -50,6 +52,13 @@ namespace API.Controllers
         public async Task<IActionResult> GetDoctorById(int DrId)
         {
             var i = await _doctor.GetDoctorById(DrId);
+            return Ok(i);
+        }
+
+        [HttpPost(nameof(DoctorModifyStatus) + "/{Id}")]
+        public async Task<IActionResult> DoctorModifyStatus(int Id)
+        {
+            var i = await _doctor.DoctorModifyStatus(Id);
             return Ok(i);
         }
     }

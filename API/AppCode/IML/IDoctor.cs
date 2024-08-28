@@ -8,5 +8,6 @@ namespace API.AppCode.IService
         public Task<Response> AddOrUpdateDoctor(Doctor doctor);
         public Task<IEnumerable<Doctor>> GetDoctor(string? name);
         public Task<Doctor> GetDoctorById(int DrId);
+        public Task<Response> DoctorModifyStatus(int Id);
     }
 }

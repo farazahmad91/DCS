@@ -6,10 +6,12 @@ using Newtonsoft.Json;
 using Microsoft.CodeAnalysis.RulesetToEditorconfig;
 using API.AppCode.IML;
 using API.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DCS.Controllers
 {
-	public class HospitalServicesController : Controller
+    [Authorize]
+    public class HospitalServicesController : Controller
 	{
 		private readonly IConfiguration _configuration;
 		private readonly string _BaseUrl;
@@ -32,7 +34,7 @@ namespace DCS.Controllers
             string? Role = User.GetLoggedInUserRole();
             common.Role = Role;
             common.ProjectId =projectid;
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalServices/GetHospitalServicesListOrById", JsonConvert.SerializeObject(common), null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalServices/GetHospitalServicesListOrById", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
 			if (apiRes.Result != null)
 			{
 				list = JsonConvert.DeserializeObject<List<HospitalServices>>(apiRes.Result);
@@ -48,7 +50,7 @@ namespace DCS.Controllers
             common.ProjectId =projectid;
 			if (common.Id != 0)
 			{
-				var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalServices/GetHospitalServicesListOrById", JsonConvert.SerializeObject(common), null);
+				var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalServices/GetHospitalServicesListOrById", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
 				if (apiRes.Result != null)
 				{
 					var list = JsonConvert.DeserializeObject<List<HospitalServices>>(apiRes.Result);
@@ -60,22 +62,25 @@ namespace DCS.Controllers
 		}
 		[HttpPost]
 		[Route("/AddOrUpdateHospitalServices")]
-		public async Task<IActionResult> AddOrUpdateService([FromForm] HospitalServices services, IFormFile file)
+		public async Task<IActionResult> AddOrUpdateService([FromForm] string HospitalServices, IFormFile file)
 		{
 			var response = new Response()
 			{
 				ResponseText = "Failed To Add or Update Service",
 				StatusCode = ResponseStatus.FAILED,
 			};
-            int? projectid = User.GetProjectId();
-            services.ProjectId =projectid;
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalServices/AddorUpdateHospitalServices", JsonConvert.SerializeObject(services), null);
-			if (apiRes.Result != null)
-			{
-				response = JsonConvert.DeserializeObject<Response>(apiRes.Result);
-				return Json(response);
-			}
-			return Json(response);
+            var req = JsonConvert.DeserializeObject<HospitalServices>(HospitalServices);
+            req.ImagePath = file;
+			int? projectid = User.GetProjectId();
+            req.ProjectId =projectid;
+            var apiRes = await APIRequestML.O.SendFileAndContentAsync($"{_BaseUrl}/api/HospitalServices/AddorUpdateHospitalServices",req, file);
+            if (apiRes != null && apiRes.IsSuccessStatusCode)
+            {
+                var res = await apiRes.Content.ReadAsStringAsync();
+                response = JsonConvert.DeserializeObject<Response>(res);
+                return Json(response);
+            }
+            return Json(response);
 		}
 
         [Route("/HS_Status")]
@@ -86,7 +91,7 @@ namespace DCS.Controllers
                 ResponseText = "Failed To Update Status",
                 StatusCode = ResponseStatus.FAILED,
             };
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalServices/UpdateHospitalServiceStatus", JsonConvert.SerializeObject(common), null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalServices/UpdateHospitalServiceStatus", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 response = JsonConvert.DeserializeObject<Response>(apiRes.Result);

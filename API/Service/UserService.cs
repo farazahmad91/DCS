@@ -165,7 +165,7 @@ namespace API.Service
                     response.ResponseText = "Invalid Username or Password";
                     return response;
                 }
-
+                
                 var result = await userManager.CheckPasswordAsync(userExists, model.Password);
                 if (!result)
                 {
@@ -259,7 +259,13 @@ namespace API.Service
                     Token = tokenAsString,
                     Role = roleDetails.FirstOrDefault(),
                 };
-
+                var deviceCount = _dapper.GetById<Response>(new { model.Email, response.Result.Role }, "Proc_CheckMaxLoginDevice");
+                if (deviceCount.StatusCode == ResponseStatus.FAILED)
+                {
+                    response.StatusCode = ResponseStatus.FAILED;
+                    response.ResponseText = "Maximum Device Login";
+                    return response;
+                }
                 return response;
             }
             catch (Exception ex)

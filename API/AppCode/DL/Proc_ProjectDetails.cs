@@ -30,7 +30,8 @@ namespace API.AppCode.DL
 						ProjectId = req.ProjectId,
 						UserEmail = req.Email,
 						Logo = req.Logo,
-						ProjectName = req.ProjectName,
+						ProjectName = req.OldProjectName,
+                        UpdateDomainName = req.OldDomainName,
 						DomainName = req.DomainName,
 					};
 					var j = await _dapper.GetAsync<Response>(GetName(), param);

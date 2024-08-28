@@ -1,5 +1,27 @@
 ﻿@model Entities.Doctor
 <link rel="stylesheet" href="~/assets/vendor/dropzone/dropzone.min.css" />
+<link href="~/Spinner.css" rel="stylesheet" type="text/css" />
+<style>
+	.profile-pic{
+		text-align: center;
+	}
+
+		.profile-pic img {
+			max-width:50%;
+			height: auto;
+		}
+
+	.-label {
+		display: inline-block;
+		cursor: pointer;
+		margin-bottom: 10px;
+	}
+
+	.glyphicon-camera {
+		font-size: 24px;
+		color: #555;
+	}
+</style>
 <div class="card">
 	<div class="card-body">
 		<div class="modal fade" id="Dr_Editmodal" tabindex="-1" aria-labelledby="Dr_EditmodalTitle" style="display: none;" aria-hidden="true">
@@ -11,102 +33,142 @@
 						</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
-					<div class="modal-body">
-						<div class="row gx-3">
-							<div class="col-sm-4 col-12">
-								<div id="update-profile" class="mb-3">
-									<form action="/upload" class="dropzone sm needsclick dz-clickable" id="update-profile-pic">
-										<div class="profile-pic">
-											<label class="-label" for="file">
-												<span class="glyphicon glyphicon-camera"></span>
-												<span>Change Image</span>
-											</label>
-											<input id="file" type="file" onchange="uploadImage(event)" />
+                    <div class="modal-body">
+                        <div class="row gx-3">
+                            <div class="col-12">
+                                <div class="row gx-3">
+                                    <div class="col-6">
+                                        <!-- Form Field Start -->
+                                        <div class="mb-3">
+                                            <input type="hidden" asp-for="DrId">
+                                            <label for="Name" class="form-label">Full Name</label>
+                                            <input type="text" class="form-control inputValidate" id="Name" asp-for="Name" placeholder="Enter Full Name">
+                                        </div>
+                                        <!-- Form Field Start -->
+                                        <div class="mb-3">
+                                            <label for="Phone" class="form-label">Contact</label>
+                                            <input type="tel" class="form-control inputValidate" id="Phone" asp-for="Phone" placeholder="Enter Your Contact">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <!-- Form Field Start -->
+                                        <div class="mb-3">
+                                            <label for="Email" class="form-label">Email</label>
+                                            <input type="email" class="form-control inputValidate" id="Email" asp-for="Email" placeholder="Enter Your Email Id">
+                                        </div>
+                                        <!-- Form Field Start -->
+                                        <div class="mb-3">
+                                            <label for="DateOfBirth" class="form-label">Birthday</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control inputValidate datepicker-opens-left" id="DateOfBirth" asp-for="DateOfBirth" placeholder="DD/MM/YYYY">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-calendar4"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row gx-3">
+                                    <div class="col-6">
+                                        <!-- Form Field Start -->
+                                        <div class="mb-3">
+                                            <label for="Specialization" class="form-label">Specialization</label>
+                                            <input type="text" class="form-control inputValidate" id="Specialization" asp-for="Specialization" placeholder="Specialization">
+                                        </div>
+                                        <!-- Form Field Start -->
+                                        <div class="mb-3">
+                                            <label for="Qualifications" class="form-label">Qualifications</label>
+                                            <input type="text" class="form-control inputValidate" id="Qualifications" asp-for="Qualifications" placeholder="Qualifications">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <!-- Form Field Start -->
+                                        <div class="mb-3">
+                                            <label for="Gender" class="form-label">Gender</label>
+                                            <select class="form-control inputValidate" id="Gender" asp-for="Gender">
+                                                <option value="">Select Gender</option>
+                                                <option value="M">Male</option>
+                                                <option value="F">Female</option>
+                                                <option value="O">Other</option>
+                                            </select>
+                                        </div>
+                                        <!-- Form Field Start -->
+                                        <div class="mb-3">
+                                            <label for="Affiliations" class="form-label">Affiliations</label>
+                                            <input type="text" class="form-control inputValidate" id="Affiliations" asp-for="Affiliations" placeholder="Affiliations">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row gx-3">
+                                    <div class="col-6">
+                                        <!-- Form Field Start -->
+                                        <div class="mb-3">
+                                            <label for="Languages" class="form-label">Languages</label>
+                                            <input type="text" class="form-control inputValidate" id="Languages" asp-for="Languages" placeholder="Languages">
+                                        </div>
+                                        <!-- Form Field Start -->
+                                        <div class="mb-3">
+                                            <label for="ConsultationFee" class="form-label">Consultation Fee</label>
+                                            <input type="text" class="form-control inputValidate" id="ConsultationFee" asp-for="ConsultationFee" placeholder="Consultation Fee">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <!-- Form Field Start -->
+                                        <div class="mb-3">
+                                            <label for="Availability" class="form-label">Availability</label>
+                                            <input type="text" class="form-control inputValidate" id="Availability" asp-for="Availability" placeholder="Availability">
+                                        </div>
+                                        <!-- Form Field Start -->
+                                        <div class="mb-3">
+                                            <label for="Address" class="form-label">Address</label>
+                                            <input type="text" class="form-control inputValidate" id="Address" asp-for="Address" placeholder="Address">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row gx-3">
+                                    <div class="col-6">
+                                        <!-- Form Field Start -->
+                                        <div class="mb-3">
+                                            <label for="ExperienceYears" class="form-label">Experience Years</label>
+                                            <input type="text" class="form-control inputValidate" id="ExperienceYears" asp-for="ExperienceYears" placeholder="Experience Years">
+                                        </div>
+                                    </div>
+                                     <div class="col-6">
+                                        <!-- Form Field Start -->
+                                        <div class="mb-3">
+                                           
+                                            <label for="file" class="form-label">Profile Image</label>
+                                            @if (Model != null && !string.IsNullOrEmpty(Model.DrImage))
+                                            {
+                                                <input type="file" class="form-control " id="file" asp-for="DrImage">
+                                            }
+                                            else
+                                            {
+                                                <input type="file" class="form-control inputValidate" id="file" asp-for="DrImage">
+                                            }
+                                            @if (Model != null && !string.IsNullOrEmpty(Model.DrImage))
+                                            {
+                                                <img src="@Model.DrImage" alt="Profile Image" class="img-thumbnail" style="width: 55px; height: 55px;" />
+                                            }
+                                        </div>
 
-											<img src="https://cdn.pixaba.com/photo/2017/08/06/21/01/louvre-2596278_960_720.jpg" id="output" width="200" />
-
-										</div>
-									</form>
-								</div>
-							</div>
-							<div class="col-sm-8 col-12">
-								<div class="row gx-3">
-									<div class="col-6">
-										<div class="mb-3">
-											<label for="Name" class="form-label">Full Name</label>
-											<input type="text" class="form-control" asp-for="Name" placeholder="Full Name">
-										</div>
-										<div class="mb-3">
-											<label for="Phone" class="form-label">Contact</label>
-											<input type="tel" class="form-control" asp-for="Phone" placeholder="Contact">
-										</div>
-									</div>
-									<div class="col-6">
-										<div class="mb-3">
-											<label for="Email" class="form-label">Email</label>
-											<input type="email" class="form-control" asp-for="Email" placeholder="Email ID">
-										</div>
-										<div class="mb-3">
-											<label for="DateOfBirth" class="form-label">Birthday</label>
-											<div class="input-group">
-												<input type="text" class="form-control datepicker-opens-left" asp-for="DateOfBirth" placeholder="DD/MM/YYYY">
-												<span class="input-group-text">
-													<i class="bi bi-calendar4"></i>
-												</span>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="row gx-3">
-									<div class="col-6">
-										<div class="mb-3">
-											<label for="Specialization" class="form-label">Specialization</label>
-											<input type="text" class="form-control" asp-for="Specialization" placeholder="Full Name">
-										</div>
-										<div class="mb-3">
-											<label for="Qualifications" class="form-label">Qualifications</label>
-											<input type="text" class="form-control" asp-for="Qualifications" placeholder="Contact">
-										</div>
-									</div>
-									<div class="col-6">
-										<div class="mb-3">
-											<label for="Gender" class="form-label">Gender</label>
-											<input type="email" class="form-control" asp-for="Gender" placeholder="Email ID">
-										</div>
-										<div class="mb-3">
-											<label for="Affiliations" class="form-label">Affiliations</label>
-											<input type="text" class="form-control" asp-for="Affiliations" placeholder="Email ID">
-										</div>
-									</div>
-								</div>
-								<div class="row gx-3">
-									<div class="col-6">
-										<div class="mb-3">
-											<label for="Languages" class="form-label">Languages</label>
-											<input type="text" class="form-control" asp-for="Languages" placeholder="Full Name">
-										</div>
-										<div class="mb-3">
-											<label for="ConsultationFee" class="form-label">Consultation Fee</label>
-											<input type="text" class="form-control" asp-for="ConsultationFee" placeholder="Contact">
-										</div>
-									</div>
-									<div class="col-6">
-										<div class="mb-3">
-											<label for="Availability" class="form-label">Availability</label>
-											<input type="text" class="form-control" asp-for="Availability" placeholder="Email ID">
-										</div>
-										<div class="mb-3">
-											<label class="form-label">IsActive</label>
-											<div class="form-check form-switch">
-												<input class="form-check-input" type="checkbox" role="switch" onchange="OnTransaction();" id="Status" checked="">
-												<label class="form-check-label" for="Status"></label>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+                                    </div>
+                                </div>
+                                <!-- Uncomment and use if needed -->
+                                <div class="row gx-3">
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="IsActive" class="form-label">Is Active</label>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input inputValidate" type="checkbox" role="switch" id="Status" checked>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                    <div id="loader_spinner" style="display: none;" class="overlay-spinner"></div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
 							Close
@@ -129,10 +191,77 @@
 	</div>
 </div>
 <script>
+
+	function uploadImage(event) {
+		const input = event.target;
+		const file = input.files[0];
+		const reader = new FileReader();
+
+		if (file) {
+			reader.onload = function (e) {
+				const imgElement = document.getElementById('output');
+				imgElement.src = e.target.result;
+			};
+
+			reader.readAsDataURL(file);
+		}
+	}
+
 	var loadFile = function (event) {
 		var image = document.getElementById("output");
 		image.src = URL.createObjectURL(event.target.files[0]);
 	};
+
+	
+
+	function addDoctor() {
+      if (IsValidate()) {
+			var isActive = $("#Status").prop("checked");
+			var status = isActive ? 1 : 0;
+           
+			let doctorData = {
+				DrId: $("#DrId").val(),
+				Name: $("#Name").val(),
+				Phone: $("#Phone").val(),
+				Email: $("#Email").val(),
+				Address: $("#Address").val(),
+				DateOfBirth: $("#DateOfBirth").val(),
+				Specialization: $("#Specialization").val(),
+				Qualifications: $("#Qualifications").val(),
+				Gender: $("#Gender").val(),
+				Affiliations: $("#Affiliations").val(),
+				Languages: $("#Languages").val(),
+				ConsultationFee: $("#ConsultationFee").val(),
+				Availability: $("#Availability").val(),
+				ExperienceYears: $("#ExperienceYears").val(),
+				Status: status  
+			};
+            Show_Loader();
+
+			const formData = new FormData();
+			formData.append("doctorData", JSON.stringify(doctorData));
+			formData.append("file", $("#file").prop('files')[0]);
+			for (const pair of formData.entries()) {
+				console.log(pair[0] + ': ' + pair[1]);
+			}
+			$.ajax({
+				url: '/D-AddOrUpdate',
+				type: 'POST',
+				data: formData,
+				contentType: false,
+				processData: false,
+				success: function (result) {
+                    Hide_Loader();
+					Info(result.statusCode, result.responseText);
+                    Onload();
+				},
+				error: function () {
+					showerrors("Something went wrong!!!");
+				}
+			});
+		}
+	}
+
 </script>
 <script src="~/assets/vendor/daterange/daterange.js"></script>
 <script src="~/assets/vendor/daterange/custom-daterange.js"></script>

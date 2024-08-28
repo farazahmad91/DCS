@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DCS.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         public AdminController() { }
@@ -25,6 +27,7 @@ namespace DCS.Controllers
         {
             return View();
         }
+        [AllowAnonymous]
         [Route("/DCS")]
         public IActionResult LandingPage()
         {

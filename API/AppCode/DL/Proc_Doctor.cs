@@ -25,6 +25,7 @@ namespace API.AppCode.DL
                 var param = new
                 {
                     DrId = req.DrId,
+                    ProjectId = req.ProjectId,
                     Name = req.Name,
                     Email = req.Email,
                     Phone = req.Phone,
@@ -158,5 +159,53 @@ namespace API.AppCode.DL
         {
             return "Proc_GetDoctorsById";
         }
+
+    }
+
+
+    public class Proc_DoctorModifyStatus : IProcedureAsync
+    {
+        private readonly IDapper _dapper;
+        public Proc_DoctorModifyStatus(IDapper dapper)
+        {
+            _dapper = dapper;
+        }
+        public async Task<object> Call(object obj)
+        {
+            int id = (int)obj;
+            try
+            {
+                var param = new
+                {
+                   Id = id,
+
+                };
+                var i = await _dapper.GetAsync<Response>(GetName(), param);
+                return i;
+            }
+            catch (Exception ex)
+            {
+                var error = new ErrorLog
+                {
+                    ClassName = GetType().Name,
+                    FuncName = "call",
+                    Error = ex.Message,
+                    ProcName = GetName(),
+                };
+                new ErrorLog_ML(_dapper).Error(error);
+            }
+            return "error";
+        }
+
+        public Task<object> Call()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetName()
+        {
+            return "Proc_DoctorModifyStatus";
+        }
+
     }
 }

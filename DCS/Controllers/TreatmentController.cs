@@ -6,9 +6,11 @@ using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Collections.Generic;
 using API.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DCS.Controllers
 {
+    [Authorize]
     public class TreatmentController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -32,7 +34,7 @@ namespace DCS.Controllers
             common.Role = Role;
             int? projectid = User.GetProjectId();
             common.ProjectId =projectid;
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Treatment/GetTreatmentListOrById", JsonConvert.SerializeObject(common), null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Treatment/GetTreatmentListOrById", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<List<Treatment>>(apiRes.Result);
@@ -44,7 +46,7 @@ namespace DCS.Controllers
         public async Task<IActionResult> _MedicationList(int id)
         {
             var list = new List<Medication>();
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Treatment/GetMedicationListById/{id}", null, null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Treatment/GetMedicationListById/{id}", null, User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<List<Medication>>(apiRes.Result);
@@ -57,7 +59,7 @@ namespace DCS.Controllers
         public async Task<IActionResult> EditTreatment(int id)
         {
             var list = new Treatment();
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Treatment/GetTreatmentByPId/{id}", null, null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Treatment/GetTreatmentByPId/{id}", null, User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<Treatment>(apiRes.Result);
@@ -75,7 +77,7 @@ namespace DCS.Controllers
             };
             int? projectid =User.GetProjectId();
             treatment.ProjectId= projectid;
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Treatment/AddTreatment", JsonConvert.SerializeObject(treatment), null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Treatment/AddTreatment", JsonConvert.SerializeObject(treatment), User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 response = JsonConvert.DeserializeObject<Response>(apiRes.Result);
@@ -93,7 +95,7 @@ namespace DCS.Controllers
                 StatusCode = ResponseStatus.FAILED,
             };
 
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Treatment/UpdateTreatment", JsonConvert.SerializeObject(treatment), null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Treatment/UpdateTreatment", JsonConvert.SerializeObject(treatment), User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 response = JsonConvert.DeserializeObject<Response>(apiRes.Result);
@@ -105,7 +107,7 @@ namespace DCS.Controllers
         public async Task<IActionResult> CreateTreatment(string? name = "All")
         {
             var list = new List<Doctor>();
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Doctor/GetDoctor/{name}", null, null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Doctor/GetDoctor/{name}", null, User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<List<Doctor>>(apiRes.Result);

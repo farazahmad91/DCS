@@ -5,6 +5,7 @@ using System.Net.Mime;
 using API.AppCode.IML;
 using API.AppCode.ML;
 using Entities;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 
 namespace API.SendEmail
@@ -189,7 +190,58 @@ namespace API.SendEmail
             }
         }
 
+        public void ComposeEmail(Inbox inbox)
+        {
+            try
+            {
+                string fromAddress = _configuration["EmailSettings:MailFrom"];
+                string hostAddress = _configuration["EmailSettings:Host"];
+                string userName = _configuration["EmailSettings:userName"];
+                string pass = _configuration["EmailSettings:Password"];
+                int port = int.Parse(_configuration["EmailSettings:Port"]);
 
+                using (MailMessage mail = new MailMessage())
+                using (SmtpClient smtpServer = new SmtpClient(hostAddress))
+                {
+                    mail.From = new MailAddress(fromAddress);
+                    mail.To.Add(inbox.ToEmail);
+                    mail.Subject = inbox.Subject;
+                    mail.IsBodyHtml = true; // Enable HTML content
+                    string htmlBody = inbox.Message; //_emailHtmlBody.GenerateHtmlBodyWithImage(cEmail.Message);
+                    mail.Body = htmlBody;
+
+                    if (!string.IsNullOrEmpty(inbox.Image) && File.Exists(inbox.Image))
+                    {
+                        LinkedResource inline = new LinkedResource(inbox.Image, MediaTypeNames.Image.Jpeg)
+                        {
+                            ContentId = "EmbeddedImage"
+                        };
+                        AlternateView avHtml = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
+                        avHtml.LinkedResources.Add(inline);
+                        mail.AlternateViews.Add(avHtml);
+                    }
+                    else
+                    {
+                        throw new FileNotFoundException("Image file not found.", inbox.Image);
+                    }
+
+                    smtpServer.Port = port;
+                    smtpServer.Credentials = new System.Net.NetworkCredential(userName, pass);
+                    smtpServer.EnableSsl = true;
+
+                    smtpServer.Send(mail);
+
+                }
+            }
+            catch (FileNotFoundException fnfEx)
+            {
+                throw new Exception($"File not found: {fnfEx.Message}", fnfEx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error sending email", ex);
+            }
+        }
 
         public void Sendmailsss(CreateEmail cEmail)
         {

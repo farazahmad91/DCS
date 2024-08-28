@@ -29,6 +29,7 @@ namespace API.AppCode.DL
                     ServiceID = req.ServiceID,
                     ProjectId = req.ProjectId,
                     ServiceName = req.ServiceName,
+					ServicesImage=req.ServicesImage,
                     Description = req.Description,
                     Price = req.Price,
 
