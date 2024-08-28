@@ -1046,25 +1046,26 @@
                     <form>
                         <div class="mb-2">
                             <label for="msgto" class="form-label">To</label>
-                            <input type="text" id="ToEmail" class="form-control"
+                            <input type="text" id="ToEmail" class="form-control inputValidate"
                                    placeholder="Example@email.com">
                         </div>
                         <div class="mb-2">
                             <label for="mailsubject" class="form-label">Subject</label>
-                            <input type="text" id="mailsubject" class="form-control"
+                            <input type="text" id="mailsubject" class="form-control inputValidate"
                                    placeholder="Your subject">
                         </div>
                         <div class="mb-2">
                             <label for="mailsubject" class="form-label">Profile</label>
-                            <input type="file" id="file" class="form-control"
+                            <input type="file" id="file" class="form-control inputValidate"
                                    placeholder="Your subject">
                         </div>
                         <div class="write-mdg-box mb-3">
                             <label class="form-label">Message</label>
-                            <div id="editor"></div>
+                            <div id="editor" class=""></div>
                         </div>
                     </form>
                 </div>
+                <div id="loader_spinner" style="display: none;" class="overlay-spinner"></div>
                 <div class="px-3 pb-3">
                     <button type="button" class="btn btn-primary" id="sendButton">
                         <i class="mdi mdi-send me-1"></i> Send Message
@@ -1077,32 +1078,50 @@
 </div><!-- /.modal -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
-    const quill = new Quill('#editor', {
-        theme: 'snow'
+    var quill = new Quill('#editor', {
+        modules: {
+            toolbar: [
+                ['bold', 'italic', 'underline'], // Text formatting options
+                [{ 'header': 1 }, { 'header': 2 }], // Header formatting options
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }], // List options
+                [{ 'indent': '-1' }, { 'indent': '+1' }], // Indentation options
+                [{ 'direction': 'rtl' }], // Text direction
+                [{ 'size': ['small', false, 'large', 'huge'] }], // Font size options
+                [{ 'color': [] }, { 'background': [] }], // Text color and background color
+                [{ 'align': [] }] // Text alignment
+            ]
+        },
+        theme: 'snow' // Use 'snow' theme (you can switch to 'bubble' if preferred)
     });
     $(document).ready(function () {
-        $("#sendButton").click(function () {
-            const formData = new FormData();
-            formData.append("ToEmail", $("#ToEmail").val());
-            formData.append("Subject", $("#mailsubject").val());
-            formData.append("Message", $("#editor").html());
-            const fileInput = $("#file").prop('files')[0];
-            if (fileInput) {
-                formData.append("imageFile", fileInput);
-            }
-            $.ajax({
-                url: '/Compose',
-                type: 'POST',
-                data: formData,
-                processData: false, 
-                contentType: false, 
-                success: function (response) {
-                    alert("Email sent successfully!");
-                },
-                error: function (xhr, status, error) {
-                    alert("Error sending email: " + error);
+       
+            $("#sendButton").click(function () {
+                if (IsValidate()) {
+                    const formData = new FormData();
+                    formData.append("ToEmail", $("#ToEmail").val());
+                    formData.append("Subject", $("#mailsubject").val());
+                    formData.append("Message", $("#editor").html());
+                    const fileInput = $("#file").prop('files')[0];
+                    if (fileInput) {
+                        formData.append("imageFile", fileInput);
+                    }
+                    Show_Loader();
+                    $.ajax({
+                        url: '/Compose',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            Hide_Loader();
+                            Info(response.statusCode, response.responseText);
+                        },
+                        error: function (xhr, status, error) {
+                            alert("Error sending email: " + error);
+                        }
+                    });
                 }
             });
-        });
+        
     });
 </script>

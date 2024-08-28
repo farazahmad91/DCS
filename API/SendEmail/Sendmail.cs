@@ -158,6 +158,7 @@ namespace API.SendEmail
                     mail.Subject = cEmail.Subject;
                     mail.IsBodyHtml = true; // Enable HTML content
                     string htmlBody = cEmail.Message; //_emailHtmlBody.GenerateHtmlBodyWithImage(cEmail.Message);
+
                     mail.Body = htmlBody;
 
                     if (!string.IsNullOrEmpty(cEmail.ImagePath) && File.Exists(cEmail.ImagePath))
@@ -216,6 +217,7 @@ namespace API.SendEmail
                     mail.IsBodyHtml = true; // Enable HTML content
                     string htmlBody = inbox.Message; //_emailHtmlBody.GenerateHtmlBodyWithImage(cEmail.Message);
                     mail.Body = htmlBody;
+                    inbox.Message.Replace("<input type=\"text\" data-formula=\"e=mc^2\" data-link=\"https://quilljs.com\" data-video=\"Embed URL\">", "");
 
                     if (!string.IsNullOrEmpty(inbox.Image) && File.Exists(inbox.Image))
                     {
