@@ -49,6 +49,36 @@ namespace API.AppCode.ML
 
             return response;
         }
+        public Response ComposeEmail(Inbox inbox)
+        {
+            var response = new Response()
+            {
+                ResponseText = "An error has occurred, try again later!",
+                StatusCode = ResponseStatus.FAILED
+            };
+            var failedEmails = new List<string>();
+            try
+            {
+                _sendmail.ComposeEmail(inbox);
+            }
+            catch (Exception ex)
+            {
+                failedEmails.Add(inbox.ToEmail);
+
+            }
+            if (failedEmails.Count > 0)
+            {
+                response.ResponseText = $"Failed to send emails to the following recipients: {string.Join(", ", failedEmails)}";
+                response.StatusCode = ResponseStatus.FAILED;
+            }
+            else
+            {
+                response.ResponseText = "Bulk emails sent successfully";
+                response.StatusCode = ResponseStatus.SUCCESS;
+            }
+
+            return response;
+        }
 
         #region Email Template
         public async Task<Response> AddOrUpdateEmailTemplate(EmailTemplate template)

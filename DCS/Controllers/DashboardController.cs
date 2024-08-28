@@ -1,11 +1,13 @@
 ﻿using API.AppCode.APIRequest;
 using API.Claims;
 using Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace DCS.Controllers
 {
+    [Authorize]
     public class DashboardController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -23,7 +25,7 @@ namespace DCS.Controllers
             string? Role = User.GetLoggedInUserRole();
             common.ProjectId = projectId;
             common.Role = Role;
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Dashboard/GetDashboardStatus", JsonConvert.SerializeObject(common), null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Dashboard/GetDashboardStatus", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<DashboardStatus>(apiRes.Result);
@@ -40,7 +42,7 @@ namespace DCS.Controllers
             string? Role = User.GetLoggedInUserRole();
             common.ProjectId = projectId;
             common.Role = Role;
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Dashboard/GetDashboardStatus", JsonConvert.SerializeObject(common), null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Dashboard/GetDashboardStatus", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<DashboardStatus>(apiRes.Result);
@@ -57,7 +59,7 @@ namespace DCS.Controllers
             string? Role = User.GetLoggedInUserRole();
             common.ProjectId = projectId;
             common.Role = Role;
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Dashboard/GetApointmentForDonutChart", JsonConvert.SerializeObject(common), null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Dashboard/GetApointmentForDonutChart", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<List<ApointmentDonutChart>>(apiRes.Result);
@@ -74,7 +76,7 @@ namespace DCS.Controllers
             string? Role = User.GetLoggedInUserRole();
             common.ProjectId = projectId;
             common.Role = Role;
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Dashboard/GetTopHospitalService", JsonConvert.SerializeObject(common), null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Dashboard/GetTopHospitalService", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<List<TopHospitalService>>(apiRes.Result);
@@ -91,7 +93,7 @@ namespace DCS.Controllers
             string? Role = User.GetLoggedInUserRole();
             common.ProjectId = projectId;
             common.Role = Role;
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Dashboard/GetAppointmentDetailNextSevenDay", JsonConvert.SerializeObject(common), null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Dashboard/GetAppointmentDetailNextSevenDay", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<List<AppointmentDetailNextSevenDay>>(apiRes.Result);
@@ -108,7 +110,7 @@ namespace DCS.Controllers
             string? Role = User.GetLoggedInUserRole();
             common.ProjectId = projectId;
             common.Role = Role;
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Dashboard/GetTopAddressOfUser", JsonConvert.SerializeObject(common), null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Dashboard/GetTopAddressOfUser", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<List<TopAddressOfUser>>(apiRes.Result);

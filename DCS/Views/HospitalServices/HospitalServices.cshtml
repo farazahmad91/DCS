@@ -52,7 +52,7 @@
                                             </div>
                                         </div>
                                     }
-                                    <input type="text" class="form-control mb-2" id="txtname" placeholder="search name.." />
+                                    <input type="text" class="form-control mb-2" id="txtname" placeholder="Search Name.." />
                                     <button class="btn btn-info mb-2" onclick="Onload();" type="button">
                                         Search
                                     </button>
@@ -73,25 +73,28 @@
                                 <thead style="background-image: linear-gradient(-45deg, #34b5bf 0%, #210c59 100%);">
                                     <tr class="text-light">
                                         <th scope="col" id="label-service-id">
-                                            <label for="service-id">SERVICE ID</label>
+                                            <label for="service-id">Service Id</label>
                                         </th>
                                         <th scope="col" id="label-service-name">
-                                            <label for="service-name">SERVICE NAME</label>
+                                            <label for="service-name">Service Name</label>
+                                        </th>
+                                        <th scope="col" id="label-service-image">
+                                            <label for="service-image">Service Profile</label>
                                         </th>
                                         <th scope="col" id="label-description">
-                                            <label for="description">DESCRIPTION</label>
+                                            <label for="description">Description</label>
                                         </th>
                                         <th scope="col" id="label-price">
-                                            <label for="price">PRICE</label>
+                                            <label for="price">Price</label>
                                         </th>
                                         <th scope="col" id="label-entry-on">
-                                            <label for="entry-on">ENTRY ON</label>
+                                            <label for="entry-on">Entry On</label>
                                         </th>
                                         <th scope="col" id="label-status">
-                                            <label for="status">STATUS</label>
+                                            <label for="status">Status</label>
                                         </th>
                                         <th scope="col" id="label-action">
-                                            <label for="action">ACTION</label>
+                                            <label for="action">Action</label>
                                         </th>
                                     </tr>
 
@@ -110,6 +113,11 @@
 <div id="hospitalServicesPV"></div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    $(document).ready(function () {
+        Onload();
+        OnloadProjectId();
+    });
+
     function Onload() {
         var projectId = 0;
         projectId = $("#ddlproid").val();
@@ -124,7 +132,7 @@
             alert("error");
         });
     }
-    Onload();
+    
     function OnloadProjectId() {
         $.post('/UserListInJson').done(function (res) {
             var options = '<option value="0">Project Id</option>';
@@ -136,8 +144,6 @@
             Info(-1, xhr.responseText);
         });
     }
-
-    OnloadProjectId();
 
     function editHospitalServices(Id) {
         let param = {
@@ -167,23 +173,5 @@
                 Info(-1, xhr.responseText);
             });
     }
-    function addHospitalServices() {
-        var param = 
-        {
-            ServiceID: $("#ServiceID").val(),
-            ServiceName: $("#ServiceName").val(),
-            Price: $("#Price").val(),
-            Description: $("#Description").val(),
-            Status: $("#Status").prop('checked'),
-        };
-            
-        $.post('/AddOrUpdateHospitalServices', param)
-            .done(function (result) {
-                Info(result.statusCode, result.responseText);
-                Onload();
-            })
-            .fail(function () {
-                alert("error");
-            });
-    }
+
 </script>

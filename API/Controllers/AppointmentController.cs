@@ -2,6 +2,7 @@
 using API.Data;
 using API.SendEmail;
 using Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using static System.Net.WebRequestMethods;
@@ -38,6 +39,7 @@ namespace API.Controllers
 
             return Ok(i);
         }
+        [Authorize]
 
         [HttpPost(nameof(GetAppointment))]
         public async Task<IActionResult> GetAppointment(Common common)

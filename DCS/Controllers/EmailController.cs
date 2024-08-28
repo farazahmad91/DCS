@@ -2,9 +2,11 @@
 using API.AppCode.IML;
 using API.Claims;
 using API.SendEmail;
+using Azure.Core;
 using DCS.Models;
 using Entities;
 using Entities.Response;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
@@ -13,6 +15,7 @@ using System.Data;
 
 namespace DCS.Controllers
 {
+    [Authorize]
     public class EmailController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -33,6 +36,12 @@ namespace DCS.Controllers
         [HttpGet]
         [Route("ComposeBulkEmail")]
         public IActionResult ComposeBulkEmail()
+        {
+            return View();
+        }
+        [HttpGet]
+        [Route("Inbox")]
+        public IActionResult Inbox()
         {
             return View();
         }
@@ -137,7 +146,7 @@ namespace DCS.Controllers
             common.ProjectId= projectId;
             string? Role = User.GetLoggedInUserRole();
             common.Role = Role;
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/GetEmailTemplateListOrById", JsonConvert.SerializeObject(common), null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/GetEmailTemplateListOrById", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<List<EmailTemplate>>(apiRes.Result);
@@ -153,7 +162,7 @@ namespace DCS.Controllers
             var res = new EmailTemplate();
             var  EmailTypelist = new List<MasterEmailTemplateType>();
             common1.ProjectId = projectId;
-            var apiEmailTypeRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/GetMasterEmailTemplateTypeListOrById", JsonConvert.SerializeObject(common1), null);
+            var apiEmailTypeRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/GetMasterEmailTemplateTypeListOrById", JsonConvert.SerializeObject(common1), User.GetLoggedInUserToken());
             
             if (common.Id!=0)
             {
@@ -161,7 +170,7 @@ namespace DCS.Controllers
                 string? Role = User.GetLoggedInUserRole();
                 common.Role = Role;
                 common.PageLength = 30;
-                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/GetEmailTemplateListOrById", JsonConvert.SerializeObject(common), null);
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/GetEmailTemplateListOrById", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
                
                 if (apiRes.Result != null && apiEmailTypeRes.Result != null)
                 {
@@ -200,7 +209,7 @@ namespace DCS.Controllers
                 var request = JsonConvert.DeserializeObject<EmailTemplate>(emailTemplate);
                 request.ImagePath=file;
                 request.ProjectId= projectId;
-                var apiRes = await APIRequestML.O.SendFileAndContentAsync($"{_BaseUrl}/api/Email/AddOrUpdateEmailTemplate", request, file, null, null);
+                var apiRes = await APIRequestML.O.SendFileAndContentAsync($"{_BaseUrl}/api/Email/AddOrUpdateEmailTemplate", request, file, null, User.GetLoggedInUserToken());
                 var res = await apiRes.Content.ReadAsStringAsync();
                 if (apiRes != null && apiRes.IsSuccessStatusCode)
                 {
@@ -219,6 +228,72 @@ namespace DCS.Controllers
         public IActionResult AddOrUpdateMasterEmailType(int id)
         {
             return View();
+        }
+        [Route("Compose")]
+        public async Task<IActionResult> Compose([FromForm]Inbox inbox, IFormFile imageFile)
+        {
+            var response = new Entities.Response.Response()
+            {
+                ResponseText = "An error has occurred, try again later!",
+                StatusCode = ResponseStatus.FAILED
+            };
+
+
+
+            string filePath = null;
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                string relativePath = Path.Combine("wwwroot", "DCS", "img");
+                string absolutePath = Path.Combine(Directory.GetCurrentDirectory(), relativePath);
+
+                try
+                {
+                    if (!Directory.Exists(absolutePath))
+                    {
+                        Directory.CreateDirectory(absolutePath);
+                    }
+
+                    var uniqueFileName = $"{Guid.NewGuid()}_{Path.GetFileName(imageFile.FileName)}";
+                    filePath = Path.Combine(relativePath, uniqueFileName);
+                    string fullFilePath = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+
+                    using (var stream = new FileStream(fullFilePath, FileMode.Create))
+                    {
+                        await imageFile.CopyToAsync(stream);
+                    }
+
+                    inbox.Image = fullFilePath; // Save full path to avoid path issues
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, $"Error saving image: {ex.Message}");
+                }
+            }
+
+            try
+            {
+                var apiRes = await APIRequestML.O.SendFileAndContentAsync(
+                     $"{_BaseUrl}/api/Email/ComposeMail",
+                inbox,
+                     imageFile,
+                     null,
+                     null
+                 );
+
+                if (apiRes != null && apiRes.IsSuccessStatusCode)
+                {
+                    var res = await apiRes.Content.ReadAsStringAsync();
+                    response = JsonConvert.DeserializeObject<Response>(res);
+                    
+                }
+                return Json(response);
+
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(-1, $"Internal server error: {ex.Message}");
+            }
         }
 
         #region Email Template Type

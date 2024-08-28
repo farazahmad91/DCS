@@ -45,20 +45,7 @@ else
         <td>
             @Html.DisplayFor(modelItem => item.Availability)
         </td>
-            @* <td>
-                <div class="form-check form-switch">
-                    @if (@item.Status==1)
-                    {
-                        Ischecked = "checked";
-                    }
-                    else
-                    {
-                        Ischecked = "";
-                    }
-                    <input type="checkbox" name="IsAvailable_@item.DrId" onchange="UserStatus(@item.DrId)" id="IsAvailable_@item.DrId" data-switch="success" @Ischecked>
-                    <label for="IsVerified_@item.DrId" data-on-label="Yes" data-off-label="No"></label>
-                </div>
-            </td> *@
+           
             <td>
                 <div class="form-check form-switch">
                     @if (@item.Status==1)

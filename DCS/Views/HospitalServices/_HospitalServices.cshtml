@@ -25,8 +25,13 @@ else
         <td>
             @Html.DisplayFor(modelItem => item.ServiceName)
         </td>
+            <td>
+                <a class="fancybox" href="@item.ServicesImage" data-fancybox data-caption="@item.ServiceName">
+                    <img src="@item.ServicesImage" onerror="this.onerror=null;this.src='/images/noimage.jpg'" class="img-fluid rounded-circle" alt="No Image Found" width="50px" height="50px" />
+                </a>
+            </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Description)
+                <textarea class="form-control form-outline" readonly>@item.Description</textarea>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Price)

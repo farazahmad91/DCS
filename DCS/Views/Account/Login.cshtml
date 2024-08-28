@@ -32,7 +32,7 @@
     <!-- title-->
     <h4 class="mt-0">Sign In</h4>
     <p class="text-muted mb-4">Enter your email address and password to access account.</p>
-
+    <div id="loader_spinner" style="display: none;" class="overlay-spinner"></div>
     <!-- form -->
     <div>
         <div class="mb-3">
@@ -50,27 +50,11 @@
                 <label class="form-check-label" for="checkbox-signin">Remember me</label>
             </div>
         </div>
+      
         <div class="d-grid mb-0 text-center">
             <button class="btn btn-primary" type="submit" id="btnhide2" onclick="loginUser();"><i class="mdi mdi-login"></i> Log In </button>
         </div>
-        <!-- social-->
-@*         <div class="text-center mt-4">
-            <p class="text-muted font-16">Sign in with</p>
-            <ul class="social-list list-inline mt-3">
-                <li class="list-inline-item">
-                    <a href="javascript: void(0);" class="social-list-item border-primary text-primary"><i class="mdi mdi-facebook"></i></a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="javascript: void(0);" class="social-list-item border-danger text-danger"><i class="mdi mdi-google"></i></a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="javascript: void(0);" class="social-list-item border-info text-info"><i class="mdi mdi-twitter"></i></a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="javascript: void(0);" class="social-list-item border-secondary text-secondary"><i class="mdi mdi-github"></i></a>
-                </li>
-            </ul>
-        </div> *@
+      
     </div>
     <!-- end form-->
 </div>
@@ -87,18 +71,21 @@
             var email = $("#Email").val();
             var password = $("#Password").val();
             sessionStorage.setItem('loginuseremail', email);
-
+            Show_Loader();
             var formData = {
                 Email: email,
                 Password: password
             };
 
             $.post("/Account/Login", formData).done(function (res) {
-                console.log(res);
-                if (res.statusCode==1) {
-                        Info(1, 'Login successful');
+                setTimeout(function () {
+                    Hide_Loader();
+                    if (res.statusCode == 1) {
+                        Info(1, 'Login successfully!!');
                         window.location.href = `${res.redirectUrl}`;
-                }
+                    }
+                }, 1000);
+           
                 if (res.statusCode == 4) {
                         sessionStorage.setItem('emailtype', "EVFUNLOCK");
                         window.location.href = "/IsVerified-User";
@@ -117,7 +104,5 @@
         }
     }
 
-    function loginWithFacebook() {
-        // Implement Facebook login functionality
-    }
+  
 </script>

@@ -9,9 +9,7 @@
         color: white;
     }</style>
 <div class="content">
-
-
-    <div class="container-fluid">
+<div class="container-fluid">
 
         <!-- start page title -->
         <div class="row">
@@ -84,10 +82,10 @@
                                 <thead style="background-image: linear-gradient(-45deg, #34b5bf 0%, #210c59 100%);">
                                     <tr class="text-white">
                                         <th scope="col" id="label-patient-name">
-                                            <label for="patient-name">Patient Name</label>
+                                            <label for="patient-name">Patient Id</label>
                                         </th>
                                         <th scope="col" id="label-doctor-name">
-                                            <label for="doctor-name">Doctor Name</label>
+                                            <label for="doctor-name">Doctor Id</label>
                                         </th>
                                         <th scope="col" id="label-diagnosis">
                                             <label for="diagnosis">Diagnosis</label>
@@ -123,59 +121,4 @@
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    function Onload() {
-        var projectId = 0;
-        projectId = $("#ddlproid").val();
-        var param = {
-            Id: $("#txtpid").val(),
-            Date: $("#txtdate").val(),
-            ProjectId: projectId,
-            PageLength: $("#ddltypetop").val(),
-        };
-        $.post('/_TreatmentList', param).done(function (res) {
-
-            $("#tList").html(res);
-        }).fail(function () {
-            alert("error");
-        });
-    }
-    Onload();
-    function OnloadProjectId() {
-        $.post('/UserListInJson').done(function (res) {
-            var options = '<option value="0">Project Id</option>';
-            for (var i = 0; i < res.length; i++) {
-                options += '<option value="' + res[i].projectId + '">' + res[i].projectId + '</option>';
-            }
-            $('#ddlproid').html(options);
-        }).fail(function (xhr) {
-            Info(-1, xhr.responseText);
-        });
-    }
-
-    OnloadProjectId();
-    function medicationList(Id) {
-        let param = {
-            id: Id,
-        };
-        $.post("/_MedicationList", param)
-            .done(function (res) {
-                $("#treatPV").html(res);
-                $("#MedicationList_Modal").modal("show");
-            })
-            .fail(function () {
-                alert("error");
-            });
-    }
-
-    function CreateTreatment() {
-        $.post("/CreateTreatment")
-            .done(function (res) {
-                $("#treatPV").html(res);
-                $("#AddTreatment_Modal").modal("show");
-            })
-            .fail(function () {
-                alert("error");
-            });
-    }
-</script>
+<script src="~/dcs/js/treatmentscript.js"></script>

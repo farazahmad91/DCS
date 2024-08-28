@@ -4,11 +4,13 @@ using API.RequestInfo;
 using API.SendEmail;
 using Entities;
 using Entities.Response;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace DCS.Controllers
 {
+    [Authorize]
     public class InvoiceController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -41,7 +43,7 @@ namespace DCS.Controllers
                 string? Role = User.GetLoggedInUserRole();
                 common.Role = Role;
                 common.ProjectId = projectId;
-                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Invoice/GetInvoiceListAndBYId", JsonConvert.SerializeObject(common), null);
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Invoice/GetInvoiceListAndBYId", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
 				if (apiRes.Result != null)
 				{
 					list = JsonConvert.DeserializeObject<List<InvoiceViewModel>>(apiRes.Result);
@@ -63,7 +65,7 @@ namespace DCS.Controllers
 		public async Task<IActionResult> AddInvoice(string name= "All")
 		{
             var list = new List<Medicines>();
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/MedicineManagement/GetMedicines/{name}", null, null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/MedicineManagement/GetMedicines/{name}", null, User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<List<Medicines>>(apiRes.Result);
@@ -87,7 +89,7 @@ namespace DCS.Controllers
                 int? projectid = User.GetProjectId();
                 invoiceViewModel.ProjectId=projectid;
                 var token = User.GetLoggedInUserToken();
-                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Invoice/InsertInvoiceData", JsonConvert.SerializeObject(invoiceViewModel),null);
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Invoice/InsertInvoiceData", JsonConvert.SerializeObject(invoiceViewModel), User.GetLoggedInUserToken());
                 if (apiRes.Result != null)
                 {
                     res = JsonConvert.DeserializeObject<Response>(apiRes.Result);
@@ -116,7 +118,7 @@ namespace DCS.Controllers
             try
             {
                 var token = User.GetLoggedInUserToken();
-                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Invoice/GetInvoiceDataByInvoiceId/{id}", null, null);
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Invoice/GetInvoiceDataByInvoiceId/{id}", null, User.GetLoggedInUserToken());
                 if (apiRes.Result != null)
                 {
                     list = JsonConvert.DeserializeObject<InvoiceViewModelDetails>(apiRes.Result);
@@ -145,7 +147,7 @@ namespace DCS.Controllers
             try
             {
                 var token = User.GetLoggedInUserToken();
-                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Invoice/GetInvoiceDataByInvoiceId/{id}", null, null);
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Invoice/GetInvoiceDataByInvoiceId/{id}", null, User.GetLoggedInUserToken());
                 if (apiRes.Result != null)
                 {
                     list = JsonConvert.DeserializeObject<InvoiceViewModelDetails>(apiRes.Result);

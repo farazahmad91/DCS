@@ -104,10 +104,11 @@
 
         </div>
         <!-- container -->
-
+        <div id="ChangePassPv"></div>
     </div>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script>
         function Onload() {
              debugger
@@ -136,7 +137,17 @@
             });
         }
         NextSevenDay();
+        function checkPasswordChange() {
+            $.post('/CheckIsPasswordChange').done(function (res) {
+                console.log(res);
+                $("#ChangePassPv").html(res);
+                $("#ChangePass").modal("show");
 
+            }).fail(function () {
+                alert("Error checkPassword");
+            })
+        }
+        checkPasswordChange();
     </script>
 
     @* <div class="container-fluid mb-5">

@@ -1,4 +1,5 @@
 ﻿@model Entities.HospitalEmployee
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <div class="card">
 	<div class="card-body">
 		<div class="modal fade" id="employee_Editmodal" tabindex="-1" aria-labelledby="employee_EditmodalTitle" style="display: none;" aria-hidden="true">
@@ -6,7 +7,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="employee_EditmodalTitle">
-							Add or Update Doctor
+							Add or Update Employee
 						</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
@@ -16,22 +17,24 @@
                                 <div class="row gx-3">
                                     <div class="col-6">
                                         <div class="mb-3">
-                                            <input type="text" class="form-control" asp-for="EmployeeId" hidden placeholder="Full Name">
+                                            <input type="text" class="form-control" asp-for="EmployeeId" hidden >
                                             <label for="Name" class="form-label">Full Name</label>
                                             <div class="input-group">
                                                 <span class="input-group-text">
-                                                    <i class="bi bi-calendar4"></i>
+                                                    <i class="fa fa-user" aria-hidden="true"></i>
+
                                                 </span>
-                                            <input type="text" class="form-control" asp-for="Name" placeholder="Full Name">
+                                                <input type="text" class="form-control inputValidate" asp-for="Name" placeholder="Full Name">
                                         </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="ContactNumber" class="form-label">Contact</label>
                                             <div class="input-group">
                                                 <span class="input-group-text">
-                                                    <i class="bi bi-calendar4"></i>
+                                                    <i class="fa fa-phone-square" aria-hidden="true"></i>
+
                                                 </span>
-                                            <input type="tel" class="form-control" asp-for="ContactNumber" placeholder="Contact">
+                                                <input type="tel" class="form-control inputValidate" asp-for="ContactNumber" placeholder="Contact">
                                         </div>
                                         </div>
                                     </div>
@@ -40,9 +43,10 @@
                                             <label for="Email" class="form-label">Email</label>
                                             <div class="input-group">
                                                 <span class="input-group-text">
-                                                    <i class="bi bi-calendar4"></i>
+                                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+
                                                 </span>
-                                            <input type="email" class="form-control" asp-for="Email" placeholder="Email ID">
+                                                <input type="email" class="form-control inputValidate" asp-for="Email" placeholder="Enter Email Id">
                                         </div>
                                         </div>
 
@@ -50,9 +54,10 @@
                                             <label for="DateOfBirth" class="form-label">Birthday</label>
                                             <div class="input-group">
                                                 <span class="input-group-text">
-                                                    <i class="bi bi-calendar4"></i>
+                                                    <i class="fa fa-birthday-cake" aria-hidden="true"></i>
+
                                                 </span>
-                                                <input type="date" class="form-control" asp-for="DateOfBirth" placeholder="DD/MM/YYYY">
+                                                <input type="date" class="form-control inputValidate" asp-for="DateOfBirth" placeholder="DD/MM/YYYY">
                                             </div>
                                         </div>
                                     </div>
@@ -63,18 +68,21 @@
                                             <label for="Specialization" class="form-label">Specialization</label>
                                             <div class="input-group">
                                                 <span class="input-group-text">
-                                                    <i class="bi bi-calendar4"></i>
+                                                    <i class="fa fa-tag" aria-hidden="true"></i>
+
+
                                                 </span>
-                                            <input type="text" class="form-control" asp-for="Specialization" placeholder="Specialization">
+                                                <input type="text" class="form-control inputValidate" asp-for="Specialization" placeholder="Specialization">
                                         </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="Qualifications" class="form-label">Qualifications</label>
                                             <div class="input-group">
                                                 <span class="input-group-text">
-                                                    <i class="bi bi-calendar4"></i>
+                                                    <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+
                                                 </span>
-                                            <input type="text" class="form-control" asp-for="Qualifications" placeholder="Qualifications">
+                                                <input type="text" class="form-control inputValidate" asp-for="Qualifications" placeholder="Qualifications">
                                             </div>
                                         </div>
                                     </div>
@@ -83,9 +91,10 @@
                                             <label for="Gender" class="form-label">Gender</label>
                                             <div class="input-group">
                                                 <span class="input-group-text">
-                                                    <i class="bi bi-calendar4"></i>
+                                                    <i class="fa fa-genderless" aria-hidden="true"></i>
+
                                                 </span>
-                                            <select class="form-control" asp-for="Gender">
+                                                <select class="form-control inputValidate" asp-for="Gender">
                                                 <option value="">Select Gender</option>
                                                 <option value="Male">Male</option>
                                                 <option value="Female">Female</option>
@@ -96,9 +105,10 @@
                                             <label for="Address" class="form-label">Address</label>
                                             <div class="input-group">
                                                 <span class="input-group-text">
-                                                    <i class="bi bi-calendar4"></i>
+                                                    <i class="fa fa-id-card" aria-hidden="true"></i>
+
                                                 </span>
-                                            <input type="text" class="form-control" asp-for="Address" placeholder="Address">
+                                                <input type="text" class="form-control inputValidate" asp-for="Address" placeholder="Address">
                                         </div>
                                         </div>
                                     </div>
@@ -106,43 +116,47 @@
                                 <div class="row gx-3">
                                     <div class="col-6">
                                         <div class="mb-3">
-                                            <label for="AdharNumber" class="form-label">Adhar Number</label>
+                                            <label for="AdharNumber" class="form-label">Addhar Number</label>
                                             <div class="input-group">
                                                 <span class="input-group-text">
-                                                    <i class="bi bi-calendar4"></i>
+                                                    <i class="fa fa-id-card" aria-hidden="true"></i>
+
                                                 </span>
-                                            <input type="text" class="form-control" asp-for="AdharNumber" placeholder="Adhar Number">
+                                                <input type="text" class="form-control inputValidate" asp-for="AdharNumber" placeholder="Adhar Number">
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <img src="@Model.ProfileImage" alt="Profile Image" class="img-thumbnail" style="width: 150px; height: 150px;" />
+                                            <img id="ImagePreview" src="@Model.ProfileImage" alt="Profile Image" class="img-thumbnail " style="width: 50px; height: 50px;" />
                                             <label for="file1" class="form-label">Profile Image</label>
                                             <div class="input-group">
                                                 <span class="input-group-text">
-                                                    <i class="bi bi-calendar4"></i>
+                                                    <i class="fa fa-user" aria-hidden="true"></i>
+
                                                 </span>
-                                            <input type="file" class="form-control" id="file1">
+                                                <input type="file" class="form-control inputValidate" id="file1">
                                         </div>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="mb-3">
-                                            <img src="@Model.AdharImage" alt="Adhar Image" class="img-thumbnail" style="width: 150px; height: 150px;" />
-                                            <label for="file2" class="form-label">Adhar Image</label>
+                                            <!-- Image element with an ID for JavaScript to target -->
+                                            <img id="ImagePreview" src="@Model.AdharImage" alt="Adhar Image" class="img-thumbnail" style="width: 50px; height: 50px;" />
+                                            <label for="file2" class="form-label">Addhar Image</label>
                                             <div class="input-group">
                                                 <span class="input-group-text">
-                                                    <i class="bi bi-calendar4"></i>
+                                                    <i class="fa fa-id-card" aria-hidden="true"></i>
                                                 </span>
-                                            <input type="file" class="form-control" id="file2">
-                                        </div>
+                                                <input type="file" class="form-control inputValidate" id="file2" onchange="previewImage(event)">
+                                            </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="Salary" class="form-label">Salary</label>
                                             <div class="input-group">
                                                 <span class="input-group-text">
-                                                    <i class="bi bi-calendar4"></i>
+                                                    <i class="fa fa-inr" aria-hidden="true"></i>
+
                                                 </span>
-                                            <input type="text" class="form-control" asp-for="Salary" placeholder="Department">
+                                                <input type="text" class="form-control inputValidate" asp-for="Salary" placeholder="Department">
                                             </div>
                                         </div>
                                     </div>
@@ -153,18 +167,20 @@
                                             <label for="ExperienceYears" class="form-label">Experience Years</label>
                                             <div class="input-group">
                                                 <span class="input-group-text">
-                                                    <i class="bi bi-calendar4"></i>
+                                                    <i class="fa fa-history" aria-hidden="true"></i>
+
                                                 </span>
-                                            <input type="number" class="form-control" asp-for="ExperienceYears" placeholder="Adhar Number">
+                                                <input type="number" class="form-control inputValidate" asp-for="ExperienceYears" placeholder="Adhar Number">
                                         </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="Position" class="form-label">Position</label>
                                             <div class="input-group">
                                                 <span class="input-group-text">
-                                                    <i class="bi bi-calendar4"></i>
+                                                    <i class="fa fa-diamond" aria-hidden="true"></i>
+
                                                 </span>
-                                                <input type="text" class="form-control" asp-for="Position" placeholder="Position">
+                                                <input type="text" class="form-control inputValidate" asp-for="Position" placeholder="Position">
                                         </div>
                                         </div>
                                     </div>
@@ -173,26 +189,30 @@
                                             <label for="Department" class="form-label">Department</label>
                                             <div class="input-group">
                                                 <span class="input-group-text">
-                                                    <i class="bi bi-calendar4"></i>
+                                                    <i class="fa fa-building" aria-hidden="true"></i>
+
                                                 </span>
-                                            <input type="text" class="form-control" asp-for="Department" placeholder="Department">
+                                                <input type="text" class="form-control inputValidate" asp-for="Department" placeholder="Department">
                                         </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="DateOfJoining" class="form-label">Date Of Joining</label>
                                             <div class="input-group">
                                                 <span class="input-group-text">
-                                                    <i class="bi bi-calendar4"></i>
+                                                    <i class="fa fa-sign-in" aria-hidden="true"></i>
+
                                                 </span>
                                              
-                                                @if (Model.EmployeeId!=0)
+                                                @if (Model.EmployeeId != null)
                                                 {
-                                                        <input type="date" class="form-control" asp-for="DateOfJoining" placeholder="DateOfJoining" disabled>
+                                                    <input type="date" class="form-control inputValidate" asp-for="DateOfJoining" placeholder="DateOfJoining" disabled>
+
                                                 }
-                                                    else
-                                                    {
-                                                        <input type="date" class="form-control" asp-for="DateOfJoining" placeholder="DateOfJoining">
-                                                    }
+                                                else
+                                                {
+                                                    <input type="date" class="form-control inputValidate" asp-for="DateOfJoining" placeholder="DateOfJoining">
+                                                }
+                                             
                                             </div>
                                         </div>
                                     </div>
@@ -221,3 +241,81 @@
 		</div>
 	</div>
 </div>
+<script>
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('ImagePreview');
+            output.src = reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+    function addEmployee() {
+        if (IsValidate()) {
+            const employee = {
+                EmployeeId: $("#EmployeeId").val(),
+                Name: $("#Name").val(),
+                Email: $("#Email").val(),
+                ContactNumber: $("#ContactNumber").val(),
+                Address: $("#Address").val(),
+                Specialization: $("#Specialization").val(),
+                Gender: $("#Gender").val(),
+                DateOfBirth: $("#DateOfBirth").val(),
+                Qualifications: $("#Qualifications").val(),
+                ExperienceYears: $("#ExperienceYears").val(),
+                Department: $("#Department").val(),
+                Position: $("#Position").val(),
+                DateOfJoining: $("#DateOfJoining").val(),
+                Salary: $("#Salary").val(),
+                AdharNumber: $("#AdharNumber").val(),
+                Status: $("#Status").prop('checked')
+            };
+
+            const formData = new FormData();
+            formData.append("employee", JSON.stringify(employee));  // Corrected line
+            formData.append("file1", $("#file1").prop('files')[0]);
+            formData.append("file2", $("#file2").prop('files')[0]);
+
+            // Debug: Log the formData contents
+            for (const pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1]);
+            }
+
+            $.ajax({
+                url: '/AddOrUpdateEmployees',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    Info(result.statusCode, result.responseText);
+                    Onload();
+                    $("#employee_Editmodal").modal("hide");
+                },
+                error: function (xhr) {
+                    console.log(xhr.responseText);
+                    Info(-1, xhr.responseText);
+                }
+            });
+        }
+    }
+    function IsValidate() {
+        let isValid = true;
+        $('.inputValidate').each(function () {
+            const $this = $(this);
+            console.log($this);
+            if ($this.val().trim() === '' || $this.val().trim() == 0) {
+                $this.addClass("border border-2 border-danger");
+                if ($this.next('.error-message').length < 1) {
+                    $this.after('<div class="error-message text-danger">This Field Is Required</div>');
+                }
+                isValid = false;
+            } else {
+                $this.removeClass("border border-2 border-danger").addClass("border-success");
+                $this.next('.error-message').remove();
+            }
+        });
+
+        return isValid;
+    }
+</script>

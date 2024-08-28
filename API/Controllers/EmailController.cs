@@ -103,6 +103,21 @@ namespace API.Controllers
             return Ok(i);
         }
 
-       # endregion
+        #endregion
+
+
+        [HttpPost(nameof(ComposeMail))]
+        public IActionResult ComposeMail([FromForm] Inbox inbox)
+        {
+            var res = new Response
+            {
+                ResponseText = "An Error Occured Try After Some Time!",
+                StatusCode = ResponseStatus.FAILED
+            };
+           
+                res = _email.ComposeEmail(inbox);
+            
+            return Ok(res);
+        }
     }
 }

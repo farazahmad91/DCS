@@ -1,14 +1,17 @@
 ﻿using API.AppCode.APIRequest;
 using API.AppCode.IML;
+using API.Claims;
 using Entities;
 using Entities.Response;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace DCS.Controllers
 {
-	public class PlanServicesController : Controller
+    [Authorize]
+    public class PlanServicesController : Controller
 	{
 		private readonly IConfiguration _configuration;
 		private readonly string _BaseUrl;
@@ -27,7 +30,7 @@ namespace DCS.Controllers
 		public async Task<IActionResult> Pricing(string? name="All")
 		{
 			var list = new List<PlanServices>();
-			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PlanServices/GetDCSService/{name}", null, null);
+			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PlanServices/GetDCSService/{name}", null, User.GetLoggedInUserToken());
 			if (apiRes.Result != null)
 			{
 				list = JsonConvert.DeserializeObject<List<PlanServices>>(apiRes.Result);
@@ -43,7 +46,7 @@ namespace DCS.Controllers
         public async Task<IActionResult> _ServiceList(string? name = "All")
 		{
 			var list = new List<PlanServices>();
-			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PlanServices/GetDCSService/{name}", null, null);
+			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PlanServices/GetDCSService/{name}", null, User.GetLoggedInUserToken());
 			if (apiRes.Result != null)
 			{
 				list = JsonConvert.DeserializeObject<List<PlanServices>>(apiRes.Result);
@@ -55,7 +58,7 @@ namespace DCS.Controllers
 		public async Task<IActionResult> EditPlan(int id)
 		{
 			var list = new PlanServices();
-			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PlanServices/GetDCSServiceById/{id}", null, null);
+			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PlanServices/GetDCSServiceById/{id}", null, User.GetLoggedInUserToken());
 			if (apiRes.Result != null)
 			{
 				list = JsonConvert.DeserializeObject<PlanServices>(apiRes.Result);
@@ -72,7 +75,7 @@ namespace DCS.Controllers
 				StatusCode = ResponseStatus.FAILED,
 			};
 
-			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PlanServices/AddorUpdateDCSService", JsonConvert.SerializeObject(services), null);
+			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/PlanServices/AddorUpdateDCSService", JsonConvert.SerializeObject(services), User.GetLoggedInUserToken());
 			if (apiRes.Result != null)
 			{
 				response = JsonConvert.DeserializeObject<Response>(apiRes.Result);

@@ -53,7 +53,7 @@
                                             </div>
                                         </div>
                                     }
-                                    <input type="text" class="form-control mb-2" id="txtemail" placeholder="search email.." />
+                                    <input type="text" class="form-control mb-2" id="txtemail" placeholder="Search Email.." />
                                     <button class="btn btn-info mb-2" onclick="Onload();" type="button">
                                         Search
                                     </button>
@@ -72,27 +72,29 @@
 
                         <div class="table-responsive">
                             <table class="table table-striped dt-responsive nowrap w-100" id="dTable">
-                                <thead style="background-image: linear-gradient(-45deg, #34b5bf 0%, #210c59 100%);">
+                                <thead style="background-image: linear-gradient(-45deg, #34b5bf 0%, #210c59 100%);-webkit-text-fill-color: #FFFFFF;">
                                     <tr class="text-white">
                                         <th>
-                                            <label>ID</label>
+                                            <label>Id</label>
                                         </th>
                                         <th>
-                                            <label>NAME</label>
+                                            <label>Name</label>
                                         </th>
                                         <th>
-                                            <label>EMAIL</label>
+                                            <label>Email</label>
                                         </th>
                                         <th>
-                                            <label>PHONE NO.</label>
+                                            <label>Phone No.</label>
                                         </th>
                                         <th>
-                                            <label>IMAGE</label>
+                                            <label>Image</label>
                                         </th>
                                         <th>
-                                            <label>STATUS</label>
+                                            <label>Status</label>
                                         </th>
-                                        <th><label>Action</label></th>
+                                        <th>
+                                            <label>Action</label>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody id="EMPList">
@@ -109,6 +111,10 @@
 <div id="employee_modalPV"></div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    $(document).ready(function () {
+        Onload();
+        OnloadProjectId();
+    });
 
     function Onload() {
         var projectId = 0;
@@ -125,7 +131,6 @@
         });
     }
 
-    Onload();
     function OnloadProjectId() {
         $.post('/UserListInJson').done(function (res) {
             var options = '<option value="0">Project Id</option>';
@@ -137,8 +142,6 @@
             Info(-1, xhr.responseText);
         });
     }
-
-    OnloadProjectId();
 
     function employeeDetails(Id) {
         let param = {
@@ -165,6 +168,7 @@
             Info(-1, xhr.responseText);
         })
     }
+
     function employeeStatus(Id) {
         var param = {
             Id: Id,
@@ -180,54 +184,5 @@
         })
     }
 
-
-    function addEmployee() {
-       
-        const employee = {
-            EmployeeId: $("#EmployeeId").val(),
-            Name: $("#Name").val(),
-            Email: $("#Email").val(),
-            ContactNumber: $("#ContactNumber").val(),
-            Address: $("#Address").val(),
-            Specialization: $("#Specialization").val(),
-            Gender: $("#Gender").val(),
-            DateOfBirth: $("#DateOfBirth").val(),
-            Qualifications: $("#Qualifications").val(),
-            ExperienceYears: $("#ExperienceYears").val(),
-            Department: $("#Department").val(),
-            Position: $("#Position").val(),
-            DateOfJoining: $("#DateOfJoining").val(),
-            Salary: $("#Salary").val(),
-            AdharNumber: $("#AdharNumber").val(),
-            Status: $("#Status").prop('checked')
-        };
-
-        const formData = new FormData();
-        formData.append("employee", JSON.stringify(employee));  // Corrected line
-        formData.append("file1", $("#file1").prop('files')[0]);
-        formData.append("file2", $("#file2").prop('files')[0]);
-
-        // Debug: Log the formData contents
-        for (const pair of formData.entries()) {
-            console.log(pair[0] + ': ' + pair[1]);
-        }
-
-        $.ajax({
-            url: '/AddOrUpdateEmployees',
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (result) {
-                Info(result.statusCode, result.responseText);
-                Onload();
-                $("#employee_Editmodal").modal("hide");
-            },
-            error: function (xhr) {
-                console.log(xhr.responseText);
-                Info(-1, xhr.responseText);
-            }
-        });
-    }
-
+   
 </script>

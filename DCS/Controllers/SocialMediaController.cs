@@ -6,9 +6,11 @@ using Newtonsoft.Json;
 using API.AppCode.Configuration;
 using API.Claims;
 using Microsoft.SqlServer.Server;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DCS.Controllers
 {
+    [Authorize]
     public class SocialMediaController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -32,7 +34,7 @@ namespace DCS.Controllers
             string? Role = User.GetLoggedInUserRole();
             common.Role = Role;
             common.ProjectId =projectid;
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/SocialMedia/GetSocialMediaListOrById", JsonConvert.SerializeObject(common), null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/SocialMedia/GetSocialMediaListOrById", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<List<SocialMedia>>(apiRes.Result);
@@ -47,7 +49,7 @@ namespace DCS.Controllers
             {
                 int? projectid = User.GetProjectId();
                 common.ProjectId =projectid;
-                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/SocialMedia/GetSocialMediaListOrById", JsonConvert.SerializeObject(common), null);
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/SocialMedia/GetSocialMediaListOrById", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
                 if (apiRes.Result != null)
                 {
                     var list = JsonConvert.DeserializeObject<List<SocialMedia>>(apiRes.Result);
@@ -74,7 +76,7 @@ namespace DCS.Controllers
                 formData.ImagePath = file;
                 int? projectid = User.GetProjectId();
                 formData.ProjectId =projectid;
-                var apiRes = await APIRequestML.O.SendFileAndContentAsync($"{_BaseUrl}/api/SocialMedia/AddOrUpdateSocialMedia", formData, file, null, null);
+                var apiRes = await APIRequestML.O.SendFileAndContentAsync($"{_BaseUrl}/api/SocialMedia/AddOrUpdateSocialMedia", formData, file, null, User.GetLoggedInUserToken());
                 var res = await apiRes.Content.ReadAsStringAsync();
 
                 if (apiRes != null && apiRes.IsSuccessStatusCode)

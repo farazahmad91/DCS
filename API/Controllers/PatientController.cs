@@ -1,6 +1,7 @@
 ﻿using API.AppCode.Helper;
 using API.AppCode.IService;
 using Entities;
+using Entities.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -19,12 +20,24 @@ namespace API.Controllers
         [HttpPost(nameof(AddOrUpdatePatient))]
         public async Task<IActionResult> AddOrUpdatePatient(Patient patients)
         {
-            if (patients.ImagePath != null)
-            {
-                patients.PImage = _uploadService.Image(patients.ImagePath, FileUploadType.PatientImage, FileUploadType.PatientPrefix);
-            }
-            var i =await _patient.AddOrUpdatePatient(patients);
-            return Ok(i);
+			var res = new Response
+			{
+				StatusCode = ResponseStatus.FAILED,
+				ResponseText = "An error han occurred try after sometime."
+			};
+
+			patients.PImage = _uploadService.Image(patients.ImagePath, FileUploadType.PatientImage, FileUploadType.PatientPrefix);
+          
+			if (patients.PImage != null && patients.PId == 0)
+			{
+				res = await _patient.AddOrUpdatePatient(patients);
+			}
+			if (patients.PImage == "" && patients.PId != 0)
+			{
+				res = await _patient.AddOrUpdatePatient(patients);
+			}
+			
+            return Ok(res);
         }
 
         [HttpPost(nameof(GetPatient))]

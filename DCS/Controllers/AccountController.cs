@@ -18,9 +18,11 @@ using API.SendEmail;
 using API.RequestInfo;
 using API.AppCode.IML;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DCS.Controllers
 {
+
     public class AccountController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -30,33 +32,35 @@ namespace DCS.Controllers
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly Sendmail _sendmail;
         private readonly string domainname;
-     
-        public AccountController(IConfiguration configuration, IWebHostEnvironment webHostEnvironment, Sendmail sendmail)
+        private readonly IDapper _dapper;
+        public AccountController(IConfiguration configuration, IWebHostEnvironment webHostEnvironment, Sendmail sendmail, IDapper dapper)
         {
             this._configuration = configuration;
-            _BaseUrl =  _configuration["APIBaseURl:BaseURl"];
+            _BaseUrl = "https://localhost:7079";
             this.webHostEnvironment = webHostEnvironment;
             this._sendmail = sendmail;
             domainname = "";
-          
+            _dapper = dapper;
         }
-
-
+        
         [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
+
         public async Task<IActionResult> AdminRegister()
         {
 
             return PartialView();
         }
+
 		[Route("Register")]
 		public IActionResult Register()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -104,13 +108,14 @@ namespace DCS.Controllers
 
         }
 
-        [Route("Login")]
+      
         [HttpGet]
         public IActionResult Login()
         {
 
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginRequests loginRequest)
         {
@@ -191,6 +196,19 @@ namespace DCS.Controllers
 
                         return Json(res);
                     }
+                    var param = new
+                    {
+                        loginRequest.Email,
+                        DeviceName = GetDeviceName(),
+                        BrowerName = GetBrowserName(),
+                        SessionToken = Guid.NewGuid().ToString(),
+                        IPAddress= GetIPAddress(),
+
+                };
+                    _dapper.GetById<Response>(param, "Proc_LoginInfoAsync");
+                    string browser = GetBrowserName();
+                    string IP = GetIPAddress();
+                    string DeviceName = GetDeviceName();
                         var respons = new {
                         statusCode =1,
                         redirectUrl = $"/{projectDetails.DomainName}/admin",
@@ -230,8 +248,63 @@ namespace DCS.Controllers
                 return Json(res);
             }
         }
+        private string GetDeviceName()
+        {
+            var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
+            if (userAgent.Contains("iPhone"))
+                return "iPhone";
+            if (userAgent.Contains("iPad"))
+                return "iPad";
+            if (userAgent.Contains("Android"))
+                return "Android Device";
+            if (userAgent.Contains("Windows NT"))
+                return "Windows PC";
+            if (userAgent.Contains("Macintosh"))
+                return "MacBook";
 
-		[Route("IsVerified-User")]
+            return "Unknown Device";
+        }
+        private string GetBrowserName()
+        {
+            var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
+
+            if (userAgent.Contains("Edg"))
+                return "Microsoft Edge";
+            if (userAgent.Contains("Chrome") && !userAgent.Contains("Chromium"))
+                return "Chrome";
+            if (userAgent.Contains("Safari") && !userAgent.Contains("Chrome"))
+                return "Safari";
+            if (userAgent.Contains("Firefox"))
+                return "Firefox";
+            if (userAgent.Contains("Opera") || userAgent.Contains("OPR"))
+                return "Opera";
+            if (userAgent.Contains("MSIE") || userAgent.Contains("Trident"))
+                return "Internet Explorer";
+
+            return "Unknown Browser";
+        }
+        private string GetIPAddress()
+        {
+            try
+            {
+                string hostName = Dns.GetHostName();
+                IPHostEntry myHostEntry = Dns.GetHostEntry(hostName);
+                string myIP = myHostEntry.AddressList.FirstOrDefault(ip => ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)?.ToString();
+                if (myIP == null)
+                {
+                    throw new Exception("No IPv4 address found for the host.");
+                }
+
+                return myIP;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in GetIPAddress: {ex.Message}");
+                return null;
+            }
+        }
+
+        [Route("IsVerified-User")]
 		public IActionResult ConfirmationEmail()
 		{
             return View();
@@ -264,7 +337,7 @@ namespace DCS.Controllers
             }
 
         }
-
+        [Authorize]
         [Route("ChangePassword")]
         public async Task<IActionResult> ChangePassword()
         {
@@ -288,6 +361,10 @@ namespace DCS.Controllers
                 if (apiRes != null)
                 {
                     res = JsonConvert.DeserializeObject<Response>(apiRes.Result);
+                }
+                if (res.StatusCode==ResponseStatus.SUCCESS)
+                {
+                    res = _dapper.GetById<Response>(new { Email= email }, "Proc_UpdateISChangePasswordStatus");
                 }
                 return Json(res);
             }
@@ -519,41 +596,33 @@ namespace DCS.Controllers
 
         }
 
-
-
         [HttpGet]
         [Route("Logout")]
         public async Task<IActionResult> Logout()
         {
+            string Email = User.GetLoggedInUserEmail();
+            //string Role = User.GetLoggedInUserRole();
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return LocalRedirect("/Login");
+             _dapper.GetById<Response>(new { Email }, "Proc_Logout");
+            return LocalRedirect("/Account/Login");
         }
-        //[Route("/Profile")]
-        //public async Task<IActionResult> UserProfile()
-        //{
-        //    var email = User.FindFirstValue(ClaimTypes.Email);
-        //    var i = await _apirequest.GetData<UserProfile>($"UserProfile/UserProfileListByEmail?email={email}");
-        //    return PartialView(i);
-        //}
 
-        //public async Task<IActionResult> UpdateUserProfileImg(UserProfile userProfile, IFormFile ImagePath)
-        //{
-        //    var email = User.FindFirstValue(ClaimTypes.Email);
-        //    userProfile.Image = uploadImage.Image(ImagePath);
-        //    userProfile.Email = email;
-        //    var i = await _apirequest.Post("UserProfile/UpdateUserProfileImg", userProfile);
-        //    return Json(i);
-        //}
-        //public async Task<IActionResult> EditProfile()
-        //{
-        //    var email = User.FindFirstValue(ClaimTypes.Email);
-        //    var i = await _apirequest.GetData<UserProfile>($"UserProfile/UserProfileListByEmail?email={email}");
-        //    return PartialView(i);
-        //}
-        //public async Task<IActionResult> UpdateUserProfile(UserProfile userProfile)
-        //{
-        //    var i = await _apirequest.Post("UserProfile/UpdateUserProfile", userProfile);
-        //    return Json(i);
-        //}
+        [Route("CheckIsPasswordChange")]
+        public async Task<IActionResult> CheckIsPasswordChange()
+        {
+            string Email = User.GetLoggedInUserEmail();
+           
+            var res =new Response()
+            {
+               ResponseText="",
+                StatusCode=ResponseStatus.FAILED
+            };
+            res = _dapper.GetById<Response>(new { Email }, "Proc_ISChangePassword");
+            if (res.StatusCode== ResponseStatus.FAILED)
+            {
+                return PartialView("ChangePassword");
+            }
+            return Json(res);
+        }
     }
 }

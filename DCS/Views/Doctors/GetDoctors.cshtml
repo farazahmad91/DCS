@@ -3,7 +3,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link rel="stylesheet" href="~/assets/vendor/dropzone/dropzone.min.css" />
-
+<style>
+    tr th label {
+        color:white;
+    }
+</style>
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -39,7 +43,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <input type="text" class="form-control mb-2" id="txtname" onchange=" Onload();" placeholder="search name.." />
+                                    <input type="text" class="form-control mb-2" id="txtname" onchange=" Onload();" placeholder="Search Name.." />
                                     <button class="btn btn-info mb-2" onclick="Onload();" type="button">
                                         Search
                                     </button>
@@ -57,15 +61,15 @@
                         </div>
                         <div class="table-responsive">
                             <table class="table table-striped dt-responsive nowrap w-100" id="dTable">
-                                <thead style="background-image: linear-gradient(-45deg, #34b5bf 0%, #210c59 100%);">
+                                <thead style="background-image: linear-gradient(-45deg, #34b5bf 0%, #210c59 100%); -webkit-text-fill-color: #FFFFFF;">
                                     <tr class="text-white">
-                                        <th>NAME</th>
-                                        <th>IMAGE</th>
-                                        <th>SPECIALIZATION</th>
-                                        <th>DR.FEE</th>
-                                        <th>AVAILABILTY</th>
-                                        <th>STATUS</th>
-                                        <th>ACTION</th>
+                                        <th>Name</th>
+                                        <th>Profile</th>
+                                        <th>Speciailization</th>
+                                        <th>Fee</th>
+                                        <th>Availabilty</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="drList">

@@ -3,20 +3,28 @@
     ViewData["Title"] = "AddInvoice";
     Layout = null;
 }
+<link href="~/Spinner.css" rel="stylesheet" type="text/css" />
 <style>
     .border-right {
         border-right: 1px solid #ccc;
-        padding-right: 15px; 
+        padding-right: 15px;
     }
 
 </style>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+
 <div class="modal fade" id="AddInvoice_Modal" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Add New Invoice</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="card">
@@ -28,28 +36,28 @@
                                         <div class="col-sm-6 col-12">
                                             <div class="mb-3">
                                                 <label for="customerName" class="form-label">Customer Name</label>
-                                                <input type="text" id="txtName" class="form-control" placeholder="Enter Customer Name" />
+                                                <input type="text" id="txtName" class="form-control inputValidate" placeholder="Enter Customer Name" />
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-12">
                                             <div class="mb-3">
                                                 <label for="txtEmail" class="form-label">Email</label>
                                                 <div class="input-group">
-                                                    <input type="email" id="txtEmail" class="form-control" placeholder="Enter Email" />
+                                                    <input type="email" id="txtEmail" class="form-control inputValidate" placeholder="Enter Email" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-12">
                                             <div class="mb-3">
                                                 <label for="txtPhone" class="form-label">Mobile No.</label>
-                                                <input type="text" id="txtPhone" class="form-control" placeholder="Enter Mobile Number" />
+                                                <input type="text" id="txtPhone" class="form-control inputValidate" placeholder="Enter Mobile Number" />
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-12">
                                             <div class="mb-3">
                                                 <label for="txtAddress" class="form-label">Address</label>
                                                 <div class="input-group">
-                                                    <input type="text" id="txtAddress" class="form-control" placeholder="Enter Address" />
+                                                    <input type="text" id="txtAddress" class="form-control inputValidate" placeholder="Enter Address" />
                                                 </div>
                                             </div>
                                         </div>
@@ -60,8 +68,8 @@
                                     <div class="row gx-3">
                                         <div class="col-sm-6 col-12">
                                             <div class="mb-3">
-                                                <label for="customerName" class="form-label">Transaction Mode</label>
-                                                <select class="form-select" id="txtTMode" onchange="OnTransaction();">
+                                                <label for="customerName" class="form-label ">Transaction Mode</label>
+                                                <select class="form-select inputValidate" id="txtTMode" onchange="OnTransaction();">
                                                     <option value="">Select Mode</option>
                                                     <option value="Online">Online</option>
                                                     <option value="Cash">Cash</option>
@@ -72,15 +80,15 @@
                                             <div class="mb-3">
                                                 <label class="form-label">Transaction Id</label>
                                                 <div class="input-group">
-                                                    <input type="text" id="txtTransactionId" class="form-control" placeholder="Enter Transaction Id" />
+                                                    <input type="text" id="txtTransactionId" class="form-control inputValidate" placeholder="Enter Transaction Id" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-12">
                                             <div class="mb-3">
-                                                <label class="form-label">Due Date</label>
+                                                <label class="form-label" for="txtduedate">Due Date</label>
                                                 <div class="input-group">
-                                                    <input type="text" id="txtduedate" class="form-control datepicker-time" disabled="disabled">
+                                                    <input type="datetime-local" id="txtduedate" class="form-control datepicker-time inputValidate" disabled>
                                                     <span class="input-group-text">
                                                         <i class="bi bi-calendar4"></i>
                                                     </span>
@@ -88,10 +96,10 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-12">
-                                            <label class="form-label">IsPaid</label>
+                                            <label class="form-label" for="ckbIsPaid1">Is Paid</label>
                                             <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch" onchange="OnTransaction();" id="ckbIsPaid" checked="">
-                                                <label class="form-check-label" for="ckbIsPaid"></label>
+                                                <input class="form-check-input inputValidate" type="checkbox" role="switch" onchange="OnTransaction();" id="ckbIsPaid1" checked>
+                                                <label class="form-check-label" for="ckbIsPaid1"></label>
                                             </div>
                                         </div>
                                     </div>
@@ -120,15 +128,14 @@
                                         <tbody id="tbody">
                                             <tr class="rowClass">
                                                 <td>
-                                                    <input type="text" class="form-control" id="txtService0" placeholder="please enter service" />
+                                                    <input type="text" class="form-control" id="txtService0" placeholder="Please Enter Service" />
                                                 </td>
                                                 <td>
                                                     <div class="m-0">
                                                         <select class="form-select product-select" id="txtProduct0" style="width:150px;">
-                                                            <option value="">Select medicine</option>
+                                                            <option value="">Select Medicine</option>
                                                             @foreach (var item in Model)
                                                             {
-
                                                                 <option value="@item.MedicineID">@item.Name</option>
                                                             }
                                                         </select>
@@ -164,7 +171,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="input-group m-0">
-                                                        <input type="text" id="txtTotalAmount0" class="form-control" placeholder="Total Amount" readonly />
+                                                        <input type="text" id="txtTotalAmount0" class="form-control inputValidate" placeholder="Total Amount" readonly />
 
                                                     </div>
                                                 </td>
@@ -198,6 +205,7 @@
                                     </table>
                                 </div>
                             </div>
+                            <div id="loader_spinner" style="display: none;" class="overlay-spinner"></div>
                             <div class="col-12">
                                 <div class="text-end">
                                     <button class="btn btn-outline-success" onclick="CreateInvoice();">
@@ -207,36 +215,27 @@
                             </div>
                         </div>
                     </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
 <script>
+    $(document).ready(function () {
+        OnTransaction();
+    });
     function OnTransaction() {
-        var mode = $("#txtTMode").val();
+        var isPaid1 = $("#ckbIsPaid1").prop('checked');
+        var isPaid2 = $("#ckbIsPaid2").prop('checked');
 
-        if (mode === 'Cash') {
-            $("#txtTransactionId").val('not');
-            $("#txtTransactionId").prop("disabled", true);
-        } else {
-            $("#txtTransactionId").prop("disabled", false);
-        }
-        debugger;
-        var isPaid = $("#ckbIsPaid").prop('checked');
-        if (!isPaid) {
-            $("#txtduedate").val("");
-        }
-        else {
-            $("#txtduedate").val("");
-        }
+        $("#txtduedate").prop('disabled', isPaid1);
+        $("#txtDueDate2").prop('disabled', isPaid2);
     }
-    OnTransaction();
 
-    let count = 1;
+     let count = 1;
     $(document).ready(() => {
         $('#tbody').on('click', '#btnaddnew', function (e) {
             e.preventDefault();
@@ -246,61 +245,61 @@
             if (isValid) {
                 GetMedicines().then(options => {
                     let dynamicRowHTML = `
-                            <tr class="rowClass">
-                                <td>
-                                         <input type="text" class="form-control" id="txtService${count}"  placeholder="please enter service" />
-                                </td>
-                                <td>
-                                    <div class="m-0">
-                                        <select class="form-control product-select" id="txtProduct${count}">
-                                            ${options}
-                                        </select>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="m-0">
-                                        <input type="number" class="form-control" id="txtQty${count}" onchange="txtonChange();" placeholder="Qty" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-group m-0">
-                                        <input type="text" id="txtPrice${count}" onchange="txtonChange();" class="form-control" placeholder="Price"/>
-                                        <span class="input-group-text">₹</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-group m-0">
-                                        <input type="text" id="txtVat${count}" onchange="txtonChange();" class="form-control" placeholder="Vat"/>
-                                        <span class="input-group-text">%</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-group m-0">
-                                        <input type="text" id="txtDiscount${count}" onchange="txtonChange();" class="form-control" placeholder="Discount"/>
-                                        <span class="input-group-text">%</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-group m-0">
-                                        <input type="text" id="txtTotalAmount${count}" class="form-control" placeholder="Total Amount" readonly/>
-                                        <span class="input-group-text">₹</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-inline-flex gap-1">
-                                            <button class="btn btn-danger remove">
-                                                <i class="mdi mdi-delete"></i>
-                                        </button>
-                                        <button class="btn btn-dark" id="btnaddnew">
-                                                <i class=" uil-plus"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>`;
+                                <tr class="rowClass">
+                                    <td>
+                                             <input type="text" class="form-control" id="txtService${count}"  placeholder="Please Enter Service" />
+                                    </td>
+                                    <td>
+                                        <div class="m-0">
+                                            <select class="form-control product-select" id="txtProduct${count}">
+                                                ${options}
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="m-0">
+                                            <input type="number" class="form-control" id="txtQty${count}" onchange="txtonChange();" placeholder="Qty" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group m-0">
+                                            <input type="text" id="txtPrice${count}" onchange="txtonChange();" class="form-control" placeholder="Price"/>
+                                            <span class="input-group-text">₹</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group m-0">
+                                            <input type="text" id="txtVat${count}" onchange="txtonChange();" class="form-control" placeholder="Vat"/>
+                                            <span class="input-group-text">%</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group m-0">
+                                            <input type="text" id="txtDiscount${count}" onchange="txtonChange();" class="form-control" placeholder="Discount"/>
+                                            <span class="input-group-text">%</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group m-0">
+                                            <input type="text" id="txtTotalAmount${count}" class="form-control" placeholder="Total Amount" readonly/>
+                                            <span class="input-group-text">₹</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-inline-flex gap-1">
+                                                <button class="btn btn-danger remove">
+                                                    <i class="mdi mdi-delete"></i>
+                                            </button>
+                                            <button class="btn btn-dark" id="btnaddnew">
+                                                    <i class=" uil-plus"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>`;
 
                     $('#tbody tr:last').before(dynamicRowHTML);
                     $(`#txtProduct${count}`).select2({
-                        placeholder: "Select a product",
+                        placeholder: "Select a Product",
                         allowClear: true
                     });
                     count++;
@@ -375,101 +374,88 @@
     }
 
     function CreateInvoice() {
-        if (!validateInvoiceFields()) {
-            Info(-1, 'Please fill all the required fields.');
-            return;
-        }
 
-        let invoiceData = {
-            CustomerName: $('#txtName').val(),
-            Email: $('#txtEmail').val(),
-            Phone: $('#txtPhone').val(),
-            Address: $('#txtAddress').val(),
-            Subtotal: parseFloat($('#subtotal').text().replace('₹', '')) || 0,
-            DiscountAmount: parseFloat($('#discountAmount').text().replace('₹', '')) || 0,
-            TotalVAT: parseFloat($('#vatAmount').text().replace('₹', '')) || 0,
-            TotalAmount: parseFloat($('#totalAmount').text().replace('₹', '')) || 0,
-            Items: [],
-            Transactions: []
-        };
-
-        let transaction = {
-            Id: $('#txtTransactionId').val(),
-            Mode: $('#txtTMode').val(),
-            IsPaid: $("#ckbIsPaid").prop('checked'),
-            DueDate: $('#txtduedate').val(),
-        };
-        invoiceData.Transactions.push(transaction);
-
-        $('.rowClass').each(function (index, element) {
-            let service = $(element).find('input[id^="txtService"]').val() || 0;
-            let quantity = parseFloat($(element).find('input[id^="txtQty"]').val()) || 0;
-            let price = parseFloat($(element).find('input[id^="txtPrice"]').val()) || 0;
-            let discountPercent = parseFloat($(element).find('input[id^="txtDiscount"]').val()) || 0;
-            let vatPercent = parseFloat($(element).find('input[id^="txtVat"]').val()) || 0;
-
-            let subAmount = quantity * price;
-            let discountAmount = (subAmount * discountPercent) / 100;
-            let vatAmount = (subAmount * vatPercent) / 100;
-            let totalAmount = subAmount - discountAmount + vatAmount;
-
-            let item = {
-                Service: service,
-                Product: $(element).find('select[id^="txtProduct"]').val(),
-                Quantity: quantity,
-                Price: price,
-                VAT: vatPercent,
-                Discount: discountPercent,
-                SingleDiscountAmount: discountAmount,
-                SubAmount: subAmount,
-                TotalAmount: totalAmount
+        if (IsValidate()) {
+            let invoiceData = {
+                CustomerName: $('#txtName').val(),
+                Email: $('#txtEmail').val(),
+                Phone: $('#txtPhone').val(),
+                Address: $('#txtAddress').val(),
+                Subtotal: parseFloat($('#subtotal').text().replace('₹', '')) || 0,
+                DiscountAmount: parseFloat($('#discountAmount').text().replace('₹', '')) || 0,
+                TotalVAT: parseFloat($('#vatAmount').text().replace('₹', '')) || 0,
+                TotalAmount: parseFloat($('#totalAmount').text().replace('₹', '')) || 0,
+                Items: [],
+                Transactions: []
             };
+            Show_Loader();
+            let transaction = {
+                Id: $('#txtTransactionId').val(),
+                Mode: $('#txtTMode').val(),
+                IsPaid: $("#ckbIsPaid").prop('checked'),
+                DueDate: $('#txtduedate').val(),
+            };
+            invoiceData.Transactions.push(transaction);
 
-            invoiceData.Items.push(item);
-        });
+            $('.rowClass').each(function (index, element) {
+                let service = $(element).find('input[id^="txtService"]').val() || 0;
+                let quantity = parseFloat($(element).find('input[id^="txtQty"]').val()) || 0;
+                let price = parseFloat($(element).find('input[id^="txtPrice"]').val()) || 0;
+                let discountPercent = parseFloat($(element).find('input[id^="txtDiscount"]').val()) || 0;
+                let vatPercent = parseFloat($(element).find('input[id^="txtVat"]').val()) || 0;
 
-        $.ajax({
-            url: '/AddInvoice',
-            type: 'POST',
-            data: JSON.stringify(invoiceData),
-            contentType: 'application/json',
-            success: function (res) {
-                Info(res.statusCode, res.responseText)
-                // window.location.href = '@Url.Action("Index", "Invoices")';
-            },
-            error: function (error) {
-                console.log(error);
-                alert('Error Creating Invoice');
-            }
-        });
-    }
+                let subAmount = quantity * price;
+                let discountAmount = (subAmount * discountPercent) / 100;
+                let vatAmount = (subAmount * vatPercent) / 100;
+                let totalAmount = subAmount - discountAmount + vatAmount;
 
-    function validateInvoiceFields() {
-        let isValid = true;
-        if ($('#txtName').val().trim() === '') {
-            isValid = false;
-        }
-        if ($('#txtEmail').val().trim() === '') {
-            isValid = false;
-        }
-        if ($('#txtPhone').val().trim() === '') {
-            isValid = false;
-        }
-        if ($('#txtAddress').val().trim() === '') {
-            isValid = false;
-        }
+                let item = {
+                    Service: service,
+                    Product: $(element).find('select[id^="txtProduct"]').val(),
+                    Quantity: quantity,
+                    Price: price,
+                    VAT: vatPercent,
+                    Discount: discountPercent,
+                    SingleDiscountAmount: discountAmount,
+                    SubAmount: subAmount,
+                    TotalAmount: totalAmount
+                };
 
-        $('.rowClass').each(function (index, element) {
-            let isRowValid = true;
-            $(element).find('input[id^="txtQty"], input[id^="txtPrice"], input[id^="txtDiscount"], input[id^="txtVat"]').each(function () {
-                if ($(this).val().trim() === '') {
-                    isRowValid = false;
-                    return false;
+                invoiceData.Items.push(item);
+            });
+
+            $.ajax({
+                url: '/AddInvoice',
+                type: 'POST',
+                data: JSON.stringify(invoiceData),
+                contentType: 'application/json',
+                success: function (res) {
+                    Hide_Loader();
+                    Info(res.statusCode, res.responseText)
+                    // window.location.href = '@Url.Action("Index", "Invoices")';
+                },
+                error: function (error) {
+                    console.log(error);
+                    alert('Error Creating Invoice');
                 }
             });
-            if (!isRowValid) {
+        }
+    }
+
+    function IsValidate() {
+        let isValid = true;
+        $('.inputValidate').each(function () {
+            const $this = $(this);
+            console.log($this);
+            if ($this.val().trim() === '' || $this.val().trim() == 0) {
+                $this.addClass("border border-2 border-danger");
+                if ($this.next('.error-message').length < 1) {
+                    $this.after('<div class="error-message text-danger">This Field Is Required</div>');
+                }
                 isValid = false;
-                return false;
+            } else {
+                $this.removeClass("border border-2 border-danger").addClass("border-success");
+                $this.next('.error-message').remove();
             }
         });
 

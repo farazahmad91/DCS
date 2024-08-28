@@ -1,4 +1,68 @@
 ﻿@model Entities.Patient
+<link href="~/Spinner.css" rel="stylesheet" type="text/css" />
+
+<style>
+	.slider-container {
+		position: relative;
+		display: inline-block;
+		width: 80px;
+		height: 37px;
+	}
+
+		.slider-container input[type="checkbox"] {
+			opacity: 0;
+			width: 0;
+			height: 0;
+		}
+
+	.slider {
+		position: absolute;
+		cursor: pointer;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: #ccc;
+		transition: .4s;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 10px;
+	}
+
+		.slider:before {
+			position: absolute;
+			content: "";
+			height: 26px;
+			width: 26px;
+			left: 4px;
+			bottom: 4px;
+			background-color: white;
+			transition: .4s;
+		}
+
+	input:checked + .slider {
+		background-color: #42d29d;
+	}
+
+		input:checked + .slider:before {
+			transform: translateX(43px);
+		}
+
+	.slider-label {
+		color: #fff;
+		font-size: 14px;
+	}
+
+		.slider-label.on {
+			margin-left: 10px;
+		}
+
+		.slider-label.off {
+			margin-right: 10px;
+		}
+</style>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <div class="card">
 	<div class="card-body">
@@ -21,6 +85,7 @@
 									<div class="col-6">
 										<div class="mb-3">
 											<input type="text" hidden asp-for="PId">
+
 											<label for="Name" class="form-label">Full Name</label>
 											<input type="text" class="form-control inputValidate" asp-for="Name" placeholder="Full Your Name">
 										</div>
@@ -50,9 +115,9 @@
 											<label for="Gender" class="form-label">Gender</label>
 											<select class="form-control inputValidate" asp-for="Gender">
 												<option value="">Select Gender</option>
-												<option value="male">Male</option>
-												<option value="female">Female</option>
-												<option value="other">Other's</option>
+												<option value="Male">Male</option>
+												<option value="Female">Female</option>
+												<option value="Other's">Other's</option>
 											</select>
 									
 										</div>
@@ -60,7 +125,20 @@
 									<div class="col-6">
 										<div class="mb-3">
 											<label for="MedicalHistory" class="form-label">Medical History</label>
-											<input type="text" class="form-control inputValidate" asp-for="MedicalHistory" placeholder="Medical History">
+											<div class="input-group" >
+												<div>
+												<input type="text" class="form-control inputValidate" asp-for="MedicalHistory" id="MedicalHistory" placeholder="Medical History" style="height:40px; width:260px;" name="MedicalHistory" value="0">
+												</div>
+												<span class="input-group-text" style="height:40px;">
+													<label class="slider-container" >
+														<input type="checkbox"  onchange="toggleRateVisibility();" id="IsReceiveRateIncluded" data-switch="success">
+														<span class="slider">
+															<span class="slider-label off">Yes</span>
+															<span class="slider-label on">No</span>
+														</span>
+													</label>
+												</span>
+											</div>
 										</div>
 										<div class="mb-3">
 											<label for="InsuranceInformation" class="form-label">Insurance Information</label>
@@ -110,11 +188,12 @@
 										<div class="mb-3">
 											<label for="BloodType" class="form-label">BloodType</label>
 											<select class="form-control inputValidate" asp-for="BloodType">
-												<option value="">select blood type</option>
+												<option value="">Select Blood Group</option>
 												<option value="A">A</option>
 												<option value="A+">A+</option>
 												<option value="AB">AB+</option>
 												<option value="O+">O+</option>
+												<option value="B+">B+</option>
 											</select>
 										</div>
 
@@ -150,19 +229,29 @@
 
 										 <!-- Form Field Start -->
 										<div class="mb-3">
-											@if (@Model!=null)
+											<label for="file" class="form-label">Profile Image</label>
+											@if (@Model!=null && !string.IsNullOrEmpty(Model.PImage))
+											{
+												<input type="file" class="form-control " id="file" asp-for="PImage">
+											}
+											else
+											{
+												<input type="file" class="form-control IsValidate" id="file" asp-for="PImage">
+											}
+											@if (Model != null && !string.IsNullOrEmpty(Model.PImage))
 											{
 												<img src="@Model.PImage" alt="Adhar Image" class="img-thumbnail" style="width: 125px; height: 55px;" />
+
 											}
-											<label for="file" class="form-label">Profile Image</label>
-											<input type="file" class="form-control inputValidate" id="file" placeholder="Profile Image">
+											
 										</div>
-									</div>
+									</div>	
 
 								</div>
 							</div>
 						</div>
 					</div>
+					<div id="loader_spinner" style="display: none;" class="overlay-spinner"></div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
 							Close
@@ -185,8 +274,12 @@
 		</div>
 	</div>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+	$(document).ready(function () {
+		toggleRateVisibility();
+	});
+
 	var loadFile = function (event) {
 		var image = document.getElementById("output");
 		image.src = URL.createObjectURL(event.target.files[0]);
@@ -199,7 +292,7 @@
 			if ($this.val().trim() === '' || $this.val().trim() == 0) {
 				$this.addClass("border border-2 border-danger");
 				if ($this.next('.error-message').length < 1) {
-					$this.after('<div class="error-message text-danger">This field is required</div>');
+					$this.after('<div class="error-message text-danger">This Field Is Required</div>');
 				}
 				isValid = false;
 			} else {
@@ -213,6 +306,7 @@
 	function addPatient() {
 		debugger
 		if (IsValidate()) {
+			toggleRateVisibility();
 			// Collect form data
 			const patientData = {
 				PId: $("#PId").val(),
@@ -230,13 +324,13 @@
 				PrimaryCarePhysicianPhone: $("#PrimaryCarePhysicianPhone").val(),
 				Allergies: $("#Allergies").val(),
 				Medications: $("#Medications").val(),
-				BloodType: $("#BloodType").val(),  // Corrected to use .val()
+				BloodType: $("#BloodType").val(),  
 				Height: $("#Height").val(),
 				Weight: $("#Weight").val(),
 				PreferredLanguage: $("#PreferredLanguage").val(),
 				Occupation: $("#Occupation").val()
 			};
-
+			Show_Loader();
 			const formData = new FormData();
 			formData.append("patientData", JSON.stringify(patientData));
 			formData.append("file", $("#file").prop('files')[0]);
@@ -253,7 +347,9 @@
 				processData: false,
 				success: function (result) {
 					setTimeout(function () {
+						Hide_Loader();
 						Info(result.statusCode, result.responseText);
+						Onload();
 					}, 1000);
 				},
 				error: function () {
@@ -263,4 +359,13 @@
 		}
 	}
 
+
+	function toggleRateVisibility() {
+		var receiveRateInput = document.getElementById('MedicalHistory');
+		var checkbox = document.getElementById('IsReceiveRateIncluded');
+		receiveRateInput.style.display = checkbox.checked ? 'block' : 'none';
+	}
+	document.addEventListener('DOMContentLoaded', function () {
+		toggleRateVisibility();
+	});
 </script>

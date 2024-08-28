@@ -16,7 +16,8 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DCS.Controllers
 {
-	public class ProjectDetailsController : Controller
+    [Authorize]
+    public class ProjectDetailsController : Controller
     {
         private readonly IConfiguration _configuration;
         private readonly string _BaseUrl;
@@ -93,6 +94,17 @@ namespace DCS.Controllers
 
         [Route("/EditProject")]
         public async Task<IActionResult> _EditProjectDetails(int id)
+        {
+            var list = new ProjectDetails();
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/ProjectDetails/GetProjectDetailsByProjectId/{id}", null, null);
+            if (apiRes.Result != null)
+            {
+                list = JsonConvert.DeserializeObject<ProjectDetails>(apiRes.Result);
+            }
+            return PartialView(list);
+        }
+        [Route("/ProjectDetails")]
+        public async Task<IActionResult> ProjectDetails(int id)
         {
             var list = new ProjectDetails();
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/ProjectDetails/GetProjectDetailsByProjectId/{id}", null, null);
@@ -256,7 +268,7 @@ namespace DCS.Controllers
 				StatusCode = ResponseStatus.FAILED,
 			};
 
-			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/ApplicationSetting/UpdateApplicationSetting", JsonConvert.SerializeObject(setting), null);
+			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/ApplicationSetting/UpdateApplicationSetting", JsonConvert.SerializeObject(setting), User.GetLoggedInUserToken());
 			if (apiRes.Result != null)
 			{
 				response = JsonConvert.DeserializeObject<Response>(apiRes.Result);
@@ -272,7 +284,7 @@ namespace DCS.Controllers
             var list = new ApplicationSetting();
             try
             {
-                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/ApplicationSetting/GetApplicationSettingByIdOnload/{Email}", null, null);
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/ApplicationSetting/GetApplicationSettingByIdOnload/{Email}", null, User.GetLoggedInUserToken());
                 if (apiRes.Result != null)
                 {
                     list = JsonConvert.DeserializeObject<ApplicationSetting>(apiRes.Result);
@@ -296,7 +308,7 @@ namespace DCS.Controllers
 				ResponseText = "Failed To Update Status",
 				StatusCode = ResponseStatus.FAILED,
 			};
-			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/ProjectDetails/UpdateProjectStatus", JsonConvert.SerializeObject(common), null);
+			var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/ProjectDetails/UpdateProjectStatus", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
 			if (apiRes.Result != null)
 			{
 				response = JsonConvert.DeserializeObject<Response>(apiRes.Result);

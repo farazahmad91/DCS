@@ -7,13 +7,14 @@ using API.Service;
 using DCS.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Plugins;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
 // Set up connection strings
-var dbConnectionString = configuration.GetConnectionString("Default");
-var connectionStrings = new ConnectionStrings { Default = dbConnectionString };
+string connection = "Server=db7510.public.databaseasp.net; Database=db7510; User Id=db7510; Password=4m?Bt@W85e_L; Encrypt=True; TrustServerCertificate=True; MultipleActiveResultSets=True;";
+var connectionStrings = new ConnectionStrings { Default = connection };
 builder.Services.AddSingleton(connectionStrings);
 
 // Add DbContext

@@ -25,6 +25,7 @@ namespace API.AppCode.DL
                 var param = new
                 {
                     DrId = req.DrId,
+                    ProjectId = req.ProjectId,
                     Name = req.Name,
                     Email = req.Email,
                     Phone = req.Phone,

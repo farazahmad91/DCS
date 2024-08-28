@@ -4,11 +4,13 @@ using API.DBContext.Entities;
 using Azure.Core;
 using Entities;
 using Entities.Response;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace DCS.Controllers
 {
+    [Authorize]
     public class HospitalEmployeeController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -35,7 +37,7 @@ namespace DCS.Controllers
                 common.ProjectId = projectId;
                 common.Role = Role; 
             }
-                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalEmployee/GetHospitalEmployeeListOrById", JsonConvert.SerializeObject(common), null);
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalEmployee/GetHospitalEmployeeListOrById", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
                 if (apiRes.Result!=null)
                 {
                     res = JsonConvert.DeserializeObject<List<HospitalEmployee>>(apiRes.Result);
@@ -51,7 +53,7 @@ namespace DCS.Controllers
             {
                 int? projectId = User.GetProjectId();
                 common.ProjectId = projectId;
-                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalEmployee/GetHospitalEmployeeListOrById", JsonConvert.SerializeObject(common), null);
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalEmployee/GetHospitalEmployeeListOrById", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
                 if (apiRes.Result!=null)
                 {
                     var list = JsonConvert.DeserializeObject<List<HospitalEmployee>>(apiRes.Result);
@@ -81,11 +83,11 @@ namespace DCS.Controllers
                 if (req.ImagePath==null || req.AadhaarImagePath==null)
                 {
                     response.StatusCode=ResponseStatus.FAILED;
-                    response.ResponseText="All Field required";
+                    response.ResponseText="All Fields Required!!";
                     return Json(response);
                 }
             }
-            var apiRes = await APIRequestML.O.SendFileAndContentAsync($"{_BaseUrl}/api/HospitalEmployee/AddOrUpdateHospitalEmployee",req,file1,file2,null);
+            var apiRes = await APIRequestML.O.SendFileAndContentAsync($"{_BaseUrl}/api/HospitalEmployee/AddOrUpdateHospitalEmployee",req,file1,file2, User.GetLoggedInUserToken());
 
                 if (apiRes != null && apiRes.IsSuccessStatusCode)
                 {
@@ -105,7 +107,7 @@ namespace DCS.Controllers
                 ResponseText = "Failed To Update Status",
                 StatusCode = ResponseStatus.FAILED,
             };
-            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalEmployee/UpdateHospitalEmployeeStatus", JsonConvert.SerializeObject(common), null);
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalEmployee/UpdateHospitalEmployeeStatus", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
             if (apiRes.Result != null)
             {
                 response = JsonConvert.DeserializeObject<Response>(apiRes.Result);
