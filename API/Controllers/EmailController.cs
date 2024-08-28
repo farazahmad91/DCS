@@ -17,21 +17,21 @@ namespace API.Controllers
         private readonly FileUploadService _uploadService;
         public EmailController(IEmail email, Sendmail emailsend, FileUploadService uploadService)
         {
-            _email=email;
-            _emailsend=emailsend;
-            _uploadService=uploadService;
+            _email = email;
+            _emailsend = emailsend;
+            _uploadService = uploadService;
         }
         [HttpPost(nameof(SendBulkEmails))]
         public async Task<IActionResult> SendBulkEmails(List<CreateEmail> createEmail)
         {
             var res = new Response
             {
-                ResponseText ="An Error Occured Try After Some Time!",
+                ResponseText = "An Error Occured Try After Some Time!",
                 StatusCode = ResponseStatus.FAILED
             };
             foreach (var email in createEmail)
             {
-                res=_email.SendBulkEmails(email);
+                res = _email.SendBulkEmails(email);
             }
             return Ok(res);
         }
@@ -40,7 +40,7 @@ namespace API.Controllers
         public IActionResult SendEmail(CreateEmail createEmail)
         {
             var a = $@"{createEmail.Template}";
-            createEmail.Template=a;
+            createEmail.Template = a;
             _emailsend.SendEmail(createEmail);
 
             return Ok("");
@@ -49,28 +49,28 @@ namespace API.Controllers
         #region Email Template
 
         [HttpPost(nameof(AddOrUpdateEmailTemplate))]
-		public async Task<IActionResult> AddOrUpdateEmailTemplate([FromForm] EmailTemplate template)
+        public async Task<IActionResult> AddOrUpdateEmailTemplate([FromForm] EmailTemplate template)
         {
-			var res = new Response
-			{
-				StatusCode = ResponseStatus.FAILED,
-				ResponseText = "An error han occurred try after sometime."
-			};
+            var res = new Response
+            {
+                StatusCode = ResponseStatus.FAILED,
+                ResponseText = "An error han occurred try after sometime."
+            };
 
             if (template.ImagePath != null)
             {
                 template.TemplateImage = _uploadService.Image(template.ImagePath, FileUploadType.DoctorImage, FileUploadType.DoctorPrefix);
             }
             res = await _email.AddOrUpdateEmailTemplate(template);
-			if (res.StatusCode==ResponseStatus.SUCCESS)
-			{
-				return Ok(res);
-			}
-			return BadRequest(res);
-		}
+            if (res.StatusCode == ResponseStatus.SUCCESS)
+            {
+                return Ok(res);
+            }
+            return BadRequest(res);
+        }
 
         [HttpPost(nameof(GetEmailTemplateListOrById))]
-		public async Task<IActionResult> GetEmailTemplateListOrById(Common common)
+        public async Task<IActionResult> GetEmailTemplateListOrById(Common common)
         {
             var i = await _email.GetEmailTemplateListOrById(common);
             return Ok(i);
@@ -89,7 +89,7 @@ namespace API.Controllers
             };
 
             res = await _email.AddOrUpdateMasterEmailTemplateType(type);
-            if (res.StatusCode==ResponseStatus.SUCCESS)
+            if (res.StatusCode == ResponseStatus.SUCCESS)
             {
                 return Ok(res);
             }
@@ -107,17 +107,17 @@ namespace API.Controllers
 
 
         [HttpPost(nameof(ComposeMail))]
-        public IActionResult ComposeMail([FromForm] Inbox inbox)
+        public async Task<IActionResult> ComposeMail([FromForm] Inbox inbox)
         {
             var res = new Response
             {
                 ResponseText = "An Error Occured Try After Some Time!",
                 StatusCode = ResponseStatus.FAILED
             };
-           
-                res = _email.ComposeEmail(inbox);
-            
-            return Ok(res);
+
+            var i = await _email.ComposeEmail(inbox);
+
+            return Ok(i);
         }
     }
 }

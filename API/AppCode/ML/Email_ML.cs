@@ -16,8 +16,8 @@ namespace API.AppCode.ML
         {
             _sendmail = sendmail;
             _webHostEnvironment = webHostEnvironment;
-            _dapper=dapper;
-            
+            _dapper = dapper;
+
         }
         public Response SendBulkEmails(CreateEmail emails)
         {
@@ -29,7 +29,7 @@ namespace API.AppCode.ML
             var failedEmails = new List<string>();
             try
             {
-                    _sendmail.Sendmailss(emails);
+                _sendmail.Sendmailss(emails);
             }
             catch (Exception ex)
             {
@@ -49,7 +49,7 @@ namespace API.AppCode.ML
 
             return response;
         }
-        public Response ComposeEmail(Inbox inbox)
+        public async Task<Response> ComposeEmail(Inbox inbox)
         {
             var response = new Response()
             {
@@ -59,7 +59,12 @@ namespace API.AppCode.ML
             var failedEmails = new List<string>();
             try
             {
-                _sendmail.ComposeEmail(inbox);
+                response =  _sendmail.ComposeEmail(inbox);
+                if (response.StatusCode == ResponseStatus.SUCCESS)
+                {
+                    IProcedureAsync procedure = new Proc_ComposeMailAsync(_dapper);
+                    var i = await procedure.Call(inbox);
+                }
             }
             catch (Exception ex)
             {
@@ -73,7 +78,7 @@ namespace API.AppCode.ML
             }
             else
             {
-                response.ResponseText = "Bulk emails sent successfully";
+                response.ResponseText = "emails sent successfully";
                 response.StatusCode = ResponseStatus.SUCCESS;
             }
 
@@ -87,7 +92,7 @@ namespace API.AppCode.ML
             var i = await procedure.Call(template);
             return (Response)i;
         }
-        
+
         public async Task<IEnumerable<EmailTemplate>> GetEmailTemplateListOrById(Common common)
         {
             IProcedureAsync procedure = new Proc_GetEmailTemplate(_dapper);

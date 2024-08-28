@@ -26,8 +26,8 @@ namespace DCS.Controllers
         private readonly UploadImage _uploadImage;
         public EmailController(Sendmail sendmail, IWebHostEnvironment webHostEnvironment, ILogger<EmailController> logger, IConfiguration configuration, UploadImage uploadImage)
         {
-            _sendmail=sendmail;
-            _webHostEnvironment=webHostEnvironment;
+            _sendmail = sendmail;
+            _webHostEnvironment = webHostEnvironment;
             _logger = logger;
             _BaseUrl = "https://localhost:7079";
             this._uploadImage = uploadImage;
@@ -108,14 +108,14 @@ namespace DCS.Controllers
 
             try
             {
-                var Applist = new  ApplicationSetting();
+                var Applist = new ApplicationSetting();
                 var listJson = HttpContext.Session.GetString("ApplicationSettingList");
                 if (!string.IsNullOrEmpty(listJson))
                 {
                     // Deserialize JSON string to an object. Use dynamic or a specific type if you know the structure.
-                    Applist  = JsonConvert.DeserializeObject<ApplicationSetting>(listJson);
+                    Applist = JsonConvert.DeserializeObject<ApplicationSetting>(listJson);
                 }
-                if (Applist.IsEmailMarketing!=null && Applist.IsEmailMarketing==true)
+                if (Applist.IsEmailMarketing != null && Applist.IsEmailMarketing == true)
                 {
                     var jsonEmails = JsonConvert.SerializeObject(createEmail);
                     var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/SendBulkEmails", jsonEmails, User.GetLoggedInUserToken());
@@ -143,7 +143,7 @@ namespace DCS.Controllers
         {
             var list = new List<EmailTemplate>();
             int? projectId = User.GetProjectId();
-            common.ProjectId= projectId;
+            common.ProjectId = projectId;
             string? Role = User.GetLoggedInUserRole();
             common.Role = Role;
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/GetEmailTemplateListOrById", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
@@ -157,30 +157,30 @@ namespace DCS.Controllers
         [Route("_EditEmail")]
         public async Task<IActionResult> _EditEmail(Common common)
         {
-            Common common1 = new  Common();
+            Common common1 = new Common();
             int? projectId = User.GetProjectId();
             var res = new EmailTemplate();
-            var  EmailTypelist = new List<MasterEmailTemplateType>();
+            var EmailTypelist = new List<MasterEmailTemplateType>();
             common1.ProjectId = projectId;
             var apiEmailTypeRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/GetMasterEmailTemplateTypeListOrById", JsonConvert.SerializeObject(common1), User.GetLoggedInUserToken());
-            
-            if (common.Id!=0)
+
+            if (common.Id != 0)
             {
                 common.ProjectId = projectId;
                 string? Role = User.GetLoggedInUserRole();
                 common.Role = Role;
                 common.PageLength = 30;
                 var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/GetEmailTemplateListOrById", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
-               
+
                 if (apiRes.Result != null && apiEmailTypeRes.Result != null)
                 {
                     var list = JsonConvert.DeserializeObject<List<EmailTemplate>>(apiRes.Result);
-                     EmailTypelist = JsonConvert.DeserializeObject<List<MasterEmailTemplateType>>(apiEmailTypeRes.Result);
-                    res = list.FirstOrDefault()?? new EmailTemplate();
+                    EmailTypelist = JsonConvert.DeserializeObject<List<MasterEmailTemplateType>>(apiEmailTypeRes.Result);
+                    res = list.FirstOrDefault() ?? new EmailTemplate();
 
 
                 }
-                
+
 
             }
             if (apiEmailTypeRes.Result != null)
@@ -207,8 +207,8 @@ namespace DCS.Controllers
             {
                 int? projectId = User.GetProjectId();
                 var request = JsonConvert.DeserializeObject<EmailTemplate>(emailTemplate);
-                request.ImagePath=file;
-                request.ProjectId= projectId;
+                request.ImagePath = file;
+                request.ProjectId = projectId;
                 var apiRes = await APIRequestML.O.SendFileAndContentAsync($"{_BaseUrl}/api/Email/AddOrUpdateEmailTemplate", request, file, null, User.GetLoggedInUserToken());
                 var res = await apiRes.Content.ReadAsStringAsync();
                 if (apiRes != null && apiRes.IsSuccessStatusCode)
@@ -230,7 +230,7 @@ namespace DCS.Controllers
             return View();
         }
         [Route("Compose")]
-        public async Task<IActionResult> Compose([FromForm]Inbox inbox, IFormFile imageFile)
+        public async Task<IActionResult> Compose([FromForm] Inbox inbox, IFormFile imageFile)
         {
             var response = new Entities.Response.Response()
             {
@@ -284,7 +284,7 @@ namespace DCS.Controllers
                 {
                     var res = await apiRes.Content.ReadAsStringAsync();
                     response = JsonConvert.DeserializeObject<Response>(res);
-                    
+
                 }
                 return Json(response);
 
@@ -309,11 +309,11 @@ namespace DCS.Controllers
             int? projectId = User.GetProjectId();
             string? Role = User.GetLoggedInUserRole();
             common.Role = Role;
-            common.ProjectId= projectId;
+            common.ProjectId = projectId;
             common.ProjectId = projectId;
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/GetMasterEmailTemplateTypeListOrById", JsonConvert.SerializeObject(common), null);
             if (apiRes.Result != null)
-            { 
+            {
                 list = JsonConvert.DeserializeObject<List<MasterEmailTemplateType>>(apiRes.Result);
             }
             return PartialView(list);
@@ -324,14 +324,14 @@ namespace DCS.Controllers
         {
             int? projectId = User.GetProjectId();
             var res = new MasterEmailTemplateType();
-            if (common.Id!=0)
+            if (common.Id != 0)
             {
                 common.ProjectId = projectId;
                 var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/GetMasterEmailTemplateTypeListOrById", JsonConvert.SerializeObject(common), null);
                 if (apiRes.Result != null)
                 {
                     var list = JsonConvert.DeserializeObject<List<MasterEmailTemplateType>>(apiRes.Result);
-                    res = list.FirstOrDefault()?? new MasterEmailTemplateType();
+                    res = list.FirstOrDefault() ?? new MasterEmailTemplateType();
 
                 }
 
@@ -351,7 +351,7 @@ namespace DCS.Controllers
             try
             {
                 int? projectId = User.GetProjectId();
-                type.ProjectId= projectId;
+                type.ProjectId = projectId;
                 var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/AddOrUpdateMasterEmailTemplateType", JsonConvert.SerializeObject(type), null);
 
                 if (apiRes.Result != null)

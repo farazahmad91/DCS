@@ -5,6 +5,8 @@ using System.Net.Mime;
 using API.AppCode.IML;
 using API.AppCode.ML;
 using Entities;
+using Entities.Response;
+using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 
@@ -23,7 +25,7 @@ namespace API.SendEmail
             _configuration = configuration;
             _env = env;
             _emailHtmlBody = emailHtmlBody;
-            _emailCredential=emailCredential;
+            _emailCredential = emailCredential;
             _dapper = dapper;
         }
         public void SendEmails(string email, string subject, string body)
@@ -85,15 +87,15 @@ namespace API.SendEmail
 
                     string absoluteImagePath = Path.Combine(_env.ContentRootPath, Image.TrimStart('/'));
 
-                  
-                        LinkedResource inline = new LinkedResource(absoluteImagePath, MediaTypeNames.Image.Jpeg)
-                        {
-                            ContentId = "EmbeddedImage"
-                        };
-                        AlternateView avHtml = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
-                        avHtml.LinkedResources.Add(inline);
-                        mail.AlternateViews.Add(avHtml);
-                  
+
+                    LinkedResource inline = new LinkedResource(absoluteImagePath, MediaTypeNames.Image.Jpeg)
+                    {
+                        ContentId = "EmbeddedImage"
+                    };
+                    AlternateView avHtml = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
+                    avHtml.LinkedResources.Add(inline);
+                    mail.AlternateViews.Add(avHtml);
+
                     smtpServer.Port = port;
                     smtpServer.Credentials = new System.Net.NetworkCredential(userName, pass);
                     smtpServer.EnableSsl = true;
@@ -110,7 +112,7 @@ namespace API.SendEmail
                     Error = ex.Message,
                     ProcName = "",
                 };
-                 new ErrorLog_ML(_dapper).Error(error);
+                new ErrorLog_ML(_dapper).Error(error);
             }
         }
         public string GetIPAddress()
@@ -190,8 +192,13 @@ namespace API.SendEmail
             }
         }
 
-        public void ComposeEmail(Inbox inbox)
+        public Response ComposeEmail(Inbox inbox)
         {
+            Response response = new Response()
+            {
+                ResponseText = "",
+                StatusCode = ResponseStatus.FAILED,
+            };
             try
             {
                 string fromAddress = _configuration["EmailSettings:MailFrom"];
@@ -230,7 +237,8 @@ namespace API.SendEmail
                     smtpServer.EnableSsl = true;
 
                     smtpServer.Send(mail);
-
+                    response.ResponseText = "SUCCESS";
+                    response.StatusCode = ResponseStatus.SUCCESS;
                 }
             }
             catch (FileNotFoundException fnfEx)
@@ -241,6 +249,7 @@ namespace API.SendEmail
             {
                 throw new Exception("Error sending email", ex);
             }
+            return response;
         }
 
         public void Sendmailsss(CreateEmail cEmail)
@@ -263,7 +272,7 @@ namespace API.SendEmail
                     string htmlBody = "";
                     mail.Body = htmlBody;
 
-                    if (cEmail.WithImage==1)
+                    if (cEmail.WithImage == 1)
                     {
                         if (!string.IsNullOrEmpty(cEmail.ImagePath) && File.Exists(cEmail.ImagePath))
                         {
@@ -390,7 +399,7 @@ namespace API.SendEmail
                             Error = ex.Message,
                             ProcName = "",
                         };
-                         new ErrorLog_ML(_dapper).Error(error);
+                        new ErrorLog_ML(_dapper).Error(error);
 
                         var LogEmail = new EmailLog
                         {
@@ -414,7 +423,7 @@ namespace API.SendEmail
                     Error = fnfEx.Message,
                     ProcName = "",
                 };
-                 new ErrorLog_ML(_dapper).Error(error);
+                new ErrorLog_ML(_dapper).Error(error);
 
 
 
@@ -429,7 +438,7 @@ namespace API.SendEmail
                     Error = ex.Message,
                     ProcName = "",
                 };
-                 new ErrorLog_ML(_dapper).Error(error);
+                new ErrorLog_ML(_dapper).Error(error);
 
                 throw new Exception("Error sending email", ex);
             }

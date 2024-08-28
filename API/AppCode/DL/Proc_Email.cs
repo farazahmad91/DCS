@@ -6,12 +6,12 @@ using Microsoft.CodeAnalysis;
 
 namespace API.AppCode.DL
 {
-    public class Proc_AddOrUpdateEmailTemplate: IProcedureAsync
+    public class Proc_AddOrUpdateEmailTemplate : IProcedureAsync
     {
         private readonly IDapper _dapper;
         public Proc_AddOrUpdateEmailTemplate(IDapper dapper)
         {
-            _dapper=dapper;
+            _dapper = dapper;
         }
 
         public async Task<object> Call(object obj)
@@ -22,15 +22,15 @@ namespace API.AppCode.DL
             {
                 var param = new
                 {
-                    TemplateID=req.TemplateID,
+                    TemplateID = req.TemplateID,
                     ProjectId = req.ProjectId,
                     EmailType = req.EmailType,
-                    Subject=req.Subject,
+                    Subject = req.Subject,
                     Content = req.Content,
                     TemplateImage = req.TemplateImage,
-                    Status=req.Status,
+                    Status = req.Status,
                 };
-                res = await _dapper.GetAsync<Response>(GetName(),param);
+                res = await _dapper.GetAsync<Response>(GetName(), param);
                 return res;
             }
             catch (Exception ex)
@@ -42,11 +42,11 @@ namespace API.AppCode.DL
                     Error = ex.Message,
                     ProcName = GetName(),
                 };
-                 new ErrorLog_ML(_dapper).Error(error);
+                new ErrorLog_ML(_dapper).Error(error);
 
                 return res;
             }
-            
+
         }
 
         public Task<object> Call()
@@ -64,7 +64,7 @@ namespace API.AppCode.DL
         private readonly IDapper _dapper;
         public Proc_GetEmailTemplate(IDapper dapper)
         {
-            _dapper=dapper;
+            _dapper = dapper;
         }
         public async Task<object> Call(object obj)
         {
@@ -73,7 +73,7 @@ namespace API.AppCode.DL
             {
                 var param = new
                 {
-                    Id=req.Id,
+                    Id = req.Id,
                     Subject = req?.name,
                     Role = req.Role,
                     ProjectId = req.ProjectId,
@@ -111,7 +111,7 @@ namespace API.AppCode.DL
         private readonly IDapper _dapper;
         public Proc_MasterEmailTemplateType(IDapper dapper)
         {
-            _dapper=dapper;
+            _dapper = dapper;
         }
 
         public async Task<object> Call(object obj)
@@ -123,7 +123,7 @@ namespace API.AppCode.DL
                 var param = new
                 {
                     EmailTypeId = req.EmailTypeId,
-                    ProjectId=req.ProjectId,
+                    ProjectId = req.ProjectId,
                     EmailType = req.EmailType,
                     Status = req.Status,
                     IsDefault = req.IsDefault,
@@ -163,7 +163,7 @@ namespace API.AppCode.DL
         private readonly IDapper _dapper;
         public Proc_GetMasterEmailTemplateType(IDapper dapper)
         {
-            _dapper=dapper;
+            _dapper = dapper;
         }
         public async Task<object> Call(object obj)
         {
@@ -204,4 +204,55 @@ namespace API.AppCode.DL
         }
     }
 
+    public class Proc_ComposeMailAsync : IProcedureAsync
+    {
+        private readonly IDapper _dapper;
+        public Proc_ComposeMailAsync(IDapper dapper)
+        {
+            _dapper = dapper;
+        }
+
+        public async Task<object> Call(object obj)
+        {
+            var req = (Inbox)obj;
+            Response res = new Response();
+            try
+            {
+                var param = new
+                {
+                    FromMail = "cozmotest91@gmail.com",
+                    ToMail = req.ToEmail,
+                    Subject = req.Subject,
+                    Message = req.Message,
+                    Image = req.Image,
+                };
+                res = await _dapper.GetAsync<Response>(GetName(), param);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                var error = new ErrorLog
+                {
+                    ClassName = GetType().Name,
+                    FuncName = "call",
+                    Error = ex.Message,
+                    ProcName = GetName(),
+                };
+                new ErrorLog_ML(_dapper).Error(error);
+
+                return res;
+            }
+
+        }
+
+        public Task<object> Call()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetName()
+        {
+            return "Proc_ComposeMailAsync";
+        }
+    }
 }
