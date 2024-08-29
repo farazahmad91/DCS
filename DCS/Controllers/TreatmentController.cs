@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Collections.Generic;
 using API.Claims;
+using DCS.APIRequest;
 using Microsoft.AspNetCore.Authorization;
 
 namespace DCS.Controllers
@@ -13,15 +14,17 @@ namespace DCS.Controllers
     [Authorize]
     public class TreatmentController : Controller
     {
-        private readonly IConfiguration _configuration;
-        private readonly string _BaseUrl;
-        public TreatmentController(IConfiguration configuration)
-        {
-            this._configuration = configuration;
-            _BaseUrl =  _configuration["APIBaseURl:BaseURl"];
-        }
+		private readonly IConfiguration _configuration;
+		private readonly string _BaseUrl;
+		private readonly IBaseUrl _baseurl;
+		public TreatmentController(IConfiguration configuration, IBaseUrl baseUrl)
+		{
+			this._configuration = configuration;
+			this._baseurl = baseUrl;
+			_BaseUrl = baseUrl.GetBaseUrl();
+		}
 
-        [Route("/TreatmentList")]
+		[Route("/TreatmentList")]
         public IActionResult TreatmentList()
         {
             return View();

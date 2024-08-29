@@ -2,19 +2,23 @@ using Microsoft.AspNetCore.Mvc;
 using DCS.Models;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
+using DCS.APIRequest;
 
 namespace DCS.Controllers
 {
   
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-        [Route("/")]
+		private readonly IConfiguration _configuration;
+		private readonly string _BaseUrl;
+		private readonly IBaseUrl _baseurl;
+		public HomeController(IConfiguration configuration, IBaseUrl baseUrl)
+		{
+			this._configuration = configuration;
+			this._baseurl = baseUrl;
+			_BaseUrl = baseUrl.GetBaseUrl();
+		}
+		[Route("/")]
         public IActionResult Index()
         {
             return View();

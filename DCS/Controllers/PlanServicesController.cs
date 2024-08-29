@@ -1,6 +1,7 @@
 ﻿using API.AppCode.APIRequest;
 using API.AppCode.IML;
 using API.Claims;
+using DCS.APIRequest;
 using Entities;
 using Entities.Response;
 using Microsoft.AspNetCore.Authorization;
@@ -15,12 +16,14 @@ namespace DCS.Controllers
 	{
 		private readonly IConfiguration _configuration;
 		private readonly string _BaseUrl;
-		public PlanServicesController(IConfiguration configuration)
+		private readonly IBaseUrl _baseurl;
+		public PlanServicesController(IConfiguration configuration, IBaseUrl baseUrl)
 		{
 			this._configuration = configuration;
-			_BaseUrl =  _configuration["APIBaseURl:BaseURl"];
+			this._baseurl = baseUrl;
+			_BaseUrl = baseUrl.GetBaseUrl();
 		}
-        [Route("Services")]
+		[Route("Services")]
         public IActionResult Services()
 		{
 			return View();
