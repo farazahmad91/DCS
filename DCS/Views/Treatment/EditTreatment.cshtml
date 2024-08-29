@@ -113,3 +113,60 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="~/dcs/js/treatmentscript.js"></script>
+<script>
+    window.CreateMedicineReport = function () {
+        debugger
+        if (!validateInvoiceFields()) {
+            alert('Please fill all the Required fields.');
+            return;
+        }
+
+        let treatment = {
+            DrId: $('#doctor').val(),
+            Email: $('#txtEmail').val(),
+            Diagnosis: $('#txtDiagnosis').val(),
+            Description: $('#Description').val(),
+            Medications: []
+        };
+        Show_Loader();
+
+        $('.rowClass').each(function (index, element) {
+            let medicineName = $(element).find('input[id^="txtMedicineName"]').val();
+            let dosage = $(element).find('input[id^="txtDosage"]').val();
+            let frequency = $(element).find('input[id^="txtFrequency"]').val();
+            let followUpDate = $(element).find('input[id^="txtFollowUpDate"]').val();
+
+            console.log(`Medicine ${index}:`, {
+                Name: medicineName,
+                Dosage: dosage,
+                Frequency: frequency,
+                FollowUpDate: followUpDate
+            });
+            let medicine = {
+                Name: medicineName,
+                Dosage: dosage,
+                Frequency: frequency,
+                FollowUpDate: followUpDate
+            };
+
+            treatment.Medications.push(medicine);
+        });
+
+        console.log('Treatment:', treatment);
+
+        $.ajax({
+            url: '/AddTreatment',
+            type: 'POST',
+            data: JSON.stringify(treatment),
+            contentType: 'application/json',
+            success: function (res) {
+                Hide_Loader();
+                Info(res.statusCode, res.responseText);
+                Onload();
+            },
+            error: function (error) {
+                Info(error.statusCode, error.responseText);
+            }
+        });
+    }
+</script>

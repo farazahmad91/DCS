@@ -115,5 +115,13 @@ namespace API.AppCode.ML
             return (IEnumerable<MasterEmailTemplateType>)i;
         }
         #endregion
+
+
+        public async Task<IEnumerable<Inbox>> GetComposeMailAsync(Common common)
+        {
+            IProcedureAsync proc = new Proc_GetComposeAsync(_dapper);
+            var i = await proc.Call(common);
+            return (IEnumerable<Inbox>)i;
+        }
     }
 }

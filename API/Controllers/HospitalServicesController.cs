@@ -41,7 +41,7 @@ namespace API.Controllers
             return Ok(res);
 
         }
-
+    
         [HttpPost(nameof(GetHospitalServicesListOrById))]
         public async Task<IActionResult> GetHospitalServicesListOrById(Common common)
         {
@@ -55,5 +55,6 @@ namespace API.Controllers
             var i =await _services.UpdateHospitalServiceStatus(common);
             return Ok(i);
         }
+
     }
 }

@@ -3,7 +3,7 @@ using Entities.Response;
 
 namespace API.AppCode.IML
 {
-    public interface IEmail
+    public interface  IEmail
     {
         public Response SendBulkEmails(CreateEmail emails);
         public Task<Response> AddOrUpdateEmailTemplate(EmailTemplate template);
@@ -11,5 +11,6 @@ namespace API.AppCode.IML
         public Task<IEnumerable<MasterEmailTemplateType>> GetMasterEmailTemplateTypeListOrById(Common common);
         public Task<Response> AddOrUpdateMasterEmailTemplateType(MasterEmailTemplateType type);
         Task<Response> ComposeEmail(Inbox inbox);
+        Task<IEnumerable<Inbox>> GetComposeMailAsync(Common common);
     }
 }

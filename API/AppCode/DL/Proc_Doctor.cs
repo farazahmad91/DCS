@@ -31,7 +31,7 @@ namespace API.AppCode.DL
                     Phone = req.Phone,
                     DrImage = req.DrImage,
                     Address = req.Address,
-                    Specialization = req.Specialization,
+                    ServiceId = req.ServiceId,
                     Gender = req.Gender,
                     DateOfBirth = req.DateOfBirth,
                     Qualifications = req.Qualifications,

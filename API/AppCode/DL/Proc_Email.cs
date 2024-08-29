@@ -255,4 +255,48 @@ namespace API.AppCode.DL
             return "Proc_ComposeMailAsync";
         }
     }
+    public class Proc_GetComposeAsync : IProcedureAsync
+    {
+        private readonly IDapper _dapper;
+        public Proc_GetComposeAsync(IDapper dapper)
+        {
+            _dapper = dapper;
+        }
+        public async Task<object> Call(object obj)
+        {
+            var req = (Common)obj;
+            try
+            {
+                var param = new
+                {
+                    Id = req.Id,
+                    Label = req.name,
+                    ProjectId = req.ProjectId,
+                };
+                var res = await _dapper.GetAll<Inbox>(GetName(), param);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                var error = new ErrorLog
+                {
+                    ClassName = GetType().Name,
+                    FuncName = "call",
+                    Error = ex.Message,
+                    ProcName = GetName(),
+                };
+                return "something went wrong!!";
+            }
+        }
+
+        public Task<object> Call()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetName()
+        {
+            return "Proc_GetComposeAsync";
+        }
+    }
 }
