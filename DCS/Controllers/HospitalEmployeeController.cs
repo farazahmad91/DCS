@@ -2,6 +2,7 @@
 using API.Claims;
 using API.DBContext.Entities;
 using Azure.Core;
+using DCS.APIRequest;
 using Entities;
 using Entities.Response;
 using Microsoft.AspNetCore.Authorization;
@@ -13,14 +14,16 @@ namespace DCS.Controllers
     [Authorize]
     public class HospitalEmployeeController : Controller
     {
-        private readonly IConfiguration _configuration;
-        private readonly string _BaseUrl;
-        public HospitalEmployeeController(IConfiguration configuration)
-        {
-            _configuration = configuration;
-            _BaseUrl = _configuration["APIBaseURl:BaseURl"];
-        }
-        [Route("Employees")]
+		private readonly IConfiguration _configuration;
+		private readonly string _BaseUrl;
+		private readonly IBaseUrl _baseurl;
+		public HospitalEmployeeController(IConfiguration configuration, IBaseUrl baseUrl)
+		{
+			this._configuration = configuration;
+			this._baseurl = baseUrl;
+			_BaseUrl = baseUrl.GetBaseUrl();
+		}
+		[Route("Employees")]
         public async Task<IActionResult> EmployeeListIndex()
         {
             return View();

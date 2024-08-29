@@ -3,6 +3,7 @@ using API.AppCode.IML;
 using API.Claims;
 using API.SendEmail;
 using Azure.Core;
+using DCS.APIRequest;
 using DCS.Models;
 using Entities;
 using Entities.Response;
@@ -24,13 +25,15 @@ namespace DCS.Controllers
         private readonly ILogger<EmailController> _logger;
         private readonly string _BaseUrl;
         private readonly UploadImage _uploadImage;
-        public EmailController(Sendmail sendmail, IWebHostEnvironment webHostEnvironment, ILogger<EmailController> logger, IConfiguration configuration, UploadImage uploadImage)
+		private readonly IBaseUrl _baseurl;
+		public EmailController(Sendmail sendmail, IWebHostEnvironment webHostEnvironment, ILogger<EmailController> logger, IConfiguration configuration, UploadImage uploadImage, IBaseUrl baseUrl)
         {
             _sendmail = sendmail;
             _webHostEnvironment = webHostEnvironment;
             _logger = logger;
-            _BaseUrl = "https://localhost:7079";
-            this._uploadImage = uploadImage;
+			this._baseurl = baseUrl;
+			_BaseUrl = baseUrl.GetBaseUrl();
+			this._uploadImage = uploadImage;
         }
 
         [HttpGet]

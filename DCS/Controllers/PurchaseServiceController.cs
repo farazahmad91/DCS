@@ -5,22 +5,26 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using DCS.APIRequest;
 using API.Claims;
+using DCS.APIRequest;
 
 namespace DCS.Controllers
 {
     [Authorize]
     public class PurchaseServiceController : Controller
     {
-        private readonly IConfiguration _configuration;
-        private readonly string _BaseUrl;
-        public PurchaseServiceController(IConfiguration configuration)
-        {
-            this._configuration = configuration;
-            _BaseUrl =  _configuration["APIBaseURl:BaseURl"];
-        }
-        
-        [Route("Purchase-List")]
+		private readonly IConfiguration _configuration;
+		private readonly string _BaseUrl;
+		private readonly IBaseUrl _baseurl;
+		public PurchaseServiceController(IConfiguration configuration, IBaseUrl baseUrl)
+		{
+			this._configuration = configuration;
+			this._baseurl = baseUrl;
+			_BaseUrl = baseUrl.GetBaseUrl();
+		}
+
+		[Route("Purchase-List")]
         public IActionResult PurchaseList()
         {
             return View();

@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using API.Claims;
 using System.Data;
 using Microsoft.AspNetCore.Authorization;
+using DCS.APIRequest;
 
 namespace DCS.Controllers
 {
@@ -14,11 +15,13 @@ namespace DCS.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly string _BaseUrl;
-        public DCSPoliciesController(IConfiguration configuration)
+		private readonly IBaseUrl _baseurl;
+		public DCSPoliciesController(IConfiguration configuration, IBaseUrl baseUrl)
         {
             this._configuration = configuration;
-            _BaseUrl =  _configuration["APIBaseURl:BaseURl"];
-        }
+			this._baseurl = baseUrl;
+			_BaseUrl = baseUrl.GetBaseUrl();
+		}
         [Route("DCSPoliciesList")]
         public IActionResult DCSPoliciesList()
         {

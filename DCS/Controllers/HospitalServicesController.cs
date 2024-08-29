@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Microsoft.CodeAnalysis.RulesetToEditorconfig;
 using API.AppCode.IML;
 using API.Claims;
+using DCS.APIRequest;
 using Microsoft.AspNetCore.Authorization;
 
 namespace DCS.Controllers
@@ -15,10 +16,12 @@ namespace DCS.Controllers
 	{
 		private readonly IConfiguration _configuration;
 		private readonly string _BaseUrl;
-		public HospitalServicesController(IConfiguration configuration)
+		private readonly IBaseUrl _baseurl;
+		public HospitalServicesController(IConfiguration configuration, IBaseUrl baseUrl)
 		{
 			this._configuration = configuration;
-			_BaseUrl =  _configuration["APIBaseURl:BaseURl"];
+			this._baseurl = baseUrl;
+			_BaseUrl = baseUrl.GetBaseUrl();
 		}
 
 		[Route("HospitalServices-List")]

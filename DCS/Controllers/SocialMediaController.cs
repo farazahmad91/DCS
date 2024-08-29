@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using API.AppCode.Configuration;
 using API.Claims;
 using Microsoft.SqlServer.Server;
+using DCS.APIRequest;
 using Microsoft.AspNetCore.Authorization;
 
 namespace DCS.Controllers
@@ -13,15 +14,17 @@ namespace DCS.Controllers
     [Authorize]
     public class SocialMediaController : Controller
     {
-        private readonly IConfiguration _configuration;
-        private readonly string _BaseUrl;
-        public SocialMediaController(IConfiguration configuration)
-        {
-            this._configuration = configuration;
-            _BaseUrl =  _configuration["APIBaseURl:BaseURl"];
-        }
+		private readonly IConfiguration _configuration;
+		private readonly string _BaseUrl;
+		private readonly IBaseUrl _baseurl;
+		public SocialMediaController(IConfiguration configuration, IBaseUrl baseUrl)
+		{
+			this._configuration = configuration;
+			this._baseurl = baseUrl;
+			_BaseUrl = baseUrl.GetBaseUrl();
+		}
 
-        [Route("/SocialMediaList")]
+		[Route("/SocialMediaList")]
         public IActionResult SocialMediaList()
         {
             return View();

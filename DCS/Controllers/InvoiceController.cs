@@ -2,6 +2,7 @@
 using API.Claims;
 using API.RequestInfo;
 using API.SendEmail;
+using DCS.APIRequest;
 using Entities;
 using Entities.Response;
 using Microsoft.AspNetCore.Authorization;
@@ -16,11 +17,13 @@ namespace DCS.Controllers
         private readonly IConfiguration _configuration;
         private readonly string _BaseUrl;
         private readonly Sendmail _sendmail;
-        public InvoiceController(IConfiguration configuration, Sendmail sendmail)
+		private readonly IBaseUrl _baseurl;
+		public InvoiceController(IConfiguration configuration, Sendmail sendmail, IBaseUrl baseUrl)
         {
             this._configuration = configuration;
-            _BaseUrl =  _configuration["APIBaseURl:BaseURl"];
-            _sendmail=sendmail;
+			this._baseurl = baseUrl;
+			_BaseUrl = baseUrl.GetBaseUrl();
+			_sendmail =sendmail;
         }
         [Route("Invoice")]
 		public IActionResult Invoice()
