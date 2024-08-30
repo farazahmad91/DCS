@@ -49,6 +49,7 @@ namespace API.Data
                     result = response.FirstOrDefault();
                 }
             }
+  //"responseText": "An error occurred while creating a backup of the database. Error: Invalid object name 'xp_fileexist'.",
             catch (Exception ex)
             {
                 throw ex;
