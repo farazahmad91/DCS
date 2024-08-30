@@ -4,6 +4,7 @@ using API.Claims;
 using API.DBContext.Entities;
 using API.SendEmail;
 using API.Service;
+using DCS.APIRequest;
 using Entities;
 using Entities.Response;
 using Microsoft.AspNetCore.Authorization;
@@ -23,11 +24,13 @@ namespace DCS.Controllers
         private readonly string _BaseUrl;
         private readonly Sendmail _sendmail;
         private readonly IDapper _dapper;
-        public ProjectDetailsController(IConfiguration configuration , Sendmail sendmail, IDapper dapper)
+		private readonly IBaseUrl _baseurl;
+		public ProjectDetailsController(IConfiguration configuration , Sendmail sendmail, IDapper dapper, IBaseUrl baseUrl)
         {
             this._configuration = configuration;
-            _BaseUrl =  _configuration["APIBaseURl:BaseURl"];
-            _sendmail = sendmail;
+			this._baseurl = baseUrl;
+			_BaseUrl = baseUrl.GetBaseUrl();
+			_sendmail = sendmail;
             _dapper= dapper;
         }
 		[Route("MasterSetting")]

@@ -1,5 +1,6 @@
 ﻿using API.AppCode.APIRequest;
 using API.Claims;
+using DCS.APIRequest;
 using Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +13,13 @@ namespace DCS.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly string _BaseUrl;
-        public DashboardController(IConfiguration configuration)
+		private readonly IBaseUrl _baseurl;
+		public DashboardController(IConfiguration configuration, IBaseUrl baseUrl)
         {
             this._configuration = configuration;
-            _BaseUrl =  _configuration["APIBaseURl:BaseURl"];
-        }
+			this._baseurl = baseUrl;
+			_BaseUrl = baseUrl.GetBaseUrl();
+		}
         public async Task<IActionResult> DashboardStatus()
         {
             Common common = new Common(); 

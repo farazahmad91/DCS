@@ -4,6 +4,7 @@ using API.DBContext;
 using API.RequestInfo;
 using API.SendEmail;
 using API.Service;
+using DCS.APIRequest;
 using DCS.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ var configuration = builder.Configuration;
 string connection = "Server=db7510.public.databaseasp.net; Database=db7510; User Id=db7510; Password=4m?Bt@W85e_L; Encrypt=True; TrustServerCertificate=True; MultipleActiveResultSets=True;";
 var connectionStrings = new ConnectionStrings { Default = connection };
 builder.Services.AddSingleton(connectionStrings);
+builder.Services.AddScoped<IBaseUrl, BaseUrl>();
 
 // Add DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

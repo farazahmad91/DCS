@@ -2,6 +2,7 @@
 using API.AppCode.Configuration;
 using API.AppCode.IService;
 using API.Claims;
+using DCS.APIRequest;
 using Entities;
 using Entities.Response;
 using Microsoft.AspNetCore.Authorization;
@@ -13,14 +14,16 @@ namespace DCS.Controllers
     [Authorize]
     public class DoctorsController : Controller
     {
-        private readonly IConfiguration _configuration;
-        private readonly string _BaseUrl;
-        public DoctorsController(IConfiguration configuration)
-        {
-            this._configuration = configuration;
-            _BaseUrl =  _configuration["APIBaseURl:BaseURl"];
-        }
-        [Route("/DoctorsList")]
+		private readonly IConfiguration _configuration;
+		private readonly string _BaseUrl;
+		private readonly IBaseUrl _baseurl;
+		public DoctorsController(IConfiguration configuration, IBaseUrl baseUrl)
+		{
+			this._configuration = configuration;
+			this._baseurl = baseUrl;
+			_BaseUrl = baseUrl.GetBaseUrl();
+		}
+		[Route("/DoctorsList")]
 		public IActionResult GetDoctors()
         {
             return View();

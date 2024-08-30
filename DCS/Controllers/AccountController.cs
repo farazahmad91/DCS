@@ -19,6 +19,7 @@ using API.RequestInfo;
 using API.AppCode.IML;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using Microsoft.AspNetCore.Authorization;
+using DCS.APIRequest;
 
 namespace DCS.Controllers
 {
@@ -33,14 +34,17 @@ namespace DCS.Controllers
         private readonly Sendmail _sendmail;
         private readonly string domainname;
         private readonly IDapper _dapper;
-        public AccountController(IConfiguration configuration, IWebHostEnvironment webHostEnvironment, Sendmail sendmail, IDapper dapper)
+        private readonly IBaseUrl _baseurl;
+        public AccountController(IConfiguration configuration, IWebHostEnvironment webHostEnvironment, Sendmail sendmail, IDapper dapper, IBaseUrl baseUrl)
         {
-            this._configuration = configuration;
-            _BaseUrl = "https://localhost:7079";
+			this._baseurl = baseUrl;
+			this._configuration = configuration;
+            _BaseUrl = baseUrl.GetBaseUrl();
             this.webHostEnvironment = webHostEnvironment;
             this._sendmail = sendmail;
             domainname = "";
             _dapper = dapper;
+            
         }
         
         [HttpGet]

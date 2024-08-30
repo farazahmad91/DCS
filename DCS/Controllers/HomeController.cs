@@ -2,25 +2,14 @@ using Microsoft.AspNetCore.Mvc;
 using DCS.Models;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
-using API.AppCode.APIRequest;
-using API.Claims;
-using Entities;
-using Newtonsoft.Json;
+
 
 namespace DCS.Controllers
 {
   
     public class HomeController : Controller
     {
-        private readonly IConfiguration _configuration;
-        private readonly ILogger<HomeController> _logger;
-        private readonly string _BaseUrl;
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-            _BaseUrl = "https://localhost:7079";
-        }
-        [Route("/")]
+
         public IActionResult Index()
         {
             return View();
