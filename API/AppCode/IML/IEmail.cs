@@ -12,5 +12,7 @@ namespace API.AppCode.IML
         public Task<Response> AddOrUpdateMasterEmailTemplateType(MasterEmailTemplateType type);
         Task<Response> ComposeEmail(Inbox inbox);
         Task<IEnumerable<Inbox>> GetComposeMailAsync(Common common);
+        Task<Response> DeleteMail(Common common);
+        Task<Inbox> GetComposeMailById(int Id);
     }
 }

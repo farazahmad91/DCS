@@ -2,6 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using DCS.Models;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
+using DCS.APIRequest;
+using Entities;
+using API.AppCode.APIRequest;
+using Newtonsoft.Json;
 
 
 namespace DCS.Controllers
@@ -9,7 +13,15 @@ namespace DCS.Controllers
   
     public class HomeController : Controller
     {
-
+        private readonly IConfiguration _configuration;
+        private readonly string _BaseUrl;
+        private readonly IBaseUrl _baseurl;
+        public HomeController(IConfiguration configuration, IBaseUrl baseUrl)
+        {
+            this._configuration = configuration;
+            this._baseurl = baseUrl;
+            _BaseUrl = baseUrl.GetBaseUrl();
+        }
         public IActionResult Index()
         {
             return View();
@@ -27,8 +39,8 @@ namespace DCS.Controllers
             int? projectid = 267172;
             common.ProjectId = projectid;
             var AppointVM = new AppointmentVM();
-            var apiDocRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Doctor/GetDoctor/{name}", null, null);
-            var apiSerRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalServices/GetHospitalServicesListOrById", JsonConvert.SerializeObject(common), null);
+            var apiDocRes = await APIRequestML.O.PostAsync($"Doctor/GetDoctor/{name}", null, null);
+            var apiSerRes = await APIRequestML.O.PostAsync($"HospitalServices/GetHospitalServicesListOrById", JsonConvert.SerializeObject(common), null);
 
             if (apiDocRes.Result != null)
             {

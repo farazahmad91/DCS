@@ -221,10 +221,10 @@ namespace API.AppCode.DL
                 var param = new
                 {
                     FromMail = "cozmotest91@gmail.com",
-                    ToMail = req.ToEmail,
+                    ToMail = req.ToMail,
                     Subject = req.Subject,
                     Message = req.Message,
-                    Image = req.Image,
+                    Image = req.ImageURL,
                 };
                 res = await _dapper.GetAsync<Response>(GetName(), param);
                 return res;
@@ -299,4 +299,94 @@ namespace API.AppCode.DL
             return "Proc_GetComposeAsync";
         }
     }
+
+    public class Proc_DeleteComposeAsync : IProcedureAsync
+    {
+        private readonly IDapper _dapper;
+        public Proc_DeleteComposeAsync(IDapper dapper)
+        {
+            _dapper = dapper;
+        }
+        public async Task<object> Call(object obj)
+        {
+            var req = (Common)obj;
+            try
+            {
+                var param = new
+                {
+                    Id = req.Id,
+                };
+                var res = await _dapper.GetAsync<Response>(GetName(), param);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                var error = new ErrorLog
+                {
+                    ClassName = GetType().Name,
+                    FuncName = "call",
+                    Error = ex.Message,
+                    ProcName = GetName(),
+                };
+                return "something went wrong!!";
+            }
+        }
+
+        public Task<object> Call()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetName()
+        {
+            return "Proc_DeleteComposeMail";
+        }
+    }
+
+    public class Proc_GetComposeMailById : IProcedureAsync
+    {
+        private readonly IDapper _dapper;
+        public Proc_GetComposeMailById(IDapper dapper)
+        {
+            _dapper = dapper;
+        }
+        public async Task<object> Call(object obj)
+        {
+            int Id = (int)obj;
+            try
+            {
+                var param = new
+                {
+                    Id = Id,
+
+                };
+                var i = await _dapper.GetAsync<Inbox>(GetName(), param);
+                return i;
+            }
+            catch (Exception ex)
+            {
+                var error = new ErrorLog
+                {
+                    ClassName = GetType().Name,
+                    FuncName = "call",
+                    Error = ex.Message,
+                    ProcName = GetName(),
+                };
+                new ErrorLog_ML(_dapper).Error(error);
+            }
+            return "error";
+        }
+
+        public Task<object> Call()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetName()
+        {
+            return "Proc_GetComposeMailById";
+        }
+
+    }
+
 }

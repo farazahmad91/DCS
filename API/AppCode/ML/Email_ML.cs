@@ -68,7 +68,7 @@ namespace API.AppCode.ML
             }
             catch (Exception ex)
             {
-                failedEmails.Add(inbox.ToEmail);
+                failedEmails.Add(inbox.ToMail);
 
             }
             if (failedEmails.Count > 0)
@@ -123,5 +123,22 @@ namespace API.AppCode.ML
             var i = await proc.Call(common);
             return (IEnumerable<Inbox>)i;
         }
+        public async Task<Response> DeleteMail(Common common)
+        {
+            IProcedureAsync proc = new Proc_DeleteComposeAsync(_dapper);
+            var i = await proc.Call(common);
+            return (Response)i;
+        }
+        public async Task<Inbox> GetComposeMailById(int Id)
+        {
+            IProcedureAsync proc  =new Proc_GetComposeMailById(_dapper);
+            var i=await proc.Call(Id);
+            return (Inbox)i;
+        }
+
+
+
+        
+
     }
 }
