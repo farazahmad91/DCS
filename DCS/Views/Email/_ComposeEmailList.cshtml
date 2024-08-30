@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Entities.Inbox>
+<ul class="email-list">
+
+
+    @foreach (var item in Model)
+    {
+        <li>
+            <div class="email-sender-info">
+                <div class="checkbox-wrapper-mail">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="mail3">
+                        <label class="form-check-label" for="mail3"></label>
+                    </div>
+                </div>
+                <span class="star-toggle mdi mdi-star-outline text-warning"></span>
+                <a href="javascript: void(0);" class="email-title">
+                    @item.ToEmail
+                </a>
+            </div>
+            <div class="email-content">
+                <a href="javascript: void(0);" class="email-subject">
+                    @item.Subject
+                    &nbsp;–&nbsp; <span>
+                        @item.Message... 
+                    </span>
+                </a>
+                <div class="email-date"> @item.EntryOn</div>
+            </div>
+            <div class="email-action-icons">
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <a href="javascript: void(0);"><i class="mdi mdi-archive email-action-icons-item"></i></a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="javascript: void(0);"><i class="mdi mdi-delete email-action-icons-item"></i></a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="javascript: void(0);"><i class="mdi mdi-email-mark-as-unread email-action-icons-item"></i></a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="javascript: void(0);"><i class="mdi mdi-clock email-action-icons-item"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    }
+
+
+</ul>

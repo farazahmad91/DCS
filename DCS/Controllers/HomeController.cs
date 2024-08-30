@@ -2,23 +2,14 @@ using Microsoft.AspNetCore.Mvc;
 using DCS.Models;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
-using DCS.APIRequest;
+
 
 namespace DCS.Controllers
 {
   
     public class HomeController : Controller
     {
-		private readonly IConfiguration _configuration;
-		private readonly string _BaseUrl;
-		private readonly IBaseUrl _baseurl;
-		public HomeController(IConfiguration configuration, IBaseUrl baseUrl)
-		{
-			this._configuration = configuration;
-			this._baseurl = baseUrl;
-			_BaseUrl = baseUrl.GetBaseUrl();
-		}
-		[Route("/")]
+
         public IActionResult Index()
         {
             return View();
@@ -29,9 +20,23 @@ namespace DCS.Controllers
 			return View();
 		}
         [Route("appointment")]
-        public IActionResult Appointments()
+        public async Task<IActionResult> Appointments()
         {
-            return View();
+            string name = "All";
+            Common common = new Common();
+            int? projectid = 267172;
+            common.ProjectId = projectid;
+            var AppointVM = new AppointmentVM();
+            var apiDocRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Doctor/GetDoctor/{name}", null, null);
+            var apiSerRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalServices/GetHospitalServicesListOrById", JsonConvert.SerializeObject(common), null);
+
+            if (apiDocRes.Result != null)
+            {
+                AppointVM.GetDoctors = JsonConvert.DeserializeObject<List<Doctor>>(apiDocRes.Result);
+                AppointVM.GetHospitalServices = JsonConvert.DeserializeObject<List<HospitalServices>>(apiSerRes.Result);
+
+            }
+            return View(AppointVM);
         }
 
         [Route("contact-us")]

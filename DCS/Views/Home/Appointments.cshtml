@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Entities.AppointmentVM
+@{
     ViewData["Title"] = "Appointments";
     Layout = "_LayoutSiteAdmin";
 }
@@ -32,18 +33,20 @@
                         <div class="row g-3">
                             <div class="col-12 col-sm-6">
                                 <select class="form-select bg-light border-0" id="ddlservice" style="height: 55px;">
-                                    <option selected>Select A Service</option>
-                                    <option value="1">Service 1</option>
-                                    <option value="2">Service 2</option>
-                                    <option value="3">Service 3</option>
+                                    <option value="">Please select Service</option>
+                                    @foreach (var item in Model.GetHospitalServices)
+                                    {
+                                        <option value="@item.ServiceID">@item.ServiceName</option>
+                                    }
                                 </select>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <select class="form-select bg-light border-0" id="ddldoctor" style="height: 55px;">
-                                    <option selected>Select Doctor</option>
-                                    <option value="1">Doctor 1</option>
-                                    <option value="2">Doctor 2</option>
-                                    <option value="3">Doctor 3</option>
+                                    <option value="">Please select Doctors</option>
+                                    @foreach (var item in Model.GetDoctors)
+                                    {
+                                        <option value="@item.DrId">@item.Name</option>
+                                    }
                                 </select>
                             </div>
                             <div class="col-12 col-sm-6">

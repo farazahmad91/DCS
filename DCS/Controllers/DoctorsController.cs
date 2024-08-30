@@ -42,12 +42,22 @@ namespace DCS.Controllers
         [Route("/D-Edit")]
         public async Task<IActionResult> _DrEdit(int id )
         {
-            var list = new Doctor();
+            string name = "All";
+            Common common = new Common();
+            int? projectid = User.GetProjectId();
+            common.ProjectId = projectid;
+            var DoctorVm = new DoctorVM();
+            var apiSerRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalServices/GetHospitalServicesListOrById", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Doctor/GetDoctorById/{id}", null, User.GetLoggedInUserToken());
-           
-                list = JsonConvert.DeserializeObject<Doctor>(apiRes.Result);
-            
-            return PartialView(list);
+
+            if (apiRes.Result != null)
+            {
+
+                DoctorVm.GetHospitalServices = JsonConvert.DeserializeObject<List<HospitalServices>>(apiSerRes.Result);
+                DoctorVm.GetDoctors = JsonConvert.DeserializeObject<Doctor>(apiRes.Result);
+
+            }
+           return PartialView(DoctorVm);
         }
 
         [Route("/D-AddOrUpdate")]

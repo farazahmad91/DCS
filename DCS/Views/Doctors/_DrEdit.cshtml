@@ -1,4 +1,5 @@
-﻿@model Entities.Doctor
+﻿@model Entities.DoctorVM
+
 <link rel="stylesheet" href="~/assets/vendor/dropzone/dropzone.min.css" />
 <link href="~/Spinner.css" rel="stylesheet" type="text/css" />
 <style>
@@ -23,173 +24,173 @@
 	}
 </style>
 <div class="card">
-	<div class="card-body">
-		<div class="modal fade" id="Dr_Editmodal" tabindex="-1" aria-labelledby="Dr_EditmodalTitle" style="display: none;" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-scrollable modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="Dr_EditmodalTitle">
-							Add or Update Doctor
-						</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
+    <div class="card-body">
+        <div class="modal fade" id="Dr_Editmodal" tabindex="-1" aria-labelledby="Dr_EditmodalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="Dr_EditmodalTitle">Add or Update Doctor</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
                     <div class="modal-body">
                         <div class="row gx-3">
                             <div class="col-12">
-                                <div class="row gx-3">
-                                    <div class="col-6">
-                                        <!-- Form Field Start -->
-                                        <div class="mb-3">
-                                            <input type="hidden" asp-for="DrId">
-                                            <label for="Name" class="form-label">Full Name</label>
-                                            <input type="text" class="form-control inputValidate" id="Name" asp-for="Name" placeholder="Enter Full Name">
+                                <form enctype="multipart/form-data">
+                                    <div class="row gx-3">
+                                        <div class="col-6">
+                                            <!-- Form Field Start -->
+                                            <div class="mb-3">
+                                                <input type="hidden" asp-for="@Model.GetDoctors.DrId">
+                                                <label for="Name" class="form-label">Full Name</label>
+                                                <input type="text" class="form-control inputValidate" id="Name" asp-for="@Model.GetDoctors.Name" placeholder="Enter Full Name">
+                                            </div>
+                                            <!-- Form Field Start -->
+                                            <div class="mb-3">
+                                                <label for="Phone" class="form-label">Contact</label>
+                                                <input type="tel" class="form-control inputValidate" id="Phone" asp-for="@Model.GetDoctors.Phone" placeholder="Enter Your Contact">
+                                            </div>
                                         </div>
-                                        <!-- Form Field Start -->
-                                        <div class="mb-3">
-                                            <label for="Phone" class="form-label">Contact</label>
-                                            <input type="tel" class="form-control inputValidate" id="Phone" asp-for="Phone" placeholder="Enter Your Contact">
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <!-- Form Field Start -->
-                                        <div class="mb-3">
-                                            <label for="Email" class="form-label">Email</label>
-                                            <input type="email" class="form-control inputValidate" id="Email" asp-for="Email" placeholder="Enter Your Email Id">
-                                        </div>
-                                        <!-- Form Field Start -->
-                                        <div class="mb-3">
-                                            <label for="DateOfBirth" class="form-label">Birthday</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control inputValidate datepicker-opens-left" id="DateOfBirth" asp-for="DateOfBirth" placeholder="DD/MM/YYYY">
-                                                <span class="input-group-text">
-                                                    <i class="bi bi-calendar4"></i>
-                                                </span>
+                                        <div class="col-6">
+                                            <!-- Form Field Start -->
+                                            <div class="mb-3">
+                                                <label for="Email" class="form-label">Email</label>
+                                                <input type="email" class="form-control inputValidate" id="Email" asp-for="@Model.GetDoctors.Email" placeholder="Enter Your Email Id">
+                                            </div>
+                                            <!-- Form Field Start -->
+                                            <div class="mb-3">
+                                                <label for="DateOfBirth" class="form-label">Birthday</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control inputValidate datepicker-opens-left" id="DateOfBirth" asp-for="@Model.GetDoctors.DateOfBirth" placeholder="DD/MM/YYYY">
+                                                    <span class="input-group-text">
+                                                        <i class="bi bi-calendar4"></i>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row gx-3">
-                                    <div class="col-6">
-                                        <!-- Form Field Start -->
-                                        <div class="mb-3">
-                                            <label for="Specialization" class="form-label">Specialization</label>
-                                            <input type="text" class="form-control inputValidate" id="Specialization" asp-for="Specialization" placeholder="Specialization">
+                                    <div class="row gx-3">
+                                        <div class="col-6">
+                                            <!-- Form Field Start -->
+                                            <div class="mb-3">
+                                                <label for="ServiceId" class="form-label">Specilaization</label>
+                                                <select class="form-select " id="ddlservice" >
+                                                    <option value="">Please Select Specilaization</option>
+                                                    @foreach (var item in Model.GetHospitalServices)
+                                                    {
+                                                        <option value="@item.ServiceID">@item.ServiceName</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <!-- Form Field Start -->
+                                            <div class="mb-3">
+                                                <label for="Qualifications" class="form-label">Qualifications</label>
+                                                <input type="text" class="form-control inputValidate" id="Qualifications" asp-for="@Model.GetDoctors.Qualifications" placeholder="Qualifications">
+                                            </div>
                                         </div>
-                                        <!-- Form Field Start -->
-                                        <div class="mb-3">
-                                            <label for="Qualifications" class="form-label">Qualifications</label>
-                                            <input type="text" class="form-control inputValidate" id="Qualifications" asp-for="Qualifications" placeholder="Qualifications">
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <!-- Form Field Start -->
-                                        <div class="mb-3">
-                                            <label for="Gender" class="form-label">Gender</label>
-                                            <select class="form-control inputValidate" id="Gender" asp-for="Gender">
-                                                <option value="">Select Gender</option>
-                                                <option value="M">Male</option>
-                                                <option value="F">Female</option>
-                                                <option value="O">Other</option>
-                                            </select>
-                                        </div>
-                                        <!-- Form Field Start -->
-                                        <div class="mb-3">
-                                            <label for="Affiliations" class="form-label">Affiliations</label>
-                                            <input type="text" class="form-control inputValidate" id="Affiliations" asp-for="Affiliations" placeholder="Affiliations">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row gx-3">
-                                    <div class="col-6">
-                                        <!-- Form Field Start -->
-                                        <div class="mb-3">
-                                            <label for="Languages" class="form-label">Languages</label>
-                                            <input type="text" class="form-control inputValidate" id="Languages" asp-for="Languages" placeholder="Languages">
-                                        </div>
-                                        <!-- Form Field Start -->
-                                        <div class="mb-3">
-                                            <label for="ConsultationFee" class="form-label">Consultation Fee</label>
-                                            <input type="text" class="form-control inputValidate" id="ConsultationFee" asp-for="ConsultationFee" placeholder="Consultation Fee">
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <!-- Form Field Start -->
-                                        <div class="mb-3">
-                                            <label for="Availability" class="form-label">Availability</label>
-                                            <input type="text" class="form-control inputValidate" id="Availability" asp-for="Availability" placeholder="Availability">
-                                        </div>
-                                        <!-- Form Field Start -->
-                                        <div class="mb-3">
-                                            <label for="Address" class="form-label">Address</label>
-                                            <input type="text" class="form-control inputValidate" id="Address" asp-for="Address" placeholder="Address">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row gx-3">
-                                    <div class="col-6">
-                                        <!-- Form Field Start -->
-                                        <div class="mb-3">
-                                            <label for="ExperienceYears" class="form-label">Experience Years</label>
-                                            <input type="text" class="form-control inputValidate" id="ExperienceYears" asp-for="ExperienceYears" placeholder="Experience Years">
-                                        </div>
-                                    </div>
-                                     <div class="col-6">
-                                        <!-- Form Field Start -->
-                                        <div class="mb-3">
-                                           
-                                            <label for="file" class="form-label">Profile Image</label>
-                                            @if (Model != null && !string.IsNullOrEmpty(Model.DrImage))
-                                            {
-                                                <input type="file" class="form-control " id="file" asp-for="DrImage">
-                                            }
-                                            else
-                                            {
-                                                <input type="file" class="form-control inputValidate" id="file" asp-for="DrImage">
-                                            }
-                                            @if (Model != null && !string.IsNullOrEmpty(Model.DrImage))
-                                            {
-                                                <img src="@Model.DrImage" alt="Profile Image" class="img-thumbnail" style="width: 55px; height: 55px;" />
-                                            }
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <!-- Uncomment and use if needed -->
-                                <div class="row gx-3">
-                                    <div class="col-6">
-                                        <div class="mb-3">
-                                            <label for="IsActive" class="form-label">Is Active</label>
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input inputValidate" type="checkbox" role="switch" id="Status" checked>
+                                        <div class="col-6">
+                                            <!-- Form Field Start -->
+                                            <div class="mb-3">
+                                                <label for="Gender" class="form-label">Gender</label>
+                                                <select class="form-control inputValidate" id="Gender" asp-for="@Model.GetDoctors.Gender">
+                                                    <option value="">Select Gender</option>
+                                                    <option value="M">Male</option>
+                                                    <option value="F">Female</option>
+                                                    <option value="O">Other</option>
+                                                </select>
+                                            </div>
+                                            <!-- Form Field Start -->
+                                            <div class="mb-3">
+                                                <label for="Affiliations" class="form-label">Affiliations</label>
+                                                <input type="text" class="form-control inputValidate" id="Affiliations" asp-for="@Model.GetDoctors.Affiliations" placeholder="Affiliations">
                                             </div>
                                         </div>
                                     </div>
-                                </div> 
+                                    <div class="row gx-3">
+                                        <div class="col-6">
+                                            <!-- Form Field Start -->
+                                            <div class="mb-3">
+                                                <label for="Languages" class="form-label">Languages</label>
+                                                <input type="text" class="form-control inputValidate" id="Languages" asp-for="@Model.GetDoctors.Languages" placeholder="Languages">
+                                            </div>
+                                            <!-- Form Field Start -->
+                                            <div class="mb-3">
+                                                <label for="ConsultationFee" class="form-label">Consultation Fee</label>
+                                                <input type="text" class="form-control inputValidate" id="ConsultationFee" asp-for="@Model.GetDoctors.ConsultationFee" placeholder="Consultation Fee">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <!-- Form Field Start -->
+                                            <div class="mb-3">
+                                                <label for="Availability" class="form-label">Availability</label>
+                                                <input type="text" class="form-control inputValidate" id="Availability" asp-for="@Model.GetDoctors.Availability" placeholder="Availability">
+                                            </div>
+                                            <!-- Form Field Start -->
+                                            <div class="mb-3">
+                                                <label for="Address" class="form-label">Address</label>
+                                                <input type="text" class="form-control inputValidate" id="Address" asp-for="@Model.GetDoctors.Address" placeholder="Address">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row gx-3">
+                                        <div class="col-6">
+                                            <!-- Form Field Start -->
+                                            <div class="mb-3">
+                                                <label for="ExperienceYears" class="form-label">Experience Years</label>
+                                                <input type="text" class="form-control inputValidate" id="ExperienceYears" asp-for="@Model.GetDoctors.ExperienceYears" placeholder="Experience Years">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <!-- Form Field Start -->
+                                            <div class="mb-3">
+                                                <label for="file" class="form-label">Profile Image</label>
+                                                <input type="file" class="form-control inputValidate" id="file" asp-for="@Model.GetDoctors.DrImage">
+                                                @if (Model.GetDoctors != null && !string.IsNullOrEmpty(Model.GetDoctors.DrImage))
+                                                {
+                                                    <img src="@Model.GetDoctors.DrImage" alt="Profile Image" class="img-thumbnail mt-2" style="width: 55px; height: 55px;" />
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row gx-3">
+                                        <div class="col-6">
+                                            <!-- Form Field Start -->
+                                            <div class="mb-3">
+                                                <label for="IsActive" class="form-label">Is Active</label>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" role="switch" id="Status" checked>
+                                                    <label class="form-check-label" for="Status">Active</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <!-- Service Dropdown -->
+                                      
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                     <div id="loader_spinner" style="display: none;" class="overlay-spinner"></div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-							Close
-						</button>
-						<button type="button" class="btn btn-secondary" onclick="addDoctor();">
-							@if (Model != null && Model.DrId != null)
-							{
-								<text>Save changes</text>
-
-							}
-							else
-							{
-								<text>Save</text>
-							}
-						</button>
-					</div> 
-				</div>
-			</div>
-		</div>
-	</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" onclick="addDoctor();">
+                            @if (Model.GetDoctors != null && Model.GetDoctors.DrId != null)
+                            {
+                                <text>Save changes</text>
+                            }
+                            else
+                            {
+                                <text>Save</text>
+                            }
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 <script>
 
 	function uploadImage(event) {
@@ -226,7 +227,7 @@
 				Email: $("#Email").val(),
 				Address: $("#Address").val(),
 				DateOfBirth: $("#DateOfBirth").val(),
-				Specialization: $("#Specialization").val(),
+                ServiceId: $("#ddlservice").val(),
 				Qualifications: $("#Qualifications").val(),
 				Gender: $("#Gender").val(),
 				Affiliations: $("#Affiliations").val(),

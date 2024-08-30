@@ -69,7 +69,7 @@ namespace DCS.Controllers
                 var request = JsonConvert.DeserializeObject<Patient>(patientData);
                 request.ProjectId = projectid;
                 request.ImagePath = file;
-                var apiRes = await APIRequestML.O.SendFileAndContentAsync($"{_BaseUrl}/api/Patient/AddOrUpdatePatient", request, file, null, User.GetLoggedInUserToken());
+                    var apiRes = await APIRequestML.O.SendFileAndContentAsync($"{_BaseUrl}/api/Patient/AddOrUpdatePatient", request, file, null, User.GetLoggedInUserToken());
                 var res = await apiRes.Content.ReadAsStringAsync();
                 if (apiRes != null && apiRes.IsSuccessStatusCode)
                 {

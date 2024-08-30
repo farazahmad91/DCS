@@ -370,6 +370,26 @@ namespace DCS.Controllers
             return Json(response);
         }
         #endregion
+
+
+        [Route("/ComposeEmailAsync")]
+        public IActionResult GetComposeEmailAsync()
+        {
+            return View();
+        }
+        [Route("/GetComposeEmail")]
+        public async Task<IActionResult> _ComposeEmailList(Common common)
+        {
+            var list = new List<Inbox>();
+            int? ProjectId= User.GetProjectId() ?? 0;
+            common.ProjectId= ProjectId;
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/GetComposeEmail", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
+            if (apiRes.Result != null)
+            {
+                list = JsonConvert.DeserializeObject<List<Inbox>>(apiRes.Result);
+            }
+            return PartialView(list);
+        }
     }
 }
 

@@ -27,5 +27,12 @@ namespace Entities
         // public string TreatmentPlan { get; set; }
         // public List<string> Attachments { get; set; }
     }
+    public class AppointmentVM
+    {
+        public Appointment GetAppointment { get; set; }
+        public IEnumerable<Doctor> GetDoctors { get; set; }
+        public IEnumerable<HospitalServices> GetHospitalServices { get; set; }
+    }
+
 
 }

@@ -6,6 +6,7 @@ using Entities.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace DCS.Controllers
@@ -39,17 +40,26 @@ namespace DCS.Controllers
             }
             return PartialView(list);
         }
-        [AllowAnonymous]
         [Route("/editAppointment")]
         public async Task<IActionResult> EditAppointment(int id)
         {
-            var list = new Appointment();
+            string name = "All";
+            Common common = new Common();
+            int? projectid = User.GetProjectId();
+            common.ProjectId = projectid;
+            var AppointVM = new AppointmentVM();
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Appointment/GetAppointmentById/{id}", null, User.GetLoggedInUserToken());
+            var apiDocRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Doctor/GetDoctor/{name}", null, User.GetLoggedInUserToken());
+            var apiSerRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalServices/GetHospitalServicesListOrById", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
+
             if (apiRes.Result != null)
             {
-                list = JsonConvert.DeserializeObject<Appointment>(apiRes.Result);
+                AppointVM.GetAppointment = JsonConvert.DeserializeObject<Appointment>(apiRes.Result);
+                AppointVM.GetDoctors = JsonConvert.DeserializeObject<List<Doctor>>(apiDocRes.Result);
+                AppointVM.GetHospitalServices = JsonConvert.DeserializeObject<List<HospitalServices>>(apiSerRes.Result);
+         
             }
-            return PartialView(list);
+            return PartialView(AppointVM);
         }
 
         [AllowAnonymous]

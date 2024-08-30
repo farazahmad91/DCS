@@ -1,5 +1,6 @@
 ﻿using API.AppCode.Helper;
 using API.AppCode.IML;
+using API.AppCode.IService;
 using API.Claims;
 using API.SendEmail;
 using Entities;
@@ -119,5 +120,12 @@ namespace API.Controllers
 
             return Ok(i);
         }
+        [HttpPost(nameof(GetComposeEmail))]
+        public async Task<IActionResult> GetComposeEmail(Common common)
+        {
+            var i = await _email.GetComposeMailAsync(common);
+            return Ok(i);
+        }
     }
 }
+ 

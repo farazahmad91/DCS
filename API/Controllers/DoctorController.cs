@@ -30,7 +30,7 @@ namespace API.Controllers
 
                 doctors.DrImage = _uploadService.Image(doctors.ImagePath, FileUploadType.DoctorImage, FileUploadType.DoctorPrefix);
 
-            if (doctors.DrImage!= null && doctors.DrId == 0)
+            if (doctors.DrImage!= null && doctors.DrId == null || doctors.DrId == 0)
             {
                 res = await _doctor.AddOrUpdateDoctor(doctors);
             }

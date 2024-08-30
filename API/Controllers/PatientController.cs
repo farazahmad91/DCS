@@ -32,7 +32,7 @@ namespace API.Controllers
 			{
 				res = await _patient.AddOrUpdatePatient(patients);
 			}
-			if (patients.PImage == "" && patients.PId != 0)
+			if (patients.PImage == "" || patients.PImage !="" && patients.PId != 0)
 			{
 				res = await _patient.AddOrUpdatePatient(patients);
 			}

@@ -2,107 +2,230 @@
     ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_Account.cshtml";
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .validate {
+            border-radius: 20px;
+            height: 40px;
+            background-color: red;
+            border: 1px solid red;
+            width: 140px;
+        }
 
-<style>
-    .validate {
-        border-radius: 20px;
-        height: 40px;
-        background-color: red;
-        border: 1px solid red;
-        width: 140px
-    }
+        .validate1 {
+            border-radius: 20px;
+            height: 40px;
+            background-color: green;
+            border: 1px solid green;
+            width: 140px;
+        }
 
-    .validate1 {
-        border-radius: 20px;
-        height: 40px;
-        background-color: green;
-        border: 1px solid green;
-        width: 140px
-    }
+        .form-control:focus {
+            box-shadow: none;
+            border: 2px solid red;
+        }
 
-    .form-control:focus {
-        box-shadow: none;
-        border: 2px solid red
-    }
-</style>
-<!-- Login box start -->
+        .social-login-buttons {
+            margin-top: 20px;
+        }
 
+            .social-login-buttons .btn {
+                border-radius: 20px;
+                height: 40px;
+                width: 200px;
+                margin: 5px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                text-decoration: none;
+            }
 
-<div class="my-auto">
-    <!-- title-->
-    <h4 class="mt-0">Sign In</h4>
-    <p class="text-muted mb-4">Enter your email address and password to access account.</p>
-    <div id="loader_spinner" style="display: none;" class="overlay-spinner"></div>
-    <!-- form -->
-    <div>
-        <div class="mb-3">
-            <label for="Email" class="form-label">Email address</label>
-            <input class="form-control" type="email" id="Email" required="" placeholder="Enter your email">
-        </div>
-        <div class="mb-3">
-            <a href="/ForgotPassword" class="text-muted float-end"><small>Forgot your password?</small></a>
-            <label for="Password" class="form-label">Password</label>
-            <input class="form-control" type="password" required="" id="Password" placeholder="Enter your password">
-        </div>
-        <div class="mb-3">
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="checkbox-signin">
-                <label class="form-check-label" for="checkbox-signin">Remember me</label>
+        .btn-google {
+            background-color: #db4437;
+        }
+
+        .btn-facebook {
+            background-color: #4267b2;
+        }
+
+        .btn-twitter {
+            background-color: #1da1f2;
+        }
+
+        .btn-custom-service {
+            background-color: #FF5722;
+        }
+
+        .social-login-buttons i {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="my-auto">
+            <h4 class="mt-0">Sign In</h4>
+            <p class="text-muted mb-4">Enter your email address and password to access account.</p>
+            <div id="loader_spinner" style="display: none;" class="overlay-spinner"></div>
+            <div>
+                <div class="mb-3">
+                    <label for="Email" class="form-label">Email address</label>
+                    <input class="form-control" type="email" id="Email" required="" placeholder="Enter your email">
+                </div>
+                <div class="mb-3">
+                    <a href="/ForgotPassword" class="text-muted float-end"><small>Forgot your password?</small></a>
+                    <label for="Password" class="form-label">Password</label>
+                    <input class="form-control" type="password" required="" id="Password" placeholder="Enter your password">
+                </div>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="checkbox-signin">
+                        <label class="form-check-label" for="checkbox-signin">Remember me</label>
+                    </div>
+                </div>
+                <div class="d-grid mb-0 text-center">
+                    <button class="btn btn-primary" type="submit" id="btnhide2" onclick="loginUser();"><i class="mdi mdi-login"></i> Log In </button>
+                </div>
+                <!-- Social Login Buttons -->
+                <div class="social-login-buttons text-center">
+                    <!-- Google Sign-In Button -->
+                    <a href="#" class="btn btn-google">
+                        <i class="fab fa-google"></i> Sign in with Google
+                    </a>
+
+                    <!-- Facebook Sign-In Button -->
+                    <a href="#" class="btn btn-facebook">
+                        <i class="fab fa-facebook-f"></i> Sign in with Facebook
+                    </a>
+
+                    <!-- Twitter Sign-In Button -->
+                    <a href="/Account/SignInWithTwitter" class="btn btn-twitter">
+                        <i class="fab fa-twitter"></i> Sign in with Twitter
+                    </a>
+
+                    <!-- Example for another service -->
+                    <a href="/Account/SignInWithOtherService" class="btn btn-custom-service">
+                        <i class="fab fa-custom-service"></i> Sign in with Other Service
+                    </a>
+                </div>
             </div>
         </div>
-      
-        <div class="d-grid mb-0 text-center">
-            <button class="btn btn-primary" type="submit" id="btnhide2" onclick="loginUser();"><i class="mdi mdi-login"></i> Log In </button>
-        </div>
-      
+        <footer class="footer footer-alt">
+            <p class="text-muted">Don't have an account? <a href="/Register" class="text-muted ms-1"><b>Sign Up</b></a></p>
+        </footer>
     </div>
-    <!-- end form-->
-</div>
-<footer class="footer footer-alt">
-    <p class="text-muted">Don't have an account? <a href="/Register" class="text-muted ms-1"><b>Sign Up</b></a></p>
-</footer>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<script>
-    function loginUser() {
-        var className = "cls";
-        //var clss = document.querySelector("." + className);
-        if (IsValidate(className)) {
-            var email = $("#Email").val();
-            var password = $("#Password").val();
-            sessionStorage.setItem('loginuseremail', email);
-            Show_Loader();
-            var formData = {
-                Email: email,
-                Password: password
-            };
+    <!-- Google Sign-In SDK -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 
-            $.post("/Account/Login", formData).done(function (res) {
-                setTimeout(function () {
-                    Hide_Loader();
-                    if (res.statusCode == 1) {
-                        Info(1, 'Login successfully!!');
-                        window.location.href = `${res.redirectUrl}`;
-                    }
-                }, 1000);
-           
-                if (res.statusCode == 4) {
-                        sessionStorage.setItem('emailtype', "EVFUNLOCK");
-                        window.location.href = "/IsVerified-User";
-                }
-                if (res.statusCode == -2) {
-                    sessionStorage.setItem('emailtype', "NEV");
-                    window.location.href = "/IsVerified-User";
-                }
-                if (res.statusCode == -1) {
+    <!-- Facebook SDK -->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+
+    <!-- FontAwesome Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        function loginUser() {
+            var className = "cls";
+            if (IsValidate(className)) {
+                var email = $("#Email").val();
+                var password = $("#Password").val();
+                sessionStorage.setItem('loginuseremail', email);
+                Show_Loader();
+                var formData = {
+                    Email: email,
+                    Password: password
+                };
+
+                $.post("/Account/Login", formData).done(function (res) {
+                    setTimeout(function () {
+                        Hide_Loader();
+                        if (res.statusCode == 1) {
+                            Info(1, 'Login successfully!!');
+                            window.location.href = `${res.redirectUrl}`;
+                        } else if (res.statusCode == 4 || res.statusCode == -2) {
+                            sessionStorage.setItem('emailtype', "EVFUNLOCK");
+                            window.location.href = "/IsVerified-User";
+                        } else if (res.statusCode == -1) {
+                            Info(res.statusCode, res.responseText);
+                        }
+                    }, 1000);
+                }).fail(function () {
+                    showerrors("Something went wrong!!!");
+                });
+            }
+        }
+
+        function onSignIn(googleUser) {
+            var id_token = googleUser.getAuthResponse().id_token;
+            $.post("/Account/SignInWithGoogle", { id_token: id_token }).done(function (res) {
+                if (res.statusCode == 1) {
+                    window.location.href = `${res.redirectUrl}`;
+                } else {
                     Info(res.statusCode, res.responseText);
                 }
-                    
             }).fail(function () {
                 showerrors("Something went wrong!!!");
             });
         }
-    }
 
-  
-</script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: 'YOUR_FACEBOOK_APP_ID',
+                cookie: true,
+                xfbml: true,
+                version: 'v12.0'
+            });
+
+            FB.getLoginStatus(function (response) {
+                statusChangeCallback(response);
+            });
+        };
+
+        function statusChangeCallback(response) {
+            if (response.status === 'connected') {
+                var accessToken = response.authResponse.accessToken;
+                $.post("/Account/SignInWithFacebook", { accessToken: accessToken }).done(function (res) {
+                    if (res.statusCode == 1) {
+                        window.location.href = `${res.redirectUrl}`;
+                    } else {
+                        Info(res.statusCode, res.responseText);
+                    }
+                }).fail(function () {
+                    showerrors("Something went wrong!!!");
+                });
+            }
+        }
+
+        function IsValidate(className) {
+            // Add your validation logic here
+            return true;
+        }
+
+        function Show_Loader() {
+            $("#loader_spinner").show();
+        }
+
+        function Hide_Loader() {
+            $("#loader_spinner").hide();
+        }
+
+        function Info(statusCode, message) {
+            alert(message); // Replace with your info display logic
+        }
+
+        function showerrors(message) {
+            alert(message); // Replace with your error display logic
+        }
+    </script>
+</body>
+</html>

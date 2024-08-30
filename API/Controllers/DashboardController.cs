@@ -16,7 +16,7 @@ namespace API.Controllers
         }
         [HttpPost(nameof(GetDashboardStatus))]
         public async Task<IActionResult> GetDashboardStatus(Common common)
-        {
+         {
             var i= await _dashboardStatus.GetDashboardStatus(common);
             return Ok(i);
         }

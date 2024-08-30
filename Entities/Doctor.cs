@@ -13,7 +13,8 @@ namespace Entities
         public string? DrImage { get; set; }
         public IFormFile? ImagePath { get; set; }
         public string? Address { get; set; }
-        public string? Specialization { get; set; }
+        public string? ServiceId { get; set; }
+        public string? ServiceName { get; set; }
         public string? Gender { get; set; }
         public string? DateOfBirth { get; set; }
         public string? Qualifications { get; set; }
@@ -24,6 +25,11 @@ namespace Entities
         public string? Availability { get; set; }
         public int Status { get; set; }
         public DateTime? EntryOn { get; set; }
+    }
+    public class DoctorVM
+    {
+        public Doctor GetDoctors { get; set; }
+        public IEnumerable<HospitalServices> GetHospitalServices { get; set; }
     }
 
 }
