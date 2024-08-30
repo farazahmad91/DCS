@@ -14,7 +14,7 @@
                 </div>
                 <span class="star-toggle mdi mdi-star-outline text-warning"></span>
                 <a href="javascript: void(0);" class="email-title">
-                    @item.ToEmail
+                    @item.ToMail
                 </a>
             </div>
             <div class="email-content">
@@ -24,7 +24,7 @@
                         @item.Message... 
                     </span>
                 </a>
-                <div class="email-date"> @item.EntryOn</div>
+                <div class="email-date text-nowrap"> @item.EntryOn</div>
             </div>
             <div class="email-action-icons">
                 <ul class="list-inline">
@@ -32,10 +32,13 @@
                         <a href="javascript: void(0);"><i class="mdi mdi-archive email-action-icons-item"></i></a>
                     </li>
                     <li class="list-inline-item">
-                        <a href="javascript: void(0);"><i class="mdi mdi-delete email-action-icons-item"></i></a>
+                        <a href="javascript: void(0);" onclick="deleteEmailDetail(@item.Id)">
+                            <i class="mdi mdi-delete email-action-icons-item"></i>
+                        </a>
                     </li>
                     <li class="list-inline-item">
-                        <a href="javascript: void(0);"><i class="mdi mdi-email-mark-as-unread email-action-icons-item"></i></a>
+                        <a href="javascript: void(0); ComposeMailDetails(@item.Id)">
+                            <i class="mdi mdi-email-mark-as-unread email-action-icons-item"></i></a>
                     </li>
                     <li class="list-inline-item">
                         <a href="javascript: void(0);"><i class="mdi mdi-clock email-action-icons-item"></i></a>
@@ -47,3 +50,29 @@
 
 
 </ul>
+<div id="Compose_modalPV"></div>
+<script>
+    function ComposeMailDetails(Id) {
+        let param = {
+            Id: Id,
+        };
+
+        $.post("DetailMail", param)
+            .done(function (res) {
+                console.log(res);
+                $("#Compose_modalPV").html(res);
+                var messageTextarea = document.getElementById('message');
+                messageTextarea.hidden = false; 
+                var htmlContent = messageTextarea.value; 
+                var tempDiv = document.createElement('div');
+                tempDiv.innerHTML = htmlContent;
+                var plainText = tempDiv.innerText || tempDiv.textContent;
+                document.getElementById('messageTxt').innerText = plainText;
+                messageTextarea.hidden = true;
+                $("#Dr_detailmodal").modal("show");
+            })
+            .fail(function () {
+                alert("Error occurred while fetching the mail details.");
+            });
+    }
+</script>

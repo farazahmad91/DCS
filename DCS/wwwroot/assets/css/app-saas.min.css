@@ -20222,7 +20222,6 @@ html[data-theme=dark] .auth-brand .logo-dark {
         position: relative;
         display: block;
         height: 51px;
-        line-height: 50px;
         cursor: default;
         -webkit-transition-duration: .3s;
         transition-duration: .3s
@@ -20272,7 +20271,7 @@ html[data-theme=dark] .auth-brand .logo-dark {
                 overflow: hidden;
                 white-space: nowrap;
                 margin-bottom: 0;
-                line-height: 50px
+                line-height: 23px;
             }
 
         .email-list > li .email-content {

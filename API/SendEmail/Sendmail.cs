@@ -212,7 +212,7 @@ namespace API.SendEmail
                 using (SmtpClient smtpServer = new SmtpClient(hostAddress))
                 {
                     mail.From = new MailAddress(fromAddress);
-                    mail.To.Add(inbox.ToEmail);
+                    mail.To.Add(inbox.ToMail);
                     mail.Subject = inbox.Subject;
                     mail.IsBodyHtml = true; // Enable HTML content
                     string htmlBody = inbox.Message; //_emailHtmlBody.GenerateHtmlBodyWithImage(cEmail.Message);

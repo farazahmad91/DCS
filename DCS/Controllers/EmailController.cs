@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Data;
 
 namespace DCS.Controllers
@@ -266,6 +267,7 @@ namespace DCS.Controllers
                     }
 
                     inbox.Image = fullFilePath; // Save full path to avoid path issues
+                    inbox.ImagePath = imageFile;
                 }
                 catch (Exception ex)
                 {
@@ -371,7 +373,6 @@ namespace DCS.Controllers
         }
         #endregion
 
-
         [Route("/ComposeEmailAsync")]
         public IActionResult GetComposeEmailAsync()
         {
@@ -387,6 +388,33 @@ namespace DCS.Controllers
             if (apiRes.Result != null)
             {
                 list = JsonConvert.DeserializeObject<List<Inbox>>(apiRes.Result);
+            }
+            return PartialView(list);
+        }
+
+        [Route("/DeleteMail")]
+        public async Task<IActionResult> DeleteComposeMail(Common common)
+        {
+            var res = new List<Inbox>();
+            if(common.Id!=0)
+            {
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/DeleteComposeMail", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
+                if(apiRes.Result!=null)
+                {
+                    res = JsonConvert.DeserializeObject<List<Inbox>>(apiRes.Result);
+                }
+            }
+            return PartialView(res);
+        }
+
+        [Route("/DetailMail")]
+        public async Task<IActionResult> _ComposeEmailDetail(int Id)
+        {
+            var list=new Inbox();
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/_ComposeEmailDetail/{Id}", null, User.GetLoggedInUserToken());
+            if(apiRes.Result!=null)
+            {
+                list = JsonConvert.DeserializeObject<Inbox>(apiRes.Result);
             }
             return PartialView(list);
         }

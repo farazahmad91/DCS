@@ -6,6 +6,7 @@ using API.SendEmail;
 using Entities;
 using Entities.Response;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace API.Controllers
 {
@@ -115,7 +116,7 @@ namespace API.Controllers
                 ResponseText = "An Error Occured Try After Some Time!",
                 StatusCode = ResponseStatus.FAILED
             };
-
+            inbox.ImageURL = _uploadService.Image(inbox.ImagePath, FileUploadType.EmailImage, FileUploadType.EmailPrefix);
             var i = await _email.ComposeEmail(inbox);
 
             return Ok(i);
@@ -126,6 +127,22 @@ namespace API.Controllers
             var i = await _email.GetComposeMailAsync(common);
             return Ok(i);
         }
+        [HttpPost(nameof(DeleteComposeMail))]
+        public async Task<IActionResult> DeleteComposeMail(Common common)
+        {
+            var i = await _email.DeleteMail(common);
+            return Ok(i);
+        }
+        [HttpPost(nameof(_ComposeEmailDetail) + "/{Id}")]
+        public async Task<IActionResult> _ComposeEmailDetail(int Id)
+        {
+            var i = await _email.GetComposeMailById(Id);
+            return Ok(i);
+        }
+
+
+
+
     }
 }
  

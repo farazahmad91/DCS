@@ -204,6 +204,9 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     var quill = new Quill('#editor', {
@@ -226,7 +229,7 @@
             $("#sendButton").click(function () {
                 if (IsValidate()) {
                     const formData = new FormData();
-                    formData.append("ToEmail", $("#ToEmail").val());
+                    formData.append("ToMail", $("#ToEmail").val());
                     formData.append("Subject", $("#mailsubject").val());
                     formData.append("Message", $("#editor").html());
                     const fileInput = $("#file").prop('files')[0];
@@ -261,7 +264,6 @@
 
         $.post('/GetComposeEmail', param)
             .done((res) => {
-                alert("suc.");
                 console.table(res);
                 $("#emaillist").html(res);
             })
@@ -270,7 +272,22 @@
                 alert("Error occurred while fetching email details.");
             });
     };
-
-
+    
     getEmailDetail();
+
+    const deleteEmailDetail = (id) => {
+        const param = {
+            Id: id
+        };
+
+        $.post('/DeleteMail', param)
+            .done((response) => {
+                Info(response.statusCode, response.responseText);
+                getEmailDetail();
+            })
+            .fail(() => {
+                Info(response.statusCode, response.responseText);
+                getEmailDetail();
+            });
+    };
 </script>
