@@ -49,7 +49,7 @@ namespace DCS.Controllers
             return View();
         }
 
-        public async Task<IActionResult> AdminRegister()
+        public async Task<IActionResult> AdminRegister() 
         {
 
             return PartialView();
