@@ -3,6 +3,7 @@ using API.AppCode.ML;
 using Entities;
 using Entities.Response;
 using Microsoft.CodeAnalysis;
+using Microsoft.Data.SqlClient.DataClassification;
 
 namespace API.AppCode.DL
 {
@@ -220,10 +221,12 @@ namespace API.AppCode.DL
             {
                 var param = new
                 {
+                    Id=req.Id,
                     FromMail = "cozmotest91@gmail.com",
                     ToMail = req.ToMail,
                     Subject = req.Subject,
                     Message = req.Message,
+                    Label=req.Label,
                     Image = req.ImageURL,
                 };
                 res = await _dapper.GetAsync<Response>(GetName(), param);
@@ -244,6 +247,7 @@ namespace API.AppCode.DL
             }
 
         }
+        
 
         public Task<object> Call()
         {
@@ -388,5 +392,4 @@ namespace API.AppCode.DL
         }
 
     }
-
 }

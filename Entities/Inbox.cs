@@ -14,6 +14,7 @@ namespace Entities
         public string? ToMail { get; set; }
         public string? Subject { get; set; }
         public string? Message { get; set; }
+        public int? Type { get; set; }
         public string? Image { get; set; }
         public string? ImageURL { get; set; }
         public string? Label { get; set; }
