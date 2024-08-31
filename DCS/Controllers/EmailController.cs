@@ -408,18 +408,24 @@ namespace DCS.Controllers
         }
 
         [Route("/DetailMail")]
-        public async Task<IActionResult> _ComposeEmailDetail(int Id)
+        public async Task<IActionResult> _ComposeEmailDetail(int Id, int Type)
         {
+
             var list=new Inbox();
             var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Email/_ComposeEmailDetail/{Id}", null, User.GetLoggedInUserToken());
             if(apiRes.Result!=null)
             {
                 list = JsonConvert.DeserializeObject<Inbox>(apiRes.Result);
+                list.Type = Type;
             }
             return PartialView(list);
         }
+
+        
     }
 }
+
+
 
 
 

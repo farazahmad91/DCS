@@ -139,10 +139,6 @@ namespace API.Controllers
             var i = await _email.GetComposeMailById(Id);
             return Ok(i);
         }
-
-
-
-
     }
 }
  

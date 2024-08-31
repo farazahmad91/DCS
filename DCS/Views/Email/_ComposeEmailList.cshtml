@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<Entities.Inbox>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <ul class="email-list">
-
-
     @foreach (var item in Model)
     {
         <li>
@@ -29,7 +28,7 @@
             <div class="email-action-icons">
                 <ul class="list-inline">
                     <li class="list-inline-item">
-                        <a href="javascript: void(0);"><i class="mdi mdi-archive email-action-icons-item"></i></a>
+                        <a href="javascript: void(0); ComposeMailDetails(@item.Id,2)"> <i class="fas fa-arrow-right icon" style="margin-top:10px;"></i></a>
                     </li>
                     <li class="list-inline-item">
                         <a href="javascript: void(0);" onclick="deleteEmailDetail(@item.Id)">
@@ -37,7 +36,7 @@
                         </a>
                     </li>
                     <li class="list-inline-item">
-                        <a href="javascript: void(0); ComposeMailDetails(@item.Id)">
+                        <a href="javascript: void(0); ComposeMailDetails(@item.Id,1)">
                             <i class="mdi mdi-email-mark-as-unread email-action-icons-item"></i></a>
                     </li>
                     <li class="list-inline-item">
@@ -47,14 +46,13 @@
             </div>
         </li>
     }
-
-
 </ul>
 <div id="Compose_modalPV"></div>
 <script>
-    function ComposeMailDetails(Id) {
+    function ComposeMailDetails(Id,type) {
         let param = {
             Id: Id,
+            Type:type
         };
 
         $.post("DetailMail", param)

@@ -2951,7 +2951,7 @@ textarea.form-control-lg {
     --ct-form-check-bg: var(--ct-secondary-bg);
     width: 1.112em;
     height: 1.112em;
-    margin-top: .194em;
+    margin-top: -0.700em;
     vertical-align: top;
     background-color: var(--ct-form-check-bg);
     background-image: var(--ct-form-check-bg-image);

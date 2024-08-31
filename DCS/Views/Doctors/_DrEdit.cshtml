@@ -40,7 +40,7 @@
                                         <div class="col-6">
                                             <!-- Form Field Start -->
                                             <div class="mb-3">
-                                                <input type="hidden" asp-for="@Model.GetDoctors.DrId">
+                                                <input type="hidden"  asp-for="@Model.GetDoctors.DrId">
                                                 <label for="Name" class="form-label">Full Name</label>
                                                 <input type="text" class="form-control inputValidate" id="Name" asp-for="@Model.GetDoctors.Name" placeholder="Enter Full Name">
                                             </div>
@@ -73,7 +73,7 @@
                                             <!-- Form Field Start -->
                                             <div class="mb-3">
                                                 <label for="ServiceId" class="form-label">Specilaization</label>
-                                                <select class="form-select " id="ddlservice" >
+                                                <select class="form-select " asp-for="@Model.GetDoctors.ServiceId">
                                                     <option value="">Please Select Specilaization</option>
                                                     @foreach (var item in Model.GetHospitalServices)
                                                     {
@@ -86,7 +86,7 @@
                                                 <label for="Qualifications" class="form-label">Qualifications</label>
                                                 <input type="text" class="form-control inputValidate" id="Qualifications" asp-for="@Model.GetDoctors.Qualifications" placeholder="Qualifications">
                                             </div>
-                                        </div>
+                                        </div>245
                                         <div class="col-6">
                                             <!-- Form Field Start -->
                                             <div class="mb-3">
@@ -143,7 +143,7 @@
                                             <!-- Form Field Start -->
                                             <div class="mb-3">
                                                 <label for="file" class="form-label">Profile Image</label>
-                                                <input type="file" class="form-control inputValidate" id="file" asp-for="@Model.GetDoctors.DrImage">
+                                                <input type="file" class="form-control inputValidate " id="file" asp-for="@Model.GetDoctors.DrImage">
                                                 @if (Model.GetDoctors != null && !string.IsNullOrEmpty(Model.GetDoctors.DrImage))
                                                 {
                                                     <img src="@Model.GetDoctors.DrImage" alt="Profile Image" class="img-thumbnail mt-2" style="width: 55px; height: 55px;" />
@@ -216,18 +216,19 @@
 	
 
 	function addDoctor() {
+        debugger
       if (IsValidate()) {
 			var isActive = $("#Status").prop("checked");
 			var status = isActive ? 1 : 0;
            
 			let doctorData = {
-				DrId: $("#DrId").val(),
+                DrId: $("#GetDoctors_DrId").val(),
 				Name: $("#Name").val(),
 				Phone: $("#Phone").val(),
 				Email: $("#Email").val(),
 				Address: $("#Address").val(),
 				DateOfBirth: $("#DateOfBirth").val(),
-                ServiceId: $("#ddlservice").val(),
+                ServiceId: $("#GetDoctors_ServiceId").val(),
 				Qualifications: $("#Qualifications").val(),
 				Gender: $("#Gender").val(),
 				Affiliations: $("#Affiliations").val(),
