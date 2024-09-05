@@ -2,7 +2,7 @@
 {
     public interface ISendEmailTempateSettings
     {
-        public void FirstTimeAppointmentTemplate(string email, string pname, int? ANum, int? serviceId);
+        public void FirstTimeAppointmentTemplate(string email, string pname, int? ANum, int? serviceId,string Time);
         public void AppointmentTemplate();
         public void ReAppointmentTemplate();
         public void PatientIdTemplate();

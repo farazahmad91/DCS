@@ -2,7 +2,9 @@
     ViewData["Title"] = "Services";
     Layout = "_LayoutSiteAdmin";
 }
- <!-- Hero Start -->
+@model IEnumerable<Entities.HospitalServices>
+
+<!-- Hero Start -->
 <div class="container-fluid bg-primary py-5 hero-header mb-5">
     <div class="row py-3">
         <div class="col-12 text-center">
@@ -17,6 +19,7 @@
 <!-- Service Start -->
 <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
     <div class="container">
+
         <div class="row g-5 mb-5">
             <div class="col-lg-5 wow zoomIn" data-wow-delay="0.3s" style="min-height: 400px;">
                 <div class="twentytwenty-container position-relative h-100 rounded overflow-hidden">
@@ -49,194 +52,77 @@
                 </div>
             </div>
         </div>
+        @{
+            int i = 0;
+        }
+        @foreach (var item in Model)
+        {
+            i++;
+            if (i % 2 == 0)
+            {
+                <div class="row g-5 mb-5">
 
-        <div class="row g-5 mb-5">
+                    <div class="col-md-6">
+                        <div class="position-relative bg-primary h-100 d-flex flex-column align-items-center justify-content-center text-center p-4" style="border-radius:5% 30% 5% 30%">
+                            <h3 class="text-white mb-3">@item.ServiceName</h3>
+                            @{
+                                var words = item.Description.Split(' ');
+                                var limitedDescription = words.Length > 73 ? string.Join(' ', words.Take(73)) : item.Description;
+                            }
 
-            <div class="col-md-6">
-                <div class="position-relative bg-primary h-100 d-flex flex-column align-items-center justify-content-center text-center p-4" style="border-radius:5% 30% 5% 30%">
-                    <h3 class="text-white mb-3">Endodontic Procedures</h3>
-                    <p class="text-white mb-3">Endodontic procedures mean painless root canal therapy. Usually, when the inner part of a patient’s tooth gets diseased, infected, or damaged, general dentists then refer them to a skilled endodontist. After that, the endodontist will then diagnose the issue and provide the treatment with the tooth’s sensitive inner part, also performing root canal treatment if needed. We provide such specialized endodontic procedures at Narayan Dental, we don’t need to outsource such services resulting in expanding our customer base.</p>
+                            <p class="text-white mb-3">@limitedDescription......</p>
+
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6" style="border-radius:30% 5% 30% 5%">
+
+                        <div class="col-md-7 wow zoomIn" data-wow-delay="0.6s">
+
+                            <img src="@item.ServicesImage" alt="" style="width:500px; height:300px; border-radius:30% 5% 30% 5%">
+
+                            <div class="position-relative bg-light rounded-bottom text-center p-4">
+                                <h5 class="m-0" style="border-radius:30% 5% 30% 5%">@item.ServiceName</h5>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
-            </div>
-            <div class="col-lg-6" style="border-radius:30% 5% 30% 5%">
+            }
+            else
+            {
+                <div class="row g-5 mb-5">
 
-                <div class="col-md-7 wow zoomIn" data-wow-delay="0.6s">
 
-                    <img src="~/user/img/service-1.jpg" alt="" style="border-radius:30% 5% 30% 5%">
+                    <div class="col-lg-6">
 
-                    <div class="position-relative bg-light rounded-bottom text-center p-4">
-                        <h5 class="m-0">Endodontic Procedures</h5>
+                        <div class="col-md-7 wow zoomIn" data-wow-delay="0.6s">
+
+                            <img src="@item.ServicesImage" alt="" style="width:500px; height:300px; border-radius:30% 5% 30% 5%">
+
+                            <div class="position-relative bg-light rounded-bottom text-center p-4">
+                                <h5 class="m-0">@item.ServiceName</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="position-relative bg-secondary h-100 d-flex flex-column align-items-center justify-content-center text-center p-4" style="border-radius:30% 5% 30% 5%">
+                            <h3 class="text-white mb-3">@item.ServiceName</h3>
+
+                            @{
+                                var words = item.Description.Split(' ');
+                                var limitedDescription = words.Length > 73 ? string.Join(' ', words.Take(73)) : item.Description;
+                            }
+
+                            <p class="text-white mb-3">@limitedDescription......</p>
+
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            }
+        }
 
-        <div class="row g-5 mb-5">
-
-
-            <div class="col-lg-6">
-
-                <div class="col-md-7 wow zoomIn" data-wow-delay="0.6s">
-
-                    <img src="~/user/img/service-1.jpg" alt="" style="border-radius:5% 30% 5% 30%">
-
-                    <div class="position-relative bg-light rounded-bottom text-center p-4">
-                        <h5 class="m-0">Orthodontic Services</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="position-relative bg-secondary h-100 d-flex flex-column align-items-center justify-content-center text-center p-4" style="border-radius:30% 5% 30% 5%">
-                    <h3 class="text-white mb-3">Orthodontic Services</h3>
-                    <p class="text-white mb-3">Orthodontic services are helpful in improving the alignment of the jaw and teeth. Patients who are suffering from an underbite, crossbite, overbite, or misaligned teeth may need or require orthodontic services for the correction of such issues. Some examples of orthodontic services are the use of palate expanders, braces, retainers, fixed-space maintainers, clear aligners, headgear, and certain other specialized dental treatments for the improvement of the alignment of teeth and bite over time.</p>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row g-5 mb-5">
-
-            <div class="col-md-6">
-                <div class="position-relative bg-primary h-100 d-flex flex-column align-items-center justify-content-center text-center p-4" style="border-radius:30% 5% 30% 5%">
-                    <h3 class="text-white mb-3">Oral and Maxillofacial Surgery</h3>
-                    <p class="text-white mb-3">An oral or maxillofacial surgeon is needed to provide difficult and complex dental procedures that require deep levels of sedation. These surgeons are specialized in the diagnosis and adjunctive and surgical treatment of problems such as defects, injuries, or diseases existing in the hard and soft tissues in one’s neck, jaw, face, and mouth. They are responsible for re-establishing function and aesthetic appearance which is related to the oral and maxillofacial area. Some examples of the specialized processes that oral and maxillofacial surgeons do are tooth extractions, corrective jaw surgery, removing tumors, correcting cleft palates, and extracting impacted and nonrecoverable wisdom teeth. We provide these specialized services that set us apart from the competition.</p>
-                </div>
-            </div>
-            <div class="col-lg-6">
-
-                <div class="col-md-7 wow zoomIn" data-wow-delay="0.6s">
-
-                    <img src="~/user/img/service-1.jpg" alt="" style="border-radius:5% 30% 5% 30%">
-
-                    <div class="position-relative bg-light rounded-bottom text-center p-4">
-                        <h5 class="m-0">Oral and Maxillofacial Surgery</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-
-        <div class="row g-5 mb-5">
-
-
-            <div class="col-lg-6">
-
-                <div class="col-md-7 wow zoomIn" data-wow-delay="0.6s">
-
-                    <img src="~/user/img/service-1.jpg" alt="" style="border-radius:5% 30% 5% 30%">
-
-                    <div class="position-relative bg-light rounded-bottom text-center p-4">
-                        <h5 class="m-0">Pediatric Dental Services</h5>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="position-relative bg-secondary h-100 d-flex flex-column align-items-center justify-content-center text-center p-4" style="border-radius:30% 5% 30% 5%">
-                    <h3 class="text-white mb-3">Pediatric Dental Services</h3>
-                    <p class="text-white mb-3">
-                        If there are many young people in the locality that your practice serves, it will be highly beneficial to have a pediatric dental specialist on your medical staff. The dental equivalent of pediatric dentists, pediatricians have specific skill sets required for caring for the oral health of kids. They help in giving specialized care to infants through teens.
-                        Some examples of services that are provided by pediatric dental specialists are exams, cleanings, cavity fillings, and certain other routine care services that are made for the unique needs of children. Additionally, they also specialize in observing the growth of a child’s teeth and also diagnosing oral issues related to childhood conditions and diseases. However, many general dentists also give treatment services to children, parents usually prefer pediatric dental specialists because they have specialization in that field to provide the best service possible for the kids.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row g-5 mb-5">
-
-            <div class="col-md-6">
-                <div class="position-relative bg-primary h-100 d-flex flex-column align-items-center justify-content-center text-center p-4" style="border-radius:30% 5% 30% 5%">
-                    <h3 class="text-white mb-3">Periodontal Treatments</h3>
-                    <p class="text-white mb-3">Another important dental service type we offer at our practice is periodontal treatment. Such services consist of diagnosing, preventing, and treating conditions and diseases that affect the teeth’s supporting structures. Some examples of supporting tissues are the alveolar bone, gingiva, cementum and periodontal ligament. The main service that we provide is the treatment of gum disease whether in the early stage or in the late stage, which may need surgery like pocket reduction procedures or gum grafts. For patients suffering from medical histories or severe gum disease which may complicate small gum diseases, the need for a periodontal dental specialist becomes necessary.</p>
-                </div>
-            </div>
-            <div class="col-lg-6">
-
-                <div class="col-md-7 wow zoomIn" data-wow-delay="0.6s">
-
-                    <img src="~/user/img/service-1.jpg" alt="" style="border-radius:5% 30% 5% 30%">
-
-                    <div class="position-relative bg-light rounded-bottom text-center p-4">
-                        <h5 class="m-0">Periodontal Treatments</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row g-5 mb-5">
-
-
-            <div class="col-lg-6">
-
-                <div class="col-md-7 wow zoomIn" data-wow-delay="0.6s">
-
-                    <img src="~/user/img/service-1.jpg" alt="" style="border-radius:5% 30% 5% 30%">
-
-                    <div class="position-relative bg-light rounded-bottom text-center p-4">
-                        <h5 class="m-0">Prosthodontic Services</h5>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="position-relative bg-secondary h-100 d-flex flex-column align-items-center justify-content-center text-center p-4" style="border-radius:30% 5% 30% 5%">
-                    <h3 class="text-white mb-3">Prosthodontic Services</h3>
-                    <p class="text-white mb-3">
-                        Prosthodontic services consider the replacement and restoration of damaged or missing teeth. Prosthodontic specialists manufacture, design, and fit artificial replacements for damaged or missing teeth and certain other areas of the mouth. By doing this, they help to restore the natural appearance and functionality of one’s mouth. Some examples of prosthodontic services are installing bridges, dental implants, dentures, or giving reconstructive surgery. Additionally, prosthodontists are also many times properly trained to provide cosmetic services like veneers and crowns.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row g-5 mb-5">
-
-            <div class="col-md-6">
-                <div class="position-relative bg-primary h-100 d-flex flex-column align-items-center justify-content-center text-center p-4" style="border-radius:30% 5% 30% 5%">
-                    <h3 class="text-white mb-3">Laser Procedures</h3>
-                    <p class="text-white mb-3">
-                        Laser Dentistry is known as the category of dentistry in which lasers are used for the treatment of many dental problems that people are suffering from. It was in the year 1989 that laser dentistry became commercially available for people. It begins with a tooth tissue process that was completed with a laser. In today’s times, most of the time laser dentistry is preferred by patients because it is more effective, comfortable, and also quite affordable as compared to other dental treatments.
-                        Specifically, laser dentistry is defined as the light energy which is a thin ray of immensely focused light, subjected to a specific tissue so that it can be eliminated or molded from the mouth. All over the world, doctors use laser dentistry for performing several treatments, whether it’s a simple procedure or a complex dental procedure.
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-6">
-
-                <div class="col-md-7 wow zoomIn" data-wow-delay="0.6s">
-
-                    <img src="~/user/img/service-1.jpg" alt="" style="border-radius:5% 30% 5% 30%">
-
-                    <div class="position-relative bg-light rounded-bottom text-center p-4">
-                        <h5 class="m-0">Laser Procedures</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row g-5 mb-5">
-
-            <div class="col-md-6">
-                <div class="position-relative bg-secondary h-100 d-flex flex-column align-items-center justify-content-center text-center p-4" style="border-radius:30% 5% 30% 5%">
-                    <h3 class="text-white mb-3">Preventative Dental Services</h3>
-                    <p class="text-white mb-3">General dentists who are not specialized often give a huge variety of preventative dental services. This dental services category is working towards protecting oral health and stopping the occurrence of dental issues like gum disease, cavities, and enamel damage through preventative treatments. Some examples of the most important types of diagnostic and preventative services we give are X-rays, fluoride and sealants treatments, and last but not least routine cleanings and oral exams.</p>
-                </div>
-            </div>
-            <div class="col-lg-6">
-
-                <div class="col-md-7 wow zoomIn" data-wow-delay="0.6s">
-
-                    <img src="~/user/img/service-1.jpg" alt="" style="border-radius:5% 30% 5% 30%">
-
-                    <div class="position-relative bg-light rounded-bottom text-center p-4">
-                        <h5 class="m-0">Preventative Dental Services</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="row g-5 wow fadeInUp" data-wow-delay="0.1s">
             <div class="col-lg-7">

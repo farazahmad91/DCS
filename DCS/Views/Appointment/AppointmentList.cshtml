@@ -8,28 +8,6 @@
     th label {
     color:white;
 }</style>
-<div class="container-fluid">
-    <div class="page-title">
-        <div class="row">
-            <div class="col-6">
-                <h4></h4>
-            </div>
-            <div class="col-6">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="/">
-                            <svg class="stroke-icon">
-                                <use href="../assets/svg/icon-sprite.svg#stroke-home"></use>
-                            </svg>
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item">Users</li>
-                    <li class="breadcrumb-item active"> User List</li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
     <div class="content">
         <div class="container-fluid">
             <div class="row">
@@ -66,7 +44,7 @@
                                         </div>
                                     </div>
                                     <input type="date" class="form-control form-control-light mb-2" id="txtdate" style="width:70px;"/>
-                                    <input type="text" class="form-control mb-2" id="txtpid" placeholder="enter patient id" />
+                                    <input type="text" class="form-control mb-2" id="txtpid" placeholder="Enter Patient Id..." />
                                     <button class="btn btn-info mb-2" onclick="Onload();" type="button">
                                         Search
                                     </button>
@@ -85,7 +63,7 @@
                             <table class="table table-striped dt-responsive nowrap w-100" id="tblAppointment">
                                 <thead style="background-image: linear-gradient(-45deg, #34b5bf 0%, #210c59 100%);">
                                     <tr>
-                                        <th><label>S.N#</label></th>
+                                        <th><label>Sr.No</label></th>
                                         <th><label>Doctor</label></th>
                                         <th><label>Patient</label></th>
                                         <th><label>Service</label></th>
@@ -112,11 +90,10 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type ="text/javascript">
     $(document).ready(function () {
+        Onload();
         $('#tblAppointment').DataTable({
             dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ]
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
         });
     });
 
@@ -133,7 +110,7 @@
             alert("error");
         });
     }
-    Onload();
+   
 
     function editAppointment(dId) {
         let param = {
@@ -149,7 +126,9 @@
         })
     }
 
-        function TakeAppointment() {
+    function TakeAppointment() {
+        if (IsValidate()) {
+            debugger
             var formData = new FormData();
             var appointmentData = {
                 DrId: $("#ddldoctor").val(),
@@ -158,11 +137,12 @@
                 Email: $("#txtemail").val(),
                 PhoneNo: $("#txtnum").val(),
                 Date: $(".datetimepicker-input").val(),
+                Time: $("#appt-time").val(),
+                Notes: $("#txtnotes").val(),
                 AppointmentId: 0,
                 ProjectId: 0,
                 PId: 0,
                 CreatedOn: "",
-                Notes: "",
                 Status: 0,
             };
             formData.append("appointmentData", JSON.stringify(appointmentData));
@@ -171,17 +151,18 @@
                 url: '/A-AddOrUpdate',
                 type: 'POST',
                 data: formData,
-                contentType: false, 
-                processData: false, 
+                contentType: false,
+                processData: false,
                 success: function (result) {
                     setTimeout(function () {
                         Info(result.statusCode, result.responseText);
-                    }, 1000);
+                    }, 3000);
                 },
                 error: function () {
                     showerrors("Something went wrong!!!");
                 }
             });
         }
+    }
 
 </script>

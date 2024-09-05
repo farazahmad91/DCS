@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+ using Microsoft.AspNetCore.Mvc;
 using DCS.Models;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
@@ -6,6 +6,7 @@ using DCS.APIRequest;
 using Entities;
 using API.AppCode.APIRequest;
 using Newtonsoft.Json;
+using API.Claims;
 
 
 namespace DCS.Controllers
@@ -39,8 +40,8 @@ namespace DCS.Controllers
             int? projectid = 267172;
             common.ProjectId = projectid;
             var AppointVM = new AppointmentVM();
-            var apiDocRes = await APIRequestML.O.PostAsync($"Doctor/GetDoctor/{name}", null, null);
-            var apiSerRes = await APIRequestML.O.PostAsync($"HospitalServices/GetHospitalServicesListOrById", JsonConvert.SerializeObject(common), null);
+            var apiDocRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Doctor/GetDoctor/{name}", null, null);
+            var apiSerRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalServices/GetHospitalServicesListOrById", JsonConvert.SerializeObject(common), null);
 
             if (apiDocRes.Result != null)
             {
@@ -74,16 +75,34 @@ namespace DCS.Controllers
         {
             return View();
         }
+        [AllowAnonymous]
         [Route("service")]
-        public IActionResult Service()
+        public async Task<IActionResult> Service(string name="All")
         {
-            return View();
+            var list = new List<HospitalServices>();
+            Common common = new Common();
+            int? projectid = 267172;
+            common.ProjectId = projectid;
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalServices/GetHospitalServicesListOrById", JsonConvert.SerializeObject(common), User.GetLoggedInUserToken());
+            if (apiRes.Result != null)
+            {
+                list = JsonConvert.DeserializeObject<List<HospitalServices>>(apiRes.Result);
+            }
+            return View(list);
         }
 
+        [AllowAnonymous]
         [Route("dentist")]
-        public IActionResult Dentist()
+        public async Task <IActionResult> Dentist( string name= "All")
         {
-            return View();
+            var list = new List<Doctor>();
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Doctor/GetDoctor/{name}", null, User.GetLoggedInUserToken());
+            if (apiRes.Result != null)
+            {
+                list = JsonConvert.DeserializeObject<List<Doctor>>(apiRes.Result);
+            }
+            return View(list);
+
         }
 
         [Route("testimonial")]

@@ -27,7 +27,7 @@
 
                                         <div class="mb-3">
                                             <label for="ServiceName" class="form-label">Service Name</label>
-                                            <input type="text" class="form-control inputValidate" asp-for="ServiceName" placeholder="Full Name" id="ServiceName" />
+                                            <input type="text" class="form-control inputValidate" asp-for="ServiceName" placeholder="Full Name" id="ServiceName" maxlength="73" />
                                         </div>
 
                                         <div class="mb-3">
@@ -39,7 +39,7 @@
                                     <div class="col-12 col-md-6">
                                         <div class="mb-3">
                                             <label for="file" class="form-label">Image</label>
-                                           
+
                                             @if (Model != null && !string.IsNullOrEmpty(Model.ServicesImage))
                                             {
                                                 <img id="ImagePreview" src="@Model.ServicesImage" alt="Service Image" class="img-thumbnail" style="display: block; width: 50px; height: 50px;" />
@@ -48,11 +48,10 @@
                                             {
                                                 <img id="ImagePreview" style="display: none; width: 50px; height: 50px;" />
                                             }
-                                            @if (Model != null && !string.IsNullOrEmpty(Model.ServicesImage))
-                                            {
-                                                <input type="file" class="form-control inputValidate" id="file" onchange="previewImage(event)" />
-                                            }
+
+                                            <input type="file" class="form-control inputValidate" id="file" onchange="previewImage(event)" />
                                         </div>
+
 
 
                                         <div class="mb-3">
@@ -146,17 +145,21 @@
     }
 
     function previewImage(event) {
-        var file = event.target.files[0];
-        var reader = new FileReader();
+        var input = event.target;
+        var preview = document.getElementById('ImagePreview');
 
-        reader.onload = function (e) {
-            var output = document.getElementById('ImagePreview');
-            output.src = e.target.result;
-            output.style.display = 'block'; // Show the image preview
-        }
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
-        if (file) {
-            reader.readAsDataURL(file);
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';  // Show the image
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.src = '';  // Clear the preview
+            preview.style.display = 'none';  // Hide the image
         }
     }
 </script>

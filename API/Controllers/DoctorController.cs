@@ -34,7 +34,7 @@ namespace API.Controllers
             {
                 res = await _doctor.AddOrUpdateDoctor(doctors);
             }
-            if (doctors.DrImage == "" && doctors.DrId != 0)
+            if (doctors.DrImage == "" && doctors.DrId != 0 || doctors.DrImage != null)
             {
                 res = await _doctor.AddOrUpdateDoctor(doctors);
             }

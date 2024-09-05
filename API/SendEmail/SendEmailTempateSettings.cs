@@ -16,7 +16,7 @@ namespace API.SendEmail
             _sendmail=sendmail;
             _dapper=dapper;
         }
-        public void FirstTimeAppointmentTemplate(string email,string pname,int? ANum,int?  serviceId)
+        public void FirstTimeAppointmentTemplate(string email,string pname,int? ANum,int?  serviceId,string Time)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace API.SendEmail
                     .Replace("{ServiceName}", servicedatail.ServiceName)
                     .Replace("{CompanyName}", "DCS")
                     .Replace("{date}", DateTime.Now.Year.ToString())
-                    .Replace("{ADate}", formattedDate.ToString());
+                    .Replace("{ADate}", Time);
                 _sendmail.SendEmails(email, template.Subject, content);
             }
             catch (Exception)
