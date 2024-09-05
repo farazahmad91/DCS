@@ -28,7 +28,8 @@ namespace API.Controllers
             {
                 try
                 {
-                    _emailTempateSettings.FirstTimeAppointmentTemplate(appointment.Email, appointment.Name, i.AppointmentId, appointment.ServiceId);
+                    string datatime = $" Date : {appointment.Date} , Time :" + appointment.Time;
+                    _emailTempateSettings.FirstTimeAppointmentTemplate(appointment.Email, appointment.Name, i.AppointmentId, appointment.ServiceId, datatime);
                 }
                 catch (Exception)
                 {

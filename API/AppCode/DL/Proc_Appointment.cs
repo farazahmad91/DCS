@@ -35,6 +35,7 @@ namespace API.AppCode.DL
                     ServiceId = req.ServiceId,
                     PId=req.PId,
                     Date = req.Date,
+                    Time=req.Time,
                     Notes = req.Notes,
                 };
 

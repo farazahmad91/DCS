@@ -25,6 +25,9 @@ else
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
+            <td>
+                <label>@item.DoctorName (@item.DrId)</label>
+            </td>
         <td>
             <label>@item.PatientName (@item.PId)</label>
         </td>

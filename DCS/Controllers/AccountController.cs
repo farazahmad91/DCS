@@ -177,7 +177,7 @@ namespace DCS.Controllers
                         HttpContext.Session.SetString("projectdetail", JsonConvert.SerializeObject(list));
                     }
                 }
-                if (authenticateResponse.Result.Role == "Merchant" || authenticateResponse.Result.Role == "Admin" || authenticateResponse.Result.Role == "Client")
+                if (authenticateResponse.Result.Role == "Admin" || authenticateResponse.Result.Role == "Admin" || authenticateResponse.Result.Role == "Client")
                 {
                     var projectDetails = new ProjectDetails();
                     var listprojectJson = HttpContext.Session.GetString("projectdetail");
