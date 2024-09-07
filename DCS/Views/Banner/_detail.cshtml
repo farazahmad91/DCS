@@ -1,0 +1,84 @@
+﻿@model Entities.BannerImage
+@{
+    string status = "";
+    string classbadge = "";
+    ViewData["Title"] = "Details";
+    Layout = null;
+}
+@{
+
+    @if (Model.IsStatus == 0)
+    {
+        status = "Deactive";
+        classbadge = "badge badge-danger";
+    }
+    else
+    {
+        status = "Active";
+        classbadge = "badge badge-primary";
+    }
+    <style>
+
+        .border {
+            border: none;
+        }
+    </style>
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="modal fade" id="bannermodal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Banner Information</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="">
+                        <div class="">
+                            <div class="">
+                                <div class="row">
+                                    <div class="form-group col-sm-4">
+                                        <input type="hidden" name="id" id="Id" />
+                                        <label for="photo" class="col-sm-6 input-form">Banner:</label>
+                                        <div class="col-sm-10">
+                                            <div id="selectImage" style="cursor: pointer; text-align:center;  border: 2px solid green; height: 147px; width: 141px; margin: 18px; padding:3px; ">
+                                                <img src="@Model.Image" class="img-fluid me-5" style="height: 137px; width: 150px;" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8 pt-30">
+                                        <div class="form-group col-sm-12">
+                                            <label for="name" class="col-sm-6 input-form">Name</label>
+                                            <div class="col-sm-11">
+                                                <input type="text" readonly class="form-control border" asp-for="@Model.Name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-12 ">
+                                            <label for="email" class="col-sm-6 input-form">Type:</label>
+                                            <div class="col-sm-11">
+                                                <input type="text" readonly class="form-control border" asp-for="@Model.Type">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-sm-6 ">
+                                        <label for="createdDate" class="col-sm-4 input-form">IsActive:</label>
+                                        <div class="col-sm-10">
+                                            <label class="form-control @classbadge" style="width:90px;"><p style="margin-top:5px;">@status</p></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

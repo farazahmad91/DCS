@@ -1,4 +1,4 @@
- using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using DCS.Models;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
@@ -7,6 +7,7 @@ using Entities;
 using API.AppCode.APIRequest;
 using Newtonsoft.Json;
 using API.Claims;
+using Entities.Response;
 
 
 namespace DCS.Controllers
@@ -23,9 +24,28 @@ namespace DCS.Controllers
             this._baseurl = baseUrl;
             _BaseUrl = baseUrl.GetBaseUrl();
         }
-        public IActionResult Index()
+        [AllowAnonymous]
+        public async Task<IActionResult>Index()
         {
-            return View();
+            string name = "All";
+            Common common = new Common();
+            int? projectid = 267172;
+            common.ProjectId = projectid;
+            var HomeVN = new HomeVM();
+            var apiSerRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Banner/GetBanner/{name}", null, null);
+            var apiDocRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Doctor/GetDoctor/{name}", null, null);
+            var apiworkRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/WorkingHours/GetWorking/{name}", null, null);
+            var apiSereRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/HospitalServices/GetHospitalServicesListOrById", JsonConvert.SerializeObject(common), null);
+
+            if (apiDocRes.Result != null)
+            {
+                HomeVN.GetBanner = JsonConvert.DeserializeObject<List<BannerImage>>(apiSerRes.Result);
+                HomeVN.GetDoctors = JsonConvert.DeserializeObject<List<Doctor>>(apiDocRes.Result);
+                HomeVN.GetWorkingHours = JsonConvert.DeserializeObject<List<WorkingHours>>(apiworkRes.Result);
+                HomeVN.GetHospitalServices = JsonConvert.DeserializeObject<List<HospitalServices>>(apiSereRes.Result);
+            }
+            return View(HomeVN);
+           
         }
         [Route("APIViews")]
 		public IActionResult APIViews()
@@ -57,6 +77,30 @@ namespace DCS.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public async Task<IActionResult> Contacts([FromBody] string doctorData)
+        {
+            var response = new Response
+            {
+                ResponseText = "Failed to add or update service",
+                StatusCode = ResponseStatus.FAILED,
+            };
+
+            try
+            {
+                var contactJson = JsonConvert.SerializeObject(doctorData);
+                var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/Appointment/AddOrUpdateAppointment", contactJson, User.GetLoggedInUserToken());
+
+            }
+            catch (Exception ex)
+            {
+                // Optionally log the exception or handle it in another way
+                response.ResponseText = $"Exception: {ex.Message}";
+            }
+
+            return Json(response);
+        }
+
         [Route("about-us")]
         public IActionResult aboutus()
         {

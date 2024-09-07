@@ -1,0 +1,103 @@
+﻿@model Entities.BannerImage
+<link rel="stylesheet" href="~/assets/vendor/dropzone/dropzone.min.css" />
+<link href="~/Spinner.css" rel="stylesheet" type="text/css" />
+<style>
+    .profile-pic {
+        text-align: center;
+    }
+
+        .profile-pic img {
+            max-width: 50%;
+            height: auto;
+        }
+
+    .-label {
+        display: inline-block;
+        cursor: pointer;
+        margin-bottom: 10px;
+    }
+
+    .glyphicon-camera {
+        font-size: 24px;
+        color: #555;
+    }
+</style>
+<div class="card">
+    <div class="card-body">
+        <div class="modal fade" id="bannermodal" tabindex="-1" aria-labelledby="bannermodalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="bannermodalTitle">Add Or Update Banner</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row gx-3">
+                            <div class="col-12">
+                                <form enctype="multipart/form-data">
+                                    <div class="row gx-3"> 
+                                        <div class="col-6">
+                                            <!-- Form Field Start -->
+                                            <div class="mb-3">
+                                                <input type="hidden" asp-for="Id">
+                                                <label for="Name" class="form-label">Full Name</label>
+                                                <input type="text" class="form-control inputValidate" id="Name" asp-for="Name" placeholder="Enter Full Name...">
+                                            </div>
+                                            <!-- Form Field Start -->
+                                            <div class="mb-3">
+                                                <label for="type" class="form-label">Type</label>
+                                                <select class="form-select bg-light border-0 mb-3 inputValidate" id="Type" asp-for="Type" style="height: 40px;">
+                                                    <option selected>Select Banner Type</option>
+                                                    <option value="1">Type 1</option>
+                                                    <option value="2">Type 2</option>
+                                                    <option value="3">Type 3</option>
+                                                    <option value="4">Type 4</option>
+                                                    <option value="5">Type 5</option>
+                                                    <option value="6">Type 6 </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <!-- Form Field Start -->
+                                            <div class="mb-3">
+                                                <label for="file" class="form-label">Profile Image</label>
+                                                @if (@Model != null && !string.IsNullOrEmpty(Model.Image))
+                                                {
+                                                    <input type="file" class="form-control inputValidate" id="file" asp-for="Image">
+                                                }
+                                                else
+                                                {
+                                                    <input type="file" class="form-control inputValidate" id="file" asp-for="Image">
+                                                }
+                                                @if (Model != null && !string.IsNullOrEmpty(Model.Image))
+                                                {
+                                                    <img src="@Model.Image" alt="Image" class="img-thumbnail" style="width: 125px; height: 55px;" />
+
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="loader_spinner" style="display: none;" class="overlay-spinner"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" onclick="addBanner();">
+                            @if (Model==null)
+                            {
+                                <text>Save</text>
+                            }
+                            else
+                            {
+                                <text>Save Changes</text>
+                            }
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

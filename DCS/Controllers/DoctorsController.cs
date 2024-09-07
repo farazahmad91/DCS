@@ -42,7 +42,6 @@ namespace DCS.Controllers
         [Route("/D-Edit")]
         public async Task<IActionResult> _DrEdit(int id )
         {
-            string name = "All";
             Common common = new Common();
             int? projectid = User.GetProjectId();
             common.ProjectId = projectid;

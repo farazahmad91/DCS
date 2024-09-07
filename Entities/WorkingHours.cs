@@ -8,11 +8,11 @@ namespace Entities
 {
     public class WorkingHours
     {
-        public int WorkingHoursID { get; set; }
-        public int? DentistID { get; set; }
-        public string DayOfWeek { get; set; }
-        public TimeSpan? StartTime { get; set; }
-        public TimeSpan? EndTime { get; set; }
-        public DateTime? EntryOn { get; set; }
+        public int Id { get; set; }
+        public int? ProjectId { get; set; }
+        public string DaysName { get; set; }
+        public string? StartTime { get; set; }
+        public string? EndTime { get; set; }
+        public string? EntryOn { get; set; }
     }
 }

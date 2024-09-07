@@ -28,8 +28,9 @@ namespace Entities
     }
     public class DoctorVM
     {
-        public Doctor GetDoctors { get; set; }
-        public IEnumerable<HospitalServices> GetHospitalServices { get; set; }
+        public Doctor GetDoctors {get; set;}
+        public IEnumerable<HospitalServices> GetHospitalServices {get; set;}
     }
+  
 
 }

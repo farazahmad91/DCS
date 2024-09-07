@@ -35,6 +35,8 @@ namespace API.Extension
             services.AddScoped<IDashboardStatus, DashboardStatus_ML>();
             services.AddScoped<FileUploadService>();
             services.AddScoped<IBackup, Backup_ML>();
+            services.AddScoped<IBanner, Banner_ML>();
+            services.AddScoped<IWorkingHours, WorkingHours_ML>();
             services.AddScoped<ISendEmailTempateSettings ,SendEmailTempateSettings>();
             services.AddSingleton<ConnectionStrings>(ch);
             services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
