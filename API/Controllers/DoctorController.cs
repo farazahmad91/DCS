@@ -28,15 +28,12 @@ namespace API.Controllers
                 ResponseText = "An error han occurred try after sometime."
             };
 
-                doctors.DrImage = _uploadService.Image(doctors.ImagePath, FileUploadType.DoctorImage, FileUploadType.DoctorPrefix);
-
-            if (doctors.DrImage!= null && doctors.DrId == null || doctors.DrId == 0)
+            doctors.DrImage = _uploadService.Image(doctors.ImagePath, FileUploadType.DoctorImage, FileUploadType.DoctorPrefix);
+            bool isImageChanged = doctors.DrImage != null && doctors.DrImage != "";
+            bool isNewBanner = doctors.DrId == 0;
+            if (isNewBanner || isImageChanged)
             {
-                res = await _doctor.AddOrUpdateDoctor(doctors);
-            }
-            if (doctors.DrImage == "" && doctors.DrId != 0 || doctors.DrImage != null)
-            {
-                res = await _doctor.AddOrUpdateDoctor(doctors);
+            res = await _doctor.AddOrUpdateDoctor(doctors);
             }
             return Ok(res);
         }

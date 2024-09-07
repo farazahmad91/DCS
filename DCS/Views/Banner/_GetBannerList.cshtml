@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Entities.BannerImage>
+
+@{
+    ViewData["Title"] = "BannerList";
+    Layout = null;
+    var Ischecked = "";
+}
+@if (Model == null || !Model.Any())
+{
+    <tr style="text-align: center;">
+        <td colspan="12" style="text-align: center;">
+            <label><strong>Data Not Found</strong></label>
+        </td>
+    </tr>
+}
+else
+{
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @if (@item.Image.Length != 0 && @item.Image != null)
+                {
+                    <a class="fancybox" href="@item.Image" data-fancybox data-caption="@item.Name">
+                        <img src="@item.Image" onerror="this.onerror=null;this.src='/images/noimage.jpg'" class="rounded-circle" alt="No Image Found" width="50px" height="50px" />
+                    </a>
+                }
+                else
+                {
+                    <a class="fancybox" href="@item.Image" data-fancybox data-caption="@item.Name">
+                        <img src="../assets/images/noimage.jpg" onerror="this.onerror=null;this.src='/images/noimage.jpg'" class="rounded-circle" alt="No Image Found" width="50px" height="50px" />
+                    </a>
+                }
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+
+            <td>
+                <div class="form-check form-switch">
+                    @if (@item.IsStatus == 1)
+                    {
+                        Ischecked = "checked";
+                    }
+                    else
+                    {
+                        Ischecked = "";
+                    }
+                    <input type="checkbox" name="IsVerified_@item.Id" onchange="bannerStatus(@item.Id)" id="IsVerified_@item.Id" data-switch="success" @Ischecked>
+                    <label for="IsVerified_@item.Id" data-on-label="On" data-off-label="Off"></label>
+                </div>
+            </td>
+            <td class="table-action">
+                <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye" onclick="bannerDetails(@item.Id)"></i></a>
+                <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline" onclick="EditBanner(@item.Id)"></i></a>
+            </td>
+        </tr>
+    }
+}

@@ -1,5 +1,9 @@
-﻿using DCS.APIRequest;
+﻿using API.AppCode.APIRequest;
+using API.Claims;
+using DCS.APIRequest;
+using Entities;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace DCS.Controllers
 {
@@ -14,9 +18,16 @@ namespace DCS.Controllers
 			this._baseurl = baseUrl;
 			_BaseUrl = baseUrl.GetBaseUrl();
 		}
-		public IActionResult Index()
+        [Route("/B-List")]
+        public async Task<IActionResult> _GetBannerList(string? name = "All")
         {
-            return View();
+            var list = new List<WorkingHours>();
+            var apiRes = await APIRequestML.O.PostAsync($"{_BaseUrl}/api/WorkingHours/GetWorking/{name}", null, User.GetLoggedInUserToken());
+            if (apiRes.Result != null)
+            {
+                list = JsonConvert.DeserializeObject<List<WorkingHours>>(apiRes.Result);
+            }
+            return PartialView(list);
         }
     }
 }

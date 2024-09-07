@@ -53,5 +53,7 @@
         public static readonly string ServiceImage = ServicePrefix;
         public const string EmailPrefix = "Email/";
         public static readonly string EmailImage = EmailPrefix;
+        public const string BannerPrefix = "Banner/";
+        public static readonly string BannerImage = BannerPrefix;
     }
 }

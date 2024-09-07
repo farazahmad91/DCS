@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="~/assets/vendor/dropzone/dropzone.min.css" />
 <style>
     tr th label {
-        color:white;
+        color: white;
     }
 </style>
 <div class="content">
@@ -51,29 +51,26 @@
                             </div>
                             <div class="col-sm-7">
                                 <div class="text-sm-end">
-                                    <button id="btnaddAppointment" class="btn btn-danger mb-2" onclick="EditDoctor(0)" type="button">
+                                    <button id="btnaddAppointment" class="btn btn-danger mb-2" onclick="EditBanner(0)" type="button">
                                         <i class="mdi mdi-plus-circle me-2"></i>  Add New
                                     </button>
-                                    @* <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog-outline"></i></button> 
-                                    <button type="button" class="btn btn-light mb-2">Export</button>*@  
+                                    @* <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog-outline"></i></button>
+                                    <button type="button" class="btn btn-light mb-2">Export</button>*@
                                 </div>
                             </div>
                         </div>
                         <div class="table-responsive">
                             <table class="table table-striped dt-responsive nowrap w-100" id="dTable">
-                            <table class="table table-striped dt-responsive nowrap w-100" id="dTable">
                                 <thead style="background-image: linear-gradient(-45deg, #34b5bf 0%, #210c59 100%); -webkit-text-fill-color: #FFFFFF;">
                                     <tr class="text-white">
                                         <th>Name</th>
+                                        <th>Type</th>
                                         <th>Profile</th>
-                                        <th>Speciailization</th>
-                                        <th>Fee</th>
-                                        <th>Availabilty</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody id="drList">
+                                <tbody id="brList">
                                 </tbody>
                             </table>
                         </div>
@@ -82,25 +79,103 @@
             </div>
         </div>
     </div>
-</div> 
+</div>
 
-<div id="Dr_modalPV"></div>
+<div id="Br_modalPV"></div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+
+    $(document).ready(function () {
+        toggleRateVisibility();
+    });
+
+    var loadFile = function (event) {
+        var image = document.getElementById("output");
+        image.src = URL.createObjectURL(event.target.files[0]);
+    };
+
+    function IsValidate() {
+        let isValid = true;
+        $('.inputValidate').each(function () {
+            const $this = $(this);
+            console.log($this);
+            if ($this.val().trim() === '' || $this.val().trim() == 0) {
+                $this.addClass("border border-2 border-danger");
+                if ($this.next('.error-message').length < 1) {
+                    $this.after('<div class="error-message text-danger">This Field Is Required</div>');
+                }
+                isValid = false;
+            } else {
+                $this.removeClass("border border-2 border-danger").addClass("border-success");
+                $this.next('.error-message').remove();
+            }
+        });
+
+        return isValid;
+    }
+
+    function addBanner() {
+        if (IsValidate()) {
+
+            
+            let BannerData = {
+                Id: $("#Id").val(),
+                Name: $("#Name").val(),
+                Type: $("#Type").val()
+            };
+            Show_Loader();
+
+            const formData = new FormData();
+            formData.append("BannerData", JSON.stringify(BannerData));
+            formData.append("file", $("#file").prop('files')[0]);
+            for (const pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1]);
+            }
+
+            $.ajax({
+                url: '/B-AddOrUpdate',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    setTimeout(function () {
+                        Hide_Loader();
+                        Info(result.statusCode, result.responseText);
+                        Onload();
+                    }, 1000);
+                },
+                error: function () {
+                    showerrors("Something went wrong!!!");
+                }
+            });
+        }
+    }
+
+    function toggleRateVisibility() {
+        var receiveRateInput = document.getElementById('MedicalHistory');
+        var checkbox = document.getElementById('IsReceiveRateIncluded');
+        receiveRateInput.style.display = checkbox.checked ? 'block' : 'none';
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        toggleRateVisibility();
+    });
+
 
     function Onload() {
         debugger;
         var param = {
             name: $("#txtname").val(),
         }
-        $.post('/D-List', param).done(function (res) {
-            $("#drList").html(res);
+        $.post('/B-List', param).done(function (res) {
+            $("#brList").html(res);
         }).fail(function () {
             alert("error");
         });
     }
 
-   Onload();
+    Onload();
 
     jQuery(document).ready(function ($) {
         $("#dTable").DataTable();
@@ -110,29 +185,29 @@
         let param = {
             id: Id,
         };
-        $.post("/D-detail", param)
+        $.post("/B-detail", param)
             .done(function (res) {
-                $("#Dr_modalPV").html(res);
-                $("#Dr_detailmodal").modal("show");
+                $("#Br_modalPV").html(res);
+                $("#bannermodal").modal("show");
             })
             .fail(function () {
                 alert("error");
             });
     }
 
-    function EditDoctor(dId) {
+    function EditBanner(dId) {
         let param = {
-            id: dId,
+            Id: dId,
         };
-        $.get("/D-Edit", param).done(function (res) {
-            console.log(res);
-            $("#Dr_modalPV").html(res);
-            $("#Dr_Editmodal").modal("show");
+        $.get("/B-Edit", param).done(function (res) {
+            $("#Br_modalPV").html(res);
+            $("#bannermodal").modal("show");
         }).fail(function (hxr) {
             console.log(hxr);
             alert("errror");
         })
     }
+
     function bannerStatus(dId) {
         var id = $("#IsVerified_" + dId).prop("checked");
         if (id == true) {
@@ -146,7 +221,7 @@
             Id: dId,
         };
         console.log(param);
-        $.post("/DoctorModifyStatus", param).done(function (result) {
+        $.post("/BannerModifyStatus", param).done(function (result) {
             console.log(result)
             Info(result.statusCode, result.responseText);
 
@@ -156,6 +231,5 @@
         })
     }
 
-   
-</script>
 
+</script>

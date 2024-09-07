@@ -2,13 +2,13 @@
     ViewData["Title"] = "Home Page";
     Layout = "_LayoutSiteAdmin";
 }
-
+@model Entities.HomeVM
  <!-- Carousel Start -->
 <div class="container-fluid p-0">
     <div id="header-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="w-100" src="~/user/img/carousel-1.jpg" alt="Image">
+             <img class="w-100" src="@Model.GetBanner.FirstOrDefault(x => x.Type == 1 && x.Id==1 && x.IsStatus==1)?.Image" alt="Image">
                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                     <div class="p-3" style="max-width: 900px;">
                         <h5 class="text-white text-uppercase mb-3 animated slideInDown">Keep Your Teeth Healthy</h5>
@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <img class="w-100" src="~/user/img/carousel-2.jpg" alt="Image">
+                <img class="w-100" src="@Model.GetBanner.FirstOrDefault(x => x.Type == 1 && x.Id==2 && x.IsStatus==1)?.Image" alt="Image">
                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                     <div class="p-3" style="max-width: 900px;">
                         <h5 class="text-white text-uppercase mb-3 animated slideInDown">Keep Your Teeth Healthy</h5>
@@ -50,19 +50,22 @@
             <div class="col-lg-4 wow zoomIn" data-wow-delay="0.1s">
                 <div class="bg-primary d-flex flex-column p-5" style="height: 300px;">
                     <h3 class="text-white mb-3">Opening Hours</h3>
-                    <div class="d-flex justify-content-between text-white mb-3">
-                        <h6 class="text-white mb-0">Mon - Fri</h6>
-                        <p class="mb-0"> 8:00am - 9:00pm</p>
+                    <div>
+                        @{
+                            var workingHoursArray = Model.GetWorkingHours.ToArray();
+                        }
+                        @for (int i = 0;  i < workingHoursArray.Length; i++)
+                        {
+                            <div>
+                                <h6 class="text-white mb-0">
+                                    <span>@workingHoursArray[i].DaysName : </span>
+                                    @workingHoursArray[i].StartTime - @workingHoursArray[i].EndTime
+                                </h6>
+                            </div>
+                        }
                     </div>
-                    <div class="d-flex justify-content-between text-white mb-3">
-                        <h6 class="text-white mb-0">Saturday</h6>
-                        <p class="mb-0"> 8:00am - 7:00pm</p>
-                    </div>
-                    <div class="d-flex justify-content-between text-white mb-3">
-                        <h6 class="text-white mb-0">Sunday</h6>
-                        <p class="mb-0"> 8:00am - 5:00pm</p>
-                    </div>
-                    <a class="btn btn-light" >Appointment</a>
+                    <br/>
+                    <a class="btn btn-light" href="/appointment">Appointment</a>
                 </div>
             </div>
             <div class="col-lg-4 wow zoomIn" data-wow-delay="0.3s">
@@ -72,12 +75,14 @@
                         <input type="text" class="form-control bg-light border-0 datetimepicker-input"
                                placeholder="Appointment Date" data-target="#date" data-toggle="datetimepicker" style="height: 40px;">
                     </div>
-                    <select class="form-select bg-light border-0 mb-3" style="height: 40px;">
-                        <option selected>Select A Service</option>
-                        <option value="1">Service 1</option>
-                        <option value="2">Service 2</option>
-                        <option value="3">Service 3</option>
-                    </select>
+                        <select class="form-select bg-light border-0 inputValidate">
+                        <option value="">Please Select Service</option>
+                        @foreach (var item in Model.GetHospitalServices)
+                        {
+                            <option value="@item.ServiceID">@item.ServiceName</option>
+                        }
+                        </select>
+                        <br/>
                     <a class="btn btn-light" href="">Search Doctor</a>
                 </div>
             </div>
@@ -117,7 +122,7 @@
             </div>
             <div class="col-lg-5" style="min-height: 500px;">
                 <div class="position-relative h-100">
-                    <img class="position-absolute w-100 h-100 rounded wow zoomIn" data-wow-delay="0.9s" src="~/user/img/d2.jpg" style="object-fit: cover;">
+                    <img class="w-100" src="@Model.GetBanner.FirstOrDefault(x => x.Type == 3 && x.Id==3 && x.IsStatus==1)?.Image" style="height:500px;" alt="Image">
                 </div>
             </div>
         </div>
@@ -236,8 +241,8 @@
         <div class="row g-5 mb-5">
             <div class="col-lg-5 wow zoomIn" data-wow-delay="0.3s" style="min-height: 400px;">
                 <div class="twentytwenty-container position-relative h-100 rounded overflow-hidden">
-                    <img class="position-absolute w-100 h-100" src="~/user/img/before.jpg" style="object-fit: cover;">
-                    <img class="position-absolute w-100 h-100" src="~/user/img/after.jpg" style="object-fit: cover;">
+                    <img class="w-100" src="@Model.GetBanner.FirstOrDefault(x => x.Type == 4 && x.Id==4 && x.IsStatus==1)?.Image" alt="Image">
+                    <img class="w-100" src="@Model.GetBanner.FirstOrDefault(x => x.Type == 5 && x.Id==5 && x.IsStatus==1 )?.Image" alt="Image">
                 </div>
             </div>
             <div class="col-lg-7">
@@ -301,7 +306,9 @@
 <div class="container-fluid bg-offer my-5 py-5 wow fadeInUp" data-wow-delay="0.1s">
     <div class="container py-5">
         <div class="row justify-content-center">
+           
             <div class="col-lg-7 wow zoomIn" data-wow-delay="0.6s">
+
                 <div class="offer-text text-center rounded p-5">
                     <h1 class="display-5 text-white">Save 30% On Your First Dental Checkup</h1>
                     <p class="text-white mb-4">Unlock a sparkling smile and optimal oral health with our exclusive offer: Save 30% on your first dental checkup! At DCS, we prioritize your well-being by offering top-notch dental care at an unbeatable price</p>
@@ -389,7 +396,7 @@
             <div class="col-lg-7">
                 <div class="owl-carousel testimonial-carousel rounded p-5 wow zoomIn" data-wow-delay="0.6s">
                     <div class="testimonial-item text-center text-white">
-                        <img class="img-fluid mx-auto rounded mb-4" src="~/user/img/testimonial-1.jpg" alt="">
+                        <img class="w-100" src="@Model.GetBanner.FirstOrDefault(x => x.Type == 1 && x.Id==1 && x.IsStatus==1)?.Image" alt="Image">
                         <p class="fs-5">Dolores sed duo clita justo dolor et stet lorem kasd dolore lorem ipsum. At lorem lorem magna ut et, nonumy labore diam erat. Erat dolor rebum sit ipsum.</p>
                         <hr class="mx-auto w-25">
                         <h4 class="text-white mb-0">Client Name</h4>
@@ -417,91 +424,28 @@
                     <a href="/appointment" class="btn btn-primary py-3 px-5">Appointment</a>
                 </div>
             </div>
-            <div class="col-lg-4 wow slideInUp" data-wow-delay="0.3s">
-                <div class="team-item">
-                    <div class="position-relative rounded-top" style="z-index: 1;">
-                        <img class="img-fluid rounded-top w-100" src="~/user/img/team-1.jpg" alt="">
-                        <div class="position-absolute top-100 start-50 translate-middle bg-light rounded p-2 d-flex">
-                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-twitter fw-normal"></i></a>
-                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>
-                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-linkedin-in fw-normal"></i></a>
-                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-instagram fw-normal"></i></a>
+            @foreach (var item in Model.GetDoctors)
+            {
+                <div class="col-lg-4 wow slideInUp" data-wow-delay="0.6s">
+                    <div class="team-item">
+                        <div class="position-relative rounded-top" style="z-index: 1;">
+                            <img class="img-fluid rounded-top w-100" src="@item.DrImage" alt="" style="width: 400; height: 360px;">
+                            <div class="position-absolute top-100 start-50 translate-middle bg-light rounded p-2 d-flex">
+                                <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-twitter fw-normal"></i></a>
+                                <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>
+                                <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-linkedin-in fw-normal"></i></a>
+                                <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-instagram fw-normal"></i></a>
+                            </div>
+                        </div>
+                        <div class="team-text position-relative bg-light text-center rounded-bottom p-4 pt-5">
+                            <h4 class="mb-2">@item.Name</h4>
+                            <p class="text-primary mb-0">@item.ServiceName</p>
+                            <p class="text-primary mb-0"> Experience:- @item.ExperienceYears  Years</p>
                         </div>
                     </div>
-                    <div class="team-text position-relative bg-light text-center rounded-bottom p-4 pt-5">
-                        <h4 class="mb-2">Dr. John Doe</h4>
-                        <p class="text-primary mb-0">Implant Surgeon</p>
-                    </div>
                 </div>
-            </div>
-            <div class="col-lg-4 wow slideInUp" data-wow-delay="0.6s">
-                <div class="team-item">
-                    <div class="position-relative rounded-top" style="z-index: 1;">
-                        <img class="img-fluid rounded-top w-100" src="~/user/img/team-2.jpg" alt="">
-                        <div class="position-absolute top-100 start-50 translate-middle bg-light rounded p-2 d-flex">
-                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-twitter fw-normal"></i></a>
-                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>
-                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-linkedin-in fw-normal"></i></a>
-                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-instagram fw-normal"></i></a>
-                        </div>
-                    </div>
-                    <div class="team-text position-relative bg-light text-center rounded-bottom p-4 pt-5">
-                        <h4 class="mb-2">Dr. John Doe</h4>
-                        <p class="text-primary mb-0">Implant Surgeon</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 wow slideInUp" data-wow-delay="0.1s">
-                <div class="team-item">
-                    <div class="position-relative rounded-top" style="z-index: 1;">
-                        <img class="img-fluid rounded-top w-100" src="~/user/img/team-3.jpg" alt="">
-                        <div class="position-absolute top-100 start-50 translate-middle bg-light rounded p-2 d-flex">
-                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-twitter fw-normal"></i></a>
-                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>
-                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-linkedin-in fw-normal"></i></a>
-                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-instagram fw-normal"></i></a>
-                        </div>
-                    </div>
-                    <div class="team-text position-relative bg-light text-center rounded-bottom p-4 pt-5">
-                        <h4 class="mb-2">Dr. John Doe</h4>
-                        <p class="text-primary mb-0">Implant Surgeon</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 wow slideInUp" data-wow-delay="0.3s">
-                <div class="team-item">
-                    <div class="position-relative rounded-top" style="z-index: 1;">
-                        <img class="img-fluid rounded-top w-100" src="~/user/img/team-4.jpg" alt="">
-                        <div class="position-absolute top-100 start-50 translate-middle bg-light rounded p-2 d-flex">
-                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-twitter fw-normal"></i></a>
-                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>
-                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-linkedin-in fw-normal"></i></a>
-                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-instagram fw-normal"></i></a>
-                        </div>
-                    </div>
-                    <div class="team-text position-relative bg-light text-center rounded-bottom p-4 pt-5">
-                        <h4 class="mb-2">Dr. John Doe</h4>
-                        <p class="text-primary mb-0">Implant Surgeon</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 wow slideInUp" data-wow-delay="0.6s">
-                <div class="team-item">
-                    <div class="position-relative rounded-top" style="z-index: 1;">
-                        <img class="img-fluid rounded-top w-100" src="~/user/img/team-5.jpg" alt="">
-                        <div class="position-absolute top-100 start-50 translate-middle bg-light rounded p-2 d-flex">
-                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-twitter fw-normal"></i></a>
-                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>
-                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-linkedin-in fw-normal"></i></a>
-                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-instagram fw-normal"></i></a>
-                        </div>
-                    </div>
-                    <div class="team-text position-relative bg-light text-center rounded-bottom p-4 pt-5">
-                        <h4 class="mb-2">Dr. John Doe</h4>
-                        <p class="text-primary mb-0">Implant Surgeon</p>
-                    </div>
-                </div>
-            </div>
+            }
+
         </div>
     </div>
 </div>
